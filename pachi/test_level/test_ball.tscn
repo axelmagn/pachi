@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://di3yf81n84ltq"]
+
+[ext_resource type="Script" uid="uid://cl3u8v2vwchuv" path="res://test_level/test_ball.gd" id="1_vmcg7"]
+[ext_resource type="Shader" uid="uid://chkdankg0fg7l" path="res://test_level/test_level_ball.gdshader" id="2_n66dy"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5dngq"]
+friction = 0.25
+bounce = 0.3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5dngq"]
+radius = 8.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_12ge2"]
+shader = ExtResource("2_n66dy")
+shader_parameter/fill_color = Color(0.83, 0.5948334, 0.2656, 1)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vmcg7"]
+
+[node name="Ball" type="RigidBody2D" node_paths=PackedStringArray("lifetime_timer")]
+physics_material_override = SubResource("PhysicsMaterial_5dngq")
+script = ExtResource("1_vmcg7")
+lifetime_timer = NodePath("LifetimeTimer")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5dngq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_12ge2")
+scale = Vector2(16, 16)
+texture = SubResource("CanvasTexture_vmcg7")
+
+[node name="LifetimeTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+autostart = true

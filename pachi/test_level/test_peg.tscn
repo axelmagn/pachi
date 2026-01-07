@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://djphw4pjm2wh1"]
+
+[ext_resource type="Shader" uid="uid://chkdankg0fg7l" path="res://test_level/test_level_ball.gdshader" id="1_3dfe8"]
+[ext_resource type="Script" uid="uid://ctsi6q33qk4df" path="res://test_level/test_peg.gd" id="2_3dfe8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_adkkv"]
+shader = ExtResource("1_3dfe8")
+shader_parameter/fill_color = Color(1, 1, 1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o12yy"]
+radius = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_42dln"]
+shader = ExtResource("1_3dfe8")
+shader_parameter/fill_color = Color(0.77144253, 0.7714426, 0.7714426, 1)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_3dfe8"]
+
+[node name="Peg" type="StaticBody2D"]
+material = SubResource("ShaderMaterial_adkkv")
+collision_layer = 3
+collision_mask = 0
+input_pickable = true
+script = ExtResource("2_3dfe8")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o12yy")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_42dln")
+scale = Vector2(8, 8)
+texture = SubResource("CanvasTexture_3dfe8")

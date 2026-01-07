@@ -1,0 +1,96 @@
+[gd_scene load_steps=8 format=3 uid="uid://dxk5aykn3q71x"]
+
+[ext_resource type="Script" uid="uid://cyohca3nw32t8" path="res://test_level/test_level.gd" id="1_adkkv"]
+[ext_resource type="TileSet" uid="uid://gdqnh7c02fdb" path="res://test_level/test_level_tileset.tres" id="1_esipj"]
+[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="3_5dngq"]
+[ext_resource type="PackedScene" uid="uid://di3yf81n84ltq" path="res://test_level/test_ball.tscn" id="3_adkkv"]
+[ext_resource type="PackedScene" uid="uid://djphw4pjm2wh1" path="res://test_level/test_peg.tscn" id="4_42dln"]
+[ext_resource type="PackedScene" uid="uid://dudh70whnv2d4" path="res://test_level/test_basket.tscn" id="6_42dln"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_esipj"]
+
+[node name="TestLevel" type="Node" node_paths=PackedStringArray("ball_spawn", "peg_spawn", "ball_spawn_timer", "score_label")]
+script = ExtResource("1_adkkv")
+ball_scn = ExtResource("3_adkkv")
+ball_spawn = NodePath("BallSpawn")
+peg_scn = ExtResource("4_42dln")
+peg_spawn = NodePath("PegsSpawn")
+peg_spacing = Vector2(48, 24)
+pegs_dim = Vector2i(6, 8)
+ball_spawn_timer = NodePath("BallSpawnTimer")
+score_label = NodePath("GUI/ScoreLabel")
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.058723137, 0.058723137, 0.058723137, 1)
+
+[node name="World2D" type="Node2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="World2D"]
+tile_set = ExtResource("1_esipj")
+
+[node name="RapierStaticBody2D2" type="StaticBody2D" parent="World2D"]
+script = ExtResource("3_5dngq")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World2D/RapierStaticBody2D2"]
+position = Vector2(144, 489)
+shape = SubResource("WorldBoundaryShape2D_esipj")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="World2D/RapierStaticBody2D2"]
+position = Vector2(0, 489)
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_esipj")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="World2D/RapierStaticBody2D2"]
+position = Vector2(288, 489)
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_esipj")
+
+[node name="BallSpawn" type="Marker2D" parent="."]
+position = Vector2(144, 70)
+
+[node name="PegsSpawn" type="Marker2D" parent="."]
+position = Vector2(144, 325)
+
+[node name="BallSpawnTimer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="Basket" parent="." instance=ExtResource("6_42dln")]
+position = Vector2(144, 400)
+
+[node name="GUI" type="Control" parent="."]
+process_mode = 4
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScoreLabel" type="Label" parent="GUI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 32.0
+grow_horizontal = 2
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 2

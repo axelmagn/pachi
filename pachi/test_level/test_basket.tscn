@@ -1,0 +1,69 @@
+[gd_scene load_steps=11 format=3 uid="uid://dudh70whnv2d4"]
+
+[ext_resource type="Script" uid="uid://bal7rbqo8q37q" path="res://test_level/test_basket.gd" id="1_edybm"]
+[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="1_o13cl"]
+[ext_resource type="Shader" uid="uid://chkdankg0fg7l" path="res://test_level/test_level_ball.gdshader" id="2_87ral"]
+[ext_resource type="Script" uid="uid://cburu6b4ckehs" path="res://addons/godot-rapier2d/custom_nodes/rapier_area_2d.gd" id="3_056bn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iqlg2"]
+size = Vector2(32, 4)
+
+[sub_resource type="Gradient" id="Gradient_o13cl"]
+colors = PackedColorArray(1, 1, 1, 1, 0.4191216, 0.63270307, 5.7756904e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_87ral"]
+gradient = SubResource("Gradient_o13cl")
+width = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_056bn"]
+shader = ExtResource("2_87ral")
+shader_parameter/fill_color = Color(0.27653998, 0.66, 0.112200014, 1)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_l4dqv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l4dqv"]
+radius = 5.0
+
+[node name="Basket" type="Node2D" node_paths=PackedStringArray("score_area")]
+script = ExtResource("1_edybm")
+score_area = NodePath("ScoreArea")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+script = ExtResource("1_o13cl")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-16, 0)
+rotation = 0.7853982
+shape = SubResource("RectangleShape2D_iqlg2")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(16, 0)
+rotation = -0.7853982
+shape = SubResource("RectangleShape2D_iqlg2")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(-16, 0)
+rotation = 0.7853982
+scale = Vector2(1, 3.9292524)
+texture = SubResource("GradientTexture1D_87ral")
+
+[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(16, -0.027)
+rotation = 2.3561945
+scale = Vector2(1, 3.9292524)
+texture = SubResource("GradientTexture1D_87ral")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_056bn")
+position = Vector2(0, 4)
+scale = Vector2(10, 10)
+texture = SubResource("CanvasTexture_l4dqv")
+
+[node name="ScoreArea" type="Area2D" parent="."]
+script = ExtResource("3_056bn")
+metadata/_custom_type_script = "uid://cburu6b4ckehs"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreArea"]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_l4dqv")
