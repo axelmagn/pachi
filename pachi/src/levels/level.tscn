@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://c5kml4bre7pig"]
+
+[ext_resource type="Script" uid="uid://c5ecgbyp7bh3i" path="res://src/levels/level.gd" id="1_g8rii"]
+[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="2_ub47v"]
+[ext_resource type="Script" uid="uid://unwhnooi7g2c" path="res://addons/godot-rapier2d/custom_nodes/rapier_rigid_body_2d.gd" id="3_aeuny"]
+[ext_resource type="Texture2D" uid="uid://dcrot0y3j6qi5" path="res://assets/ball_mask.png" id="4_7umm5"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_aeuny"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7umm5"]
+radius = 8.0
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_g8rii")
+
+[node name="LevelBounds" type="Node2D" parent="."]
+
+[node name="RapierStaticBody2D" type="StaticBody2D" parent="LevelBounds"]
+script = ExtResource("2_ub47v")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="BoundsLeft" type="CollisionShape2D" parent="LevelBounds/RapierStaticBody2D"]
+position = Vector2(-100, 0)
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_aeuny")
+
+[node name="BoundsRight" type="CollisionShape2D" parent="LevelBounds/RapierStaticBody2D"]
+position = Vector2(100, 0)
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_aeuny")
+
+[node name="BoundsBottom" type="CollisionShape2D" parent="LevelBounds/RapierStaticBody2D"]
+position = Vector2(0, 100)
+shape = SubResource("WorldBoundaryShape2D_aeuny")
+
+[node name="BoundsTop" type="CollisionShape2D" parent="LevelBounds/RapierStaticBody2D"]
+position = Vector2(0, -100)
+rotation = 3.1415927
+shape = SubResource("WorldBoundaryShape2D_aeuny")
+
+[node name="RapierRigidBody2D" type="RigidBody2D" parent="."]
+script = ExtResource("3_aeuny")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RapierRigidBody2D"]
+shape = SubResource("CircleShape2D_7umm5")
+
+[node name="Sprite2D" type="Sprite2D" parent="RapierRigidBody2D"]
+modulate = Color(0.28627452, 0.5372549, 1, 1)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("4_7umm5")

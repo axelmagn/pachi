@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dv085wmwd3xqb"]
+[gd_scene load_steps=3 format=3 uid="uid://dv085wmwd3xqb"]
 
 [ext_resource type="Script" uid="uid://dio638ydqx3nt" path="res://src/game.gd" id="1_7uq6d"]
+[ext_resource type="PackedScene" uid="uid://c5kml4bre7pig" path="res://src/levels/level.tscn" id="2_3msxb"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_7uq6d")
@@ -25,7 +26,7 @@ color = Color(0.090756364, 0.090756364, 0.090756364, 1)
 
 [node name="World2D" type="Node2D" parent="."]
 
-[node name="PachiArena" type="Node2D" parent="World2D"]
+[node name="Level" parent="World2D" instance=ExtResource("2_3msxb")]
 
 [node name="Camera2D" type="Camera2D" parent="World2D"]
 

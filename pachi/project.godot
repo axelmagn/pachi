@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Game="*res://src/game.tscn"
 
+[physics]
+
+2d/physics_engine="Rapier2D"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
