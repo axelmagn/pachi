@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://7txa4rawr151"]
+
+[ext_resource type="Script" uid="uid://nb47tlcjrlt7" path="res://src/ball_spawner/BallSpawner.cs" id="1_o3prg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eewff"]
+radius = 16.0
+
+[node name="BallSpawner" type="Area2D" unique_id=2099750167 node_paths=PackedStringArray("CooldownTimer")]
+script = ExtResource("1_o3prg")
+CooldownTimer = NodePath("CooldownTimer")
+
+[node name="BlockingCollider" type="CollisionShape2D" parent="." unique_id=1992481560]
+shape = SubResource("CircleShape2D_eewff")
+
+[node name="CooldownTimer" type="Timer" parent="." unique_id=976335521]
+wait_time = 0.05
+one_shot = true

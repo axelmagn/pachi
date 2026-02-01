@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cs5dodlu12q8k"]
+
+[ext_resource type="Script" uid="uid://180ft2awlc3p" path="res://src/ball/Ball.cs" id="1_ksv3e"]
+[ext_resource type="Script" uid="uid://cv2t7tc3q46e0" path="res://src/circle_sprite/CircleSprite.cs" id="1_lkyjl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ts572"]
+radius = 12.0
+
+[node name="Ball" type="RigidBody2D" unique_id=1119110707]
+script = ExtResource("1_ksv3e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1012419030]
+shape = SubResource("CircleShape2D_ts572")
+
+[node name="CircleSprite" type="Node2D" parent="." unique_id=1293801092]
+script = ExtResource("1_lkyjl")
+radius = 12.0
