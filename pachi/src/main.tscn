@@ -1,10 +1,19 @@
 [gd_scene format=3 uid="uid://d0w7j4xbkprka"]
 
-[ext_resource type="Script" uid="uid://p3i56x0wj5s3" path="res://src/ball_hopper/BallHopper.cs" id="1_5q4o7"]
-[ext_resource type="PackedScene" uid="uid://cs5dodlu12q8k" path="res://src/ball/ball.tscn" id="1_eewff"]
-[ext_resource type="PackedScene" uid="uid://7txa4rawr151" path="res://src/ball_spawner/ball_spawner.tscn" id="2_gh0ne"]
+[ext_resource type="Script" uid="uid://p3i56x0wj5s3" path="res://src/ball_hoppers/BallHopper.cs" id="1_5q4o7"]
+[ext_resource type="PackedScene" uid="uid://cs5dodlu12q8k" path="res://src/balls/ball.tscn" id="1_eewff"]
+[ext_resource type="PackedScene" uid="uid://7txa4rawr151" path="res://src/ball_spawners/ball_spawner.tscn" id="2_gh0ne"]
 [ext_resource type="PackedScene" uid="uid://ccdlhlk181pbs" path="res://src/walls/walls_box.tscn" id="3_3cfgd"]
 [ext_resource type="PackedScene" uid="uid://ufgbpfxfdwkd" path="res://src/walls/wall.tscn" id="5_fyndt"]
+[ext_resource type="Script" uid="uid://kdt5sg6bqrfu" path="res://src/launchers/LaunchButton.cs" id="6_kmhfv"]
+[ext_resource type="Script" uid="uid://cnvepms3h0xu3" path="res://src/cameras/Camera.cs" id="7_rlaii"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_rlaii"]
+a = Vector2(-100, 0)
+b = Vector2(100, -10)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kmhfv"]
+radius = 32.0
 
 [node name="Main" type="Node" unique_id=326789899]
 
@@ -19,52 +28,57 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.08524493, 0.08524493, 0.08524492, 1)
 
-[node name="BallHopper" type="Node2D" parent="." unique_id=1403348932 node_paths=PackedStringArray("BallSpawner")]
-position = Vector2(220, 310)
+[node name="HopperOverlay" type="CanvasLayer" parent="." unique_id=1480714462]
+
+[node name="BallHopper" type="Node2D" parent="HopperOverlay" unique_id=1403348932 node_paths=PackedStringArray("BallSpawner")]
+position = Vector2(160, 310)
 script = ExtResource("1_5q4o7")
 NumInitialBalls = 100
 InitialBallScn = ExtResource("1_eewff")
 BallSpawner = NodePath("BallSpawner")
 
-[node name="Ball" parent="BallHopper" unique_id=1119110707 instance=ExtResource("1_eewff")]
-position = Vector2(3, -199)
-
-[node name="BallSpawner" parent="BallHopper" unique_id=2099750167 instance=ExtResource("2_gh0ne")]
-position = Vector2(3, -176)
+[node name="BallSpawner" parent="HopperOverlay/BallHopper" unique_id=2099750167 instance=ExtResource("2_gh0ne")]
+position = Vector2(3, -250)
 BaseVel = Vector2(0, 64)
 RandomVel = Vector2(32, 0)
 
-[node name="Wall" parent="BallHopper" unique_id=738022469 instance=ExtResource("5_fyndt")]
-position = Vector2(-1, 292)
-rotation = 0.034906585
-Size = Vector2(426, 10)
+[node name="Wall" parent="HopperOverlay/BallHopper" unique_id=738022469 instance=ExtResource("5_fyndt")]
+position = Vector2(-4, 283)
+rotation = 0.08726646
+Size = Vector2(300, 10)
 
-[node name="Wall2" parent="BallHopper" unique_id=1444971248 instance=ExtResource("5_fyndt")]
-position = Vector2(20, 236)
-rotation = -0.034906585
-Size = Vector2(390, 10)
+[node name="WallsBox2" parent="HopperOverlay/BallHopper" unique_id=1573358835 instance=ExtResource("3_3cfgd")]
+Size = Vector2(300, 600)
 
-[node name="WallsBox2" parent="BallHopper" unique_id=1573358835 instance=ExtResource("3_3cfgd")]
-position = Vector2(2, 3)
-Size = Vector2(426, 600)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HopperOverlay/BallHopper/WallsBox2" unique_id=72404603]
+shape = SubResource("SegmentShape2D_rlaii")
 
-[node name="Wall3" parent="BallHopper" unique_id=1094409185 instance=ExtResource("5_fyndt")]
-position = Vector2(-202, 276)
-rotation = 0.83207875
-Size = Vector2(25, 10)
+[node name="ReceiverArea" type="Area2D" parent="HopperOverlay/BallHopper" unique_id=1870706456]
+position = Vector2(111, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HopperOverlay/BallHopper/ReceiverArea" unique_id=324100257]
+shape = SubResource("CircleShape2D_kmhfv")
+
+[node name="LaunchButton" type="Button" parent="HopperOverlay" unique_id=604227848 node_paths=PackedStringArray("InputArea", "Spawner")]
+offset_left = 245.0
+offset_top = 647.0
+offset_right = 310.0
+offset_bottom = 678.0
+text = "Launch"
+script = ExtResource("6_kmhfv")
+InputArea = NodePath("../BallHopper/ReceiverArea")
+Spawner = NodePath("../../Level/BallSpawner")
 
 [node name="Level" type="Node2D" parent="." unique_id=1948028079]
 
 [node name="BallSpawner" parent="Level" unique_id=1980417447 instance=ExtResource("2_gh0ne")]
-position = Vector2(759, 54)
+position = Vector2(640, 64)
 
 [node name="WallsBox" parent="Level" unique_id=705515447 instance=ExtResource("3_3cfgd")]
-position = Vector2(756, 358)
-Size = Vector2(500, 700)
+position = Vector2(640, 360)
+Size = Vector2(620, 700)
 
-[node name="LaunchButton" type="Button" parent="." unique_id=604227848]
-offset_left = 349.0
-offset_top = 653.0
-offset_right = 414.0
-offset_bottom = 684.0
-text = "Launch"
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1741798225]
+position = Vector2(640, 360)
+script = ExtResource("7_rlaii")
+PanSpeed = 1024.0

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://7txa4rawr151"]
 
-[ext_resource type="Script" uid="uid://nb47tlcjrlt7" path="res://src/ball_spawner/BallSpawner.cs" id="1_o3prg"]
+[ext_resource type="Script" uid="uid://nb47tlcjrlt7" path="res://src/ball_spawners/BallSpawner.cs" id="1_o3prg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eewff"]
 radius = 16.0
