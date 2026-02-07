@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ufgbpfxfdwkd"]
+
+[ext_resource type="Script" uid="uid://cdctgerp8v873" path="res://src/walls/Wall.cs" id="1_2pha5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2pha5"]
+size = Vector2(100, 10)
+
+[node name="Wall" type="StaticBody2D" unique_id=738022469 node_paths=PackedStringArray("Collider")]
+script = ExtResource("1_2pha5")
+Collider = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1775711407]
+shape = SubResource("RectangleShape2D_2pha5")

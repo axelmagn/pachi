@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://ccdlhlk181pbs"]
+
+[ext_resource type="Script" uid="uid://m8oi5d828kkd" path="res://src/walls/WallsBox.cs" id="1_l2rgt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uwewg"]
+size = Vector2(436, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u5lmd"]
+size = Vector2(10, 610)
+
+[node name="WallsBox" type="StaticBody2D" unique_id=1573358835 node_paths=PackedStringArray("LeftWall", "RightWall", "TopWall", "BottomWall")]
+script = ExtResource("1_l2rgt")
+LeftWall = NodePath("LeftWall")
+RightWall = NodePath("RightWall")
+TopWall = NodePath("TopWall")
+BottomWall = NodePath("BottomWall")
+
+[node name="BottomWall" type="CollisionShape2D" parent="." unique_id=1395049480]
+position = Vector2(0, 300)
+shape = SubResource("RectangleShape2D_uwewg")
+
+[node name="TopWall" type="CollisionShape2D" parent="." unique_id=15609393]
+position = Vector2(0, -300)
+shape = SubResource("RectangleShape2D_uwewg")
+
+[node name="RightWall" type="CollisionShape2D" parent="." unique_id=1465542759]
+position = Vector2(213, 0)
+shape = SubResource("RectangleShape2D_u5lmd")
+
+[node name="LeftWall" type="CollisionShape2D" parent="." unique_id=1885292544]
+position = Vector2(-213, 0)
+shape = SubResource("RectangleShape2D_u5lmd")

@@ -3,13 +3,8 @@
 [ext_resource type="Script" uid="uid://p3i56x0wj5s3" path="res://src/ball_hopper/BallHopper.cs" id="1_5q4o7"]
 [ext_resource type="PackedScene" uid="uid://cs5dodlu12q8k" path="res://src/ball/ball.tscn" id="1_eewff"]
 [ext_resource type="PackedScene" uid="uid://7txa4rawr151" path="res://src/ball_spawner/ball_spawner.tscn" id="2_gh0ne"]
-[ext_resource type="Script" uid="uid://pnouslgmk8ui" path="res://src/walls/Walls.cs" id="3_3cfgd"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cfgd"]
-size = Vector2(436, 10)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fyndt"]
-size = Vector2(10, 610)
+[ext_resource type="PackedScene" uid="uid://ccdlhlk181pbs" path="res://src/walls/walls_box.tscn" id="3_3cfgd"]
+[ext_resource type="PackedScene" uid="uid://ufgbpfxfdwkd" path="res://src/walls/wall.tscn" id="5_fyndt"]
 
 [node name="Main" type="Node" unique_id=326789899]
 
@@ -31,34 +26,45 @@ NumInitialBalls = 100
 InitialBallScn = ExtResource("1_eewff")
 BallSpawner = NodePath("BallSpawner")
 
-[node name="Walls" type="StaticBody2D" parent="BallHopper" unique_id=48209749 node_paths=PackedStringArray("LeftWall", "RightWall", "TopWall", "BottomWall")]
-script = ExtResource("3_3cfgd")
-Size = Vector2(426, 600)
-LeftWall = NodePath("LeftWall")
-RightWall = NodePath("RightWall")
-TopWall = NodePath("TopWall")
-BottomWall = NodePath("BottomWall")
-
-[node name="BottomWall" type="CollisionShape2D" parent="BallHopper/Walls" unique_id=2134679889]
-position = Vector2(0, 300)
-shape = SubResource("RectangleShape2D_3cfgd")
-
-[node name="TopWall" type="CollisionShape2D" parent="BallHopper/Walls" unique_id=161549029]
-position = Vector2(0, -300)
-shape = SubResource("RectangleShape2D_3cfgd")
-
-[node name="RightWall" type="CollisionShape2D" parent="BallHopper/Walls" unique_id=2102882141]
-position = Vector2(213, 0)
-shape = SubResource("RectangleShape2D_fyndt")
-
-[node name="LeftWall" type="CollisionShape2D" parent="BallHopper/Walls" unique_id=434265785]
-position = Vector2(-213, 0)
-shape = SubResource("RectangleShape2D_fyndt")
-
 [node name="Ball" parent="BallHopper" unique_id=1119110707 instance=ExtResource("1_eewff")]
-position = Vector2(3, -200)
+position = Vector2(3, -199)
 
 [node name="BallSpawner" parent="BallHopper" unique_id=2099750167 instance=ExtResource("2_gh0ne")]
 position = Vector2(3, -176)
 BaseVel = Vector2(0, 64)
 RandomVel = Vector2(32, 0)
+
+[node name="Wall" parent="BallHopper" unique_id=738022469 instance=ExtResource("5_fyndt")]
+position = Vector2(-1, 292)
+rotation = 0.034906585
+Size = Vector2(426, 10)
+
+[node name="Wall2" parent="BallHopper" unique_id=1444971248 instance=ExtResource("5_fyndt")]
+position = Vector2(20, 236)
+rotation = -0.034906585
+Size = Vector2(390, 10)
+
+[node name="WallsBox2" parent="BallHopper" unique_id=1573358835 instance=ExtResource("3_3cfgd")]
+position = Vector2(2, 3)
+Size = Vector2(426, 600)
+
+[node name="Wall3" parent="BallHopper" unique_id=1094409185 instance=ExtResource("5_fyndt")]
+position = Vector2(-202, 276)
+rotation = 0.83207875
+Size = Vector2(25, 10)
+
+[node name="Level" type="Node2D" parent="." unique_id=1948028079]
+
+[node name="BallSpawner" parent="Level" unique_id=1980417447 instance=ExtResource("2_gh0ne")]
+position = Vector2(759, 54)
+
+[node name="WallsBox" parent="Level" unique_id=705515447 instance=ExtResource("3_3cfgd")]
+position = Vector2(756, 358)
+Size = Vector2(500, 700)
+
+[node name="LaunchButton" type="Button" parent="." unique_id=604227848]
+offset_left = 349.0
+offset_top = 653.0
+offset_right = 414.0
+offset_bottom = 684.0
+text = "Launch"
