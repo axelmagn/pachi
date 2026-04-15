@@ -29,6 +29,7 @@ impl INode for Game {
 }
 
 /// Event bus for global game signals
+/// TODO: add events
 #[derive(GodotClass)]
 #[class(init, base=RefCounted)]
 struct GameEvents {

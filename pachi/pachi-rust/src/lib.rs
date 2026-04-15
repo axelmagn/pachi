@@ -1,5 +1,6 @@
 use godot::prelude::*;
 
+mod board;
 mod game;
 
 struct PachiExtension;
