@@ -229,3 +229,13 @@ shape = SubResource("CircleShape2D_kc2al")
 modulate = Color(0.54901963, 1, 1, 1)
 scale = Vector2(0.16, 0.16)
 texture = ExtResource("1_voycs")
+
+[node name="ProtoPeg16" type="StaticBody2D" parent="." unique_id=1162492993]
+position = Vector2(113, -65)
+scale = Vector2(0.25, 0.25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ProtoPeg16" unique_id=1563195030]
+shape = SubResource("CircleShape2D_kc2al")
+
+[node name="CircleSprite" type="CircleSprite" parent="ProtoPeg16" unique_id=231280347]
+radius = 6.0
