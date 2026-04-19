@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dwcfvgvrdr0vn"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kc2al"]
+
+[node name="Boundary" type="DynamicBoundary" unique_id=1032075130 node_paths=PackedStringArray("top_boundary", "bottom_boundary", "left_boundary", "right_boundary")]
+boundary_size = Vector2(810, 1080)
+top_boundary = NodePath("Top")
+bottom_boundary = NodePath("Bottom")
+left_boundary = NodePath("Left")
+right_boundary = NodePath("Right")
+
+[node name="Bottom" type="CollisionShape2D" parent="." unique_id=134402253]
+position = Vector2(0, 540)
+shape = SubResource("WorldBoundaryShape2D_kc2al")
+
+[node name="Top" type="CollisionShape2D" parent="." unique_id=1212432586]
+position = Vector2(0, -540)
+rotation = -3.1415925
+shape = SubResource("WorldBoundaryShape2D_kc2al")
+
+[node name="Right" type="CollisionShape2D" parent="." unique_id=1837020543]
+position = Vector2(405, 0)
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_kc2al")
+
+[node name="Left" type="CollisionShape2D" parent="." unique_id=1849381381]
+position = Vector2(-405, 0)
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_kc2al")

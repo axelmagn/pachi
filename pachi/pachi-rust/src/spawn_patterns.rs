@@ -1,0 +1,122 @@
+use godot::{classes::Engine, prelude::*};
+
+#[derive(GodotClass)]
+#[class(init, tool, base=Node2D)]
+struct GridSpawnPattern {
+    #[export]
+    #[init(val=Vector2::new(64., 64.))]
+    #[var(set=set_spacing)]
+    spacing: Vector2,
+
+    #[export]
+    #[init(val=Vector2i::new(8, 4))]
+    #[var(set=set_cardinality)]
+    cardinality: Vector2i,
+
+    #[export]
+    #[var(set=set_spawn_scn)]
+    spawn_scn: Option<Gd<PackedScene>>,
+
+    base: Base<Node2D>,
+}
+
+#[godot_api]
+impl INode2D for GridSpawnPattern {
+    fn ready(&mut self) {
+        self.update_children();
+    }
+}
+
+#[godot_api]
+impl GridSpawnPattern {
+    #[func]
+    fn set_spacing(&mut self, spacing: Vector2) {
+        self.spacing = spacing;
+        self.update_children();
+    }
+
+    #[func]
+    fn set_cardinality(&mut self, cardinality: Vector2i) {
+        self.cardinality = cardinality;
+        self.update_children();
+    }
+
+    #[func]
+    fn set_spawn_scn(&mut self, spawn_scn: Option<Gd<PackedScene>>) {
+        self.spawn_scn = spawn_scn;
+        self.clear_children();
+        self.update_children();
+    }
+
+    fn update_children(&mut self) {
+        // if there is no spawn scene, delete children
+        if self.spawn_scn.is_none()
+            || self.cardinality.x < 1
+            || self.cardinality.y < 1
+            || self.spacing.x == 0.
+            || self.spacing.y == 0.
+        {
+            self.clear_children();
+
+            return;
+        }
+        let children_count = self.base().get_child_count();
+        // we subtract cardinality.y / 2 in order to account for the fact that every other row will
+        // have one less peg, leading to triangle pattern
+        let requested_count = self.cardinality.x * self.cardinality.y - self.cardinality.y / 2;
+
+        if children_count < requested_count {
+            // create more children if needed
+            let create_count = requested_count - children_count;
+            for _ in 0..(create_count) {
+                let child = self.spawn_scn.as_ref().unwrap().instantiate().unwrap();
+                self.base_mut().add_child(&child);
+            }
+        } else if children_count > requested_count {
+            let delete_count = children_count - requested_count;
+            let mut base = self.base_mut();
+            let mut deleted = 0;
+            for mut child in base.get_children().iter_shared() {
+                base.remove_child(&child);
+                child.queue_free();
+                deleted += 1;
+                if deleted == delete_count {
+                    break;
+                }
+            }
+        }
+
+        assert_eq!(requested_count, self.base().get_child_count());
+
+        let offset = Vector2::new(self.spacing.x * (self.cardinality.x as f32 - 1.) / -2., 0.);
+        let mut position = Vector2::ZERO;
+        let mut row = 0;
+        let mut col = 0;
+        let mut width = self.cardinality.x;
+        let cardinality = self.cardinality;
+        let spacing = self.spacing;
+        let base = self.base_mut();
+
+        for child in base.get_children().iter_shared() {
+            let mut child2d = child.cast::<Node2D>();
+            child2d.set_position(offset + position);
+
+            col += 1;
+            position.x += spacing.x;
+            if col >= width {
+                // next row
+                row += 1;
+                col = 0;
+                width = cardinality.x - row % 2;
+                position.x = spacing.x / 2. * (row % 2) as f32;
+                position.y = row as f32 * spacing.y;
+            }
+        }
+    }
+
+    fn clear_children(&mut self) {
+        for mut child in self.base_mut().get_children().iter_shared() {
+            child.queue_free();
+        }
+    }
+}

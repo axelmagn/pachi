@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://co4ihp58ot07l"]
+
+[ext_resource type="PackedScene" uid="uid://dwcfvgvrdr0vn" path="res://content/boundary/boundary.tscn" id="1_t5jkx"]
+[ext_resource type="PackedScene" uid="uid://b3g3jsrihij6m" path="res://content/ball/ball.tscn" id="2_leiax"]
+
+[node name="Hopper" type="Node2D" unique_id=812605548]
+
+[node name="Boundary" parent="." unique_id=1032075130 instance=ExtResource("1_t5jkx")]
+boundary_size = Vector2(512, 512)
+
+[node name="GridSpawnPattern" type="GridSpawnPattern" parent="." unique_id=1517123024]
+spacing = Vector2(32, 32)
+cardinality = Vector2i(16, 8)
+spawn_scn = ExtResource("2_leiax")
+position = Vector2(-1, -193)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=873610132]

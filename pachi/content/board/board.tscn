@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cec57ai240xfs"]
+
+[ext_resource type="PackedScene" uid="uid://dwcfvgvrdr0vn" path="res://content/boundary/boundary.tscn" id="1_gebpc"]
+[ext_resource type="PackedScene" uid="uid://1w1fp8awmeve" path="res://content/peg/peg.tscn" id="1_voycs"]
+[ext_resource type="PackedScene" uid="uid://b3g3jsrihij6m" path="res://content/ball/ball.tscn" id="2_rxu5k"]
+
+[node name="Board" type="Board" unique_id=1965351162]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=725345019]
+
+[node name="Boundary" parent="." unique_id=1032075130 instance=ExtResource("1_gebpc")]
+
+[node name="PegGrid" type="GridSpawnPattern" parent="." unique_id=1580580895]
+cardinality = Vector2i(12, 6)
+spawn_scn = ExtResource("1_voycs")
+
+[node name="BallGrid" type="GridSpawnPattern" parent="." unique_id=459370619]
+cardinality = Vector2i(10, 3)
+spawn_scn = ExtResource("2_rxu5k")
+position = Vector2(9, -476)
