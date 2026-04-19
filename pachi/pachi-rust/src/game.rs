@@ -1,4 +1,4 @@
-use godot::{classes::Engine, prelude::*, tools::try_get_autoload_by_name};
+use godot::{prelude::*, tools::try_get_autoload_by_name};
 
 const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
 

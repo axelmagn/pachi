@@ -1,5 +1,5 @@
 use godot::{
-    classes::{CollisionShape2D, StaticBody2D},
+    classes::CollisionShape2D,
     prelude::*,
 };
 
