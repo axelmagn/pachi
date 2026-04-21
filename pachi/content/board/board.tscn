@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://1w1fp8awmeve" path="res://content/peg/peg.tscn" id="1_voycs"]
 [ext_resource type="PackedScene" uid="uid://b3g3jsrihij6m" path="res://content/ball/ball.tscn" id="2_rxu5k"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gebpc"]
+size = Vector2(20, 800)
+
 [node name="Board" type="Board" unique_id=1965351162]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=725345019]
@@ -11,10 +14,51 @@
 [node name="Boundary" parent="." unique_id=1032075130 instance=ExtResource("1_gebpc")]
 
 [node name="PegGrid" type="GridSpawnPattern" parent="." unique_id=1580580895]
-cardinality = Vector2i(12, 6)
+cardinality = Vector2i(10, 6)
 spawn_scn = ExtResource("1_voycs")
 
 [node name="BallGrid" type="GridSpawnPattern" parent="." unique_id=459370619]
-cardinality = Vector2i(10, 3)
+cardinality = Vector2i(8, 3)
 spawn_scn = ExtResource("2_rxu5k")
-position = Vector2(9, -476)
+position = Vector2(12, -360)
+
+[node name="Obstacles" type="Node2D" parent="." unique_id=771473435]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Obstacles" unique_id=672423674]
+position = Vector2(-320, 142)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D" unique_id=124060873]
+shape = SubResource("RectangleShape2D_gebpc")
+
+[node name="RectSprite" type="RectSprite" parent="Obstacles/StaticBody2D" unique_id=1194369810]
+size = Vector2(20, 800)
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Obstacles" unique_id=1383027548]
+position = Vector2(-405.99994, -350.99997)
+rotation = 0.24696603
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D3" unique_id=712088845]
+shape = SubResource("RectangleShape2D_gebpc")
+
+[node name="RectSprite" type="RectSprite" parent="Obstacles/StaticBody2D3" unique_id=150856726]
+size = Vector2(20, 800)
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Obstacles" unique_id=926851550]
+position = Vector2(-308.99997, -525)
+rotation = 1.3380809
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D4" unique_id=976014864]
+shape = SubResource("RectangleShape2D_gebpc")
+
+[node name="RectSprite" type="RectSprite" parent="Obstacles/StaticBody2D4" unique_id=1652056089]
+size = Vector2(20, 800)
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Obstacles" unique_id=903505979]
+position = Vector2(11, 532)
+rotation = 1.6346239
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D2" unique_id=1581073052]
+shape = SubResource("RectangleShape2D_gebpc")
+
+[node name="RectSprite" type="RectSprite" parent="Obstacles/StaticBody2D2" unique_id=1550094437]
+size = Vector2(20, 800)

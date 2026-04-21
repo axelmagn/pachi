@@ -1,5 +1,7 @@
 use godot::prelude::*;
 
+mod ball;
+mod ball_source;
 mod board;
 mod boundary;
 mod game;

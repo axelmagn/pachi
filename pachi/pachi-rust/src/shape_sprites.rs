@@ -81,7 +81,7 @@ impl INode2D for RectSprite {
     }
 
     fn draw(&mut self) {
-        let rect = Rect2::new(self.offset, self.size);
+        let rect = Rect2::new(self.size / -2. + self.offset, self.size);
         let color = self.color;
         println!("DRAW RECT");
         self.base_mut().draw_rect(rect, color);
