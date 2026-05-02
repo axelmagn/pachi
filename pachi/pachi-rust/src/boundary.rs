@@ -25,14 +25,7 @@ struct DynamicBoundary {
 }
 
 #[godot_api]
-impl IStaticBody2D for DynamicBoundary {
-    fn ready(&mut self) {
-        assert!(self.top_boundary.is_some());
-        assert!(self.bottom_boundary.is_some());
-        assert!(self.left_boundary.is_some());
-        assert!(self.right_boundary.is_some());
-    }
-}
+impl IStaticBody2D for DynamicBoundary {}
 
 #[godot_api]
 impl DynamicBoundary {
@@ -45,28 +38,32 @@ impl DynamicBoundary {
     fn place_boundaries(&mut self) {
         assert!(self.boundary_size.x > 0. && self.boundary_size.y > 0.);
 
-        assert!(self.top_boundary.is_some());
-        self.top_boundary
-            .as_mut()
-            .unwrap()
-            .set_position(Vector2::new(0., -self.boundary_size.y / 2.));
+        if self.top_boundary.is_some() {
+            self.top_boundary
+                .as_mut()
+                .unwrap()
+                .set_position(Vector2::new(0., -self.boundary_size.y / 2.));
+        }
 
-        assert!(self.bottom_boundary.is_some());
-        self.bottom_boundary
-            .as_mut()
-            .unwrap()
-            .set_position(Vector2::new(0., self.boundary_size.y / 2.));
+        if self.bottom_boundary.is_some() {
+            self.bottom_boundary
+                .as_mut()
+                .unwrap()
+                .set_position(Vector2::new(0., self.boundary_size.y / 2.));
+        }
 
-        assert!(self.left_boundary.is_some());
-        self.left_boundary
-            .as_mut()
-            .unwrap()
-            .set_position(Vector2::new(-self.boundary_size.x / 2., 0.));
+        if self.left_boundary.is_some() {
+            self.left_boundary
+                .as_mut()
+                .unwrap()
+                .set_position(Vector2::new(-self.boundary_size.x / 2., 0.));
+        }
 
-        assert!(self.right_boundary.is_some());
-        self.right_boundary
-            .as_mut()
-            .unwrap()
-            .set_position(Vector2::new(self.boundary_size.x / 2., 0.));
+        if self.right_boundary.is_some() {
+            self.right_boundary
+                .as_mut()
+                .unwrap()
+                .set_position(Vector2::new(self.boundary_size.x / 2., 0.));
+        }
     }
 }

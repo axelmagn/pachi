@@ -5,6 +5,7 @@ mod ball_source;
 mod board;
 mod boundary;
 mod game;
+mod launcher;
 mod shape_sprites;
 mod spawn_patterns;
 

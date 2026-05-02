@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c3xc0jqgos1nt"]
+
+[ext_resource type="PackedScene" uid="uid://1aq0ogiykewg" path="res://content/peg/peg_boundary_collider.tscn" id="1_3d8fe"]
+
+[node name="PegEllipse" type="EllipseColliderSpawnPattern" unique_id=1651399954]
+spawn_scn = ExtResource("1_3d8fe")

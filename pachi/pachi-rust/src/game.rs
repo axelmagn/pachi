@@ -1,12 +1,19 @@
 use godot::{prelude::*, tools::try_get_autoload_by_name};
 
+use crate::board::Board;
+
 const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
 
 /// Game singleton, centralized via scene autoload
 #[derive(GodotClass)]
-#[class(base=Node)]
+#[class(init, base=Node)]
 struct Game {
-    events: Gd<GameEvents>,
+    // events: Gd<GameEvents>,
+    #[export]
+    board: Option<Gd<Board>>,
+
+    #[export]
+    hopper: Option<Gd<Board>>,
 
     base: Base<Node>,
 }
@@ -19,19 +26,12 @@ impl Game {
 }
 
 #[godot_api]
-impl INode for Game {
-    fn init(base: Base<Node>) -> Self {
-        Self {
-            events: GameEvents::new_gd(),
-            base,
-        }
-    }
-}
+impl INode for Game {}
 
-/// Event bus for global game signals
-/// TODO: add events
-#[derive(GodotClass)]
-#[class(init, base=RefCounted)]
-struct GameEvents {
-    base: Base<RefCounted>,
-}
+// /// Event bus for global game signals
+// /// TODO: add events
+// #[derive(GodotClass)]
+// #[class(init, base=RefCounted)]
+// struct GameEvents {
+//     base: Base<RefCounted>,
+// }

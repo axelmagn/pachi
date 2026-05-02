@@ -5,6 +5,13 @@
 
 [node name="Game" type="Game" unique_id=339919995]
 
+[node name="Systems" type="Node" parent="." unique_id=672939595]
+
+[node name="Launcher" type="Launcher" parent="Systems" unique_id=1593967731 node_paths=PackedStringArray("hopper", "ball_source")]
+hopper = NodePath("../../UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Hopper")
+ball_source = NodePath("../../UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board/BallSource")
+process_mode = 1
+
 [node name="UI" type="Node" parent="." unique_id=860821714]
 
 [node name="Background" type="CanvasLayer" parent="UI" unique_id=35187513]
@@ -71,3 +78,5 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=517828982]
 layout_mode = 2
 text = "Right UI"
+
+[editable path="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board"]
