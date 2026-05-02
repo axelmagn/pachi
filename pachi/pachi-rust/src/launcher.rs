@@ -13,6 +13,9 @@ pub struct Launcher {
     #[export]
     ball_source: Option<Gd<BallSource>>,
 
+    #[export]
+    launch_charge_timer: Option<Gd<Timer>>,
+
     base: Base<Node>,
 }
 
@@ -20,11 +23,16 @@ pub struct Launcher {
 impl INode for Launcher {
     fn ready(&mut self) {
         godot_print!("launcher ready");
+        assert_ne!(None, self.hopper);
+        assert_ne!(None, self.ball_source);
+        assert_ne!(None, self.launch_charge_timer);
     }
 
     fn physics_process(&mut self, _delta_time: f64) {
         if Input::singleton().is_action_just_pressed("ball_launch") {
-            godot_print!("ball launch pressed");
+            self.handle_launch_input();
+        }
+        if Input::singleton().is_action_just_released("ball_launch") {
             self.handle_launch_input();
         }
     }

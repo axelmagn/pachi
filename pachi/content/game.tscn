@@ -12,6 +12,9 @@ hopper = NodePath("../../UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer
 ball_source = NodePath("../../UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board/BallSource")
 process_mode = 1
 
+[node name="LaunchChargeTimer" type="Timer" parent="Systems/Launcher" unique_id=1917878818]
+wait_time = 3.0
+
 [node name="UI" type="Node" parent="." unique_id=860821714]
 
 [node name="Background" type="CanvasLayer" parent="UI" unique_id=35187513]
