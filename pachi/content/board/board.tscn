@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://1w1fp8awmeve" path="res://content/peg/peg.tscn" id="1_voycs"]
 [ext_resource type="PackedScene" uid="uid://c3xc0jqgos1nt" path="res://content/peg/peg_ellipse.tscn" id="4_2y2ta"]
 [ext_resource type="PackedScene" uid="uid://na4s5w037kn" path="res://content/spinner/spinner.tscn" id="4_gppwj"]
+[ext_resource type="PackedScene" uid="uid://ckgom2li2uas8" path="res://content/ball_sink/ball_sink.tscn" id="5_gppwj"]
 
 [node name="Board" type="Board" unique_id=1965351162]
 
@@ -67,3 +68,6 @@ position = Vector2(223, 101)
 
 [node name="Spinner8" parent="." unique_id=2069459371 instance=ExtResource("4_gppwj")]
 position = Vector2(-225, 101)
+
+[node name="BallSink" parent="." unique_id=620810586 instance=ExtResource("5_gppwj")]
+position = Vector2(0, 522)
