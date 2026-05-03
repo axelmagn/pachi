@@ -223,8 +223,18 @@ impl EllipseColliderSpawnPattern {
             let x = self.size.x * 0.5 * f32::cos(t);
             let y = self.size.y * 0.5 * f32::sin(t);
             let point = Vector2::new(x, y);
-            out.push((point, t));
-            t += step;
+
+            let t_next = t + step;
+
+            let x_next = self.size.x * 0.5 * f32::cos(t_next);
+            let y_next = self.size.y * 0.5 * f32::sin(t_next);
+            let point_next = Vector2::new(x_next, y_next);
+
+            let angle = point.angle_to_point(point_next) + PI_f32 * 0.5;
+            // godot_print!("angle: {angle} (({t}: {x}, {y}) -> ({t_next}: {x_next},{y_next}))");
+
+            out.push((point, angle));
+            t = t_next;
         }
 
         out

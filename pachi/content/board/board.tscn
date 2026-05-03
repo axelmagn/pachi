@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dwcfvgvrdr0vn" path="res://content/boundary/boundary.tscn" id="1_gebpc"]
 [ext_resource type="PackedScene" uid="uid://1w1fp8awmeve" path="res://content/peg/peg.tscn" id="1_voycs"]
 [ext_resource type="PackedScene" uid="uid://c3xc0jqgos1nt" path="res://content/peg/peg_ellipse.tscn" id="4_2y2ta"]
+[ext_resource type="PackedScene" uid="uid://na4s5w037kn" path="res://content/spinner/spinner.tscn" id="4_gppwj"]
 
 [node name="Board" type="Board" unique_id=1965351162]
 
@@ -10,29 +11,59 @@
 
 [node name="Boundary" parent="." unique_id=1032075130 instance=ExtResource("1_gebpc")]
 
-[node name="PegGrid" type="GridSpawnPattern" parent="." unique_id=1580580895]
-cardinality = Vector2i(12, 9)
-spawn_scn = ExtResource("1_voycs")
-position = Vector2(0, -233)
-
 [node name="Obstacles" type="Node2D" parent="." unique_id=771473435]
+position = Vector2(0, 89)
 
 [node name="BallSource" type="BallSource" parent="." unique_id=2083110643]
 launch_velocity = Vector2(256, -1024)
-launch_jitter = Vector2(128, 128)
-position = Vector2(-375, -240)
+launch_jitter = Vector2(32, 32)
+position = Vector2(-375, -151)
 
 [node name="TopPegEllipse" parent="." unique_id=1651399954 instance=ExtResource("4_2y2ta")]
-size = Vector2(810, 600)
+size = Vector2(810, 810)
 angle_start = 3.142
 angle_end = 6.283
 segments = 128
-position = Vector2(0, -236)
+position = Vector2(0, -135)
 
 [node name="BottomPegEllipse" parent="." unique_id=2021213103 instance=ExtResource("4_2y2ta")]
-size = Vector2(810, 600)
+size = Vector2(810, 810)
 angle_start = 3.142
 angle_end = 6.283
 segments = 128
-position = Vector2(0, 236)
+position = Vector2(0, 135)
 rotation = 3.1415927
+
+[node name="Spinner" parent="." unique_id=1047924779 instance=ExtResource("4_gppwj")]
+position = Vector2(-65, -212)
+
+[node name="Spinner2" parent="." unique_id=2119162166 instance=ExtResource("4_gppwj")]
+position = Vector2(63, -212)
+
+[node name="Spinner3" parent="." unique_id=1652456809 instance=ExtResource("4_gppwj")]
+position = Vector2(223, -212)
+
+[node name="Spinner4" parent="." unique_id=121230919 instance=ExtResource("4_gppwj")]
+position = Vector2(-225, -212)
+
+[node name="PegGrid" type="GridSpawnPattern" parent="." unique_id=1580580895]
+cardinality = Vector2i(12, 4)
+spawn_scn = ExtResource("1_voycs")
+position = Vector2(0, -155)
+
+[node name="PegGrid2" type="GridSpawnPattern" parent="." unique_id=1928571841]
+cardinality = Vector2i(10, 4)
+spawn_scn = ExtResource("1_voycs")
+position = Vector2(0, 166)
+
+[node name="Spinner5" parent="." unique_id=338249703 instance=ExtResource("4_gppwj")]
+position = Vector2(-65, 101)
+
+[node name="Spinner6" parent="." unique_id=1106301482 instance=ExtResource("4_gppwj")]
+position = Vector2(63, 101)
+
+[node name="Spinner7" parent="." unique_id=868573465 instance=ExtResource("4_gppwj")]
+position = Vector2(223, 101)
+
+[node name="Spinner8" parent="." unique_id=2069459371 instance=ExtResource("4_gppwj")]
+position = Vector2(-225, 101)

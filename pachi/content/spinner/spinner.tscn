@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://na4s5w037kn"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3j8kf"]
+radius = 4.0
+height = 60.0
+
+[node name="Spinner" type="Node2D" unique_id=1047924779]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1548172911]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=1089237609]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=1546371152]
+shape = SubResource("CapsuleShape2D_3j8kf")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D" unique_id=1762283678]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_3j8kf")
+
+[node name="RectSprite" type="RectSprite" parent="RigidBody2D" unique_id=394908297]
+size = Vector2(60, 8)
+
+[node name="RectSprite2" type="RectSprite" parent="RigidBody2D" unique_id=407626601]
+size = Vector2(8, 60)
+
+[node name="PinJoint2D" type="PinJoint2D" parent="." unique_id=1078424064]
+node_a = NodePath("../StaticBody2D")
+node_b = NodePath("../RigidBody2D")

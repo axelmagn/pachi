@@ -6,6 +6,7 @@
 
 [node name="Ball" type="Ball" unique_id=511165968]
 physics_material_override = ExtResource("1_2j2sg")
+continuous_cd = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=113421022]
 shape = SubResource("CircleShape2D_j0cak")

@@ -1,32 +1,33 @@
 use godot::{prelude::*, tools::try_get_autoload_by_name};
 
-use crate::board::Board;
+use crate::{board::Board, launcher::Launcher};
 
 const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
 
 /// Game singleton, centralized via scene autoload
 #[derive(GodotClass)]
 #[class(init, base=Node)]
-struct Game {
+pub struct Game {
     // events: Gd<GameEvents>,
     #[export]
-    board: Option<Gd<Board>>,
-
-    #[export]
-    hopper: Option<Gd<Board>>,
+    pub launcher: Option<Gd<Launcher>>,
 
     base: Base<Node>,
 }
 
 #[godot_api]
 impl Game {
-    fn autoload() -> Gd<Self> {
+    pub fn autoload() -> Gd<Self> {
         try_get_autoload_by_name::<Game>(GAME_AUTOLOAD_NAME).expect("`Game` autoload not found")
     }
 }
 
 #[godot_api]
-impl INode for Game {}
+impl INode for Game {
+    fn ready(&mut self) {
+        assert!(self.launcher.is_some());
+    }
+}
 
 // /// Event bus for global game signals
 // /// TODO: add events

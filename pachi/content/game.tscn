@@ -3,17 +3,22 @@
 [ext_resource type="PackedScene" uid="uid://co4ihp58ot07l" path="res://content/hopper/hopper.tscn" id="1_1iyoi"]
 [ext_resource type="PackedScene" uid="uid://cec57ai240xfs" path="res://content/board/board.tscn" id="1_geolt"]
 
-[node name="Game" type="Game" unique_id=339919995]
+[node name="Game" type="Game" unique_id=339919995 node_paths=PackedStringArray("launcher")]
+launcher = NodePath("Systems/Launcher")
 
 [node name="Systems" type="Node" parent="." unique_id=672939595]
 
-[node name="Launcher" type="Launcher" parent="Systems" unique_id=1593967731 node_paths=PackedStringArray("hopper", "ball_source")]
+[node name="Launcher" type="Launcher" parent="Systems" unique_id=1593967731 node_paths=PackedStringArray("hopper", "ball_source", "launch_charge_timer")]
 hopper = NodePath("../../UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Hopper")
 ball_source = NodePath("../../UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board/BallSource")
+min_launch_strength = 0.4
+continuous_launch = false
+launch_charge_timer = NodePath("LaunchChargeTimer")
 process_mode = 1
 
 [node name="LaunchChargeTimer" type="Timer" parent="Systems/Launcher" unique_id=1917878818]
-wait_time = 3.0
+wait_time = 0.5
+one_shot = true
 
 [node name="UI" type="Node" parent="." unique_id=860821714]
 
@@ -57,6 +62,37 @@ render_target_update_mode = 4
 [node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer" unique_id=1446136061]
 layout_mode = 2
 text = "Hopper"
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1101955437]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2" unique_id=1567340875]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="HandleGhost" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport" unique_id=170078891]
+position = Vector2(32, 64)
+rotation = 0.5235988
+
+[node name="RectSprite" type="RectSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/HandleGhost" unique_id=131973545]
+size = Vector2(256, 32)
+offset = Vector2(128, 0)
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="LauncherHandleView" type="LauncherHandleView" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport" unique_id=1262249463]
+position = Vector2(32, 64)
+
+[node name="RectSprite" type="RectSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=1201080270]
+size = Vector2(256, 32)
+offset = Vector2(128, 0)
+
+[node name="CircleSprite" type="CircleSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=498198671]
+radius = 16.0
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2" unique_id=1100581526]
+layout_mode = 2
+text = "Launcher"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=815864565]
 layout_mode = 2

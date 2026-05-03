@@ -1,4 +1,5 @@
 use godot::{
+    builtin::math::ApproxEq,
     classes::{IMarker2D, Marker2D, node::PhysicsInterpolationMode},
     global::randf_range,
     prelude::*,
@@ -30,10 +31,14 @@ impl BallSource {
         let parent = self.base().get_parent().unwrap();
         let position = self.base().get_position();
         let prior_interpolation_mode = ball.get_physics_interpolation_mode();
-        let jitter = Vector2::new(
-            randf_range(-self.launch_jitter.x as f64, self.launch_jitter.x as f64) as f32,
-            randf_range(-self.launch_jitter.y as f64, self.launch_jitter.y as f64) as f32,
-        );
+        let jitter = if strength.approx_eq(&1.0) {
+            Vector2::ZERO
+        } else {
+            Vector2::new(
+                randf_range(-self.launch_jitter.x as f64, self.launch_jitter.x as f64) as f32,
+                randf_range(-self.launch_jitter.y as f64, self.launch_jitter.y as f64) as f32,
+            )
+        };
         ball.set_physics_interpolation_mode(PhysicsInterpolationMode::OFF);
         ball.reparent(&parent);
         ball.set_position(position);
