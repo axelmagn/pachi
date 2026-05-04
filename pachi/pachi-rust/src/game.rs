@@ -1,6 +1,6 @@
 use godot::{prelude::*, tools::try_get_autoload_by_name};
 
-use crate::{board::Board, launcher::Launcher};
+use crate::{ball::Ball, ball_sink::BallSink, board::Board, hopper::Hopper, launcher::Launcher};
 
 const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
 
@@ -8,9 +8,13 @@ const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
 #[derive(GodotClass)]
 #[class(init, base=Node)]
 pub struct Game {
-    // events: Gd<GameEvents>,
+    pub events: Gd<GameEvents>,
+
     #[export]
     pub launcher: Option<Gd<Launcher>>,
+
+    #[export]
+    pub hopper: Option<Gd<Hopper>>,
 
     base: Base<Node>,
 }
@@ -29,10 +33,13 @@ impl INode for Game {
     }
 }
 
-// /// Event bus for global game signals
-// /// TODO: add events
-// #[derive(GodotClass)]
-// #[class(init, base=RefCounted)]
-// struct GameEvents {
-//     base: Base<RefCounted>,
-// }
+/// Event bus for global game signals
+/// TODO: add events
+#[derive(GodotClass)]
+#[class(init, base=RefCounted)]
+pub struct GameEvents {
+    base: Base<RefCounted>,
+}
+
+#[godot_api]
+impl GameEvents {}

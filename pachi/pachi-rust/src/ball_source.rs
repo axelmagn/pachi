@@ -28,19 +28,19 @@ impl IMarker2D for BallSource {
 #[godot_api]
 impl BallSource {
     pub fn launch_existing_ball(&self, mut ball: Gd<Ball>, strength: f32) {
-        let parent = self.base().get_parent().unwrap();
+        let mut parent = self.base().get_parent().unwrap();
         let position = self.base().get_position();
         let prior_interpolation_mode = ball.get_physics_interpolation_mode();
-        let jitter = if strength.approx_eq(&1.0) {
-            Vector2::ZERO
-        } else {
-            Vector2::new(
-                randf_range(-self.launch_jitter.x as f64, self.launch_jitter.x as f64) as f32,
-                randf_range(-self.launch_jitter.y as f64, self.launch_jitter.y as f64) as f32,
-            )
-        };
+        let jitter = Vector2::new(
+            randf_range(-self.launch_jitter.x as f64, self.launch_jitter.x as f64) as f32,
+            randf_range(-self.launch_jitter.y as f64, self.launch_jitter.y as f64) as f32,
+        );
         ball.set_physics_interpolation_mode(PhysicsInterpolationMode::OFF);
-        ball.reparent(&parent);
+        if ball.get_parent().is_some() {
+            ball.reparent(&parent);
+        } else {
+            parent.add_child(&ball);
+        }
         ball.set_position(position);
         ball.set_linear_velocity(self.launch_velocity * strength + jitter);
         ball.set_physics_interpolation_mode(prior_interpolation_mode);

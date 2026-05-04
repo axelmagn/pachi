@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://c3xc0jqgos1nt" path="res://content/peg/peg_ellipse.tscn" id="4_2y2ta"]
 [ext_resource type="PackedScene" uid="uid://na4s5w037kn" path="res://content/spinner/spinner.tscn" id="4_gppwj"]
 [ext_resource type="PackedScene" uid="uid://ckgom2li2uas8" path="res://content/ball_sink/ball_sink.tscn" id="5_gppwj"]
+[ext_resource type="PackedScene" uid="uid://lhwch7ex3vms" path="res://content/jackpot/simple_jackpot.tscn" id="6_18o3a"]
+[ext_resource type="PackedScene" uid="uid://c0pr82uq5k8td" path="res://content/jackpot/tulip_jackpot.tscn" id="7_x6pgj"]
 
 [node name="Board" type="Board" unique_id=1965351162]
 
@@ -57,17 +59,21 @@ cardinality = Vector2i(10, 4)
 spawn_scn = ExtResource("1_voycs")
 position = Vector2(0, 166)
 
-[node name="Spinner5" parent="." unique_id=338249703 instance=ExtResource("4_gppwj")]
-position = Vector2(-65, 101)
-
-[node name="Spinner6" parent="." unique_id=1106301482 instance=ExtResource("4_gppwj")]
-position = Vector2(63, 101)
-
-[node name="Spinner7" parent="." unique_id=868573465 instance=ExtResource("4_gppwj")]
-position = Vector2(223, 101)
-
-[node name="Spinner8" parent="." unique_id=2069459371 instance=ExtResource("4_gppwj")]
-position = Vector2(-225, 101)
-
 [node name="BallSink" parent="." unique_id=620810586 instance=ExtResource("5_gppwj")]
 position = Vector2(0, 522)
+
+[node name="SimpleJackpot" parent="." unique_id=1313892140 instance=ExtResource("6_18o3a")]
+position = Vector2(-160, 424)
+
+[node name="SimpleJackpot2" parent="." unique_id=1077462384 instance=ExtResource("6_18o3a")]
+position = Vector2(160, 424)
+
+[node name="TulipJackpot" parent="." unique_id=941353612 instance=ExtResource("7_x6pgj")]
+gate_open = true
+position = Vector2(0, 126)
+
+[node name="TulipJackpot2" parent="." unique_id=616805352 instance=ExtResource("7_x6pgj")]
+position = Vector2(224, 126)
+
+[node name="TulipJackpot3" parent="." unique_id=636257153 instance=ExtResource("7_x6pgj")]
+position = Vector2(-224, 126)

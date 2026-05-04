@@ -3,8 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://co4ihp58ot07l" path="res://content/hopper/hopper.tscn" id="1_1iyoi"]
 [ext_resource type="PackedScene" uid="uid://cec57ai240xfs" path="res://content/board/board.tscn" id="1_geolt"]
 
-[node name="Game" type="Game" unique_id=339919995 node_paths=PackedStringArray("launcher")]
+[node name="Game" type="Game" unique_id=339919995 node_paths=PackedStringArray("launcher", "hopper")]
 launcher = NodePath("Systems/Launcher")
+hopper = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Hopper")
 
 [node name="Systems" type="Node" parent="." unique_id=672939595]
 

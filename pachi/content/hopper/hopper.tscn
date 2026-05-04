@@ -3,15 +3,41 @@
 [ext_resource type="PackedScene" uid="uid://dwcfvgvrdr0vn" path="res://content/boundary/boundary.tscn" id="1_t5jkx"]
 [ext_resource type="PackedScene" uid="uid://b3g3jsrihij6m" path="res://content/ball/ball.tscn" id="2_leiax"]
 
-[node name="Hopper" type="Node2D" unique_id=812605548]
+[node name="Hopper" type="Hopper" unique_id=386382376 node_paths=PackedStringArray("launch_sources", "launch_timer")]
+launch_sources = [NodePath("BallSource5"), NodePath("BallSource4"), NodePath("BallSource"), NodePath("BallSource2"), NodePath("BallSource3")]
+launch_timer = NodePath("Timer")
+default_ball_scn = ExtResource("2_leiax")
 
 [node name="Boundary" parent="." unique_id=1032075130 instance=ExtResource("1_t5jkx")]
 boundary_size = Vector2(512, 512)
 
-[node name="GridSpawnPattern" type="GridSpawnPattern" parent="." unique_id=1517123024]
-spacing = Vector2(32, 32)
-cardinality = Vector2i(16, 8)
-spawn_scn = ExtResource("2_leiax")
-position = Vector2(-1, -193)
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=873610132]
+
+[node name="BallSource" type="BallSource" parent="." unique_id=1436320769]
+launch_velocity = Vector2(0, 256)
+launch_jitter = Vector2(32, 10)
+position = Vector2(0, -213)
+
+[node name="BallSource2" type="BallSource" parent="." unique_id=117453821]
+launch_velocity = Vector2(0, 256)
+launch_jitter = Vector2(32, 10)
+position = Vector2(64, -213)
+
+[node name="BallSource3" type="BallSource" parent="." unique_id=2134980468]
+launch_velocity = Vector2(0, 256)
+launch_jitter = Vector2(32, 10)
+position = Vector2(128, -213)
+
+[node name="BallSource4" type="BallSource" parent="." unique_id=1861794222]
+launch_velocity = Vector2(0, 256)
+launch_jitter = Vector2(32, 10)
+position = Vector2(-64, -213)
+
+[node name="BallSource5" type="BallSource" parent="." unique_id=999893714]
+launch_velocity = Vector2(0, 256)
+launch_jitter = Vector2(32, 10)
+position = Vector2(-128, -213)
+
+[node name="Timer" type="Timer" parent="." unique_id=2097492765]
+wait_time = 0.05
+autostart = true

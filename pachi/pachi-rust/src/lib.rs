@@ -6,6 +6,8 @@ pub mod ball_source;
 pub mod board;
 pub mod boundary;
 pub mod game;
+pub mod hopper;
+pub mod jackpot;
 pub mod launcher;
 pub mod shape_sprites;
 pub mod spawn_patterns;

@@ -5,7 +5,7 @@ use godot::{
     prelude::*,
 };
 
-use crate::ball::Ball;
+use crate::{ball::Ball, game::Game};
 
 #[derive(GodotClass)]
 #[class(init, base=Marker2D)]
@@ -52,5 +52,5 @@ impl IMarker2D for BallSink {
 #[godot_api]
 impl BallSink {
     #[signal]
-    fn ball_sunk(ball: Gd<Ball>);
+    pub fn ball_sunk(ball: Gd<Ball>);
 }
