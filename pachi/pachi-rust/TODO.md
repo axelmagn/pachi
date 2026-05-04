@@ -9,3 +9,4 @@
     - pin: 2mm
     - min gap: 12mm
     - I'm thinking that 1mm = 2px.  This means fewer half-radii
+- [ ] drag / drop card commands
