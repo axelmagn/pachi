@@ -1,11 +1,10 @@
-use std::io::sink;
 
 use godot::{
     classes::{Area2D, IMarker2D, Marker2D},
     prelude::*,
 };
 
-use crate::{ball::Ball, game::Game};
+use crate::ball::Ball;
 
 #[derive(GodotClass)]
 #[class(init, base=Marker2D)]

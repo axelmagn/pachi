@@ -1,6 +1,6 @@
 use godot::{prelude::*, tools::try_get_autoload_by_name};
 
-use crate::{ball::Ball, ball_sink::BallSink, board::Board, hopper::Hopper, launcher::Launcher};
+use crate::{hopper::Hopper, launcher::Launcher};
 
 const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
 

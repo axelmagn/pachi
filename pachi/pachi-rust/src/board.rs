@@ -1,4 +1,4 @@
-use godot::{classes::CollisionShape2D, prelude::*};
+use godot::prelude::*;
 
 use crate::ball_source::BallSource;
 
