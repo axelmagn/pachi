@@ -16,6 +16,10 @@ pub struct Game {
     #[export]
     pub hopper: Option<Gd<Hopper>>,
 
+    #[export]
+    #[init(val = 0)]
+    pub cash: u32,
+
     base: Base<Node>,
 }
 

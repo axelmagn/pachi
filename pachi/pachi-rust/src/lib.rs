@@ -11,6 +11,7 @@ pub mod jackpot;
 pub mod launcher;
 pub mod shape_sprites;
 pub mod spawn_patterns;
+pub mod ui;
 
 struct PachiExtension;
 

@@ -1,3 +1,5 @@
+use core::num;
+
 use godot::{classes::Timer, prelude::*};
 
 use crate::{ball::Ball, ball_source::BallSource};
@@ -71,5 +73,30 @@ impl Hopper {
                 .cast::<Ball>();
             self.pending_balls.push(&ball);
         }
+    }
+
+    // TODO: bookkeeping to make this less expensive
+    #[func]
+    pub fn ball_count(&self) -> u32 {
+        let mut out = 0;
+        for child in self.base().get_children().iter_shared() {
+            match child.try_cast::<Ball>() {
+                Ok(_) => out += 1,
+                _ => {}
+            }
+        }
+        out
+    }
+
+    pub fn destroy_balls(&mut self, num_balls: usize) {
+        self.base_mut()
+            .get_children()
+            .iter_shared()
+            .filter(|child| match child.clone().try_cast::<Ball>() {
+                Ok(_) => true,
+                _ => false,
+            })
+            .take(num_balls)
+            .for_each(|mut child| child.queue_free());
     }
 }

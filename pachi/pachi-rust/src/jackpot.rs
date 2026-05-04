@@ -59,13 +59,14 @@ impl INode2D for Jackpot {
 #[godot_api]
 impl Jackpot {
     fn handle_ball_sunk(&mut self, _ball: Gd<Ball>) {
-        Game::autoload()
-            .bind_mut()
-            .hopper
-            .as_mut()
-            .unwrap()
-            .bind_mut()
-            .add_default_balls(self.payout as usize);
+        // Game::autoload()
+        //     .bind_mut()
+        //     .hopper
+        //     .as_mut()
+        //     .unwrap()
+        //     .bind_mut()
+        //     .add_default_balls(self.payout as usize);
+        Game::autoload().bind_mut().cash += self.payout;
 
         self.toggle_gate();
     }
