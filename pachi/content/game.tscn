@@ -103,7 +103,7 @@ layout_mode = 2
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(810, 1080)
+size = Vector2i(750, 1080)
 render_target_update_mode = 4
 
 [node name="Board" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport" unique_id=1171768301 instance=ExtResource("1_geolt")]
@@ -153,8 +153,8 @@ layout_mode = 2
 columns = 3
 
 [node name="BuyBallsButton" type="BuyBallsButton" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1426925368]
-price = 12
-balls = 8
+price = 10
+balls = 10
 layout_mode = 2
 text = "Buy # balls
 ($#)"

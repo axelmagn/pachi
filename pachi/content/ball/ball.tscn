@@ -3,14 +3,16 @@
 [ext_resource type="PhysicsMaterial" uid="uid://clfnoxs4lyicp" path="res://content/ball/ball_physics_material.tres" id="1_2j2sg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j0cak"]
+radius = 11.0
 
 [node name="Ball" type="Ball" unique_id=511165968]
 physics_material_override = ExtResource("1_2j2sg")
+inertia = 4.0
 continuous_cd = 1
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=113421022]
 shape = SubResource("CircleShape2D_j0cak")
 
 [node name="CircleSprite" type="CircleSprite" parent="." unique_id=1449107343]
-radius = 10.0
+radius = 11.0
 color = Color(0.93333334, 0.93333334, 0.93333334, 1)

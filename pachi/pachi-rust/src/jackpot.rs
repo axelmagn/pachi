@@ -31,6 +31,10 @@ pub struct Jackpot {
     #[var(set = set_gate_open)]
     gate_open: bool,
 
+    /// these jackpots are opened when this jackpot is hit
+    #[export]
+    linked_payout_gates: Array<Gd<Jackpot>>,
+
     base: Base<Node2D>,
 }
 
@@ -67,6 +71,10 @@ impl Jackpot {
         //     .bind_mut()
         //     .add_default_balls(self.payout as usize);
         Game::autoload().bind_mut().cash += self.payout;
+
+        for mut linked_gate in self.linked_payout_gates.iter_shared() {
+            linked_gate.bind_mut().set_gate_open(true);
+        }
 
         self.toggle_gate();
     }

@@ -1,9 +1,6 @@
 use std::f32::consts::PI as PI_f32;
 
-use godot::{
-    builtin::math::ApproxEq,
-    prelude::*,
-};
+use godot::{builtin::math::ApproxEq, prelude::*};
 
 #[derive(GodotClass)]
 #[class(init, tool, base=Node2D)]
@@ -21,6 +18,11 @@ struct GridSpawnPattern {
     #[export]
     #[var(set=set_spawn_scn)]
     spawn_scn: Option<Gd<PackedScene>>,
+
+    #[export]
+    #[init(val = false)]
+    #[var(set=set_start_odd_row)]
+    start_odd_row: bool,
 
     base: Base<Node2D>,
 }
@@ -53,6 +55,12 @@ impl GridSpawnPattern {
         self.update_children();
     }
 
+    #[func]
+    fn set_start_odd_row(&mut self, start_odd_row: bool) {
+        self.start_odd_row = start_odd_row;
+        self.update_children();
+    }
+
     fn update_children(&mut self) {
         // if there is no spawn scene, delete children
         if self.spawn_scn.is_none()
@@ -65,10 +73,14 @@ impl GridSpawnPattern {
             return;
         }
 
+        let row_adjust = if self.start_odd_row { 1 } else { 0 };
+
         let children_count = self.base().get_child_count();
         // we subtract cardinality.y / 2 in order to account for the fact that every other row will
         // have one less peg, leading to triangle pattern
-        let requested_count = self.cardinality.x * self.cardinality.y - self.cardinality.y / 2;
+        let requested_count = self.cardinality.x * self.cardinality.y
+            - self.cardinality.y / 2
+            - row_adjust * (self.cardinality.y % 2);
 
         if children_count < requested_count {
             // create more children if needed
@@ -97,10 +109,11 @@ impl GridSpawnPattern {
         let mut position = Vector2::ZERO;
         let mut row = 0;
         let mut col = 0;
-        let mut width = self.cardinality.x;
+        let mut width = self.cardinality.x - row_adjust;
         let cardinality = self.cardinality;
         let spacing = self.spacing;
         let base = self.base_mut();
+        position.x += row_adjust as f32 * spacing.x / 2.;
 
         for child in base.get_children().iter_shared() {
             let mut child2d = child.cast::<Node2D>();
@@ -112,8 +125,8 @@ impl GridSpawnPattern {
                 // next row
                 row += 1;
                 col = 0;
-                width = cardinality.x - row % 2;
-                position.x = spacing.x / 2. * (row % 2) as f32;
+                width = cardinality.x - (row + row_adjust) % 2;
+                position.x = spacing.x / 2. * ((row + row_adjust) % 2) as f32;
                 position.y = row as f32 * spacing.y;
             }
         }
@@ -138,11 +151,11 @@ struct EllipseColliderSpawnPattern {
     #[export]
     #[init(val = 0.)]
     #[var(set=set_angle_start)]
-    angle_start: f32,
+    angle_start_deg: f32,
     #[export]
-    #[init(val = 2. * PI_f32)]
+    #[init(val = 360.0)]
     #[var(set=set_angle_end)]
-    angle_end: f32,
+    angle_end_deg: f32,
 
     #[export]
     #[init(val = 32)]
@@ -173,13 +186,13 @@ impl EllipseColliderSpawnPattern {
 
     #[func]
     fn set_angle_start(&mut self, angle_start: f32) {
-        self.angle_start = angle_start;
+        self.angle_start_deg = angle_start;
         self.update_children();
     }
 
     #[func]
     fn set_angle_end(&mut self, angle_start: f32) {
-        self.angle_end = angle_start;
+        self.angle_end_deg = angle_start;
         self.update_children();
     }
 
@@ -199,13 +212,13 @@ impl EllipseColliderSpawnPattern {
     fn calc_points(&self) -> Vec<(Vector2, f32)> {
         let mut out = Vec::new();
 
-        if self.angle_start.approx_eq(&self.angle_end) || self.segments == 0 {
+        if self.angle_start_deg.approx_eq(&self.angle_end_deg) || self.segments == 0 {
             return out;
         }
 
         // if angle_start is greater, don't sweat it.  just fix in post.
-        let angle_start = f32::min(self.angle_start, self.angle_end);
-        let mut angle_end = f32::max(self.angle_start, self.angle_end);
+        let angle_start = f32::min(self.angle_start_deg, self.angle_end_deg) / 180. * PI_f32;
+        let mut angle_end = f32::max(self.angle_start_deg, self.angle_end_deg) / 180. * PI_f32;
         let step = (angle_end - angle_start) / self.segments as f32;
         let mut t = angle_start;
 
