@@ -133,11 +133,11 @@ segments = 10
 position = Vector2(-290, -85)
 
 [node name="PegEllipse9" parent="Upper" unique_id=2066042649 instance=ExtResource("7_x6pgj")]
-size = Vector2(160, 176)
+size = Vector2(270, 176)
 angle_start_deg = 360.0
 angle_end_deg = 290.0
-segments = 10
-position = Vector2(70, -85)
+segments = 13
+position = Vector2(23, -85)
 
 [node name="GridSpawnPattern" type="GridSpawnPattern" parent="Upper" unique_id=479466562]
 spacing = Vector2(32, 48)

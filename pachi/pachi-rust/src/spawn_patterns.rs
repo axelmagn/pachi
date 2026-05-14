@@ -1,6 +1,6 @@
 use std::f32::consts::PI as PI_f32;
 
-use godot::{builtin::math::ApproxEq, prelude::*};
+use godot::{builtin::math::ApproxEq, classes::Engine, prelude::*};
 
 #[derive(GodotClass)]
 #[class(init, tool, base=Node2D)]
@@ -39,26 +39,34 @@ impl GridSpawnPattern {
     #[func]
     fn set_spacing(&mut self, spacing: Vector2) {
         self.spacing = spacing;
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.update_children();
+        }
     }
 
     #[func]
     fn set_cardinality(&mut self, cardinality: Vector2i) {
         self.cardinality = cardinality;
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.update_children();
+        }
     }
 
     #[func]
     fn set_spawn_scn(&mut self, spawn_scn: Option<Gd<PackedScene>>) {
         self.spawn_scn = spawn_scn;
-        self.clear_children();
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.clear_children();
+            self.update_children();
+        }
     }
 
     #[func]
     fn set_start_odd_row(&mut self, start_odd_row: bool) {
         self.start_odd_row = start_odd_row;
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.update_children();
+        }
     }
 
     fn update_children(&mut self) {
@@ -86,8 +94,11 @@ impl GridSpawnPattern {
             // create more children if needed
             let create_count = requested_count - children_count;
             for _ in 0..(create_count) {
-                let child = self.spawn_scn.as_ref().unwrap().instantiate().unwrap();
+                let mut child = self.spawn_scn.as_ref().unwrap().instantiate().unwrap();
                 self.base_mut().add_child(&child);
+                if Engine::singleton().is_editor_hint() {
+                    child.set_owner(self.base().to_godot());
+                }
             }
         } else if children_count > requested_count {
             let delete_count = children_count - requested_count;
@@ -183,32 +194,42 @@ impl EllipseColliderSpawnPattern {
     #[func]
     fn set_size(&mut self, size: Vector2) {
         self.size = size;
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.update_children();
+        }
     }
 
     #[func]
     fn set_angle_start(&mut self, angle_start: f32) {
         self.angle_start_deg = angle_start;
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.update_children();
+        }
     }
 
     #[func]
     fn set_angle_end(&mut self, angle_start: f32) {
         self.angle_end_deg = angle_start;
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.update_children();
+        }
     }
 
     #[func]
     fn set_segments(&mut self, segments: u32) {
         self.segments = segments;
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.update_children();
+        }
     }
 
     #[func]
     fn set_spawn_scn(&mut self, spawn_scn: Option<Gd<PackedScene>>) {
         self.spawn_scn = spawn_scn;
-        self.clear_children();
-        self.update_children();
+        if self.base().is_node_ready() {
+            self.clear_children();
+            self.update_children();
+        }
     }
 
     fn calc_points(&self) -> Vec<(Vector2, f32)> {
@@ -269,8 +290,11 @@ impl EllipseColliderSpawnPattern {
             // create more children if needed
             let create_count = requested_count - children_count;
             for _ in 0..(create_count) {
-                let child = self.spawn_scn.as_ref().unwrap().instantiate().unwrap();
+                let mut child = self.spawn_scn.as_ref().unwrap().instantiate().unwrap();
                 self.base_mut().add_child(&child);
+                if Engine::singleton().is_editor_hint() {
+                    child.set_owner(self.base().to_godot());
+                }
             }
         } else if children_count > requested_count {
             let delete_count = children_count - requested_count;
