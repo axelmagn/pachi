@@ -133,7 +133,9 @@ impl GridSpawnPattern {
     }
 
     fn clear_children(&mut self) {
-        for mut child in self.base_mut().get_children().iter_shared() {
+        let mut self_base_mut = self.base_mut();
+        for mut child in self_base_mut.get_children().iter_shared() {
+            self_base_mut.remove_child(&child);
             child.queue_free();
         }
     }
@@ -294,7 +296,9 @@ impl EllipseColliderSpawnPattern {
     }
 
     fn clear_children(&mut self) {
-        for mut child in self.base_mut().get_children().iter_shared() {
+        let mut self_base_mut = self.base_mut();
+        for mut child in self_base_mut.get_children().iter_shared() {
+            self_base_mut.remove_child(&child);
             child.queue_free();
         }
     }

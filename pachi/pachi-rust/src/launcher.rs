@@ -1,5 +1,6 @@
 use godot::{
     classes::{Input, Timer},
+    global::randf_range,
     prelude::*,
 };
 
@@ -28,6 +29,9 @@ pub struct Launcher {
     launch_charge_timer: Option<Gd<Timer>>,
 
     #[export]
+    auto_fire_timer: Option<Gd<Timer>>,
+
+    #[export]
     #[init(val = false)]
     launch_on_release: bool,
 
@@ -46,12 +50,19 @@ impl INode for Launcher {
         assert!(self.hopper.is_some());
         assert!(self.ball_source.is_some());
         assert!(self.launch_charge_timer.is_some());
+        assert!(self.auto_fire_timer.is_some());
 
         let launch_timer_ref = self.launch_charge_timer.as_mut().unwrap();
         launch_timer_ref
             .signals()
             .timeout()
             .connect_other(&mut self_gd, |this| this.handle_launch_timeout());
+
+        let auto_fire_timer_ref = self.auto_fire_timer.as_mut().unwrap();
+        auto_fire_timer_ref
+            .signals()
+            .timeout()
+            .connect_other(&mut self_gd, |this| this.handle_auto_fire_timeout());
     }
 
     fn physics_process(&mut self, _delta_time: f64) {
@@ -85,6 +96,11 @@ impl Launcher {
         }
     }
 
+    fn handle_auto_fire_timeout(&mut self) {
+        let launch_strength = randf_range(0.3, 0.9);
+        self.launch(launch_strength as f32);
+    }
+
     fn handle_launch_input(&mut self) {
         if self.hopper.is_none() || self.ball_source.is_none() {
             return;
@@ -100,6 +116,10 @@ impl Launcher {
                 + (1. - self.min_launch_strength) * timer_progress.clamp(0.0, 1.0)
         };
 
+        self.launch(launch_strength);
+    }
+
+    fn launch(&mut self, launch_strength: f32) {
         godot_print!("ball launch started");
 
         if let Some(ball) = Self::recursive_find_ball(self.hopper.as_ref().unwrap().clone()) {

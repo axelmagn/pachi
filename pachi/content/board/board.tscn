@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bcrs6rnudncwj" path="res://content/ball_sink/ball_sink_large.tscn" id="7_d1d8a"]
 [ext_resource type="PackedScene" uid="uid://dsw6f4ffv7v88" path="res://content/peg/peg_ellipse.tscn" id="7_x6pgj"]
 [ext_resource type="PackedScene" uid="uid://1w1fp8awmeve" path="res://content/peg/peg.tscn" id="7_y0hua"]
+[ext_resource type="PackedScene" uid="uid://c0pr82uq5k8td" path="res://content/jackpot/tulip_jackpot.tscn" id="8_d1d8a"]
 
 [node name="Board" type="Board" unique_id=1965351162]
 
@@ -18,16 +19,16 @@
 position = Vector2(0, 89)
 
 [node name="BallSource" type="BallSource" parent="." unique_id=2083110643]
-launch_velocity = Vector2(256, -1024)
+launch_velocity = Vector2(600, -600)
 launch_jitter = Vector2(32, 32)
-position = Vector2(-329, -333)
+position = Vector2(-299, -362)
 
 [node name="CircleSprite" type="CircleSprite" parent="BallSource" unique_id=489683072]
 radius = 14.0
 color = Color(0.20942885, 0.20942888, 0.20942888, 1)
 
 [node name="BottomSink" parent="." unique_id=1641092326 instance=ExtResource("7_d1d8a")]
-position = Vector2(0, 515)
+position = Vector2(0, 521)
 
 [node name="TopPegEllipse" parent="." unique_id=1651399954 instance=ExtResource("4_2y2ta")]
 size = Vector2(810, 810)
@@ -45,7 +46,8 @@ rotation = 3.1415927
 [node name="Centerpiece" type="Node2D" parent="." unique_id=812347436]
 
 [node name="SimpleJackpot" parent="Centerpiece" unique_id=2102557513 node_paths=PackedStringArray("linked_payout_gates") instance=ExtResource("6_18o3a")]
-linked_payout_gates = [null, null, null]
+linked_payout_gates = [NodePath("../../Lower/TulipJackpot2"), NodePath("../../Lower/TulipJackpot3")]
+modulate = Color(1, 0.73333335, 1, 1)
 
 [node name="SimpleJackpot2" parent="Centerpiece" unique_id=1977125670 instance=ExtResource("6_18o3a")]
 position = Vector2(68, 0)
@@ -67,8 +69,8 @@ position = Vector2(-250, 0)
 [node name="PegEllipse2" parent="CenterLeft" unique_id=328242555 instance=ExtResource("7_x6pgj")]
 size = Vector2(256, 320)
 angle_start_deg = 360.0
-angle_end_deg = 280.0
-segments = 20
+angle_end_deg = 300.0
+segments = 16
 position = Vector2(-407, -41)
 
 [node name="PegEllipse3" parent="CenterLeft" unique_id=2096150889 instance=ExtResource("7_x6pgj")]
@@ -86,8 +88,8 @@ position = Vector2(250, 0)
 [node name="PegEllipse" parent="CenterRight" unique_id=2079507421 instance=ExtResource("7_x6pgj")]
 size = Vector2(256, 320)
 angle_start_deg = 180.0
-angle_end_deg = 260.0
-segments = 20
+angle_end_deg = 240.0
+segments = 16
 position = Vector2(397, -39)
 
 [node name="PegEllipse2" parent="CenterRight" unique_id=1388533854 instance=ExtResource("7_x6pgj")]
@@ -101,13 +103,13 @@ position = Vector2(148, -38)
 position = Vector2(0, -194)
 
 [node name="Spinner" parent="Upper" unique_id=519138523 instance=ExtResource("5_gppwj")]
-position = Vector2(0, -48)
+position = Vector2(0, -33)
 
 [node name="Spinner2" parent="Upper" unique_id=1914005188 instance=ExtResource("5_gppwj")]
-position = Vector2(180, -48)
+position = Vector2(180, -33)
 
 [node name="Spinner3" parent="Upper" unique_id=481940588 instance=ExtResource("5_gppwj")]
-position = Vector2(-180, -48)
+position = Vector2(-180, -33)
 
 [node name="PegEllipse6" parent="Upper" unique_id=403519552 instance=ExtResource("7_x6pgj")]
 size = Vector2(160, 176)
@@ -117,14 +119,14 @@ segments = 10
 position = Vector2(290, -85)
 
 [node name="PegEllipse8" parent="Upper" unique_id=982897337 instance=ExtResource("7_x6pgj")]
-size = Vector2(160, 176)
+size = Vector2(270, 176)
 angle_start_deg = 180.0
 angle_end_deg = 250.0
-segments = 10
-position = Vector2(-70, -85)
+segments = 13
+position = Vector2(-23, -85)
 
 [node name="PegEllipse7" parent="Upper" unique_id=1956291357 instance=ExtResource("7_x6pgj")]
-size = Vector2(160, 176)
+size = Vector2(170, 176)
 angle_start_deg = 360.0
 angle_end_deg = 290.0
 segments = 10
@@ -139,7 +141,7 @@ position = Vector2(70, -85)
 
 [node name="GridSpawnPattern" type="GridSpawnPattern" parent="Upper" unique_id=479466562]
 spacing = Vector2(32, 48)
-cardinality = Vector2i(6, 2)
+cardinality = Vector2i(4, 2)
 spawn_scn = ExtResource("7_y0hua")
 start_odd_row = true
 position = Vector2(0, -171)
@@ -157,3 +159,131 @@ cardinality = Vector2i(2, 3)
 spawn_scn = ExtResource("7_y0hua")
 start_odd_row = true
 position = Vector2(250, -60)
+
+[node name="Lower" type="Node2D" parent="." unique_id=298109175]
+position = Vector2(0, 240)
+
+[node name="GridSpawnPattern2" type="GridSpawnPattern" parent="Lower" unique_id=1710982697]
+spacing = Vector2(250, 150)
+cardinality = Vector2i(2, 1)
+spawn_scn = ExtResource("6_18o3a")
+position = Vector2(0, 107)
+
+[node name="GridSpawnPattern3" type="GridSpawnPattern" parent="Lower" unique_id=205031795]
+spacing = Vector2(42, 42)
+cardinality = Vector2i(8, 3)
+spawn_scn = ExtResource("7_y0hua")
+start_odd_row = true
+position = Vector2(-187, -190)
+
+[node name="GridSpawnPattern4" type="GridSpawnPattern" parent="Lower" unique_id=1580931162]
+spacing = Vector2(42, 42)
+cardinality = Vector2i(8, 3)
+spawn_scn = ExtResource("7_y0hua")
+start_odd_row = true
+position = Vector2(187, -190)
+
+[node name="PegEllipse" parent="Lower" unique_id=1031086956 instance=ExtResource("7_x6pgj")]
+size = Vector2(80, 150)
+angle_start_deg = 120.0
+angle_end_deg = 180.0
+segments = 8
+position = Vector2(-71, -13)
+
+[node name="PegEllipse3" parent="Lower" unique_id=1806793480 instance=ExtResource("7_x6pgj")]
+size = Vector2(60, 180)
+angle_start_deg = 120.0
+angle_end_deg = 180.0
+segments = 8
+position = Vector2(-46, -61)
+
+[node name="PegEllipse2" parent="Lower" unique_id=574429681 instance=ExtResource("7_x6pgj")]
+size = Vector2(80, 150)
+angle_end_deg = 60.0
+segments = 8
+position = Vector2(-182, -13)
+
+[node name="PegEllipse4" parent="Lower" unique_id=1097019225 instance=ExtResource("7_x6pgj")]
+size = Vector2(60, 180)
+angle_end_deg = 60.0
+segments = 8
+position = Vector2(-203, -60)
+
+[node name="GridSpawnPattern5" type="GridSpawnPattern" parent="Lower" unique_id=771546204]
+spacing = Vector2(32, 32)
+cardinality = Vector2i(3, 2)
+spawn_scn = ExtResource("7_y0hua")
+position = Vector2(-127, -69)
+
+[node name="PegEllipse5" parent="Lower" unique_id=468138802 instance=ExtResource("7_x6pgj")]
+size = Vector2(80, 150)
+angle_start_deg = 120.0
+angle_end_deg = 180.0
+segments = 8
+position = Vector2(179, -13)
+
+[node name="PegEllipse6" parent="Lower" unique_id=86285015 instance=ExtResource("7_x6pgj")]
+size = Vector2(60, 180)
+angle_start_deg = 120.0
+angle_end_deg = 180.0
+segments = 8
+position = Vector2(204, -61)
+
+[node name="PegEllipse7" parent="Lower" unique_id=1388293812 instance=ExtResource("7_x6pgj")]
+size = Vector2(80, 150)
+angle_end_deg = 60.0
+segments = 8
+position = Vector2(68, -13)
+
+[node name="PegEllipse8" parent="Lower" unique_id=839792993 instance=ExtResource("7_x6pgj")]
+size = Vector2(60, 180)
+angle_end_deg = 60.0
+segments = 8
+position = Vector2(47, -60)
+
+[node name="GridSpawnPattern6" type="GridSpawnPattern" parent="Lower" unique_id=1249189621]
+spacing = Vector2(32, 32)
+cardinality = Vector2i(3, 2)
+spawn_scn = ExtResource("7_y0hua")
+position = Vector2(123, -69)
+
+[node name="Peg" parent="Lower" unique_id=76298557 instance=ExtResource("7_y0hua")]
+position = Vector2(-110, 62)
+
+[node name="Peg2" parent="Lower" unique_id=1290867528 instance=ExtResource("7_y0hua")]
+position = Vector2(-139, 61)
+
+[node name="Peg3" parent="Lower" unique_id=2049122784 instance=ExtResource("7_y0hua")]
+position = Vector2(141, 62)
+
+[node name="Peg4" parent="Lower" unique_id=2029886887 instance=ExtResource("7_y0hua")]
+position = Vector2(112, 61)
+
+[node name="GridSpawnPattern7" type="GridSpawnPattern" parent="Lower" unique_id=2111677047]
+spacing = Vector2(42, 42)
+cardinality = Vector2i(4, 4)
+spawn_scn = ExtResource("7_y0hua")
+position = Vector2(0, 80)
+
+[node name="GridSpawnPattern8" type="GridSpawnPattern" parent="Lower" unique_id=918730536]
+spacing = Vector2(42, 42)
+cardinality = Vector2i(3, 3)
+spawn_scn = ExtResource("7_y0hua")
+start_odd_row = true
+position = Vector2(247, 44)
+
+[node name="GridSpawnPattern9" type="GridSpawnPattern" parent="Lower" unique_id=821780342]
+spacing = Vector2(42, 42)
+cardinality = Vector2i(3, 3)
+spawn_scn = ExtResource("7_y0hua")
+start_odd_row = true
+position = Vector2(-247, 44)
+
+[node name="TulipJackpot" parent="Lower" unique_id=941353612 instance=ExtResource("8_d1d8a")]
+position = Vector2(0, -43)
+
+[node name="TulipJackpot2" parent="Lower" unique_id=181927226 instance=ExtResource("8_d1d8a")]
+position = Vector2(250, -43)
+
+[node name="TulipJackpot3" parent="Lower" unique_id=313258760 instance=ExtResource("8_d1d8a")]
+position = Vector2(-250, -43)

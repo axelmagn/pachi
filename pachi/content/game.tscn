@@ -10,17 +10,20 @@ hopper = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubVi
 
 [node name="Systems" type="Node" parent="." unique_id=672939595]
 
-[node name="Launcher" type="Launcher" parent="Systems" unique_id=1593967731 node_paths=PackedStringArray("hopper", "ball_source", "launch_charge_timer")]
+[node name="Launcher" type="Launcher" parent="Systems" unique_id=1593967731 node_paths=PackedStringArray("hopper", "ball_source", "launch_charge_timer", "auto_fire_timer")]
 hopper = NodePath("../../UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Hopper")
 ball_source = NodePath("../../UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board/BallSource")
 min_launch_strength = 0.4
-continuous_launch = false
 launch_charge_timer = NodePath("LaunchChargeTimer")
+auto_fire_timer = NodePath("AutoFireTimer")
 process_mode = 1
 
 [node name="LaunchChargeTimer" type="Timer" parent="Systems/Launcher" unique_id=1917878818]
 wait_time = 0.5
 one_shot = true
+
+[node name="AutoFireTimer" type="Timer" parent="Systems/Launcher" unique_id=978024963]
+wait_time = 0.4
 
 [node name="UI" type="Node" parent="." unique_id=860821714]
 
@@ -60,6 +63,7 @@ handle_input_locally = false
 render_target_update_mode = 4
 
 [node name="Hopper" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport" unique_id=812605548 instance=ExtResource("1_1iyoi")]
+initial_balls = 10
 
 [node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer" unique_id=1446136061]
 layout_mode = 2
@@ -153,7 +157,7 @@ layout_mode = 2
 columns = 3
 
 [node name="BuyBallsButton" type="BuyBallsButton" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1426925368]
-price = 10
+price = 53
 balls = 10
 layout_mode = 2
 text = "Buy # balls
