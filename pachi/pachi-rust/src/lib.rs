@@ -5,6 +5,7 @@ pub mod ball_sink;
 pub mod ball_source;
 pub mod board;
 pub mod boundary;
+pub mod card;
 pub mod game;
 pub mod hopper;
 pub mod jackpot;

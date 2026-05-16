@@ -3,30 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://co4ihp58ot07l" path="res://content/hopper/hopper.tscn" id="1_1iyoi"]
 [ext_resource type="PackedScene" uid="uid://cec57ai240xfs" path="res://content/board/board.tscn" id="1_geolt"]
 [ext_resource type="LabelSettings" uid="uid://deny8dlugrd8x" path="res://content/ui/resources_ui_label_settings.tres" id="3_xn1r0"]
-[ext_resource type="Texture2D" uid="uid://bj0hwpyb48fpe" path="res://vendor/kenney_ui-pack/PNG/Grey/Default/button_rectangle_flat.png" id="4_jg48t"]
-[ext_resource type="Texture2D" uid="uid://c3b07bjpxv563" path="res://vendor/kenney_ui-pack/PNG/Green/Default/button_square_border.png" id="6_366uj"]
-[ext_resource type="Texture2D" uid="uid://dt4qpah0k5mqg" path="res://vendor/kenney_development-essentials/UV texture/uv-texture.png" id="6_mxr44"]
-[ext_resource type="FontFile" uid="uid://bcaeuvuy8yxr0" path="res://vendor/kenney_ui-pack/Font/Kenney Future Narrow.ttf" id="7_mxr44"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_gd536"]
-font_color = Color(0.18072194, 0.18072197, 0.18072197, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_np20n"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
-
-[sub_resource type="LabelSettings" id="LabelSettings_0mvnn"]
-font = ExtResource("7_mxr44")
-font_size = 12
-font_color = Color(0.20942885, 0.20942888, 0.20942888, 1)
+[ext_resource type="PackedScene" uid="uid://bdlxl714orbxg" path="res://content/card/card.tscn" id="4_gd536"]
 
 [node name="Game" type="Game" unique_id=339919995 node_paths=PackedStringArray("launcher", "hopper")]
 launcher = NodePath("Systems/Launcher")
@@ -48,6 +25,8 @@ one_shot = true
 
 [node name="AutoFireTimer" type="Timer" parent="Systems/Launcher" unique_id=978024963]
 wait_time = 0.4
+
+[node name="CardManager" type="Node" parent="Systems" unique_id=1386655051]
 
 [node name="UI" type="Node" parent="." unique_id=860821714]
 
@@ -212,73 +191,8 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer" unique_id=773464809]
 layout_mode = 2
 
-[node name="Card" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer" unique_id=1556201008]
-custom_minimum_size = Vector2(200, 280)
+[node name="Card" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer" unique_id=537939564 instance=ExtResource("4_gd536")]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="NinePatchRect" type="NinePatchRect" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card" unique_id=1608518575]
-layout_mode = 2
-texture = ExtResource("4_jg48t")
-region_rect = Rect2(0, 0, 192, 64)
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card" unique_id=819765806]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card/MarginContainer" unique_id=1060086881]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card/MarginContainer/VBoxContainer" unique_id=912394225]
-layout_mode = 2
-text = "Balls"
-label_settings = SubResource("LabelSettings_gd536")
-horizontal_alignment = 1
-
-[node name="PanelContainer2" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card/MarginContainer/VBoxContainer" unique_id=109843226]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="TextureRect" type="TextureRect" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card/MarginContainer/VBoxContainer/PanelContainer2" unique_id=1572030682]
-layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("6_mxr44")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="PanelContainer" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card/MarginContainer/VBoxContainer" unique_id=2104232092]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_np20n")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card/MarginContainer/VBoxContainer/PanelContainer" unique_id=1434868497]
-layout_mode = 2
-texture = ExtResource("6_366uj")
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card/MarginContainer/VBoxContainer/PanelContainer" unique_id=691562475]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer/Card/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=794075932]
-layout_mode = 2
-text = "10 balls"
-label_settings = SubResource("LabelSettings_0mvnn")
-horizontal_alignment = 1
 
 [node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer" unique_id=1932163170]
 layout_mode = 2
@@ -292,77 +206,14 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2" unique_id=197660793]
 layout_mode = 2
 
-[node name="Card" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer" unique_id=615860407]
-custom_minimum_size = Vector2(200, 280)
+[node name="Card" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer" unique_id=931342042 instance=ExtResource("4_gd536")]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="NinePatchRect" type="NinePatchRect" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card" unique_id=1075601939]
-layout_mode = 2
-texture = ExtResource("4_jg48t")
-region_rect = Rect2(0, 0, 192, 64)
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card" unique_id=1439327267]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/MarginContainer" unique_id=165882791]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/MarginContainer/VBoxContainer" unique_id=1438729204]
-layout_mode = 2
-text = "Balls"
-label_settings = SubResource("LabelSettings_gd536")
-horizontal_alignment = 1
-
-[node name="PanelContainer2" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/MarginContainer/VBoxContainer" unique_id=911142665]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="TextureRect" type="TextureRect" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/MarginContainer/VBoxContainer/PanelContainer2" unique_id=1523629733]
-layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("6_mxr44")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="PanelContainer" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/MarginContainer/VBoxContainer" unique_id=571359484]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_np20n")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/MarginContainer/VBoxContainer/PanelContainer" unique_id=1925230735]
-layout_mode = 2
-texture = ExtResource("6_366uj")
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/MarginContainer/VBoxContainer/PanelContainer" unique_id=1272148544]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=2123388215]
-layout_mode = 2
-text = "10 balls"
-label_settings = SubResource("LabelSettings_0mvnn")
-horizontal_alignment = 1
 
 [node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer" unique_id=1430899283]
 layout_mode = 2
 text = "$53"
 horizontal_alignment = 1
+
+[node name="CardDragLayer" type="CanvasLayer" parent="UI" unique_id=391351215]
 
 [editable path="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board"]
