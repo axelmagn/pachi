@@ -1,10 +1,7 @@
 use godot::{
-    classes::{
-        CanvasLayer, Control, IControl, InputEvent, Label, Node, RichTextLabel,
-        class_macros::private::virtuals::Xrvrs::Gd,
-    },
+    classes::{CanvasLayer, Control, IControl, InputEvent, Label, Node, RichTextLabel},
     global::godot_print,
-    obj::{Base, WithUserSignals},
+    obj::{Base, Gd, WithUserSignals},
     register::{GodotClass, godot_api},
 };
 
@@ -29,7 +26,7 @@ impl IControl for Card {
 #[godot_api]
 impl Card {
     fn on_gui_input(&mut self, event: Gd<InputEvent>) {
-        if event.is_action_pressed("select") {
+        if event.is_action_pressed("mouse_select") {
             godot_print!("card clicked!");
         }
     }
