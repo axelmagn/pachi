@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://bdlxl714orbxg"]
+
+[ext_resource type="Texture2D" uid="uid://bj0hwpyb48fpe" path="res://vendor/kenney_ui-pack/PNG/Grey/Default/button_rectangle_flat.png" id="1_mnf3g"]
+[ext_resource type="Texture2D" uid="uid://dt4qpah0k5mqg" path="res://vendor/kenney_development-essentials/UV texture/uv-texture.png" id="2_2b1eo"]
+[ext_resource type="Texture2D" uid="uid://c3b07bjpxv563" path="res://vendor/kenney_ui-pack/PNG/Green/Default/button_square_border.png" id="3_pd38u"]
+[ext_resource type="FontFile" uid="uid://bcaeuvuy8yxr0" path="res://vendor/kenney_ui-pack/Font/Kenney Future Narrow.ttf" id="4_w36u0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gd536"]
+font_color = Color(0.18072194, 0.18072197, 0.18072197, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_np20n"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_0mvnn"]
+font = ExtResource("4_w36u0")
+font_size = 12
+font_color = Color(0.20942885, 0.20942888, 0.20942888, 1)
+
+[node name="Card" type="PanelContainer" unique_id=537939564]
+custom_minimum_size = Vector2(200, 280)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1593938538]
+layout_mode = 2
+texture = ExtResource("1_mnf3g")
+region_rect = Rect2(0, 0, 192, 64)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1111865484]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1486792639]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1903854789]
+layout_mode = 2
+text = "Balls"
+label_settings = SubResource("LabelSettings_gd536")
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1173024762]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/PanelContainer2" unique_id=746129187]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_2b1eo")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1670043344]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_np20n")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=452385512]
+layout_mode = 2
+texture = ExtResource("3_pd38u")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=1066904383]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer" unique_id=689503876]
+layout_mode = 2
+text = "10 balls"
+label_settings = SubResource("LabelSettings_0mvnn")
+horizontal_alignment = 1
