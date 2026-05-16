@@ -9,7 +9,7 @@
     - pin: 2mm
     - min gap: 12mm
     - I'm thinking that 1mm = 2px.  This means fewer half-radii
-- [ ] authentic-ish board layout
+- [x] authentic-ish board layout
     - reference: https://images.squarespace-cdn.com/content/v1/639f3d3561e0456d1172e684/14bc8018-5131-400a-b13e-aadf60845ca6/rest1617_side.jpg?format=1000w
 - [ ] drag / drop card commands
 - [ ] countdown timer
