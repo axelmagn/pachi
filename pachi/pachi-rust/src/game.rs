@@ -1,6 +1,11 @@
 use godot::{prelude::*, tools::try_get_autoload_by_name};
 
-use crate::{hopper::Hopper, launcher::Launcher};
+use crate::{
+    ball_source::BallSource,
+    hopper::Hopper,
+    launcher::LauncherSystem,
+    main_scene::{self, MainScene},
+};
 
 const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
 
@@ -8,13 +13,11 @@ const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
 #[derive(GodotClass)]
 #[class(init, base=Node)]
 pub struct Game {
+    #[export]
+    pub launcher_system: Option<Gd<LauncherSystem>>,
+
     pub events: Gd<GameEvents>,
-
-    #[export]
-    pub launcher: Option<Gd<Launcher>>,
-
-    #[export]
-    pub hopper: Option<Gd<Hopper>>,
+    main_scene: Option<Gd<MainScene>>,
 
     #[export]
     #[init(val = 0)]
@@ -28,12 +31,39 @@ impl Game {
     pub fn autoload() -> Gd<Self> {
         try_get_autoload_by_name::<Game>(GAME_AUTOLOAD_NAME).expect("`Game` autoload not found")
     }
-}
 
-#[godot_api]
-impl INode for Game {
-    fn ready(&mut self) {
-        assert!(self.launcher.is_some());
+    pub fn register_main_scene(&mut self, main_scene: Gd<MainScene>) {
+        assert!(self.main_scene.is_none());
+        self.main_scene = Some(main_scene);
+    }
+
+    pub fn unregister_main_scene(&mut self) {
+        assert!(self.main_scene.is_some());
+        self.main_scene = None;
+    }
+
+    pub fn expect_main_scene(&self) -> Gd<MainScene> {
+        return self
+            .main_scene
+            .as_ref()
+            .expect("MainScene not registered")
+            .clone();
+    }
+
+    pub fn expect_hopper(&self) -> Gd<Hopper> {
+        self.expect_main_scene().bind().expect_hopper()
+    }
+
+    pub fn get_scene_hopper(&self) -> Option<Gd<Hopper>> {
+        self.main_scene
+            .as_ref()
+            .and_then(|main_scene| main_scene.bind().hopper.clone())
+    }
+
+    pub fn get_scene_ball_source(&self) -> Option<Gd<BallSource>> {
+        self.main_scene
+            .as_ref()
+            .and_then(|main_scene| main_scene.bind().ball_source.clone())
     }
 }
 
@@ -46,4 +76,7 @@ pub struct GameEvents {
 }
 
 #[godot_api]
-impl GameEvents {}
+impl GameEvents {
+    #[signal]
+    pub fn add_default_balls(num_balls: u32);
+}

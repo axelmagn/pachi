@@ -2,7 +2,7 @@ use core::num;
 
 use godot::{classes::Timer, prelude::*};
 
-use crate::{ball::Ball, ball_source::BallSource};
+use crate::{ball::Ball, ball_source::BallSource, game::Game};
 
 /// Pachinko Board
 #[derive(GodotClass)]
@@ -43,6 +43,15 @@ impl INode2D for Hopper {
             .connect_other(&mut self.to_gd(), |hopper| hopper.try_launch_next_ball());
 
         self.add_default_balls(self.initial_balls as usize);
+
+        let game = Game::autoload();
+        game.bind()
+            .events
+            .signals()
+            .add_default_balls()
+            .connect_other(&self.to_gd(), |inner_self, num_balls| {
+                inner_self.add_default_balls(num_balls as usize)
+            });
     }
 }
 

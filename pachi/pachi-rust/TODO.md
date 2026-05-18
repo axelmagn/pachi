@@ -16,3 +16,4 @@
 - [ ] card shop
 - [ ] fix spawn pattern bug: inconsistent spawning of child objects
 - [ ] last launch marker on launcher paddle
+- [ ] rearchitect game singletons

@@ -1,10 +1,9 @@
 use godot::{
     classes::{Button, Control, IButton, IControl, Label},
     prelude::*,
-    register::property::export_fns::export_multiline,
 };
 
-use crate::game::Game;
+use crate::{game::Game, main_scene};
 
 #[derive(GodotClass)]
 #[class(init, base=Control)]
@@ -74,12 +73,9 @@ impl BuyBallsButton {
         }
 
         game.bind_mut().cash -= self.price;
-        game.bind_mut()
-            .hopper
-            .as_mut()
-            .unwrap()
-            .bind_mut()
-            .add_default_balls(self.balls as usize);
+
+        let game_events = &game.bind().events;
+        game_events.signals().add_default_balls().emit(self.balls);
     }
 }
 
@@ -114,7 +110,9 @@ impl IButton for SellBallsButton {
     }
 
     fn process(&mut self, _delta: f64) {
-        let ball_count = Game::autoload()
+        let game = Game::autoload();
+        let main_scene = game.bind().expect_main_scene();
+        let ball_count = main_scene
             .bind()
             .hopper
             .as_ref()
@@ -132,7 +130,8 @@ impl SellBallsButton {
     fn on_pressed(&mut self) {
         let mut game = Game::autoload();
         game.bind_mut().cash += self.price;
-        game.bind_mut()
+        let mut main_scene = game.bind().expect_main_scene();
+        main_scene.bind_mut()
             .hopper
             .as_mut()
             .unwrap()

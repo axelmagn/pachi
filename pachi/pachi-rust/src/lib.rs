@@ -10,6 +10,7 @@ pub mod game;
 pub mod hopper;
 pub mod jackpot;
 pub mod launcher;
+pub mod main_scene;
 pub mod shape_sprites;
 pub mod spawn_patterns;
 pub mod ui;

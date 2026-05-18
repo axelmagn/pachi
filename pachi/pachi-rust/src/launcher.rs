@@ -4,18 +4,18 @@ use godot::{
     prelude::*,
 };
 
-use crate::{ball::Ball, ball_source::BallSource, game::Game};
+use crate::{ball::Ball, ball_source::BallSource, game::Game, hopper::Hopper};
 
 #[derive(GodotClass)]
 #[class(init, base=Node)]
-pub struct Launcher {
+pub struct LauncherSystem {
     /// node to draw balls from
     /// TODO: better system for this
-    #[export]
-    hopper: Option<Gd<Node>>,
+    // #[export]
+    // hopper: Option<Gd<Node>>,
 
-    #[export]
-    ball_source: Option<Gd<BallSource>>,
+    // #[export]
+    // ball_source: Option<Gd<BallSource>>,
 
     #[export]
     #[init(val = 0.2)]
@@ -42,13 +42,11 @@ pub struct Launcher {
 }
 
 #[godot_api]
-impl INode for Launcher {
+impl INode for LauncherSystem {
     fn ready(&mut self) {
         let mut self_gd = self.to_gd();
 
         godot_print!("launcher ready");
-        assert!(self.hopper.is_some());
-        assert!(self.ball_source.is_some());
         assert!(self.launch_charge_timer.is_some());
         assert!(self.auto_fire_timer.is_some());
 
@@ -83,7 +81,7 @@ impl INode for Launcher {
 }
 
 #[godot_api]
-impl Launcher {
+impl LauncherSystem {
     fn handle_launch_timeout(&mut self) {
         if Input::singleton().is_action_pressed("ball_launch") {
             self.max_launch = true;
@@ -102,7 +100,9 @@ impl Launcher {
     }
 
     fn handle_launch_input(&mut self) {
-        if self.hopper.is_none() || self.ball_source.is_none() {
+        let hopper = Self::get_hopper();
+        let ball_source = Self::get_ball_source();
+        if hopper.is_none() || ball_source.is_none() {
             return;
         }
 
@@ -122,9 +122,12 @@ impl Launcher {
     fn launch(&mut self, launch_strength: f32) {
         godot_print!("ball launch started");
 
-        if let Some(ball) = Self::recursive_find_ball(self.hopper.as_ref().unwrap().clone()) {
+        let hopper = Self::get_hopper();
+
+        if let Some(ball) = Self::recursive_find_ball(hopper.as_ref().unwrap().clone().upcast()) {
             godot_print!("ball launched: {launch_strength}");
-            self.ball_source
+            let mut ball_source = Self::get_ball_source();
+            ball_source
                 .as_mut()
                 .unwrap()
                 .bind_mut()
@@ -158,6 +161,16 @@ impl Launcher {
             1.0 - launch_charge_timer.get_time_left() / launch_charge_timer.get_wait_time();
         timer_progress as f32
     }
+
+    fn get_hopper() -> Option<Gd<Hopper>> {
+        let game = Game::autoload();
+        game.bind().get_scene_hopper()
+    }
+
+    fn get_ball_source() -> Option<Gd<BallSource>> {
+        let game = Game::autoload();
+        game.bind().get_scene_ball_source()
+    }
 }
 
 #[derive(GodotClass)]
@@ -183,13 +196,11 @@ impl INode2D for LauncherHandleView {
 impl LauncherHandleView {
     fn update_rotation(&mut self) {
         let game = Game::autoload();
-        let launcher_opt = game.bind().launcher.clone();
-        if launcher_opt.is_none() {
-            return;
+        let game_bind = game.bind();
+        if let Some(launcher) = game_bind.launcher_system.as_ref() {
+            let progress = launcher.bind().get_progress();
+            let angle = self.min_angle_deg + self.max_angle_deg * progress;
+            self.base_mut().set_rotation_degrees(angle);
         }
-        let launcher = launcher_opt.unwrap();
-        let progress = launcher.bind().get_progress();
-        let angle = self.min_angle_deg + self.max_angle_deg * progress;
-        self.base_mut().set_rotation_degrees(angle);
     }
 }

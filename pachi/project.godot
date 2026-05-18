@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Pachi"
-run/main_scene="uid://c7bm0ergqu50s"
+run/main_scene="uid://bo51rwwe34hhl"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 

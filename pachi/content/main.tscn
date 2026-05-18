@@ -1,0 +1,199 @@
+[gd_scene format=3 uid="uid://bo51rwwe34hhl"]
+
+[ext_resource type="PackedScene" uid="uid://co4ihp58ot07l" path="res://content/hopper/hopper.tscn" id="1_3sd65"]
+[ext_resource type="PackedScene" uid="uid://cec57ai240xfs" path="res://content/board/board.tscn" id="2_k03jb"]
+[ext_resource type="LabelSettings" uid="uid://deny8dlugrd8x" path="res://content/ui/resources_ui_label_settings.tres" id="3_gamge"]
+[ext_resource type="PackedScene" uid="uid://bdlxl714orbxg" path="res://content/card/card.tscn" id="4_tij7h"]
+
+[node name="Main" type="MainScene" unique_id=981996652 node_paths=PackedStringArray("hopper", "ball_source")]
+hopper = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Hopper")
+ball_source = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board/BallSource")
+
+[node name="UI" type="Node" parent="." unique_id=860821714]
+
+[node name="Background" type="CanvasLayer" parent="UI" unique_id=35187513]
+
+[node name="ColorRect" type="ColorRect" parent="UI/Background" unique_id=1217625732]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13333334, 0.13333334, 0.13333334, 1)
+
+[node name="PlayScreen" type="CanvasLayer" parent="UI" unique_id=1585572846]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen" unique_id=771670811]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayScreen/VBoxContainer" unique_id=1457986274]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=64306437]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1824688918]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer" unique_id=405999774]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Hopper" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport" unique_id=812605548 instance=ExtResource("1_3sd65")]
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer" unique_id=1446136061]
+layout_mode = 2
+text = "Hopper"
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1101955437]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2" unique_id=1567340875]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="HandleGhost" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport" unique_id=170078891]
+position = Vector2(32, 64)
+rotation = 0.5235988
+
+[node name="RectSprite" type="RectSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/HandleGhost" unique_id=131973545]
+size = Vector2(256, 32)
+offset = Vector2(128, 0)
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="LauncherHandleView" type="LauncherHandleView" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport" unique_id=1262249463]
+position = Vector2(32, 64)
+
+[node name="RectSprite" type="RectSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=1201080270]
+size = Vector2(256, 32)
+offset = Vector2(128, 0)
+
+[node name="CircleSprite" type="CircleSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=498198671]
+radius = 16.0
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2" unique_id=1100581526]
+layout_mode = 2
+text = "Launcher"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=815864565]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer" unique_id=642632140]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(750, 1080)
+render_target_update_mode = 4
+
+[node name="Board" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport" unique_id=1171768301 instance=ExtResource("2_k03jb")]
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer" unique_id=1560095123]
+layout_mode = 2
+text = "Board"
+
+[node name="RightPanel" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1776721189]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ResourcesUI" type="ResourcesUI" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=1430554218 node_paths=PackedStringArray("cash_label")]
+cash_label = NodePath("GridContainer/CashValue")
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/ResourcesUI" unique_id=65020106]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="CashKey" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/ResourcesUI/GridContainer" unique_id=1593117778]
+layout_mode = 2
+text = "$"
+label_settings = ExtResource("3_gamge")
+
+[node name="CashValue" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/ResourcesUI/GridContainer" unique_id=1679852758]
+layout_mode = 2
+text = "0"
+label_settings = ExtResource("3_gamge")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=528759434]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=539593376]
+layout_mode = 2
+text = "Debug Actions"
+
+[node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer" unique_id=1123340710]
+layout_mode = 2
+columns = 3
+
+[node name="BuyBallsButton" type="BuyBallsButton" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1426925368]
+price = 53
+balls = 10
+layout_mode = 2
+text = "Buy # balls
+($#)"
+
+[node name="SellBallsButton" type="SellBallsButton" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1310002637]
+price = 10
+balls = 10
+layout_mode = 2
+text = "Sell # balls
+($#)"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=590968647]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2" unique_id=344458694]
+layout_mode = 2
+text = "Cards"
+
+[node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2" unique_id=636823363]
+layout_mode = 2
+columns = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=24637181]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer" unique_id=773464809]
+layout_mode = 2
+
+[node name="Card" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer" unique_id=537939564 instance=ExtResource("4_tij7h")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer" unique_id=1932163170]
+layout_mode = 2
+text = "$53"
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=825083369]
+modulate = Color(0.21230483, 0.21230483, 0.21230483, 1)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2" unique_id=197660793]
+layout_mode = 2
+
+[node name="Card" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer" unique_id=931342042 instance=ExtResource("4_tij7h")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer" unique_id=1430899283]
+layout_mode = 2
+text = "$53"
+horizontal_alignment = 1
+
+[node name="CardDragLayer" type="CanvasLayer" parent="UI" unique_id=391351215]
+
+[editable path="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board"]
