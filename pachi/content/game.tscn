@@ -17,4 +17,4 @@ one_shot = true
 [node name="AutoFireTimer" type="Timer" parent="Systems/LauncherSystem" unique_id=978024963]
 wait_time = 0.4
 
-[node name="CardManager" type="Node" parent="Systems" unique_id=1386655051]
+[node name="CardManager" type="CardManager" parent="Systems" unique_id=250365419]

@@ -2,9 +2,10 @@ use godot::{prelude::*, tools::try_get_autoload_by_name};
 
 use crate::{
     ball_source::BallSource,
+    card::Card,
     hopper::Hopper,
     launcher::LauncherSystem,
-    main_scene::{self, MainScene},
+    main_scene::{MainScene},
 };
 
 const GAME_AUTOLOAD_NAME: &str = "GlobalGame";
@@ -79,4 +80,7 @@ pub struct GameEvents {
 impl GameEvents {
     #[signal]
     pub fn add_default_balls(num_balls: u32);
+
+    #[signal]
+    pub fn card_clicked(card: Gd<Card>);
 }
