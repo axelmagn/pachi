@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bo51rwwe34hhl"]
+[gd_scene format=3 uid="uid://bo51rwwe34hhl"]
 
 [ext_resource type="PackedScene" uid="uid://co4ihp58ot07l" path="res://content/hopper/hopper.tscn" id="1_3sd65"]
 [ext_resource type="PackedScene" uid="uid://cec57ai240xfs" path="res://content/board/board.tscn" id="2_k03jb"]
+[ext_resource type="PackedScene" uid="uid://bje0fw836g1jp" path="res://content/card/card_effect_control_receiver.tscn" id="3_2ukyy"]
 [ext_resource type="LabelSettings" uid="uid://deny8dlugrd8x" path="res://content/ui/resources_ui_label_settings.tres" id="3_gamge"]
 [ext_resource type="PackedScene" uid="uid://bdlxl714orbxg" path="res://content/card/card.tscn" id="4_tij7h"]
 [ext_resource type="Script" uid="uid://baloe0r56jugw" path="res://content/MainScene.cs" id="5_8j6m3"]
@@ -10,12 +11,23 @@
 [ext_resource type="Script" uid="uid://cdfqonxdj8lq6" path="res://content/ui/SellBallsButton.cs" id="8_l2q6x"]
 [ext_resource type="Script" uid="uid://ck4ehhpgbxm42" path="res://content/game/LauncherHandleView.cs" id="9_m4p7k"]
 [ext_resource type="Script" uid="uid://druk4u8h1yw3s" path="res://content/shape_sprite/CircleSprite.cs" id="10_w6u7n"]
+[ext_resource type="PackedScene" uid="uid://jf3kjalyfdax" path="res://content/card/card_shop_item_populated.tscn" id="11_ja01k"]
 [ext_resource type="Script" uid="uid://ce2ljrbebee72" path="res://content/shape_sprite/RectSprite.cs" id="11_k8q2j"]
+[ext_resource type="PackedScene" uid="uid://b3g3jsrihij6m" path="res://content/ball/ball.tscn" id="13_tu1bw"]
+[ext_resource type="Script" uid="uid://wu34eijcbxef" path="res://content/card/AddBallsHopperCardEffect.cs" id="14_ce7ft"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ja01k"]
+
+[sub_resource type="Resource" id="Resource_lmrq8"]
+script = ExtResource("14_ce7ft")
+BallScene = ExtResource("13_tu1bw")
+NumBalls = 10
+metadata/_custom_type_script = "uid://wu34eijcbxef"
 
 [node name="Main" type="Node" unique_id=981996652 node_paths=PackedStringArray("Hopper", "BallSource")]
 script = ExtResource("5_8j6m3")
-Hopper = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Hopper")
-BallSource = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board/BallSource")
+Hopper = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer/SubViewport/Hopper")
+BallSource = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport/SubViewport/Board/BallSource")
 
 [node name="UI" type="Node" parent="." unique_id=860821714]
 
@@ -42,72 +54,80 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=64306437]
+[node name="LeftPanel" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=64306437]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1824688918]
+[node name="PanelContainer" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel" unique_id=11846742]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ja01k")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer" unique_id=1824688918]
 layout_mode = 2
 
-[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer" unique_id=405999774]
+[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer" unique_id=405999774]
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 4
 
-[node name="Hopper" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport" unique_id=812605548 instance=ExtResource("1_3sd65")]
+[node name="Hopper" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer/SubViewport" unique_id=812605548 instance=ExtResource("1_3sd65")]
 
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer" unique_id=1446136061]
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer" unique_id=1446136061]
 layout_mode = 2
 text = "Hopper"
 
-[node name="SubViewportContainer2" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1101955437]
+[node name="CardEffectControlReceiver" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer" unique_id=75512576 node_paths=PackedStringArray("EffectSubject") instance=ExtResource("3_2ukyy")]
+layout_mode = 2
+EffectSubject = NodePath("../SubViewportContainer/SubViewport/Hopper")
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel" unique_id=1101955437]
 layout_mode = 2
 
-[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2" unique_id=1567340875]
+[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2" unique_id=1567340875]
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 4
 
-[node name="HandleGhost" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport" unique_id=170078891]
+[node name="HandleGhost" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2/SubViewport" unique_id=170078891]
 position = Vector2(32, 64)
 rotation = 0.5235988
 
-[node name="RectSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/HandleGhost" unique_id=131973545]
+[node name="RectSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2/SubViewport/HandleGhost" unique_id=131973545]
 script = ExtResource("11_k8q2j")
 Size = Vector2(256, 32)
 Offset = Vector2(128, 0)
 Color = Color(0.2, 0.2, 0.2, 1)
 
-[node name="LauncherHandleView" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport" unique_id=1262249463]
+[node name="LauncherHandleView" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2/SubViewport" unique_id=1262249463]
 position = Vector2(32, 64)
 script = ExtResource("9_m4p7k")
 
-[node name="RectSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=1201080270]
+[node name="RectSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=1201080270]
 script = ExtResource("11_k8q2j")
 Size = Vector2(256, 32)
 Offset = Vector2(128, 0)
 
-[node name="CircleSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=498198671]
+[node name="CircleSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=498198671]
 script = ExtResource("10_w6u7n")
 Radius = 16.0
 
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2" unique_id=1100581526]
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2" unique_id=1100581526]
 layout_mode = 2
 text = "Launcher"
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=815864565]
+[node name="CenterViewport" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=815864565]
 layout_mode = 2
 
-[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer" unique_id=642632140]
+[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport" unique_id=642632140]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(750, 1080)
 render_target_update_mode = 4
 
-[node name="Board" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport" unique_id=1171768301 instance=ExtResource("2_k03jb")]
+[node name="Board" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport/SubViewport" unique_id=1171768301 instance=ExtResource("2_k03jb")]
 
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer" unique_id=1560095123]
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport" unique_id=1560095123]
 layout_mode = 2
 text = "Board"
 
@@ -116,10 +136,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ResourcesUI" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=1430554218 node_paths=PackedStringArray("CashLabel")]
-script = ExtResource("6_p3k7d")
-CashLabel = NodePath("GridContainer/CashValue")
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("6_p3k7d")
+CashLabel = NodePath("GridContainer/CashValue")
 
 [node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/ResourcesUI" unique_id=65020106]
 layout_mode = 1
@@ -152,20 +172,20 @@ layout_mode = 2
 columns = 3
 
 [node name="BuyBallsButton" type="Button" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1426925368]
-script = ExtResource("7_v7n8m")
-Price = 53
-Balls = 10
 layout_mode = 2
 text = "Buy # balls
 ($#)"
+script = ExtResource("7_v7n8m")
+Price = 53
+Balls = 10
 
 [node name="SellBallsButton" type="Button" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1310002637]
-script = ExtResource("8_l2q6x")
-Price = 10
-Balls = 10
 layout_mode = 2
 text = "Sell # balls
 ($#)"
+script = ExtResource("8_l2q6x")
+Price = 10
+Balls = 10
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=590968647]
 layout_mode = 2
@@ -180,19 +200,11 @@ text = "Cards"
 layout_mode = 2
 columns = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=24637181]
+[node name="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=729166505 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer" unique_id=773464809]
-layout_mode = 2
-
-[node name="Card" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer" unique_id=537939564 instance=ExtResource("4_tij7h")]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer" unique_id=1932163170]
-layout_mode = 2
-text = "$53"
-horizontal_alignment = 1
+[node name="Card" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(729166505, 845508671) index="0" unique_id=1242073715]
+CardEffect = SubResource("Resource_lmrq8")
 
 [node name="PanelContainer2" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=825083369]
 modulate = Color(0.21230483, 0.21230483, 0.21230483, 1)
@@ -204,11 +216,17 @@ layout_mode = 2
 [node name="Card" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer" unique_id=931342042 instance=ExtResource("4_tij7h")]
 layout_mode = 2
 
+[node name="TitleLabel" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(931342042, 1486792639) index="0" unique_id=1903854789]
+text = "Sell Balls"
+
+[node name="Description" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card/PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer" parent_id_path=PackedInt32Array(931342042, 1066904383) index="0" unique_id=332000064]
+text = "sell 10 balls"
+
 [node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer" unique_id=1430899283]
 layout_mode = 2
 text = "$53"
 horizontal_alignment = 1
 
-[node name="CardDragLayer" type="CanvasLayer" parent="UI" unique_id=391351215]
-
-[editable path="UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board"]
+[editable path="UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport/SubViewport/Board"]
+[editable path="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer"]
+[editable path="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer/PanelContainer2/VBoxContainer/Card"]

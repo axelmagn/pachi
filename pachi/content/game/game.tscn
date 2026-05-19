@@ -3,10 +3,13 @@
 [ext_resource type="Script" uid="uid://blvxls84v8gju" path="res://content/game/Game.cs" id="1_script"]
 [ext_resource type="Script" uid="uid://6f2hn4gk11bj" path="res://content/game/LauncherSystem.cs" id="2_script"]
 [ext_resource type="Script" uid="uid://ckaxi8arpx0fs" path="res://content/card/CardManager.cs" id="3_script"]
+[ext_resource type="PackedScene" uid="uid://bdlxl714orbxg" path="res://content/card/card.tscn" id="4_gk6uf"]
 
-[node name="Game" type="Node" unique_id=1667390754 node_paths=PackedStringArray("LauncherSystem")]
+[node name="Game" type="Node" unique_id=1667390754 node_paths=PackedStringArray("LauncherSystem", "CardManager")]
 script = ExtResource("1_script")
 LauncherSystem = NodePath("Systems/LauncherSystem")
+CardManager = NodePath("Systems/CardManager")
+Cash = 10
 
 [node name="Systems" type="Node" parent="." unique_id=672939595]
 
@@ -23,5 +26,12 @@ one_shot = true
 [node name="AutoFireTimer" type="Timer" parent="Systems/LauncherSystem" unique_id=978024963]
 wait_time = 0.4
 
-[node name="CardManager" type="Node" parent="Systems" unique_id=250365419]
+[node name="CardManager" type="Node" parent="Systems" unique_id=250365419 node_paths=PackedStringArray("CardDragLayer")]
 script = ExtResource("3_script")
+CardDragLayer = NodePath("CardDragLayer")
+
+[node name="CardDragLayer" type="CanvasLayer" parent="Systems/CardManager" unique_id=223990428]
+layer = 3
+
+[node name="Card" parent="Systems/CardManager/CardDragLayer" unique_id=1242073715 instance=ExtResource("4_gk6uf")]
+visible = false

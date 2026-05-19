@@ -57,11 +57,13 @@ public partial class Hopper : Node2D
 
         for (int i = 0; i < numBalls; i++)
         {
-            if (DefaultBallScn.Instantiate() is Ball ball)
-            {
-                _pendingBalls.Add(ball);
-            }
+            AddBall(DefaultBallScn.Instantiate<Ball>());
         }
+    }
+
+    public void AddBall(Ball ball)
+    {
+        _pendingBalls.Add(ball);
     }
 
     public uint GetBallCount()

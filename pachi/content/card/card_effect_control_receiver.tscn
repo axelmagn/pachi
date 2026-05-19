@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bje0fw836g1jp"]
+
+[ext_resource type="Texture2D" uid="uid://bgf7yx010ei01" path="res://vendor/kenney_pattern-pack/PNG/Default/pattern_03.png" id="1_2ilpc"]
+[ext_resource type="Script" uid="uid://bev11lomekpp4" path="res://content/card/CardEffectControlReceiver.cs" id="1_5hoe4"]
+
+[node name="CardEffectControlReceiver" type="Control" unique_id=75512576]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5hoe4")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=72097946]
+modulate = Color(1, 1, 1, 0.2784314)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_2ilpc")
+stretch_mode = 1

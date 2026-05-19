@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Godot;
 
 public partial class Game : Node
@@ -6,6 +7,9 @@ public partial class Game : Node
 
     [Export]
     public LauncherSystem LauncherSystem { get; set; }
+
+    [Export]
+    public CardManager CardManager { get; set; }
 
     public GameEvents Events { get; private set; }
 
@@ -16,8 +20,8 @@ public partial class Game : Node
 
     public override void _Ready()
     {
-        // Instance = this;
-        // Events = new GameEvents();
+        Debug.Assert(LauncherSystem is not null);
+        Debug.Assert(CardManager is not null);
     }
 
     public override void _EnterTree()

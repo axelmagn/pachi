@@ -3,10 +3,10 @@ using Godot;
 public partial class Card : Control
 {
     [Export]
-    public Label Title { get; set; }
+    public CardEffect CardEffect { get; set; }
 
     [Export]
-    public RichTextLabel Description { get; set; }
+    public uint Price {get; set; } = 1;
 
     public override void _Ready()
     {
@@ -17,7 +17,6 @@ public partial class Card : Control
     {
         if (@event.IsActionPressed("mouse_select"))
         {
-            GD.Print("card clicked!");
             Game.Instance.Events.EmitSignal(GameEvents.SignalName.CardClicked, this);
         }
     }

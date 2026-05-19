@@ -35,8 +35,6 @@ offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_script")
-Title = NodePath("PanelContainer/MarginContainer/VBoxContainer/TitleLabel")
-Description = NodePath("PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Description")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=537939564]
 custom_minimum_size = Vector2(200, 160)

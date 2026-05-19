@@ -141,7 +141,8 @@ public partial class EllipseColliderSpawnPattern : Node2D
                 AddChild(child);
                 if (Engine.IsEditorHint())
                 {
-                    child.Owner = GetTree().EditedSceneRoot;
+                    // child.Owner = GetTree().EditedSceneRoot;
+                    child.Owner = this;
                 }
             }
         }
