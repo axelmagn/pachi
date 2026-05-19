@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://1w1fp8awmeve"]
+[gd_scene load_steps=4 format=3 uid="uid://1w1fp8awmeve"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://da2pxd2okhe8f" path="res://content/peg/peg_physics_material.tres" id="1_6um1o"]
+[ext_resource type="Script" uid="uid://druk4u8h1yw3s" path="res://content/shape_sprite/CircleSprite.cs" id="2_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hyfhq"]
 radius = 2.0
@@ -11,6 +12,7 @@ physics_material_override = ExtResource("1_6um1o")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1682746367]
 shape = SubResource("CircleShape2D_hyfhq")
 
-[node name="CircleSprite" type="CircleSprite" parent="." unique_id=65547539]
-radius = 2.0
-color = Color(0.6, 0.6, 0.6, 1)
+[node name="CircleSprite" type="Node2D" parent="." unique_id=65547539]
+script = ExtResource("2_script")
+Radius = 2.0
+Color = Color(0.6, 0.6, 0.6, 1)

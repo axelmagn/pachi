@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://3vta6y00bsy8"]
+
+[ext_resource type="Script" uid="uid://blvxls84v8gju" path="res://content/game/Game.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://6f2hn4gk11bj" path="res://content/game/LauncherSystem.cs" id="2_script"]
+[ext_resource type="Script" uid="uid://ckaxi8arpx0fs" path="res://content/card/CardManager.cs" id="3_script"]
+
+[node name="Game" type="Node" unique_id=1667390754 node_paths=PackedStringArray("LauncherSystem")]
+script = ExtResource("1_script")
+LauncherSystem = NodePath("Systems/LauncherSystem")
+
+[node name="Systems" type="Node" parent="." unique_id=672939595]
+
+[node name="LauncherSystem" type="Node" parent="Systems" unique_id=1484615067 node_paths=PackedStringArray("LaunchChargeTimer", "AutoFireTimer")]
+process_mode = 1
+script = ExtResource("2_script")
+LaunchChargeTimer = NodePath("LaunchChargeTimer")
+AutoFireTimer = NodePath("AutoFireTimer")
+
+[node name="LaunchChargeTimer" type="Timer" parent="Systems/LauncherSystem" unique_id=1917878818]
+wait_time = 0.5
+one_shot = true
+
+[node name="AutoFireTimer" type="Timer" parent="Systems/LauncherSystem" unique_id=978024963]
+wait_time = 0.4
+
+[node name="CardManager" type="Node" parent="Systems" unique_id=250365419]
+script = ExtResource("3_script")

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://c0pr82uq5k8td"]
 
 [ext_resource type="PackedScene" uid="uid://ckgom2li2uas8" path="res://content/ball_sink/ball_sink.tscn" id="1_yqonr"]
+[ext_resource type="Script" uid="uid://cnno0i1h2ayp8" path="res://content/jackpot/Jackpot.cs" id="2_script"]
+[ext_resource type="Script" uid="uid://ce2ljrbebee72" path="res://content/shape_sprite/RectSprite.cs" id="3_script"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_er66v"]
 radius = 4.0
@@ -94,11 +96,12 @@ _data = {
 &"open": SubResource("Animation_yqonr")
 }
 
-[node name="TulipJackpot" type="Jackpot" unique_id=941353612 node_paths=PackedStringArray("sink", "animation_player")]
-sink = NodePath("BallSink")
-animation_player = NodePath("AnimationPlayer")
-open_animation = &"open"
-close_animation = &"close"
+[node name="TulipJackpot" type="Node2D" unique_id=941353612 node_paths=PackedStringArray("Sink", "AnimationPlayer")]
+script = ExtResource("2_script")
+Sink = NodePath("BallSink")
+AnimationPlayer = NodePath("AnimationPlayer")
+OpenAnimation = "open"
+CloseAnimation = "close"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=790644738]
 
@@ -115,19 +118,22 @@ position = Vector2(0, 18)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_er66v")
 
-[node name="RectSprite" type="RectSprite" parent="StaticBody2D" unique_id=984535175]
-size = Vector2(8, 44)
-offset = Vector2(18, 0)
+[node name="RectSprite" type="Node2D" parent="StaticBody2D" unique_id=984535175]
+script = ExtResource("3_script")
+Size = Vector2(8, 44)
+Offset = Vector2(18, 0)
 
-[node name="RectSprite2" type="RectSprite" parent="StaticBody2D" unique_id=231420249]
-size = Vector2(8, 44)
-offset = Vector2(18, 0)
+[node name="RectSprite2" type="Node2D" parent="StaticBody2D" unique_id=231420249]
 rotation = 1.5707964
+script = ExtResource("3_script")
+Size = Vector2(8, 44)
+Offset = Vector2(18, 0)
 
-[node name="RectSprite3" type="RectSprite" parent="StaticBody2D" unique_id=410344367]
-size = Vector2(8, 44)
-offset = Vector2(18, 0)
+[node name="RectSprite3" type="Node2D" parent="StaticBody2D" unique_id=410344367]
 rotation = 3.1415927
+script = ExtResource("3_script")
+Size = Vector2(8, 44)
+Offset = Vector2(18, 0)
 
 [node name="BallSink" parent="." unique_id=1641092326 instance=ExtResource("1_yqonr")]
 
@@ -138,9 +144,10 @@ position = Vector2(-18, -18)
 position = Vector2(0, -18)
 shape = SubResource("CapsuleShape2D_er66v")
 
-[node name="RectSprite" type="RectSprite" parent="LeftArm" unique_id=986129844]
-size = Vector2(8, 44)
+[node name="RectSprite" type="Node2D" parent="LeftArm" unique_id=986129844]
 position = Vector2(0, -18)
+script = ExtResource("3_script")
+Size = Vector2(8, 44)
 
 [node name="RightArm" type="CharacterBody2D" parent="." unique_id=155249315]
 position = Vector2(18, -18)
@@ -149,9 +156,10 @@ position = Vector2(18, -18)
 position = Vector2(0, -18)
 shape = SubResource("CapsuleShape2D_er66v")
 
-[node name="RectSprite" type="RectSprite" parent="RightArm" unique_id=728761606]
-size = Vector2(8, 44)
+[node name="RectSprite" type="Node2D" parent="RightArm" unique_id=728761606]
 position = Vector2(0, -18)
+script = ExtResource("3_script")
+Size = Vector2(8, 44)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2068079201]
 libraries/ = SubResource("AnimationLibrary_4qg5c")

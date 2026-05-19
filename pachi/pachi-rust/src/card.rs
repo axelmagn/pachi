@@ -21,6 +21,8 @@ pub struct Card {
 #[godot_api]
 impl IControl for Card {
     fn ready(&mut self) {
+        assert!(self.title.is_some());
+        assert!(self.description.is_some());
         self.signals().gui_input().connect_self(Self::on_gui_input);
     }
 }
@@ -37,6 +39,17 @@ impl Card {
                 .card_clicked()
                 .emit(&self.to_gd());
         }
+    }
+
+    fn copy_visuals(&mut self, other_card: GdRef<Card>) {
+        let title_text = other_card.title.as_ref().unwrap().get_text();
+        self.title.as_mut().unwrap().set_text(&title_text);
+
+        let description_text = other_card.description.as_ref().unwrap().get_text();
+        self.description
+            .as_mut()
+            .unwrap()
+            .set_text(&description_text);
     }
 }
 
@@ -66,5 +79,10 @@ impl INode for CardManager {
 impl CardManager {
     fn on_card_clicked(&mut self, card: Gd<Card>) {
         godot_print!("card click detected by manager: {}", card.to_string());
+        self.dragged_card_proxy
+            .as_mut()
+            .unwrap()
+            .bind_mut()
+            .copy_visuals(card.bind());
     }
 }

@@ -1,6 +1,8 @@
-[gd_scene format=3 uid="uid://c3xc0jqgos1nt"]
+[gd_scene load_steps=3 format=3 uid="uid://c3xc0jqgos1nt"]
 
 [ext_resource type="PackedScene" uid="uid://1aq0ogiykewg" path="res://content/peg/peg_boundary_collider.tscn" id="1_3d8fe"]
+[ext_resource type="Script" uid="uid://cvebwu63vur4y" path="res://content/spawn_pattern/EllipseColliderSpawnPattern.cs" id="2_script"]
 
-[node name="PegEllipse" type="EllipseColliderSpawnPattern" unique_id=1651399954]
-spawn_scn = ExtResource("1_3d8fe")
+[node name="PegEllipse" type="Node2D" unique_id=1651399954]
+script = ExtResource("2_script")
+SpawnScn = ExtResource("1_3d8fe")

@@ -1,13 +1,16 @@
 [gd_scene format=3 uid="uid://dwcfvgvrdr0vn"]
 
+[ext_resource type="Script" uid="uid://qc2w77i1bdnt" path="res://content/boundary/DynamicBoundary.cs" id="1_script"]
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kc2al"]
 
-[node name="Boundary" type="DynamicBoundary" unique_id=1032075130 node_paths=PackedStringArray("top_boundary", "bottom_boundary", "left_boundary", "right_boundary")]
-boundary_size = Vector2(810, 1080)
-top_boundary = NodePath("Top")
-bottom_boundary = NodePath("Bottom")
-left_boundary = NodePath("Left")
-right_boundary = NodePath("Right")
+[node name="Boundary" type="StaticBody2D" unique_id=1032075130 node_paths=PackedStringArray("TopBoundary", "BottomBoundary", "LeftBoundary", "RightBoundary")]
+script = ExtResource("1_script")
+BoundarySize = Vector2(810, 1080)
+TopBoundary = NodePath("Top")
+BottomBoundary = NodePath("Bottom")
+LeftBoundary = NodePath("Left")
+RightBoundary = NodePath("Right")
 
 [node name="Bottom" type="CollisionShape2D" parent="." unique_id=134402253]
 position = Vector2(0, 540)

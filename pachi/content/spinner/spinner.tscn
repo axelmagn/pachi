@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://na4s5w037kn"]
+[gd_scene load_steps=3 format=3 uid="uid://na4s5w037kn"]
+
+[ext_resource type="Script" uid="uid://ce2ljrbebee72" path="res://content/shape_sprite/RectSprite.cs" id="1_script"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3j8kf"]
 radius = 4.0
@@ -17,11 +19,13 @@ shape = SubResource("CapsuleShape2D_3j8kf")
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_3j8kf")
 
-[node name="RectSprite" type="RectSprite" parent="RigidBody2D" unique_id=394908297]
-size = Vector2(60, 8)
+[node name="RectSprite" type="Node2D" parent="RigidBody2D" unique_id=394908297]
+script = ExtResource("1_script")
+Size = Vector2(60, 8)
 
-[node name="RectSprite2" type="RectSprite" parent="RigidBody2D" unique_id=407626601]
-size = Vector2(8, 60)
+[node name="RectSprite2" type="Node2D" parent="RigidBody2D" unique_id=407626601]
+script = ExtResource("1_script")
+Size = Vector2(8, 60)
 
 [node name="PinJoint2D" type="PinJoint2D" parent="." unique_id=1078424064]
 node_a = NodePath("../StaticBody2D")

@@ -2,41 +2,49 @@
 
 [ext_resource type="PackedScene" uid="uid://dwcfvgvrdr0vn" path="res://content/boundary/boundary.tscn" id="1_t5jkx"]
 [ext_resource type="PackedScene" uid="uid://b3g3jsrihij6m" path="res://content/ball/ball.tscn" id="2_leiax"]
+[ext_resource type="Script" uid="uid://b655mdwtrk7k8" path="res://content/hopper/Hopper.cs" id="3_script"]
+[ext_resource type="Script" uid="uid://cjt6vby02ebal" path="res://content/ball_source/BallSource.cs" id="4_script"]
 
-[node name="Hopper" type="Hopper" unique_id=386382376 node_paths=PackedStringArray("launch_sources", "launch_timer")]
-launch_sources = [NodePath("BallSource5"), NodePath("BallSource4"), NodePath("BallSource"), NodePath("BallSource2"), NodePath("BallSource3")]
-launch_timer = NodePath("Timer")
-default_ball_scn = ExtResource("2_leiax")
+[node name="Hopper" type="Node2D" unique_id=386382376 node_paths=PackedStringArray("LaunchSources", "LaunchTimer")]
+script = ExtResource("3_script")
+LaunchSources = [NodePath("BallSource"), NodePath("BallSource2"), NodePath("BallSource3"), NodePath("BallSource4"), NodePath("BallSource5")]
+LaunchTimer = NodePath("Timer")
+DefaultBallScn = ExtResource("2_leiax")
 
 [node name="Boundary" parent="." unique_id=1032075130 instance=ExtResource("1_t5jkx")]
-boundary_size = Vector2(512, 512)
+BoundarySize = Vector2(512, 512)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=873610132]
 
-[node name="BallSource" type="BallSource" parent="." unique_id=1436320769]
-launch_velocity = Vector2(0, 256)
-launch_jitter = Vector2(32, 10)
+[node name="BallSource" type="Marker2D" parent="." unique_id=1436320769]
 position = Vector2(0, -213)
+script = ExtResource("4_script")
+LaunchVelocity = Vector2(0, 256)
+LaunchJitter = Vector2(32, 10)
 
-[node name="BallSource2" type="BallSource" parent="." unique_id=117453821]
-launch_velocity = Vector2(0, 256)
-launch_jitter = Vector2(32, 10)
+[node name="BallSource2" type="Marker2D" parent="." unique_id=117453821]
 position = Vector2(64, -213)
+script = ExtResource("4_script")
+LaunchVelocity = Vector2(0, 256)
+LaunchJitter = Vector2(32, 10)
 
-[node name="BallSource3" type="BallSource" parent="." unique_id=2134980468]
-launch_velocity = Vector2(0, 256)
-launch_jitter = Vector2(32, 10)
+[node name="BallSource3" type="Marker2D" parent="." unique_id=2134980468]
 position = Vector2(128, -213)
+script = ExtResource("4_script")
+LaunchVelocity = Vector2(0, 256)
+LaunchJitter = Vector2(32, 10)
 
-[node name="BallSource4" type="BallSource" parent="." unique_id=1861794222]
-launch_velocity = Vector2(0, 256)
-launch_jitter = Vector2(32, 10)
+[node name="BallSource4" type="Marker2D" parent="." unique_id=1861794222]
 position = Vector2(-64, -213)
+script = ExtResource("4_script")
+LaunchVelocity = Vector2(0, 256)
+LaunchJitter = Vector2(32, 10)
 
-[node name="BallSource5" type="BallSource" parent="." unique_id=999893714]
-launch_velocity = Vector2(0, 256)
-launch_jitter = Vector2(32, 10)
+[node name="BallSource5" type="Marker2D" parent="." unique_id=999893714]
 position = Vector2(-128, -213)
+script = ExtResource("4_script")
+LaunchVelocity = Vector2(0, 256)
+LaunchJitter = Vector2(32, 10)
 
 [node name="Timer" type="Timer" parent="." unique_id=2097492765]
 wait_time = 0.05

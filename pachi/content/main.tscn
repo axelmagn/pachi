@@ -1,13 +1,21 @@
-[gd_scene format=3 uid="uid://bo51rwwe34hhl"]
+[gd_scene load_steps=12 format=3 uid="uid://bo51rwwe34hhl"]
 
 [ext_resource type="PackedScene" uid="uid://co4ihp58ot07l" path="res://content/hopper/hopper.tscn" id="1_3sd65"]
 [ext_resource type="PackedScene" uid="uid://cec57ai240xfs" path="res://content/board/board.tscn" id="2_k03jb"]
 [ext_resource type="LabelSettings" uid="uid://deny8dlugrd8x" path="res://content/ui/resources_ui_label_settings.tres" id="3_gamge"]
 [ext_resource type="PackedScene" uid="uid://bdlxl714orbxg" path="res://content/card/card.tscn" id="4_tij7h"]
+[ext_resource type="Script" uid="uid://baloe0r56jugw" path="res://content/MainScene.cs" id="5_8j6m3"]
+[ext_resource type="Script" uid="uid://c5r5hgawkvl0g" path="res://content/ui/ResourcesUI.cs" id="6_p3k7d"]
+[ext_resource type="Script" uid="uid://cmxeuo3f3gq4p" path="res://content/ui/BuyBallsButton.cs" id="7_v7n8m"]
+[ext_resource type="Script" uid="uid://cdfqonxdj8lq6" path="res://content/ui/SellBallsButton.cs" id="8_l2q6x"]
+[ext_resource type="Script" uid="uid://ck4ehhpgbxm42" path="res://content/game/LauncherHandleView.cs" id="9_m4p7k"]
+[ext_resource type="Script" uid="uid://druk4u8h1yw3s" path="res://content/shape_sprite/CircleSprite.cs" id="10_w6u7n"]
+[ext_resource type="Script" uid="uid://ce2ljrbebee72" path="res://content/shape_sprite/RectSprite.cs" id="11_k8q2j"]
 
-[node name="Main" type="MainScene" unique_id=981996652 node_paths=PackedStringArray("hopper", "ball_source")]
-hopper = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Hopper")
-ball_source = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board/BallSource")
+[node name="Main" type="Node" unique_id=981996652 node_paths=PackedStringArray("Hopper", "BallSource")]
+script = ExtResource("5_8j6m3")
+Hopper = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Hopper")
+BallSource = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/SubViewportContainer/SubViewport/Board/BallSource")
 
 [node name="UI" type="Node" parent="." unique_id=860821714]
 
@@ -64,20 +72,24 @@ render_target_update_mode = 4
 position = Vector2(32, 64)
 rotation = 0.5235988
 
-[node name="RectSprite" type="RectSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/HandleGhost" unique_id=131973545]
-size = Vector2(256, 32)
-offset = Vector2(128, 0)
-color = Color(0.2, 0.2, 0.2, 1)
+[node name="RectSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/HandleGhost" unique_id=131973545]
+script = ExtResource("11_k8q2j")
+Size = Vector2(256, 32)
+Offset = Vector2(128, 0)
+Color = Color(0.2, 0.2, 0.2, 1)
 
-[node name="LauncherHandleView" type="LauncherHandleView" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport" unique_id=1262249463]
+[node name="LauncherHandleView" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport" unique_id=1262249463]
 position = Vector2(32, 64)
+script = ExtResource("9_m4p7k")
 
-[node name="RectSprite" type="RectSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=1201080270]
-size = Vector2(256, 32)
-offset = Vector2(128, 0)
+[node name="RectSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=1201080270]
+script = ExtResource("11_k8q2j")
+Size = Vector2(256, 32)
+Offset = Vector2(128, 0)
 
-[node name="CircleSprite" type="CircleSprite" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=498198671]
-radius = 16.0
+[node name="CircleSprite" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2/SubViewport/LauncherHandleView" unique_id=498198671]
+script = ExtResource("10_w6u7n")
+Radius = 16.0
 
 [node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer2" unique_id=1100581526]
 layout_mode = 2
@@ -103,8 +115,9 @@ text = "Board"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ResourcesUI" type="ResourcesUI" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=1430554218 node_paths=PackedStringArray("cash_label")]
-cash_label = NodePath("GridContainer/CashValue")
+[node name="ResourcesUI" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=1430554218 node_paths=PackedStringArray("CashLabel")]
+script = ExtResource("6_p3k7d")
+CashLabel = NodePath("GridContainer/CashValue")
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -138,16 +151,18 @@ text = "Debug Actions"
 layout_mode = 2
 columns = 3
 
-[node name="BuyBallsButton" type="BuyBallsButton" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1426925368]
-price = 53
-balls = 10
+[node name="BuyBallsButton" type="Button" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1426925368]
+script = ExtResource("7_v7n8m")
+Price = 53
+Balls = 10
 layout_mode = 2
 text = "Buy # balls
 ($#)"
 
-[node name="SellBallsButton" type="SellBallsButton" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1310002637]
-price = 10
-balls = 10
+[node name="SellBallsButton" type="Button" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer/GridContainer" unique_id=1310002637]
+script = ExtResource("8_l2q6x")
+Price = 10
+Balls = 10
 layout_mode = 2
 text = "Sell # balls
 ($#)"

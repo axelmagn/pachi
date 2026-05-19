@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bj0hwpyb48fpe" path="res://vendor/kenney_ui-pack/PNG/Grey/Default/button_rectangle_flat.png" id="1_mnf3g"]
 [ext_resource type="Texture2D" uid="uid://dt4qpah0k5mqg" path="res://vendor/kenney_development-essentials/UV texture/uv-texture.png" id="2_2b1eo"]
 [ext_resource type="Texture2D" uid="uid://c3b07bjpxv563" path="res://vendor/kenney_ui-pack/PNG/Green/Default/button_square_border.png" id="3_pd38u"]
+[ext_resource type="Script" uid="uid://b2xd7ed17spqv" path="res://content/card/Card.cs" id="4_script"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gd536"]
 font_color = Color(0.18072194, 0.18072197, 0.18072197, 1)
@@ -19,10 +20,9 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="Card" type="Card" unique_id=1242073715 node_paths=PackedStringArray("title", "description")]
-title = NodePath("PanelContainer/MarginContainer/VBoxContainer/TitleLabel")
-description = NodePath("PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Description")
+[node name="Card" type="Control" unique_id=1242073715]
 custom_minimum_size = Vector2(200, 160)
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -34,6 +34,9 @@ offset_right = 100.0
 offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("4_script")
+Title = NodePath("PanelContainer/MarginContainer/VBoxContainer/TitleLabel")
+Description = NodePath("PanelContainer/MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Description")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=537939564]
 custom_minimum_size = Vector2(200, 160)

@@ -1,17 +1,22 @@
 [gd_scene format=3 uid="uid://ckgom2li2uas8"]
 
+[ext_resource type="Script" uid="uid://u8h5d6es4ol" path="res://content/ball_sink/BallSink.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://druk4u8h1yw3s" path="res://content/shape_sprite/CircleSprite.cs" id="2_script"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_isli6"]
 radius = 14.0
 
-[node name="BallSink" type="BallSink" unique_id=1641092326 node_paths=PackedStringArray("area")]
-area = NodePath("Area2D")
+[node name="BallSink" type="Marker2D" unique_id=1641092326 node_paths=PackedStringArray("Area")]
+script = ExtResource("1_script")
+Area = NodePath("Area2D")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=180520479]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1563864568]
 shape = SubResource("CircleShape2D_isli6")
 
-[node name="CircleSprite" type="CircleSprite" parent="Area2D" unique_id=480161307]
-radius = 14.0
-color = Color(0.18359044, 0.18359044, 0.18359044, 1)
+[node name="CircleSprite" type="Node2D" parent="Area2D" unique_id=480161307]
 show_behind_parent = true
+script = ExtResource("2_script")
+Radius = 14.0
+Color = Color(0.18359044, 0.18359044, 0.18359044, 1)
