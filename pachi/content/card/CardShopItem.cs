@@ -4,6 +4,8 @@ using System.Diagnostics;
 
 public partial class CardShopItem : PanelContainer
 {
+    public enum VisualState { Enabled, Disabled, Empty };
+
     [Export]
     public Card Card { get; set; }
 
@@ -16,7 +18,11 @@ public partial class CardShopItem : PanelContainer
     [Export]
     public Color DisabledModulate { get; set; } = Color.Color8(64, 64, 64, 255);
 
+    [Export]
+    public Color EmptyModulate { get; set; } = Color.Color8(255, 255, 255, 0);
+
     private MouseBehaviorRecursiveEnum _originalMouseBehavior;
+    private VisualState _visualState;
 
     public override void _Ready()
     {
@@ -24,10 +30,13 @@ public partial class CardShopItem : PanelContainer
         Debug.Assert(PriceLabel is not null);
         UpdateVisuals();
 
-        _originalMouseBehavior = MouseBehaviorRecursive;
 
+        Game.Instance.CashChanged += OnCashChanged;
         Game.Instance.CardManager.CardDragStarted += OnDragStarted;
+        Game.Instance.CardManager.CardDragSucceeded += OnDragSucceeded;
         Game.Instance.CardManager.CardDragCancelled += OnDragCancelled;
+
+        UpdateVisualStateNonEmpty();
     }
 
     private void UpdateVisuals()
@@ -35,39 +44,65 @@ public partial class CardShopItem : PanelContainer
         PriceLabel.Text = $"${Card.Price}";
     }
 
-    public void Enable()
+    public void SetVisualState(VisualState visualState)
     {
-        Modulate = EnabledModulate;
-        MouseBehaviorRecursive = _originalMouseBehavior;
+        _visualState = visualState;
+
+        switch (visualState)
+        {
+            case VisualState.Enabled:
+                Modulate = EnabledModulate;
+                MouseBehaviorRecursive = _originalMouseBehavior;
+                break;
+            case VisualState.Disabled:
+                Modulate = DisabledModulate;
+                _originalMouseBehavior = MouseBehaviorRecursive;
+                MouseBehaviorRecursive = MouseBehaviorRecursiveEnum.Disabled;
+                break;
+            case VisualState.Empty:
+                Modulate = EmptyModulate;
+                _originalMouseBehavior = MouseBehaviorRecursive;
+                MouseBehaviorRecursive = MouseBehaviorRecursiveEnum.Disabled;
+                break;
+        }
+
     }
 
-    public void Disable()
+    private void UpdateVisualStateNonEmpty()
     {
-        Modulate = DisabledModulate;
-        MouseBehaviorRecursive = MouseBehaviorRecursiveEnum.Disabled;
+        VisualState visualState = Card.CanAfford() ? VisualState.Enabled : VisualState.Disabled;
+        SetVisualState(visualState);
     }
 
     private void OnDragStarted(Card card)
     {
         if (card == Card)
         {
-            Disable();
-
+            SetVisualState(VisualState.Empty);
         }
     }
 
-    private void OnDragSucceeded(Card card) {
-        if (card == Card) {
+    private void OnDragSucceeded(Card card)
+    {
+        if (card == Card)
+        {
             Game.Instance.Cash -= Card.Price;
         }
-
     }
 
     private void OnDragCancelled(Card card)
     {
         if (card == Card)
         {
-            Enable();
+            UpdateVisualStateNonEmpty();
+        }
+    }
+
+    private void OnCashChanged(uint newCash)
+    {
+        if (_visualState != VisualState.Empty)
+        {
+            UpdateVisualStateNonEmpty();
         }
     }
 

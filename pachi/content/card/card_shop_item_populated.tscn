@@ -37,5 +37,5 @@ Price = 3
 
 [node name="PriceLabel" type="Label" parent="VBoxContainer" unique_id=1025056858]
 layout_mode = 2
-text = "$53"
+text = "$$$"
 horizontal_alignment = 1

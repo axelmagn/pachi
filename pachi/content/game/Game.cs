@@ -5,18 +5,32 @@ public partial class Game : Node
 {
     public static Game Instance { get; private set; }
 
+    [Signal]
+    public delegate void CashChangedEventHandler(uint newCash);
+
+
     [Export]
     public LauncherSystem LauncherSystem { get; set; }
 
     [Export]
     public CardManager CardManager { get; set; }
 
+    private uint _cash = 0;
+
+    [Export]
+    public uint Cash
+    {
+        get => _cash;
+        set
+        {
+            _cash = value;
+            EmitSignalCashChanged(_cash);
+        }
+    }
+
     public GameEvents Events { get; private set; }
 
     private MainScene _mainScene;
-
-    [Export]
-    public uint Cash { get; set; } = 0;
 
     public override void _Ready()
     {

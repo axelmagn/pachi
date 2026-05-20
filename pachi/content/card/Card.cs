@@ -13,6 +13,10 @@ public partial class Card : Control
         GuiInput += OnGuiInput;
     }
 
+    public bool CanAfford() {
+        return Game.Instance.Cash >= Price;
+    }
+
     private void OnGuiInput(InputEvent @event)
     {
         if (@event.IsActionPressed("mouse_select"))
@@ -20,4 +24,5 @@ public partial class Card : Control
             Game.Instance.Events.EmitSignal(GameEvents.SignalName.CardClicked, this);
         }
     }
+
 }

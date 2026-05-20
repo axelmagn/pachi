@@ -35,10 +35,9 @@ public partial class CardEffectControlReceiver : Control
     {
         Debug.Assert(EffectSubject is not null);
 
-        bool dragReceived = GetGlobalRect().HasPoint(GetGlobalMousePosition());
-        if (!Visible || !dragReceived) return;
+        if (Visible) Hide();
 
-        card.CardEffect.ApplyCardEffect(EffectSubject);
-        Hide();
+        bool dragReceived = GetGlobalRect().HasPoint(GetGlobalMousePosition());
+        if (dragReceived) card.CardEffect.ApplyCardEffect(EffectSubject);
     }
 }
