@@ -5,10 +5,11 @@
 [ext_resource type="Script" uid="uid://ckaxi8arpx0fs" path="res://content/card/CardManager.cs" id="3_script"]
 [ext_resource type="PackedScene" uid="uid://bdlxl714orbxg" path="res://content/card/card.tscn" id="4_gk6uf"]
 
-[node name="Game" type="Node" unique_id=1667390754 node_paths=PackedStringArray("LauncherSystem", "CardManager")]
+[node name="Game" type="Node" unique_id=1667390754 node_paths=PackedStringArray("LauncherSystem", "CardManager", "CountdownTimer")]
 script = ExtResource("1_script")
 LauncherSystem = NodePath("Systems/LauncherSystem")
 CardManager = NodePath("Systems/CardManager")
+CountdownTimer = NodePath("CountdownTimer")
 Cash = 10
 
 [node name="Systems" type="Node" parent="." unique_id=672939595]
@@ -35,3 +36,7 @@ layer = 3
 
 [node name="Card" parent="Systems/CardManager/CardDragLayer" unique_id=1242073715 instance=ExtResource("4_gk6uf")]
 visible = false
+
+[node name="CountdownTimer" type="Timer" parent="." unique_id=969532741]
+wait_time = 10.0
+one_shot = true

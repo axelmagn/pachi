@@ -21,23 +21,22 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [node name="Card" type="Control" unique_id=1242073715]
-custom_minimum_size = Vector2(200, 160)
+custom_minimum_size = Vector2(180, 160)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
+offset_left = -50.0
 offset_top = -80.0
-offset_right = 100.0
+offset_right = 50.0
 offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_script")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=537939564]
-custom_minimum_size = Vector2(200, 160)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

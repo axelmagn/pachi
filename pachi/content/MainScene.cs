@@ -8,9 +8,15 @@ public partial class MainScene : Node
     [Export]
     public BallSource BallSource { get; set; }
 
+    [Export]
+    public Game.GamePhase InitGamePhase { get; set; } = Game.GamePhase.PrePlay;
+
+
+
     public override void _EnterTree()
     {
         Game.Instance.RegisterMainScene(this);
+        Game.Instance.PhaseTransition(InitGamePhase);
     }
 
     public override void _ExitTree()

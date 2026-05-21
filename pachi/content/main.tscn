@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://baloe0r56jugw" path="res://content/MainScene.cs" id="5_8j6m3"]
 [ext_resource type="Script" uid="uid://c5r5hgawkvl0g" path="res://content/ui/ResourcesUI.cs" id="6_p3k7d"]
 [ext_resource type="Script" uid="uid://cmxeuo3f3gq4p" path="res://content/ui/BuyBallsButton.cs" id="7_v7n8m"]
+[ext_resource type="Script" uid="uid://6x8plqerukpc" path="res://content/ui/CountdownLabel.cs" id="8_2ukyy"]
+[ext_resource type="Script" uid="uid://di6pnl4kahpsj" path="res://content/ui/GamePhaseLabel.cs" id="8_i1bwg"]
 [ext_resource type="Script" uid="uid://cdfqonxdj8lq6" path="res://content/ui/SellBallsButton.cs" id="8_l2q6x"]
 [ext_resource type="Script" uid="uid://ck4ehhpgbxm42" path="res://content/game/LauncherHandleView.cs" id="9_m4p7k"]
 [ext_resource type="Script" uid="uid://druk4u8h1yw3s" path="res://content/shape_sprite/CircleSprite.cs" id="10_w6u7n"]
@@ -15,10 +17,13 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ja01k"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_ja01k"]
+font_size = 32
+
 [node name="Main" type="Node" unique_id=981996652 node_paths=PackedStringArray("Hopper", "BallSource")]
 script = ExtResource("5_8j6m3")
 Hopper = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer/SubViewport/Hopper")
-BallSource = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport/SubViewport/Board/BallSource")
+BallSource = NodePath("UI/PlayScreen/VBoxContainer/HBoxContainer/Control/CenterViewport/SubViewport/Board/BallSource")
 
 [node name="UI" type="Node" parent="." unique_id=860821714]
 
@@ -106,21 +111,57 @@ Radius = 16.0
 layout_mode = 2
 text = "Launcher"
 
-[node name="CenterViewport" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=815864565]
+[node name="Control" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=445150327]
+custom_minimum_size = Vector2(810, 1080)
 layout_mode = 2
 
-[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport" unique_id=642632140]
+[node name="CenterViewport" type="SubViewportContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/Control" unique_id=815864565]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/Control/CenterViewport" unique_id=642632140]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(750, 1080)
+size = Vector2i(810, 1080)
 render_target_update_mode = 4
 
-[node name="Board" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport/SubViewport" unique_id=1171768301 instance=ExtResource("2_k03jb")]
+[node name="Board" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/Control/CenterViewport/SubViewport" unique_id=1171768301 instance=ExtResource("2_k03jb")]
 
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport" unique_id=1560095123]
-layout_mode = 2
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/Control" unique_id=1560095123]
+layout_mode = 0
+offset_right = 67.0
+offset_bottom = 18.0
 text = "Board"
+
+[node name="GamePhaseLabel" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/Control" unique_id=410348330]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -67.0
+offset_bottom = 18.0
+grow_horizontal = 0
+text = "PHASE"
+script = ExtResource("8_i1bwg")
+
+[node name="CountdownLabel" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/Control" unique_id=277442260]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -29.5
+offset_top = 16.0
+offset_right = 29.5
+offset_bottom = 34.0
+grow_horizontal = 2
+text = "00:00"
+label_settings = SubResource("LabelSettings_ja01k")
+script = ExtResource("8_2ukyy")
 
 [node name="RightPanel" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1776721189]
 layout_mode = 2
@@ -178,35 +219,40 @@ script = ExtResource("8_l2q6x")
 Price = 10
 Balls = 10
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=590968647]
+[node name="CardShop" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=168644569]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
 
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2" unique_id=344458694]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop" unique_id=453909921]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer" unique_id=344458694]
 layout_mode = 2
-text = "Cards"
+text = "Card Shop"
 
-[node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2" unique_id=636823363]
+[node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer" unique_id=636823363]
 layout_mode = 2
 columns = 3
 
-[node name="CardShopItem" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=729166505 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=729166505 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem2" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=1718430073 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem2" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=1718430073 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem3" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=894387090 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem3" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=894387090 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem4" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=2080937787 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem4" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=2080937787 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem5" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=692144984 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem5" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=692144984 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem6" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/VBoxContainer2/GridContainer" unique_id=1901433339 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem6" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=1901433339 instance=ExtResource("11_ja01k")]
 layout_mode = 2
-
-[editable path="UI/PlayScreen/VBoxContainer/HBoxContainer/CenterViewport/SubViewport/Board"]

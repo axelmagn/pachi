@@ -1,13 +1,29 @@
+using System;
 using System.Diagnostics;
 using Godot;
 
 public partial class Game : Node
 {
+    public enum GamePhase
+    {
+        None,
+        /// waiting for input before play starts
+        PrePlay,
+        /// play has started.  timer is counting down
+        Play,
+        /// play has finished.  do scoring animations
+        PostPlay,
+        /// waiting for input before play starts
+        Shop,
+    };
+
     public static Game Instance { get; private set; }
 
     [Signal]
     public delegate void CashChangedEventHandler(uint newCash);
 
+    [Signal]
+    public delegate void PhaseChangedEventHandler(GamePhase newPhase);
 
     [Export]
     public LauncherSystem LauncherSystem { get; set; }
@@ -15,7 +31,21 @@ public partial class Game : Node
     [Export]
     public CardManager CardManager { get; set; }
 
-    private uint _cash = 0;
+    [Export]
+    public Timer CountdownTimer { get; set; }
+
+    [Export]
+    public GamePhase Phase
+    {
+        get => _phase;
+        set
+        {
+            _phase = value;
+            // TODO: emit signal
+        }
+    }
+    private GamePhase _phase = GamePhase.None;
+
 
     [Export]
     public uint Cash
@@ -27,6 +57,7 @@ public partial class Game : Node
             EmitSignalCashChanged(_cash);
         }
     }
+    private uint _cash = 0;
 
     public GameEvents Events { get; private set; }
 
@@ -36,6 +67,10 @@ public partial class Game : Node
     {
         Debug.Assert(LauncherSystem is not null);
         Debug.Assert(CardManager is not null);
+        Debug.Assert(CountdownTimer is not null);
+
+        CountdownTimer.Timeout += OnCountdownTimeout;
+        LauncherSystem.BallLaunched += OnBallLaunched;
     }
 
     public override void _EnterTree()
@@ -67,11 +102,53 @@ public partial class Game : Node
 
     public Hopper GetSceneHopper()
     {
-        return _mainScene?.Hopper;
+        Debug.Assert(_mainScene != null);
+        return _mainScene.Hopper;
     }
 
     public BallSource GetSceneBallSource()
     {
-        return _mainScene?.BallSource;
+        Debug.Assert(_mainScene != null);
+        return _mainScene.BallSource;
+    }
+
+    public void PhaseTransition(GamePhase newPhase)
+    {
+        // TODO: state transition handling
+
+        // update countdown timer
+        switch (newPhase)
+        {
+            case GamePhase.Play:
+                CountdownTimer.Start();
+                break;
+            default:
+                CountdownTimer.Stop();
+                break;
+        }
+        Phase = newPhase;
+    }
+
+    public int GetCountdownSecondsLeft()
+    {
+        Debug.Assert(CountdownTimer != null);
+        double remaining = Phase switch {
+            GamePhase.Play => CountdownTimer.TimeLeft,
+            GamePhase.PostPlay => CountdownTimer.TimeLeft,
+            _ => CountdownTimer.WaitTime,
+        };
+        return (int)Math.Ceiling(remaining);
+    }
+
+    private void OnCountdownTimeout()
+    {
+        PhaseTransition(GamePhase.PostPlay);
+    }
+
+    private void OnBallLaunched(Ball ball)
+    {
+        if (Phase == GamePhase.PrePlay) {
+            PhaseTransition(GamePhase.Play);
+        }
     }
 }

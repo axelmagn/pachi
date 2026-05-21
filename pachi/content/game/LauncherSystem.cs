@@ -1,7 +1,11 @@
+using System.Diagnostics;
 using Godot;
 
 public partial class LauncherSystem : Node
 {
+    [Signal]
+    public delegate void BallLaunchedEventHandler(Ball ball);
+
     [Export]
     public float MinLaunchStrength { get; set; } = 0.2f;
 
@@ -24,21 +28,22 @@ public partial class LauncherSystem : Node
         if (LaunchChargeTimer == null) GD.PushError("LauncherSystem: LaunchChargeTimer is not assigned!");
         if (AutoFireTimer == null) GD.PushError("LauncherSystem: AutoFireTimer is not assigned!");
 
-        LaunchChargeTimer?.Connect(Timer.SignalName.Timeout, Callable.From(HandleLaunchTimeout));
-        AutoFireTimer?.Connect(Timer.SignalName.Timeout, Callable.From(HandleAutoFireTimeout));
+        LaunchChargeTimer.Connect(Timer.SignalName.Timeout, Callable.From(HandleLaunchTimeout));
+        AutoFireTimer.Connect(Timer.SignalName.Timeout, Callable.From(HandleAutoFireTimeout));
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionJustPressed("ball_launch"))
+        Debug.Assert(LaunchChargeTimer != null);
+        if (Input.IsActionJustPressed("ball_launch") && CanLaunchStartCharge())
         {
-            LaunchChargeTimer?.Start();
+            LaunchChargeTimer.Start();
             LaunchOnRelease = true;
         }
 
         if (Input.IsActionJustReleased("ball_launch"))
         {
-            if (LaunchChargeTimer != null && !LaunchChargeTimer.Paused && LaunchOnRelease)
+            if (!LaunchChargeTimer.Paused && LaunchOnRelease && CanLaunchFinish())
             {
                 HandleLaunchInput();
             }
@@ -91,6 +96,7 @@ public partial class LauncherSystem : Node
         {
             BallSource ballSource = Game.Instance.GetSceneBallSource();
             ballSource?.LaunchExistingBall(ball, launchStrength);
+            EmitSignalBallLaunched(ball);
         }
     }
 
@@ -109,11 +115,44 @@ public partial class LauncherSystem : Node
 
     public float GetProgress()
     {
-        if (LaunchChargeTimer == null || LaunchChargeTimer.IsStopped() || LaunchChargeTimer.Paused)
+        Debug.Assert(LaunchChargeTimer != null);
+        if (LaunchChargeTimer.IsStopped() || LaunchChargeTimer.Paused)
         {
             return 0.0f;
         }
 
         return 1.0f - (float)(LaunchChargeTimer.TimeLeft / LaunchChargeTimer.WaitTime);
+    }
+
+    public bool CanLaunchStartCharge()
+    {
+        return Game.Instance.Phase switch
+        {
+            Game.GamePhase.PrePlay => true,
+            Game.GamePhase.Play => true,
+            _ => false,
+        };
+    }
+    public bool CanLaunchFinish()
+    {
+        return Game.Instance.Phase switch
+        {
+            Game.GamePhase.PrePlay => true,
+            Game.GamePhase.Play => true,
+            _ => false,
+        };
+    }
+
+    private void OnGamePhaseChanged(Game.GamePhase newPhase)
+    {
+        switch (newPhase)
+        {
+            case Game.GamePhase.PrePlay:
+            case Game.GamePhase.Play:
+                break;
+            default:
+                LaunchChargeTimer.Stop();
+                break;
+        }
     }
 }
