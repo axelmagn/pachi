@@ -25,8 +25,8 @@ public partial class LauncherSystem : Node
 
     public override void _Ready()
     {
-        if (LaunchChargeTimer == null) GD.PushError("LauncherSystem: LaunchChargeTimer is not assigned!");
-        if (AutoFireTimer == null) GD.PushError("LauncherSystem: AutoFireTimer is not assigned!");
+        Debug.Assert(LaunchChargeTimer != null);
+        Debug.Assert(AutoFireTimer != null);
 
         LaunchChargeTimer.Connect(Timer.SignalName.Timeout, Callable.From(HandleLaunchTimeout));
         AutoFireTimer.Connect(Timer.SignalName.Timeout, Callable.From(HandleAutoFireTimeout));
@@ -130,6 +130,7 @@ public partial class LauncherSystem : Node
         {
             Game.GamePhase.PrePlay => true,
             Game.GamePhase.Play => true,
+            Game.GamePhase.Shop => true,
             _ => false,
         };
     }
@@ -139,6 +140,7 @@ public partial class LauncherSystem : Node
         {
             Game.GamePhase.PrePlay => true,
             Game.GamePhase.Play => true,
+            Game.GamePhase.Shop => true,
             _ => false,
         };
     }
@@ -149,6 +151,7 @@ public partial class LauncherSystem : Node
         {
             case Game.GamePhase.PrePlay:
             case Game.GamePhase.Play:
+            case Game.GamePhase.Shop:
                 break;
             default:
                 LaunchChargeTimer.Stop();

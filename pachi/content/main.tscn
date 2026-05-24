@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://druk4u8h1yw3s" path="res://content/shape_sprite/CircleSprite.cs" id="10_w6u7n"]
 [ext_resource type="PackedScene" uid="uid://jf3kjalyfdax" path="res://content/card/card_shop_item_populated.tscn" id="11_ja01k"]
 [ext_resource type="Script" uid="uid://ce2ljrbebee72" path="res://content/shape_sprite/RectSprite.cs" id="11_k8q2j"]
+[ext_resource type="Script" uid="uid://cm8y0bemq1gc3" path="res://content/card/CardShop.cs" id="14_tu1bw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ja01k"]
 
@@ -64,6 +65,7 @@ layout_mode = 2
 [node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer" unique_id=405999774]
 transparent_bg = true
 handle_input_locally = false
+size = Vector2i(512, 800)
 render_target_update_mode = 4
 
 [node name="Hopper" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer/SubViewport" unique_id=812605548 instance=ExtResource("1_3sd65")]
@@ -82,6 +84,7 @@ layout_mode = 2
 [node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2" unique_id=1567340875]
 transparent_bg = true
 handle_input_locally = false
+size = Vector2i(300, 256)
 render_target_update_mode = 4
 
 [node name="HandleGhost" type="Node2D" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/SubViewportContainer2/SubViewport" unique_id=170078891]
@@ -219,11 +222,21 @@ script = ExtResource("8_l2q6x")
 Price = 10
 Balls = 10
 
-[node name="CardShop" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=168644569]
+[node name="Control" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel" unique_id=686425645]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop" unique_id=453909921]
+[node name="CardShop" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control" unique_id=168644569]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("14_tu1bw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop" unique_id=453909921]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -231,28 +244,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer" unique_id=344458694]
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop/VBoxContainer" unique_id=344458694]
 layout_mode = 2
 text = "Card Shop"
 
-[node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer" unique_id=636823363]
+[node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop/VBoxContainer" unique_id=636823363]
 layout_mode = 2
 columns = 3
 
-[node name="CardShopItem" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=729166505 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop/VBoxContainer/GridContainer" unique_id=729166505 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem2" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=1718430073 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem2" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop/VBoxContainer/GridContainer" unique_id=1718430073 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem3" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=894387090 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem3" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop/VBoxContainer/GridContainer" unique_id=894387090 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem4" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=2080937787 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem4" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop/VBoxContainer/GridContainer" unique_id=2080937787 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem5" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=692144984 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem5" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop/VBoxContainer/GridContainer" unique_id=692144984 instance=ExtResource("11_ja01k")]
 layout_mode = 2
 
-[node name="CardShopItem6" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/CardShop/VBoxContainer/GridContainer" unique_id=1901433339 instance=ExtResource("11_ja01k")]
+[node name="CardShopItem6" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/RightPanel/Control/CardShop/VBoxContainer/GridContainer" unique_id=1901433339 instance=ExtResource("11_ja01k")]
 layout_mode = 2

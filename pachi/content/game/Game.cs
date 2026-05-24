@@ -35,13 +35,19 @@ public partial class Game : Node
     public Timer CountdownTimer { get; set; }
 
     [Export]
+    public Timer PostPlayTimer { get; set; }
+
+    [Export]
     public GamePhase Phase
     {
         get => _phase;
         set
         {
-            _phase = value;
-            // TODO: emit signal
+            if (_phase != value)
+            {
+                _phase = value;
+                EmitSignalPhaseChanged(_phase);
+            }
         }
     }
     private GamePhase _phase = GamePhase.None;
@@ -68,9 +74,11 @@ public partial class Game : Node
         Debug.Assert(LauncherSystem is not null);
         Debug.Assert(CardManager is not null);
         Debug.Assert(CountdownTimer is not null);
+        Debug.Assert(PostPlayTimer is not null);
 
         CountdownTimer.Timeout += OnCountdownTimeout;
         LauncherSystem.BallLaunched += OnBallLaunched;
+        PostPlayTimer.Timeout += OnPostPlayTimeout;
     }
 
     public override void _EnterTree()
@@ -114,25 +122,37 @@ public partial class Game : Node
 
     public void PhaseTransition(GamePhase newPhase)
     {
-        // TODO: state transition handling
-
-        // update countdown timer
-        switch (newPhase)
+        // GD.Print($"Phase Change: {Phase} -> {newPhase}");
+        // manage countdown timer
+        if (newPhase == GamePhase.Play)
         {
-            case GamePhase.Play:
-                CountdownTimer.Start();
-                break;
-            default:
-                CountdownTimer.Stop();
-                break;
+            CountdownTimer.Start();
+            // GD.Print($"Countdown time: {CountdownTimer.TimeLeft}");
         }
+        else
+        {
+            CountdownTimer.Stop();
+        }
+
+        // manage postplay timer
+        if (newPhase == GamePhase.PostPlay)
+        {
+            PostPlayTimer.Start();
+        }
+        else
+        {
+            PostPlayTimer.Stop();
+        }
+
+        // TODO: transition animations
         Phase = newPhase;
     }
 
     public int GetCountdownSecondsLeft()
     {
         Debug.Assert(CountdownTimer != null);
-        double remaining = Phase switch {
+        double remaining = Phase switch
+        {
             GamePhase.Play => CountdownTimer.TimeLeft,
             GamePhase.PostPlay => CountdownTimer.TimeLeft,
             _ => CountdownTimer.WaitTime,
@@ -147,8 +167,21 @@ public partial class Game : Node
 
     private void OnBallLaunched(Ball ball)
     {
-        if (Phase == GamePhase.PrePlay) {
-            PhaseTransition(GamePhase.Play);
+        switch (Phase)
+        {
+            case GamePhase.PrePlay:
+            case GamePhase.Shop:
+                PhaseTransition(GamePhase.Play);
+                break;
+            default:
+                break;
+
         }
+    }
+
+    private void OnPostPlayTimeout()
+    {
+        // TODO: finish postplay when animations are done rather than timer
+        PhaseTransition(GamePhase.Shop);
     }
 }
