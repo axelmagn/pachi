@@ -16,8 +16,12 @@ public partial class Hopper : Node2D
     [Export]
     public uint InitialBalls { get; set; } = 20;
 
+    [Export]
+    public uint MaxBalls { get; set; } = 256;
+
     private int _nextLaunchSource = 0;
-    private List<Ball> _pendingBalls = new List<Ball>();
+    private Queue<Ball> _pendingBalls = new Queue<Ball>();
+    private Queue<Ball> _containedBalls = new Queue<Ball>();
 
     public override void _Ready()
     {
@@ -39,16 +43,14 @@ public partial class Hopper : Node2D
     private void TryLaunchNextBall()
     {
         if (_pendingBalls.Count == 0) return;
+        if (_containedBalls.Count >= MaxBalls) return;
 
-        Ball nextBall = _pendingBalls[_pendingBalls.Count - 1];
-        _pendingBalls.RemoveAt(_pendingBalls.Count - 1);
-
-        if (_nextLaunchSource < LaunchSources.Count)
-        {
-            BallSource source = LaunchSources[_nextLaunchSource];
-            source.LaunchExistingBall(nextBall, 1.0f);
-            _nextLaunchSource = (_nextLaunchSource + 1) % LaunchSources.Count;
-        }
+        _nextLaunchSource = (_nextLaunchSource + 1) % LaunchSources.Count;
+        // Ball nextBall = _pendingBalls[_pendingBalls.Count - 1];
+        Ball nextBall = _pendingBalls.Dequeue();
+        BallSource source = LaunchSources[_nextLaunchSource];
+        _containedBalls.Enqueue(nextBall);
+        source.LaunchExistingBall(nextBall, 1.0f);
     }
 
     public void AddDefaultBalls(int numBalls)
@@ -63,7 +65,8 @@ public partial class Hopper : Node2D
 
     public void AddBall(Ball ball)
     {
-        _pendingBalls.Add(ball);
+        // TODO: if we are at max balls, convert ball to resources
+        _pendingBalls.Enqueue(ball);
     }
 
     public uint GetBallCount()
@@ -83,5 +86,11 @@ public partial class Hopper : Node2D
         {
             ball.QueueFree();
         }
+    }
+
+    public Ball DequeueNextBall()
+    {
+        if (_containedBalls.Count == 0) return null;
+        return _containedBalls.Dequeue();
     }
 }

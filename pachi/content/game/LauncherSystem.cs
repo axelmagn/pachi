@@ -91,26 +91,12 @@ public partial class LauncherSystem : Node
         Hopper hopper = Game.Instance.GetSceneHopper();
         if (hopper == null) return;
 
-        Ball ball = RecursiveFindBall(hopper);
-        if (ball != null)
-        {
-            BallSource ballSource = Game.Instance.GetSceneBallSource();
-            ballSource?.LaunchExistingBall(ball, launchStrength);
-            EmitSignalBallLaunched(ball);
-        }
-    }
+        Ball ball = hopper.DequeueNextBall();
+        if (ball == null) return;
 
-    private Ball RecursiveFindBall(Node node)
-    {
-        if (node is Ball ball) return ball;
-
-        foreach (Node child in node.GetChildren())
-        {
-            Ball result = RecursiveFindBall(child);
-            if (result != null) return result;
-        }
-
-        return null;
+        BallSource ballSource = Game.Instance.GetSceneBallSource();
+        ballSource?.LaunchExistingBall(ball, launchStrength);
+        EmitSignalBallLaunched(ball);
     }
 
     public float GetProgress()
