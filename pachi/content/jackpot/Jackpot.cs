@@ -45,7 +45,8 @@ public partial class Jackpot : Node2D
 
     private void HandleBallSunk(Ball ball)
     {
-        Game.Instance.Cash += Payout;
+        // Game.Instance.Cash += Payout;
+        Game.Instance.Events.EmitSignal(GameEvents.SignalName.AddDefaultBalls, Payout);
 
         foreach (Jackpot linkedGate in LinkedPayoutGates)
         {

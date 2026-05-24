@@ -102,6 +102,7 @@ Sink = NodePath("BallSink")
 AnimationPlayer = NodePath("AnimationPlayer")
 OpenAnimation = "open"
 CloseAnimation = "close"
+Payout = 3
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=790644738]
 

@@ -122,12 +122,10 @@ public partial class Game : Node
 
     public void PhaseTransition(GamePhase newPhase)
     {
-        // GD.Print($"Phase Change: {Phase} -> {newPhase}");
         // manage countdown timer
         if (newPhase == GamePhase.Play)
         {
             CountdownTimer.Start();
-            // GD.Print($"Countdown time: {CountdownTimer.TimeLeft}");
         }
         else
         {
