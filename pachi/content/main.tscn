@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bo51rwwe34hhl"]
 
 [ext_resource type="PackedScene" uid="uid://co4ihp58ot07l" path="res://content/hopper/hopper.tscn" id="1_3sd65"]
+[ext_resource type="Script" uid="uid://da1vkr8rvuijd" path="res://content/shape_sprite/CircleControl.cs" id="2_ce7ft"]
 [ext_resource type="PackedScene" uid="uid://cec57ai240xfs" path="res://content/board/board.tscn" id="2_k03jb"]
 [ext_resource type="PackedScene" uid="uid://bje0fw836g1jp" path="res://content/card/card_effect_control_receiver.tscn" id="3_2ukyy"]
 [ext_resource type="LabelSettings" uid="uid://deny8dlugrd8x" path="res://content/ui/resources_ui_label_settings.tres" id="3_gamge"]
@@ -55,6 +56,59 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel" unique_id=1526231180]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=1819174648]
+layout_mode = 2
+text = "Resources"
+
+[node name="GridContainer" type="GridContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer" unique_id=727463751]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="CircleControl" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/GridContainer" unique_id=766162892]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+script = ExtResource("2_ce7ft")
+Radius = 8.0
+
+[node name="Label" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/GridContainer" unique_id=155932897]
+layout_mode = 2
+text = "000"
+
+[node name="CircleControl2" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/GridContainer" unique_id=1674540837]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+script = ExtResource("2_ce7ft")
+Radius = 8.0
+
+[node name="Label2" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/GridContainer" unique_id=1045698942]
+layout_mode = 2
+text = "000"
+
+[node name="CircleControl3" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/GridContainer" unique_id=1222886065]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+script = ExtResource("2_ce7ft")
+Radius = 8.0
+
+[node name="Label3" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/GridContainer" unique_id=2120244496]
+layout_mode = 2
+text = "000"
+
+[node name="CircleControl4" type="Control" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/GridContainer" unique_id=1982549291]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+script = ExtResource("2_ce7ft")
+Radius = 8.0
+
+[node name="Label4" type="Label" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/VBoxContainer/GridContainer" unique_id=1684572223]
+layout_mode = 2
+text = "000"
+
 [node name="PanelContainer" type="PanelContainer" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel" unique_id=11846742]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ja01k")
@@ -65,7 +119,6 @@ layout_mode = 2
 [node name="SubViewport" type="SubViewport" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer" unique_id=405999774]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(512, 800)
 render_target_update_mode = 4
 
 [node name="Hopper" parent="UI/PlayScreen/VBoxContainer/HBoxContainer/LeftPanel/PanelContainer/SubViewportContainer/SubViewport" unique_id=812605548 instance=ExtResource("1_3sd65")]

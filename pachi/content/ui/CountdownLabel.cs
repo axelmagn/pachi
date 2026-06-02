@@ -5,7 +5,7 @@ public partial class CountdownLabel : Label
 {
     public override void _Ready()
     {
-        Game.Instance.PhaseChanged += OnGamePhaseChanged;
+        Game.Instance.PhaseEntered += OnGamePhaseChanged;
     }
 
     public override void _Process(double delta)

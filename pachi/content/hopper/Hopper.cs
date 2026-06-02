@@ -33,6 +33,7 @@ public partial class Hopper : Node2D
         AddDefaultBalls((int)InitialBalls);
 
         Game.Instance.Events.AddDefaultBalls += OnAddDefaultBalls;
+        Game.Instance.PhaseExited += OnGamePhaseExited;
     }
 
     private void OnAddDefaultBalls(int numBalls)
@@ -92,5 +93,24 @@ public partial class Hopper : Node2D
     {
         if (_containedBalls.Count == 0) return null;
         return _containedBalls.Dequeue();
+    }
+
+    private void BankContainedBalls() {
+        while(_containedBalls.Count > 0) {
+            Ball ball = _containedBalls.Dequeue();
+            // TODO: add ball to resources
+            Game.Instance.Cash += 5;
+            ball.QueueFree();
+        }
+    }
+
+    private void OnGamePhaseExited(Game.GamePhase oldPhase) {
+        switch(oldPhase) {
+            case Game.GamePhase.Play:
+                BankContainedBalls();
+                break;
+            default:
+                break;
+        }
     }
 }

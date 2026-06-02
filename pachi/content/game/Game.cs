@@ -23,7 +23,10 @@ public partial class Game : Node
     public delegate void CashChangedEventHandler(uint newCash);
 
     [Signal]
-    public delegate void PhaseChangedEventHandler(GamePhase newPhase);
+    public delegate void PhaseExitedEventHandler(GamePhase oldPhase);
+
+    [Signal]
+    public delegate void PhaseEnteredEventHandler(GamePhase newPhase);
 
     [Export]
     public LauncherSystem LauncherSystem { get; set; }
@@ -45,8 +48,10 @@ public partial class Game : Node
         {
             if (_phase != value)
             {
+                GamePhase oldPhase = _phase;
                 _phase = value;
-                EmitSignalPhaseChanged(_phase);
+                EmitSignalPhaseExited(oldPhase);
+                EmitSignalPhaseEntered(_phase);
             }
         }
     }
