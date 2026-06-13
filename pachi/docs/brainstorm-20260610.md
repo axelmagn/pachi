@@ -7,7 +7,7 @@ this document attempts to capture in broad strokes.
 
 
 - balls come in different "tiers" that are color coded
-- for simplicity, balls have a base "price" that is invisible to the user but
+- for simplicity, balls have a "base price" that is invisible to the user but
   can be used to balance conversions.
 - jackpots can be upgraded to either pay out more balls of a certain type or
   upgrade from one
