@@ -41,6 +41,9 @@ public partial class Game : Node
     public Timer PostPlayTimer { get; set; }
 
     [Export]
+    public Godot.Collections.Array<BallTier> BallTiers { get; set; }
+
+    [Export]
     public GamePhase Phase
     {
         get => _phase;
@@ -84,6 +87,22 @@ public partial class Game : Node
         CountdownTimer.Timeout += OnCountdownTimeout;
         LauncherSystem.BallLaunched += OnBallLaunched;
         PostPlayTimer.Timeout += OnPostPlayTimeout;
+
+        // We expect BallTiers to be empty or null when they have not been configured manually inside
+        // the Game scene (game.tscn) via the inspector. In this case, we load default tiers from files.
+        if (BallTiers == null || BallTiers.Count == 0)
+        {
+            BallTiers = [];
+            for (int i = 1; i <= 16; i++)
+            {
+                var tier = GD.Load<BallTier>($"res://content/ball/tiers/tier_{i}.tres");
+                // We expect tier to be null only if the specific tier file is missing or renamed in the project.
+                if (tier != null)
+                {
+                    BallTiers.Add(tier);
+                }
+            }
+        }
     }
 
     public override void _EnterTree()

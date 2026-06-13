@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="BallTier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/ball/BallTier.cs" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+Color = Color(0.933333, 0.933333, 0.933333, 1)
+BasePrice = 1.0

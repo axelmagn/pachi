@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3g3jsrihij6m"]
+[gd_scene format=3 uid="uid://b3g3jsrihij6m"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://clfnoxs4lyicp" path="res://content/ball/ball_physics_material.tres" id="1_2j2sg"]
 [ext_resource type="Script" uid="uid://1pa2vpj34cbi" path="res://content/ball/Ball.cs" id="2_script"]
@@ -8,10 +8,10 @@
 radius = 11.0
 
 [node name="Ball" type="RigidBody2D" unique_id=511165968]
-script = ExtResource("2_script")
 physics_material_override = ExtResource("1_2j2sg")
 inertia = 4.0
 continuous_cd = 1
+script = ExtResource("2_script")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=113421022]
 shape = SubResource("CircleShape2D_j0cak")

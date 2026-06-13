@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 public partial class Hopper : Node2D
@@ -66,7 +67,18 @@ public partial class Hopper : Node2D
 
     public void AddBall(Ball ball)
     {
-        // TODO: if we are at max balls, convert ball to resources
+        // We expect ball.Tier to be null when a ball is freshly instantiated programmatically
+        // without a pre-configured tier. We assign it to a random tier from the available ball tiers.
+        if (ball.Tier == null)
+        {
+            Debug.Assert(Game.Instance != null);
+            Debug.Assert(Game.Instance.BallTiers != null);
+            Debug.Assert(Game.Instance.BallTiers.Count > 0);
+
+            int randomIndex = (int)(GD.Randi() % (uint)Game.Instance.BallTiers.Count);
+            ball.Tier = Game.Instance.BallTiers[randomIndex];
+        }
+
         _pendingBalls.Enqueue(ball);
     }
 

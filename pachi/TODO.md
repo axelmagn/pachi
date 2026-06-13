@@ -5,9 +5,9 @@
 Based on design direction captured in [brainstorm-20260610.md](docs/brainstorm-20260610.md).
 
 ### 1. Ball Tiers & Balancing
-- [ ] Add `Tier` (int/enum) and `BasePrice` (float) properties to [Ball.cs](content/ball/Ball.cs).
-- [ ] Modulate ball sprite colors dynamically based on their tier.
-- [ ] Establish a color-coded palette for different tiers (e.g. Tier 1: White, Tier 2: Blue, Tier 3: Purple, etc.).
+- [x] Refactor Ball `Tier` to use custom `BallTier` Resource instead of `int`/`enum`.
+- [x] Modulate ball sprite colors dynamically based on their tier.
+- [x] Establish a color-coded palette for different tiers using Resource configurations (Tier 1 to 6).
 
 ### 2. Jackpot Upgrades & Effects
 - [ ] Refactor [Jackpot.cs](content/jackpot/Jackpot.cs) to support upgradeable payouts (ball count, ball tier).

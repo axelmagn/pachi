@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Godot;
 
 public partial class BallSource : Marker2D
@@ -10,6 +11,9 @@ public partial class BallSource : Marker2D
 
     public void LaunchExistingBall(Ball ball, float strength)
     {
+        Debug.Assert(ball != null);
+        Debug.Assert(ball.Tier != null);
+
         Node parent = GetParent();
         if (parent == null) return;
 
