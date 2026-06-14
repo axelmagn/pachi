@@ -10,10 +10,9 @@ Based on design direction captured in [brainstorm-20260610.md](docs/brainstorm-2
 - [x] Establish a color-coded palette for different tiers using Resource configurations (Tier 1 to 6).
 
 ### 2. Jackpot Upgrades & Effects
-- [ ] Refactor [Jackpot.cs](content/jackpot/Jackpot.cs) to support upgradeable payouts (ball count, ball tier).
-- [ ] Create `JackpotCardEffect` resource base class inheriting from `CardEffect`.
-- [ ] Implement `UpgradeJackpotCardEffect` (increases payout count or tier).
-- [ ] Update [CardEffectControlReceiver.cs](content/card/CardEffectControlReceiver.cs) to accept `Jackpot` nodes as drag targets.
+- [ ] Refactor `Jackpot` to determine its effect via a `JackpotEffect`
+- [ ] `JackpotEffect` is associated with a visible diagram attached to the jackpot.
+- [ ] `JackpotEffect` can be applied with a `JackpotUpgradeCardEffect`.
 
 ### 3. Card Shop & Deck System
 - [ ] Add shop deck and discard pile configuration/management to [CardManager.cs](content/card/CardManager.cs).
