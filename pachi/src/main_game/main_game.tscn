@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://ca6fr03smyobw"]
 
-[node name="MainGame" type="Node" unique_id=727896907]
+[node name="Game" type="Node" unique_id=727896907]
 
 [node name="Systems" type="Node" parent="." unique_id=44827371]
 
-[node name="LayerRoot" type="Node" parent="." unique_id=1519063191]
+[node name="GlobalEvents" type="Node" parent="Systems" unique_id=1189267000]
 
-[node name="BackgroundLayer" type="CanvasLayer" parent="LayerRoot" unique_id=2013472659]
+[node name="LayersRoot" type="Node" parent="." unique_id=1519063191]
 
-[node name="ColorRect" type="ColorRect" parent="LayerRoot/BackgroundLayer" unique_id=631729787]
+[node name="BackgroundLayer" type="CanvasLayer" parent="LayersRoot" unique_id=2013472659]
+
+[node name="ColorRect" type="ColorRect" parent="LayersRoot/BackgroundLayer" unique_id=631729787]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,9 +18,9 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.07484526, 0.07484528, 0.07484526, 1)
 
-[node name="PlayScreenLayer" type="CanvasLayer" parent="LayerRoot" unique_id=1085927762]
+[node name="PlayScreenLayer" type="CanvasLayer" parent="LayersRoot" unique_id=1085927762]
 
-[node name="PlayScreen" type="Control" parent="LayerRoot/PlayScreenLayer" unique_id=509584043]
+[node name="PlayScreen" type="Control" parent="LayersRoot/PlayScreenLayer" unique_id=509584043]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +28,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LayerRoot/PlayScreenLayer/PlayScreen" unique_id=1117147172]
+[node name="HBoxContainer" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=1117147172]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,16 +36,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LeftPanel" type="VBoxContainer" parent="LayerRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1337816237]
+[node name="LeftColumn" type="VBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1337816237]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control" type="Control" parent="LayerRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=200510283]
+[node name="CenterColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=200510283]
 custom_minimum_size = Vector2(810, 1080)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="LayerRoot/PlayScreenLayer/PlayScreen/HBoxContainer/Control" unique_id=915644729]
+[node name="LevelViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn" unique_id=915644729]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,9 +53,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SubViewport" type="SubViewport" parent="LayerRoot/PlayScreenLayer/PlayScreen/HBoxContainer/Control/SubViewportContainer" unique_id=1539707723]
+[node name="LevelViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer" unique_id=1539707723]
+handle_input_locally = false
 size = Vector2i(810, 1080)
+render_target_update_mode = 4
 
-[node name="RightPanel" type="VBoxContainer" parent="LayerRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=523689007]
+[node name="Level" type="Node2D" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport" unique_id=1132180389]
+position = Vector2(405, 540)
+
+[node name="Camera2D" type="Camera2D" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level" unique_id=1190987883]
+
+[node name="RightColumn" type="VBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=523689007]
 layout_mode = 2
 size_flags_horizontal = 3
