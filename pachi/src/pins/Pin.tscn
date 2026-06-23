@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
 radius = 1.5
 
-[node name="Pin" type="StaticBody2D" unique_id=849448400]
+[node name="Pin" type="StaticBody2D" unique_id=849448400 groups=["pin_material"]]
 script = ExtResource("1_i7lfl")
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
