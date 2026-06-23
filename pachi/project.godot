@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="Pachi"
-config/features=PackedStringArray("4.7", "Mobile")
+run/main_scene="uid://ca6fr03smyobw"
+config/features=PackedStringArray("4.7", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [display]
@@ -31,6 +32,7 @@ GlobalEvents="Global Events Bus"
 
 [physics]
 
+2d/physics_engine="Rapier2D"
 3d/physics_engine="Jolt Physics"
 
 [rendering]

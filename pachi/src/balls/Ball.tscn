@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://7b4rhp6qit0a"]
+
+[ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="1_8hmh5"]
+[ext_resource type="Script" uid="uid://unwhnooi7g2c" path="res://addons/godot-rapier2d/custom_nodes/rapier_rigid_body_2d.gd" id="1_ws172"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
+radius = 11.0
+
+[node name="Ball" type="RigidBody2D" unique_id=1594434914]
+script = ExtResource("1_ws172")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1206895688]
+shape = SubResource("CircleShape2D_ubxs6")
+
+[node name="ColliderCircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=2040255732]
+script = ExtResource("1_8hmh5")
+Radius = 11.0
+Color = Color(0.8158153, 0.81581545, 0.8158154, 1)
+metadata/_custom_type_script = "uid://vnclow3lkur1"
