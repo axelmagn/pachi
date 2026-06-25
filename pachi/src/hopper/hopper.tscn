@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://u6rfdg6awo6u"]
+
+[ext_resource type="PackedScene" uid="uid://c6cgra7w5psvw" path="res://src/levels/boundary_rect.tscn" id="1_3h226"]
+
+[node name="Hopper" type="Node2D" unique_id=1019095757]
+
+[node name="BoundaryRect" parent="." unique_id=1819436732 groups=["pin_material"] instance=ExtResource("1_3h226")]
+Width = 512.0
+Height = 800.0
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1714356661]

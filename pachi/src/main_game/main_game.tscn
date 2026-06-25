@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ca6fr03smyobw"]
 
 [ext_resource type="Script" uid="uid://fkpri4x34viw" path="res://src/main_game/GlobalEvents.cs" id="1_n5cg8"]
+[ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="2_5oiny"]
 [ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="2_hfyhn"]
-[ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/PinGrid.tscn" id="4_ju3mb"]
-[ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/PinEllipse.tscn" id="5_nbvhb"]
+[ext_resource type="PackedScene" uid="uid://b4aaqhmywy8m1" path="res://src/levels/level.tscn" id="4_2laqp"]
 
 [node name="Game" type="Node" unique_id=727896907]
 
@@ -46,6 +46,67 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="HopperViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn" unique_id=685771812]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer" unique_id=1984252242]
+transparent_bg = true
+handle_input_locally = false
+audio_listener_enable_2d = true
+size = Vector2i(512, 800)
+render_target_update_mode = 4
+
+[node name="Hopper" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport" unique_id=1019095757 instance=ExtResource("2_5oiny")]
+position = Vector2(277, 540)
+
+[node name="Ball" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=1594434914 instance=ExtResource("2_hfyhn")]
+position = Vector2(-2, -351)
+
+[node name="Ball2" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=509610397 instance=ExtResource("2_hfyhn")]
+position = Vector2(68, -351)
+
+[node name="Ball3" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=1715670705 instance=ExtResource("2_hfyhn")]
+position = Vector2(-98, -349)
+
+[node name="Ball4" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=46002274 instance=ExtResource("2_hfyhn")]
+position = Vector2(-55, -353)
+
+[node name="Ball5" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=1286833423 instance=ExtResource("2_hfyhn")]
+position = Vector2(-13, -310)
+
+[node name="Ball6" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=470531600 instance=ExtResource("2_hfyhn")]
+position = Vector2(57, -310)
+
+[node name="Ball7" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=2107825283 instance=ExtResource("2_hfyhn")]
+position = Vector2(-109, -308)
+
+[node name="Ball8" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=1978965905 instance=ExtResource("2_hfyhn")]
+position = Vector2(-66, -312)
+
+[node name="Ball9" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=80252269 instance=ExtResource("2_hfyhn")]
+position = Vector2(13, -272)
+
+[node name="Ball10" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=1427236335 instance=ExtResource("2_hfyhn")]
+position = Vector2(83, -272)
+
+[node name="Ball11" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=1407067587 instance=ExtResource("2_hfyhn")]
+position = Vector2(-83, -270)
+
+[node name="Ball12" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=692339340 instance=ExtResource("2_hfyhn")]
+position = Vector2(-40, -274)
+
+[node name="Ball13" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=266390206 instance=ExtResource("2_hfyhn")]
+position = Vector2(-17, -232)
+
+[node name="Ball14" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=500376877 instance=ExtResource("2_hfyhn")]
+position = Vector2(53, -232)
+
+[node name="Ball15" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=124023414 instance=ExtResource("2_hfyhn")]
+position = Vector2(-113, -230)
+
+[node name="Ball16" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=2119564046 instance=ExtResource("2_hfyhn")]
+position = Vector2(-70, -234)
+
 [node name="CenterColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=200510283]
 custom_minimum_size = Vector2(810, 1080)
 layout_mode = 2
@@ -60,134 +121,14 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="LevelViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer" unique_id=1539707723]
+transparent_bg = true
 handle_input_locally = false
 audio_listener_enable_2d = true
 size = Vector2i(810, 1080)
 render_target_update_mode = 4
 
-[node name="Level" type="Node2D" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport" unique_id=1132180389]
+[node name="Level" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport" unique_id=756612389 instance=ExtResource("4_2laqp")]
 position = Vector2(405, 540)
-
-[node name="Camera2D" type="Camera2D" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level" unique_id=1190987883]
-
-[node name="TempNodes" type="Node2D" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level" unique_id=1075025677]
-
-[node name="Balls" type="Node2D" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes" unique_id=1104703950]
-
-[node name="Ball" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=71087179 instance=ExtResource("2_hfyhn")]
-position = Vector2(-166, -317)
-
-[node name="Ball2" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=798984917 instance=ExtResource("2_hfyhn")]
-position = Vector2(-63, -317)
-
-[node name="Ball3" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=576381780 instance=ExtResource("2_hfyhn")]
-position = Vector2(58, -317)
-
-[node name="Ball4" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1209118556 instance=ExtResource("2_hfyhn")]
-position = Vector2(202, -317)
-
-[node name="Ball5" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1594434914 instance=ExtResource("2_hfyhn")]
-position = Vector2(-108, -318)
-
-[node name="Ball6" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=819376554 instance=ExtResource("2_hfyhn")]
-position = Vector2(-5, -318)
-
-[node name="Ball7" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1287590601 instance=ExtResource("2_hfyhn")]
-position = Vector2(116, -318)
-
-[node name="Ball8" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1656478626 instance=ExtResource("2_hfyhn")]
-position = Vector2(260, -318)
-
-[node name="Ball9" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=842196220 instance=ExtResource("2_hfyhn")]
-position = Vector2(-192, -350)
-
-[node name="Ball10" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=560812332 instance=ExtResource("2_hfyhn")]
-position = Vector2(-89, -350)
-
-[node name="Ball11" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1722427183 instance=ExtResource("2_hfyhn")]
-position = Vector2(32, -350)
-
-[node name="Ball12" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1188415292 instance=ExtResource("2_hfyhn")]
-position = Vector2(176, -350)
-
-[node name="Ball13" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=481216587 instance=ExtResource("2_hfyhn")]
-position = Vector2(-134, -351)
-
-[node name="Ball14" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=786622368 instance=ExtResource("2_hfyhn")]
-position = Vector2(-31, -351)
-
-[node name="Ball15" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=380383900 instance=ExtResource("2_hfyhn")]
-position = Vector2(90, -351)
-
-[node name="Ball16" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1824398464 instance=ExtResource("2_hfyhn")]
-position = Vector2(234, -351)
-
-[node name="Ball17" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=2010378090 instance=ExtResource("2_hfyhn")]
-position = Vector2(-168, -386)
-
-[node name="Ball18" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=958834868 instance=ExtResource("2_hfyhn")]
-position = Vector2(-65, -386)
-
-[node name="Ball19" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=4012189 instance=ExtResource("2_hfyhn")]
-position = Vector2(56, -386)
-
-[node name="Ball20" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=256436781 instance=ExtResource("2_hfyhn")]
-position = Vector2(200, -386)
-
-[node name="Ball21" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=116775296 instance=ExtResource("2_hfyhn")]
-position = Vector2(-110, -387)
-
-[node name="Ball22" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1367065061 instance=ExtResource("2_hfyhn")]
-position = Vector2(-7, -387)
-
-[node name="Ball23" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=964287279 instance=ExtResource("2_hfyhn")]
-position = Vector2(114, -387)
-
-[node name="Ball24" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1975941402 instance=ExtResource("2_hfyhn")]
-position = Vector2(258, -387)
-
-[node name="Ball25" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=2110372586 instance=ExtResource("2_hfyhn")]
-position = Vector2(-205, -422)
-
-[node name="Ball26" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1525245324 instance=ExtResource("2_hfyhn")]
-position = Vector2(-102, -422)
-
-[node name="Ball27" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1854328973 instance=ExtResource("2_hfyhn")]
-position = Vector2(19, -422)
-
-[node name="Ball28" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=532264093 instance=ExtResource("2_hfyhn")]
-position = Vector2(163, -422)
-
-[node name="Ball29" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=305971875 instance=ExtResource("2_hfyhn")]
-position = Vector2(-147, -423)
-
-[node name="Ball30" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=56918295 instance=ExtResource("2_hfyhn")]
-position = Vector2(-44, -423)
-
-[node name="Ball31" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=955923058 instance=ExtResource("2_hfyhn")]
-position = Vector2(77, -423)
-
-[node name="Ball32" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes/Balls" unique_id=1168139707 instance=ExtResource("2_hfyhn")]
-position = Vector2(221, -423)
-
-[node name="PinGrid" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes" unique_id=389836355 instance=ExtResource("4_ju3mb")]
-position = Vector2(-354, -129)
-Rows = 6
-Columns = 12
-SpacingY = 64.0
-
-[node name="PinEllipse" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes" unique_id=345411889 instance=ExtResource("5_nbvhb")]
-position = Vector2(-7, 285)
-EndAngle = 180.0
-
-[node name="PinEllipse2" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes" unique_id=1574536006 instance=ExtResource("5_nbvhb")]
-position = Vector2(-334, 375)
-EndAngle = 80.0
-
-[node name="PinEllipse3" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport/Level/TempNodes" unique_id=715038022 instance=ExtResource("5_nbvhb")]
-position = Vector2(318, 382)
-EndAngle = 80.0
-MirrorX = true
 
 [node name="RightColumn" type="VBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=523689007]
 layout_mode = 2
