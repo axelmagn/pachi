@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="2_5oiny"]
 [ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="2_hfyhn"]
 [ext_resource type="PackedScene" uid="uid://b4aaqhmywy8m1" path="res://src/levels/level.tscn" id="4_2laqp"]
+[ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="4_ju3mb"]
 
 [node name="Game" type="Node" unique_id=727896907]
 
@@ -106,6 +107,18 @@ position = Vector2(-113, -230)
 
 [node name="Ball16" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper" unique_id=2119564046 instance=ExtResource("2_hfyhn")]
 position = Vector2(-70, -234)
+
+[node name="LauncherViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn" unique_id=1008237227]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/LauncherViewportContainer" unique_id=812786388]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(512, 224)
+render_target_update_mode = 4
+
+[node name="LauncherAssembly" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/LauncherViewportContainer/SubViewport" unique_id=2132420869 instance=ExtResource("4_ju3mb")]
+position = Vector2(180, 40)
 
 [node name="CenterColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=200510283]
 custom_minimum_size = Vector2(810, 1080)

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://bhmpp70vo2l44"]
+
+[ext_resource type="Script" uid="uid://dnslcmv1udepo" path="res://src/launcher/Launcher.cs" id="1_ob4jl"]
+[ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="2_h1ipi"]
+[ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="3_h1ipi"]
+
+[node name="Launcher" type="Node2D" unique_id=2132420869]
+script = ExtResource("1_ob4jl")
+
+[node name="LauncherGhostSprite" type="Node2D" parent="." unique_id=1563860130]
+rotation = -0.61086524
+
+[node name="CapsuleSprite" type="Node2D" parent="LauncherGhostSprite" unique_id=284985626]
+position = Vector2(-130, 0)
+rotation = 1.5707964
+script = ExtResource("2_h1ipi")
+Height = 300.0
+Color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+
+[node name="LauncherSprite" type="Node2D" parent="." unique_id=1680024580]
+
+[node name="CapsuleSprite" type="Node2D" parent="LauncherSprite" unique_id=1280229580]
+position = Vector2(-130, 0)
+rotation = 1.5707964
+script = ExtResource("2_h1ipi")
+Height = 300.0
+
+[node name="Hole" parent="." unique_id=428848470 instance=ExtResource("3_h1ipi")]
+position = Vector2(89, 0)
