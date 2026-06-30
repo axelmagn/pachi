@@ -4,6 +4,13 @@ using System.Diagnostics;
 
 public partial class Hole : Area2D
 {
+    [Signal]
+    public delegate void BallAnimationFinishedEventHandler();
+    [Signal]
+    public delegate void IncomingAnimationFinishedEventHandler();
+    [Signal]
+    public delegate void OutgoingAnimationFinishedEventHandler();
+
     [Export]
     public Node2D BallRoot { get; set; }
 
@@ -25,7 +32,7 @@ public partial class Hole : Area2D
         Debug.Assert(BallRoot != null);
     }
 
-    private void AnimateIncomingBall()
+    async public void AnimateIncomingBall()
     {
         Debug.Assert(BallRoot != null);
 
@@ -38,9 +45,13 @@ public partial class Hole : Area2D
         Tween tween = GetTree().CreateTween();
         tween.TweenProperty(BallRoot, "modulate", Colors.White, AnimateDuration);
         tween.TweenProperty(BallRoot, "scale", Vector2.One, AnimateDuration);
+
+        SceneTreeTimer timer = GetTree().CreateTimer(AnimateDuration, false);
+        await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+        EmitSignal(SignalName.BallAnimationFinished);
     }
 
-    private void AnimateOutgoingBall()
+    async public void AnimateOutgoingBall()
     {
         Debug.Assert(BallRoot != null);
 
@@ -55,5 +66,10 @@ public partial class Hole : Area2D
         tween.TweenProperty(BallRoot, "modulate", outColor, AnimateDuration);
         Vector2 outScale = Vector2.One * AnimateMinBallScale;
         tween.TweenProperty(BallRoot, "scale", outScale, AnimateDuration);
+
+        EmitSignal(SignalName.BallAnimationFinished);
+        SceneTreeTimer timer = GetTree().CreateTimer(AnimateDuration, false);
+        await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+        EmitSignal(SignalName.BallAnimationFinished);
     }
 }
