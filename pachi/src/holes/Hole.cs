@@ -11,8 +11,6 @@ public partial class Hole : Area2D
     [Signal]
     public delegate void OutgoingAnimationFinishedEventHandler();
 
-    [Export]
-    public Node2D BallRoot { get; set; }
 
     [Export]
     public float AnimateDuration { get; set; } = 0.5f;
@@ -23,6 +21,13 @@ public partial class Hole : Area2D
     [Export]
     public float AnimateMinBallAlpha { get; set; } = 0.1f;
 
+    [Export]
+    public Node2D BallRoot { get; set; }
+
+    [Export]
+    public CollisionShape2D Collider { get; set; }
+
+
 
     public Ball HeldBall { get; set; }
 
@@ -30,6 +35,14 @@ public partial class Hole : Area2D
     public override void _Ready()
     {
         Debug.Assert(BallRoot != null);
+        Debug.Assert(Collider != null);
+    }
+
+    public float GetRadius()
+    {
+        Debug.Assert(Collider.Shape is CircleShape2D);
+        CircleShape2D circle = (CircleShape2D)Collider.Shape;
+        return circle.Radius;
     }
 
     async public void AnimateIncomingBall()

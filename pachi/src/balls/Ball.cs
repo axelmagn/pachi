@@ -16,12 +16,17 @@ public partial class Ball : RigidBody2D
     [Export]
     public float MaxExpectedVelocity = 800.0f;
 
+    [Export]
+    public CollisionShape2D Collider { get; set; }
+
     private Vector2 _previousVelocity = Vector2.Zero;
 
     public override void _Ready()
     {
         Debug.Assert(BallPinBounceAudioPlayer != null);
         Debug.Assert(BallBallBounceAudioPlayer != null);
+        Debug.Assert(Collider != null);
+        Debug.Assert(Collider.Shape is CircleShape2D);
 
         BodyEntered += OnBodyEntered;
     }
@@ -29,6 +34,13 @@ public partial class Ball : RigidBody2D
     public override void _PhysicsProcess(double delta)
     {
         _previousVelocity = LinearVelocity;
+    }
+
+    public float GetRadius()
+    {
+        Debug.Assert(Collider.Shape is CircleShape2D);
+        CircleShape2D circle = (CircleShape2D)Collider.Shape;
+        return circle.Radius;
     }
 
     private void OnBodyEntered(Node body)

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="1_15b0b"]
 [ext_resource type="Script" uid="uid://pgm5k2h61opr" path="res://src/holes/Hole.cs" id="1_20j6v"]
-[ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="2_uc5cm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ivt2"]
 radius = 13.0
@@ -20,5 +19,3 @@ Color = Color(0.20332184, 0.20332184, 0.20332184, 1)
 metadata/_custom_type_script = "uid://vnclow3lkur1"
 
 [node name="BallRoot" type="Node2D" parent="." unique_id=1548727060]
-
-[node name="Ball" parent="BallRoot" unique_id=1594434914 instance=ExtResource("2_uc5cm")]
