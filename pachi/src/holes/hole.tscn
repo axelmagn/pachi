@@ -4,18 +4,113 @@
 [ext_resource type="Script" uid="uid://pgm5k2h61opr" path="res://src/holes/Hole.cs" id="1_20j6v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ivt2"]
-radius = 13.0
+radius = 16.0
 
-[node name="Hole" type="Area2D" unique_id=428848470]
+[sub_resource type="Animation" id="Animation_cnvc7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BallRoot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BallRoot:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_20j6v"]
+resource_name = "incoming"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BallRoot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.1, 0.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BallRoot:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.1254902, 0.1254902, 0.1254902, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pp00t"]
+resource_name = "outgoing"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BallRoot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.1, 0.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BallRoot:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.1254902, 0.1254902, 0.1254902, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cnvc7"]
+_data = {
+&"RESET": SubResource("Animation_cnvc7"),
+&"incoming": SubResource("Animation_20j6v"),
+&"outgoing": SubResource("Animation_pp00t")
+}
+
+[node name="Hole" type="Area2D" unique_id=428848470 node_paths=PackedStringArray("BallRoot", "Collider", "AnimationPlayer")]
 script = ExtResource("1_20j6v")
+BallRoot = NodePath(".")
+Collider = NodePath("CollisionShape2D")
+AnimationPlayer = NodePath("AnimationPlayer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=485556860]
 shape = SubResource("CircleShape2D_7ivt2")
 
 [node name="HoleSprite" type="Node2D" parent="CollisionShape2D" unique_id=1442140950]
 script = ExtResource("1_15b0b")
-Radius = 13.0
+Radius = 16.0
 Color = Color(0.20332184, 0.20332184, 0.20332184, 1)
 metadata/_custom_type_script = "uid://vnclow3lkur1"
 
 [node name="BallRoot" type="Node2D" parent="." unique_id=1548727060]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=861602209]
+libraries/ = SubResource("AnimationLibrary_cnvc7")
+speed_scale = 4.0

@@ -4,11 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/PinEllipse.tscn" id="2_ub47v"]
 [ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="3_aeuny"]
 [ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/PinGrid.tscn" id="4_7umm5"]
-[ext_resource type="PackedScene" uid="uid://bmmgwhohdsx2d" path="res://drain/drain.tscn" id="5_8tcek"]
+[ext_resource type="PackedScene" uid="uid://bmmgwhohdsx2d" path="res://src/drain/drain.tscn" id="5_8tcek"]
 
 [node name="Level" type="Node2D" unique_id=756612389]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1646304660]
+
+[node name="Drain" parent="." unique_id=1795231198 instance=ExtResource("5_8tcek")]
+process_mode = 3
+position = Vector2(0, 518)
+script = null
 
 [node name="Boundary" type="Node2D" parent="." unique_id=2101518844]
 
@@ -20,12 +25,14 @@ Height = 1080.0
 position = Vector2(0, 230)
 RadiusX = 405.0
 RadiusY = 300.0
+AverageSpacing = 8.0
 EndAngle = 180.0
 
 [node name="TopEllipse" parent="Boundary" unique_id=61049413 instance=ExtResource("2_ub47v")]
 position = Vector2(0, -230)
 RadiusX = 405.0
 RadiusY = 300.0
+AverageSpacing = 8.0
 StartAngle = 180.0
 EndAngle = 360.0
 
@@ -133,6 +140,3 @@ position = Vector2(-26, -76)
 position = Vector2(-362, 7)
 Rows = 8
 Columns = 12
-
-[node name="Drain" parent="." unique_id=1795231198 instance=ExtResource("5_8tcek")]
-position = Vector2(0, 517)
