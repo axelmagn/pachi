@@ -69,6 +69,7 @@ public partial class Hole : Area2D
     }
 
     public Ball ReplaceHeldBall(Ball ball) {
+        if (ball == HeldBall) return null;
         Ball oldBall = ClearHeldBall();
         ball.SetPhysicsProcess(false);
         HeldBall = ball;
