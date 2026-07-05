@@ -92,14 +92,26 @@ public partial class PinEllipse : PinGenerator
 
         for (int i = 0; i < pinCount; i++)
         {
+            float prevAngle = startRad + (step * (i - 1));
             float angle = startRad + (step * i);
+            float nextAngle = startRad + (step * (i + 1));
 
+            Vector2 prevPosition = new(
+                    _radiusX * Mathf.Cos(prevAngle) * (MirrorX ? -1.0f : 1.0f),
+                    _radiusY * Mathf.Sin(prevAngle) * (MirrorY ? -1.0f : 1.0f)
+            );
             Vector2 position = new(
                     _radiusX * Mathf.Cos(angle) * (MirrorX ? -1.0f : 1.0f),
                     _radiusY * Mathf.Sin(angle) * (MirrorY ? -1.0f : 1.0f)
             );
+            Vector2 nextPosition = new(
+                    _radiusX * Mathf.Cos(nextAngle) * (MirrorX ? -1.0f : 1.0f),
+                    _radiusY * Mathf.Sin(nextAngle) * (MirrorY ? -1.0f : 1.0f)
+            );
 
-            SpawnPin(position, angle);
+            float pinRotation = prevPosition.AngleToPoint(nextPosition);
+
+            SpawnPin(position, pinRotation);
         }
 
 

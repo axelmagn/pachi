@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://pgm5k2h61opr" path="res://src/holes/Hole.cs" id="1_20j6v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ivt2"]
-radius = 16.0
+radius = 13.0
 
 [sub_resource type="Animation" id="Animation_cnvc7"]
 length = 0.001
@@ -94,18 +94,16 @@ _data = {
 &"outgoing": SubResource("Animation_pp00t")
 }
 
-[node name="Hole" type="Area2D" unique_id=428848470 node_paths=PackedStringArray("BallRoot", "Collider", "AnimationPlayer")]
+[node name="Hole" type="Area2D" unique_id=428848470 node_paths=PackedStringArray("Collider")]
 script = ExtResource("1_20j6v")
-BallRoot = NodePath(".")
 Collider = NodePath("CollisionShape2D")
-AnimationPlayer = NodePath("AnimationPlayer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=485556860]
 shape = SubResource("CircleShape2D_7ivt2")
 
 [node name="HoleSprite" type="Node2D" parent="CollisionShape2D" unique_id=1442140950]
 script = ExtResource("1_15b0b")
-Radius = 16.0
+Radius = 13.0
 Color = Color(0.20332184, 0.20332184, 0.20332184, 1)
 metadata/_custom_type_script = "uid://vnclow3lkur1"
 

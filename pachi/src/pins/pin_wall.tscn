@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://4wtihlnetfmr"]
+
+[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="1_3cex1"]
+[ext_resource type="Script" uid="uid://cnsllcl4xmgqy" path="res://src/shape_sprites/CircleSprite.cs" id="2_at6jp"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
+radius = 1.5
+height = 16.0
+
+[node name="PinWall" type="StaticBody2D" unique_id=849448400 groups=["pin_material"]]
+script = ExtResource("1_3cex1")
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2078823946]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_7ivt2")
+
+[node name="CircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=331653442]
+script = ExtResource("2_at6jp")
+Radius = 1.5
+metadata/_custom_type_script = "uid://cnsllcl4xmgqy"

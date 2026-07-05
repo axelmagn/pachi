@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d2wjbx07a8ng4"]
 
 [ext_resource type="Script" uid="uid://cqny5pxlvaskw" path="res://src/pins/PinGrid.cs" id="1_tsnpw"]
-[ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/Pin.tscn" id="2_dn4js"]
+[ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/pin.tscn" id="2_dn4js"]
 
 [node name="PinGrid" type="Node2D" unique_id=389836355]
 script = ExtResource("1_tsnpw")

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://biu6ucbfgptk2"]
+
+[ext_resource type="Script" uid="uid://bwqxrtypim2qj" path="res://src/pins/PinEllipse.cs" id="1_swl76"]
+[ext_resource type="PackedScene" uid="uid://4wtihlnetfmr" path="res://src/pins/pin_wall.tscn" id="2_swl76"]
+
+[node name="PinEllipse" type="Node2D" unique_id=345411889]
+script = ExtResource("1_swl76")
+AverageSpacing = 12.0
+EndAngle = 277.5
+PinScene = ExtResource("2_swl76")

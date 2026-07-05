@@ -10,7 +10,8 @@ public partial class Drain : Node2D
     [Export]
     public Hole Hole { get; set; }
 
-    public override void _Ready() {
+    public override void _Ready()
+    {
         Debug.Assert(Hole != null);
     }
 
@@ -18,17 +19,22 @@ public partial class Drain : Node2D
     {
         Debug.Assert(Hole != null);
         float holeRadius = Hole.GetRadius();
-        foreach (Node body in Hole.GetOverlappingBodies()) {
-            if (body is Ball ball) {
-                if (ball == Hole.HeldBall) continue;
-                float ballRadius = ball.GetRadius();
-                float distance = (Hole.GlobalPosition - ball.GlobalPosition).Length();
+        foreach (Node body in Hole.GetOverlappingBodies())
+        {
+            if (body is Ball ball)
+            {
+                if (ball.CurrentFadeState != Ball.FadeState.None) continue;
 
-                // if ball completely overlaps hole
-                if (distance <= holeRadius - ballRadius) {
-                    EmitSignal(SignalName.BallConsumed, ball);
-                    Hole.AddOutgoingBall(ball);
-                    // TODO: play audio
+                float ballRadius = ball.GetRadius();
+                if (ballRadius > holeRadius) continue;
+
+                float distanceSq = (ball.GlobalPosition - Hole.GlobalPosition).LengthSquared();
+                float maxDrainDistanceSq = (holeRadius - ballRadius) * (holeRadius - ballRadius);
+                if (distanceSq <= maxDrainDistanceSq)
+                {
+                    GD.Print("Drain Triggered"); // DEBUG
+                    ball.FadeOut(Hole.GlobalPosition);
+                    ball.FadeOutFinished += ball.QueueFree;
                 }
             }
         }

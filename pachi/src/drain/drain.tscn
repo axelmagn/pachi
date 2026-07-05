@@ -3,8 +3,19 @@
 [ext_resource type="Script" uid="uid://bf0bad82asfim" path="res://src/drain/Drain.cs" id="1_1n2xc"]
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_g6svu"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_1n2xc"]
+radius = 24.0
+
 [node name="Drain" type="Node2D" unique_id=1795231198 node_paths=PackedStringArray("Hole")]
 script = ExtResource("1_1n2xc")
 Hole = NodePath("Hole")
 
 [node name="Hole" parent="." unique_id=428848470 instance=ExtResource("1_g6svu")]
+
+[node name="CollisionShape2D" parent="Hole" index="0" unique_id=485556860]
+shape = SubResource("CircleShape2D_1n2xc")
+
+[node name="HoleSprite" parent="Hole/CollisionShape2D" index="0" unique_id=1442140950]
+Radius = 24.0
+
+[editable path="Hole"]
