@@ -12,7 +12,7 @@
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1646304660]
 
 [node name="Drain" parent="." unique_id=1795231198 instance=ExtResource("5_8tcek")]
-position = Vector2(0, 516)
+position = Vector2(0, 515)
 
 [node name="Boundary" type="Node2D" parent="." unique_id=2101518844]
 
@@ -43,99 +43,131 @@ PinScene = ExtResource("4_deqfd")
 
 [node name="Ball" parent="Temp/TempBalls" unique_id=1594434914 instance=ExtResource("3_aeuny")]
 position = Vector2(0, -241)
+InitDetectStuck = true
 
 [node name="Ball2" parent="Temp/TempBalls" unique_id=1286572436 instance=ExtResource("3_aeuny")]
 position = Vector2(69, -241)
+InitDetectStuck = true
 
 [node name="Ball3" parent="Temp/TempBalls" unique_id=550879902 instance=ExtResource("3_aeuny")]
 position = Vector2(143, -241)
+InitDetectStuck = true
 
 [node name="Ball4" parent="Temp/TempBalls" unique_id=365817049 instance=ExtResource("3_aeuny")]
 position = Vector2(212, -241)
+InitDetectStuck = true
 
 [node name="Ball5" parent="Temp/TempBalls" unique_id=1722366751 instance=ExtResource("3_aeuny")]
 position = Vector2(-272, -241)
+InitDetectStuck = true
 
 [node name="Ball6" parent="Temp/TempBalls" unique_id=1090145481 instance=ExtResource("3_aeuny")]
 position = Vector2(-203, -241)
+InitDetectStuck = true
 
 [node name="Ball7" parent="Temp/TempBalls" unique_id=358409005 instance=ExtResource("3_aeuny")]
 position = Vector2(-129, -241)
+InitDetectStuck = true
 
 [node name="Ball8" parent="Temp/TempBalls" unique_id=1057064999 instance=ExtResource("3_aeuny")]
 position = Vector2(-60, -241)
+InitDetectStuck = true
 
 [node name="Ball9" parent="Temp/TempBalls" unique_id=1220013603 instance=ExtResource("3_aeuny")]
 position = Vector2(35, -187)
+InitDetectStuck = true
 
 [node name="Ball10" parent="Temp/TempBalls" unique_id=111951548 instance=ExtResource("3_aeuny")]
 position = Vector2(104, -187)
+InitDetectStuck = true
 
 [node name="Ball11" parent="Temp/TempBalls" unique_id=46110665 instance=ExtResource("3_aeuny")]
 position = Vector2(178, -187)
+InitDetectStuck = true
 
 [node name="Ball12" parent="Temp/TempBalls" unique_id=1319128611 instance=ExtResource("3_aeuny")]
 position = Vector2(247, -187)
+InitDetectStuck = true
 
 [node name="Ball13" parent="Temp/TempBalls" unique_id=1198991137 instance=ExtResource("3_aeuny")]
 position = Vector2(-237, -187)
+InitDetectStuck = true
 
 [node name="Ball14" parent="Temp/TempBalls" unique_id=967669344 instance=ExtResource("3_aeuny")]
 position = Vector2(-168, -187)
+InitDetectStuck = true
 
 [node name="Ball15" parent="Temp/TempBalls" unique_id=938548024 instance=ExtResource("3_aeuny")]
 position = Vector2(-94, -187)
+InitDetectStuck = true
 
 [node name="Ball16" parent="Temp/TempBalls" unique_id=1993414878 instance=ExtResource("3_aeuny")]
 position = Vector2(-25, -187)
+InitDetectStuck = true
 
 [node name="Ball17" parent="Temp/TempBalls" unique_id=403372350 instance=ExtResource("3_aeuny")]
 position = Vector2(-13, -128)
+InitDetectStuck = true
 
 [node name="Ball18" parent="Temp/TempBalls" unique_id=1585044412 instance=ExtResource("3_aeuny")]
 position = Vector2(56, -128)
+InitDetectStuck = true
 
 [node name="Ball19" parent="Temp/TempBalls" unique_id=469592057 instance=ExtResource("3_aeuny")]
 position = Vector2(130, -128)
+InitDetectStuck = true
 
 [node name="Ball20" parent="Temp/TempBalls" unique_id=1866565975 instance=ExtResource("3_aeuny")]
 position = Vector2(199, -128)
+InitDetectStuck = true
 
 [node name="Ball21" parent="Temp/TempBalls" unique_id=1721249624 instance=ExtResource("3_aeuny")]
 position = Vector2(-285, -128)
+InitDetectStuck = true
 
 [node name="Ball22" parent="Temp/TempBalls" unique_id=1613537131 instance=ExtResource("3_aeuny")]
 position = Vector2(-216, -128)
+InitDetectStuck = true
 
 [node name="Ball23" parent="Temp/TempBalls" unique_id=1931244891 instance=ExtResource("3_aeuny")]
 position = Vector2(-142, -128)
+InitDetectStuck = true
 
 [node name="Ball24" parent="Temp/TempBalls" unique_id=22159632 instance=ExtResource("3_aeuny")]
 position = Vector2(-73, -128)
+InitDetectStuck = true
 
 [node name="Ball25" parent="Temp/TempBalls" unique_id=1850485470 instance=ExtResource("3_aeuny")]
 position = Vector2(34, -76)
+InitDetectStuck = true
 
 [node name="Ball26" parent="Temp/TempBalls" unique_id=1342799765 instance=ExtResource("3_aeuny")]
 position = Vector2(103, -76)
+InitDetectStuck = true
 
 [node name="Ball27" parent="Temp/TempBalls" unique_id=908734609 instance=ExtResource("3_aeuny")]
 position = Vector2(177, -76)
+InitDetectStuck = true
 
 [node name="Ball28" parent="Temp/TempBalls" unique_id=510303196 instance=ExtResource("3_aeuny")]
 position = Vector2(246, -76)
+InitDetectStuck = true
 
 [node name="Ball29" parent="Temp/TempBalls" unique_id=1721802959 instance=ExtResource("3_aeuny")]
 position = Vector2(-238, -76)
+InitDetectStuck = true
 
 [node name="Ball30" parent="Temp/TempBalls" unique_id=1949589992 instance=ExtResource("3_aeuny")]
 position = Vector2(-169, -76)
+InitDetectStuck = true
 
 [node name="Ball31" parent="Temp/TempBalls" unique_id=724508998 instance=ExtResource("3_aeuny")]
 position = Vector2(-95, -76)
+InitDetectStuck = true
 
 [node name="Ball32" parent="Temp/TempBalls" unique_id=96712566 instance=ExtResource("3_aeuny")]
 position = Vector2(-26, -76)
+InitDetectStuck = true
 
 [node name="PinGrid" parent="Temp" unique_id=389836355 instance=ExtResource("4_7umm5")]
 position = Vector2(-362, 7)

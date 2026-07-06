@@ -38,6 +38,12 @@ public partial class Ball : RigidBody2D
     [Export]
     public Timer FadeTimer { get; set; }
 
+    [Export]
+    public Timer StuckTimer { get; set; }
+
+    [Export]
+    public bool InitDetectStuck { get; set; }
+
     public FadeState CurrentFadeState { get; set; } = FadeState.None;
 
     public enum FadeState
@@ -54,6 +60,8 @@ public partial class Ball : RigidBody2D
 
     private Vector2 _previousVelocity = Vector2.Zero;
 
+    private bool _detectStuck = false;
+
     public override void _Ready()
     {
         Debug.Assert(BallPinBounceAudioPlayer != null);
@@ -61,11 +69,17 @@ public partial class Ball : RigidBody2D
         Debug.Assert(Collider != null);
         Debug.Assert(Collider.Shape is CircleShape2D);
         Debug.Assert(FadeTimer != null);
+        Debug.Assert(StuckTimer != null);
 
         BodyEntered += OnBodyEntered;
         FadeTimer.Timeout += OnFadeTimeout;
+        StuckTimer.Timeout += OnStuck;
 
         _originalModulate = Modulate;
+
+        if (InitDetectStuck) {
+            StuckTimer.Start();
+        }
 
         // TEST - DEBUG
         // TestFadeInFadeOut();
@@ -89,12 +103,12 @@ public partial class Ball : RigidBody2D
         CancelFade();
         Freeze = true;
         CurrentFadeState = FadeState.FadeIn;
-        _fadeTween = GetTree().CreateTween();
+        _fadeTween = GetTree().CreateTween().SetParallel(true);
         _fadeTween.TweenProperty(this, "scale", Vector2.One, FadeDuration);
         if (globalDestination != null)
         {
             // TODO: lerp shaping
-            _fadeTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration / 2);
+            _fadeTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration);
         }
         _fadeTween.TweenProperty(this, "modulate", _originalModulate, FadeDuration);
         FadeTimer.Start(FadeDuration);
@@ -105,12 +119,14 @@ public partial class Ball : RigidBody2D
         CancelFade();
         Freeze = true;
         CurrentFadeState = FadeState.FadeOut;
-        _fadeTween = GetTree().CreateTween();
+        _fadeTween = GetTree().CreateTween().SetParallel(true);
         _fadeTween.TweenProperty(this, "scale", new Vector2(FadeScale, FadeScale), FadeDuration);
+
+        // _fadeTween.TweenProperty(this, "global_position", Vector2.Zero, FadeDuration); // DEBUG
         if (globalDestination != null)
         {
             // TODO: lerp shaping
-            _fadeTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration / 2);
+            _fadeTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration);
         }
         Color fadeModulate = _originalModulate * (fadeModulateOverride ?? FadeModulate);
         _fadeTween.TweenProperty(this, "modulate", fadeModulate, FadeDuration);
@@ -136,17 +152,6 @@ public partial class Ball : RigidBody2D
         }
     }
 
-    private void PlayImpactAudio(AudioStreamPlayer2D audioPlayer, float impactStrength)
-    {
-        float normalizedImpact = Mathf.Clamp(impactStrength / MaxExpectedVelocity, 0.01f, 1.0f);
-        audioPlayer.VolumeDb = Mathf.LinearToDb(normalizedImpact);
-
-        float targetPitch = Mathf.Remap(normalizedImpact, 0.0f, 1.0f, 0.9f, 1.3f);
-        audioPlayer.PitchScale = targetPitch + (float)GD.RandRange(-0.05, 0.05);
-
-        audioPlayer.Play();
-    }
-
     private void OnFadeTimeout()
     {
         switch (CurrentFadeState)
@@ -163,6 +168,23 @@ public partial class Ball : RigidBody2D
             default:
                 break;
         }
+    }
+
+    private void OnStuck()
+    {
+        FadeOut();
+        FadeOutFinished += QueueFree;
+    }
+
+    private void PlayImpactAudio(AudioStreamPlayer2D audioPlayer, float impactStrength)
+    {
+        float normalizedImpact = Mathf.Clamp(impactStrength / MaxExpectedVelocity, 0.01f, 1.0f);
+        audioPlayer.VolumeDb = Mathf.LinearToDb(normalizedImpact);
+
+        float targetPitch = Mathf.Remap(normalizedImpact, 0.0f, 1.0f, 0.9f, 1.3f);
+        audioPlayer.PitchScale = targetPitch + (float)GD.RandRange(-0.05, 0.05);
+
+        audioPlayer.Play();
     }
 
     private void CancelFade()
@@ -183,5 +205,4 @@ public partial class Ball : RigidBody2D
         await ToSignal(testTimer, SceneTreeTimer.SignalName.Timeout);
         FadeIn();
     }
-
 }
