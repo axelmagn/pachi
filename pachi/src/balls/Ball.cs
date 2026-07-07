@@ -44,9 +44,9 @@ public partial class Ball : RigidBody2D
     [Export]
     public bool InitDetectStuck { get; set; }
 
-    public FadeState CurrentFadeState { get; set; } = FadeState.None;
+    public TransitionState CurrentTransitionState { get; set; } = TransitionState.None;
 
-    public enum FadeState
+    public enum TransitionState
     {
         None,
         FadeIn,
@@ -54,7 +54,7 @@ public partial class Ball : RigidBody2D
     };
 
 
-    private Tween _fadeTween = null;
+    private Tween _transitionTween = null;
 
     private Color _originalModulate = Colors.White;
 
@@ -77,7 +77,8 @@ public partial class Ball : RigidBody2D
 
         _originalModulate = Modulate;
 
-        if (InitDetectStuck) {
+        if (InitDetectStuck)
+        {
             StuckTimer.Start();
         }
 
@@ -102,15 +103,15 @@ public partial class Ball : RigidBody2D
     {
         CancelFade();
         Freeze = true;
-        CurrentFadeState = FadeState.FadeIn;
-        _fadeTween = GetTree().CreateTween().SetParallel(true);
-        _fadeTween.TweenProperty(this, "scale", Vector2.One, FadeDuration);
+        CurrentTransitionState = TransitionState.FadeIn;
+        _transitionTween = GetTree().CreateTween().SetParallel(true);
+        _transitionTween.TweenProperty(this, "scale", Vector2.One, FadeDuration);
         if (globalDestination != null)
         {
             // TODO: lerp shaping
-            _fadeTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration);
+            _transitionTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration);
         }
-        _fadeTween.TweenProperty(this, "modulate", _originalModulate, FadeDuration);
+        _transitionTween.TweenProperty(this, "modulate", _originalModulate, FadeDuration);
         FadeTimer.Start(FadeDuration);
     }
 
@@ -118,18 +119,18 @@ public partial class Ball : RigidBody2D
     {
         CancelFade();
         Freeze = true;
-        CurrentFadeState = FadeState.FadeOut;
-        _fadeTween = GetTree().CreateTween().SetParallel(true);
-        _fadeTween.TweenProperty(this, "scale", new Vector2(FadeScale, FadeScale), FadeDuration);
+        CurrentTransitionState = TransitionState.FadeOut;
+        _transitionTween = GetTree().CreateTween().SetParallel(true);
+        _transitionTween.TweenProperty(this, "scale", new Vector2(FadeScale, FadeScale), FadeDuration);
 
         // _fadeTween.TweenProperty(this, "global_position", Vector2.Zero, FadeDuration); // DEBUG
         if (globalDestination != null)
         {
             // TODO: lerp shaping
-            _fadeTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration);
+            _transitionTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration);
         }
         Color fadeModulate = _originalModulate * (fadeModulateOverride ?? FadeModulate);
-        _fadeTween.TweenProperty(this, "modulate", fadeModulate, FadeDuration);
+        _transitionTween.TweenProperty(this, "modulate", fadeModulate, FadeDuration);
         FadeTimer.Start(FadeDuration);
     }
 
@@ -154,15 +155,15 @@ public partial class Ball : RigidBody2D
 
     private void OnFadeTimeout()
     {
-        switch (CurrentFadeState)
+        switch (CurrentTransitionState)
         {
-            case FadeState.FadeIn:
+            case TransitionState.FadeIn:
                 Freeze = false;
-                CurrentFadeState = FadeState.None;
+                CurrentTransitionState = TransitionState.None;
                 EmitSignal(SignalName.FadeInFinished);
                 break;
-            case FadeState.FadeOut:
-                CurrentFadeState = FadeState.None;
+            case TransitionState.FadeOut:
+                CurrentTransitionState = TransitionState.None;
                 EmitSignal(SignalName.FadeOutFinished);
                 break;
             default:
@@ -189,11 +190,11 @@ public partial class Ball : RigidBody2D
 
     private void CancelFade()
     {
-        if (CurrentFadeState == FadeState.None) return;
-        Debug.Assert(_fadeTween != null);
-        _fadeTween.Stop();
-        _fadeTween = null;
-        CurrentFadeState = FadeState.None;
+        if (CurrentTransitionState == TransitionState.None) return;
+        Debug.Assert(_transitionTween != null);
+        _transitionTween.Stop();
+        _transitionTween = null;
+        CurrentTransitionState = TransitionState.None;
     }
 
     async private void TestFadeInFadeOut()

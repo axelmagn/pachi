@@ -19,6 +19,7 @@ max_contacts_reported = 4
 script = ExtResource("1_tsi0e")
 BallPinBounceAudioPlayer = NodePath("BallPinBounceAudioPlayer")
 BallBallBounceAudioPlayer = NodePath("BallBallBounceAudioPlayer")
+FadeModulate = Color(0.5019608, 0.5019608, 0.5019608, 0.7529412)
 Collider = NodePath("CollisionShape2D")
 FadeTimer = NodePath("FadeTimer")
 StuckTimer = NodePath("StuckTimer")

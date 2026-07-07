@@ -69,7 +69,7 @@ public partial class Drain : Node2D
         {
             if (body is Ball ball)
             {
-                if (ball.CurrentFadeState != Ball.FadeState.None) continue;
+                if (ball.CurrentTransitionState != Ball.TransitionState.None) continue;
 
                 float ballRadius = ball.GetRadius();
                 if (ballRadius > holeRadius) continue;

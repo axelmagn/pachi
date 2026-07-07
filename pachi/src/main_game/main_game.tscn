@@ -117,8 +117,10 @@ handle_input_locally = false
 size = Vector2i(512, 224)
 render_target_update_mode = 4
 
-[node name="LauncherAssembly" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/LauncherViewportContainer/SubViewport" unique_id=2132420869 instance=ExtResource("4_ju3mb")]
+[node name="LauncherAssembly" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/LauncherViewportContainer/SubViewport" unique_id=2132420869 node_paths=PackedStringArray("Hopper", "Level") instance=ExtResource("4_ju3mb")]
 position = Vector2(329, 40)
+Hopper = NodePath("../../../HopperViewportContainer/SubViewport/Hopper")
+Level = NodePath("../../../../CenterColumn/LevelViewportContainer/LevelViewport/Level")
 
 [node name="CenterColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=200510283]
 custom_minimum_size = Vector2(810, 1080)

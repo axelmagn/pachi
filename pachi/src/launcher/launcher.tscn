@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dnslcmv1udepo" path="res://src/launcher/Launcher.cs" id="1_ob4jl"]
 [ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="2_h1ipi"]
-[ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="3_h1ipi"]
 
-[node name="Launcher" type="Node2D" unique_id=2132420869]
+[node name="Launcher" type="Node2D" unique_id=2132420869 node_paths=PackedStringArray("LauncherSprite", "LauncherGhostSprite")]
 script = ExtResource("1_ob4jl")
+LauncherSprite = NodePath("LauncherSprite")
+LauncherGhostSprite = NodePath("LauncherGhostSprite")
 
 [node name="LauncherGhostSprite" type="Node2D" parent="." unique_id=1563860130]
 rotation = -0.61086524
@@ -24,6 +25,3 @@ position = Vector2(-130, 0)
 rotation = 1.5707964
 script = ExtResource("2_h1ipi")
 Height = 300.0
-
-[node name="Hole" parent="." unique_id=428848470 instance=ExtResource("3_h1ipi")]
-position = Vector2(89, 0)

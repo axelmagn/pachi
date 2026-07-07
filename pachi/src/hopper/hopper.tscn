@@ -1,11 +1,20 @@
 [gd_scene format=3 uid="uid://u6rfdg6awo6u"]
 
 [ext_resource type="PackedScene" uid="uid://c6cgra7w5psvw" path="res://src/levels/boundary_rect.tscn" id="1_3h226"]
+[ext_resource type="Script" uid="uid://dtg33c0gk2kxu" path="res://src/hopper/Hopper.cs" id="1_dxyfh"]
+[ext_resource type="PackedScene" uid="uid://biu6ucbfgptk2" path="res://src/pins/pin_wall_ellipse.tscn" id="2_gmkmf"]
 
 [node name="Hopper" type="Node2D" unique_id=1019095757]
+script = ExtResource("1_dxyfh")
 
 [node name="BoundaryRect" parent="." unique_id=1819436732 groups=["pin_material"] instance=ExtResource("1_3h226")]
 Width = 512.0
 Height = 800.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1714356661]
+
+[node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_gmkmf")]
+position = Vector2(0, 318)
+RadiusX = 256.0
+AverageSpacing = 10.0
+EndAngle = 180.0
