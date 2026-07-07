@@ -29,6 +29,7 @@ public partial class Launcher : Node2D
     private float _startRotation;
     private float _endRotation;
     private float _rotationRate = 0.0f;
+    private float _chargeRatio = 0.0f;
     private Ball _chargedBall;
 
     public override void _Ready()
@@ -45,15 +46,14 @@ public partial class Launcher : Node2D
     {
         if (Input.IsActionJustPressed(ChargeInput))
         {
-            GD.Print("launcher charge start");
             ChargeStart();
         }
         if (Input.IsActionJustReleased(ChargeInput))
         {
-            GD.Print("launcher charge end");
             ChargeEnd();
         }
 
+        // TODO: make launcher feel better to use
         RotateClamped((float)delta * _rotationRate);
 
         if (Mathf.IsEqualApprox(LauncherSprite.Rotation, _startRotation)
@@ -83,6 +83,18 @@ public partial class Launcher : Node2D
         return _startRotation > _endRotation ? _startRotation : _endRotation;
     }
 
+    private float RotationRatio()
+    {
+        float rotationRange = MaxRotation() - MinRotation();
+        float rotationDelta = LauncherSprite.Rotation - MinRotation();
+        float rotationRatio = rotationDelta / rotationRange;
+        if (_startRotation > _endRotation)
+        {
+            rotationRatio = 1.0f - rotationRatio;
+        }
+        return (float)Mathf.Clamp(rotationRatio, 0.0, 1.0);
+    }
+
     private void RotateClamped(float delta)
     {
         float rotation = LauncherSprite.Rotation + delta;
@@ -98,6 +110,7 @@ public partial class Launcher : Node2D
     private void ChargeEnd()
     {
         _rotationRate = (_startRotation - _endRotation) / ReleaseTime;
+        _chargeRatio = RotationRatio();
     }
 
     // TODO: replace fade in / out effect with zoop animation
@@ -139,7 +152,10 @@ public partial class Launcher : Node2D
     {
         if (_chargedBall == null) return;
         _chargedBall.Freeze = false;
-        // TODO: add velocity
+        // TODO: retrieve velocity vector from launch point
+        // TODO: feed charge ratio through curve
+        GD.Print("charge ratio:", _chargeRatio);
+        _chargedBall.LinearVelocity = new Vector2(100.0f, -200.0f) * 5.0f * _chargeRatio;
         _chargedBall = null;
     }
 }
