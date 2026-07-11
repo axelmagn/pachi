@@ -126,7 +126,8 @@ public partial class Launcher : Node2D
 
         // set up charged ball
         _chargedBall = (Ball)poppedBall.Duplicate();
-        Level.AddChild(_chargedBall);
+        Level.BallsRoot.AddChild(_chargedBall);
+        Level.BallsRoot.MoveChild(_chargedBall, 0);
         Debug.Assert(Level.BallsRoot != null);
         _chargedBall.Reparent(Level.BallsRoot);
         Debug.Assert(Level.BallLaunchPoint != null);
@@ -137,7 +138,7 @@ public partial class Launcher : Node2D
         poppedBall.FadeOutFinished += poppedBall.QueueFree;
 
         // animate in charged ball
-        _chargedBall.FadeIn();
+        _chargedBall.FadeIn(initFadedOut: true);
         Ball ballMemo = _chargedBall;
         _chargedBall.FadeInFinished += () =>
             {

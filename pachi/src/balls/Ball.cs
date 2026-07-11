@@ -99,9 +99,16 @@ public partial class Ball : RigidBody2D
         return circle.Radius * Scale.X;
     }
 
-    public void FadeIn(Vector2? globalDestination = null)
+    public void FadeIn(Vector2? globalDestination = null, bool initFadedOut = false)
     {
         CancelFade();
+
+        if (initFadedOut)
+        {
+            Scale = new(FadeScale, FadeScale);
+            Modulate = FadeModulate;
+        }
+
         Freeze = true;
         CurrentTransitionState = TransitionState.FadeIn;
         _transitionTween = GetTree().CreateTween().SetParallel(true);
