@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://dipa2bdiwa5lt" path="res://src/levels/Level.cs" id="1_2tyx5"]
 [ext_resource type="PackedScene" uid="uid://c6cgra7w5psvw" path="res://src/levels/boundary_rect.tscn" id="1_g8rii"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_ub47v"]
-[ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="3_aeuny"]
 [ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="4_7umm5"]
 [ext_resource type="PackedScene" uid="uid://4wtihlnetfmr" path="res://src/pins/pin_wall.tscn" id="4_deqfd"]
 [ext_resource type="PackedScene" uid="uid://bmmgwhohdsx2d" path="res://src/drain/drain.tscn" id="5_8tcek"]
@@ -43,104 +42,6 @@ EndAngle = 360.0
 PinScene = ExtResource("4_deqfd")
 
 [node name="Temp" type="Node2D" parent="." unique_id=1776195324]
-
-[node name="TempBalls" type="Node2D" parent="Temp" unique_id=1557482687]
-
-[node name="Ball" parent="Temp/TempBalls" unique_id=1594434914 instance=ExtResource("3_aeuny")]
-position = Vector2(0, -241)
-
-[node name="Ball2" parent="Temp/TempBalls" unique_id=1286572436 instance=ExtResource("3_aeuny")]
-position = Vector2(69, -241)
-
-[node name="Ball3" parent="Temp/TempBalls" unique_id=550879902 instance=ExtResource("3_aeuny")]
-position = Vector2(143, -241)
-
-[node name="Ball4" parent="Temp/TempBalls" unique_id=365817049 instance=ExtResource("3_aeuny")]
-position = Vector2(212, -241)
-
-[node name="Ball5" parent="Temp/TempBalls" unique_id=1722366751 instance=ExtResource("3_aeuny")]
-position = Vector2(-272, -241)
-
-[node name="Ball6" parent="Temp/TempBalls" unique_id=1090145481 instance=ExtResource("3_aeuny")]
-position = Vector2(-203, -241)
-
-[node name="Ball7" parent="Temp/TempBalls" unique_id=358409005 instance=ExtResource("3_aeuny")]
-position = Vector2(-129, -241)
-
-[node name="Ball8" parent="Temp/TempBalls" unique_id=1057064999 instance=ExtResource("3_aeuny")]
-position = Vector2(-60, -241)
-
-[node name="Ball9" parent="Temp/TempBalls" unique_id=1220013603 instance=ExtResource("3_aeuny")]
-position = Vector2(35, -187)
-
-[node name="Ball10" parent="Temp/TempBalls" unique_id=111951548 instance=ExtResource("3_aeuny")]
-position = Vector2(104, -187)
-
-[node name="Ball11" parent="Temp/TempBalls" unique_id=46110665 instance=ExtResource("3_aeuny")]
-position = Vector2(178, -187)
-
-[node name="Ball12" parent="Temp/TempBalls" unique_id=1319128611 instance=ExtResource("3_aeuny")]
-position = Vector2(247, -187)
-
-[node name="Ball13" parent="Temp/TempBalls" unique_id=1198991137 instance=ExtResource("3_aeuny")]
-position = Vector2(-237, -187)
-
-[node name="Ball14" parent="Temp/TempBalls" unique_id=967669344 instance=ExtResource("3_aeuny")]
-position = Vector2(-168, -187)
-
-[node name="Ball15" parent="Temp/TempBalls" unique_id=938548024 instance=ExtResource("3_aeuny")]
-position = Vector2(-94, -187)
-
-[node name="Ball16" parent="Temp/TempBalls" unique_id=1993414878 instance=ExtResource("3_aeuny")]
-position = Vector2(-25, -187)
-
-[node name="Ball17" parent="Temp/TempBalls" unique_id=403372350 instance=ExtResource("3_aeuny")]
-position = Vector2(-13, -128)
-
-[node name="Ball18" parent="Temp/TempBalls" unique_id=1585044412 instance=ExtResource("3_aeuny")]
-position = Vector2(56, -128)
-
-[node name="Ball19" parent="Temp/TempBalls" unique_id=469592057 instance=ExtResource("3_aeuny")]
-position = Vector2(130, -128)
-
-[node name="Ball20" parent="Temp/TempBalls" unique_id=1866565975 instance=ExtResource("3_aeuny")]
-position = Vector2(199, -128)
-
-[node name="Ball21" parent="Temp/TempBalls" unique_id=1721249624 instance=ExtResource("3_aeuny")]
-position = Vector2(-285, -128)
-
-[node name="Ball22" parent="Temp/TempBalls" unique_id=1613537131 instance=ExtResource("3_aeuny")]
-position = Vector2(-216, -128)
-
-[node name="Ball23" parent="Temp/TempBalls" unique_id=1931244891 instance=ExtResource("3_aeuny")]
-position = Vector2(-142, -128)
-
-[node name="Ball24" parent="Temp/TempBalls" unique_id=22159632 instance=ExtResource("3_aeuny")]
-position = Vector2(-73, -128)
-
-[node name="Ball25" parent="Temp/TempBalls" unique_id=1850485470 instance=ExtResource("3_aeuny")]
-position = Vector2(34, -76)
-
-[node name="Ball26" parent="Temp/TempBalls" unique_id=1342799765 instance=ExtResource("3_aeuny")]
-position = Vector2(103, -76)
-
-[node name="Ball27" parent="Temp/TempBalls" unique_id=908734609 instance=ExtResource("3_aeuny")]
-position = Vector2(177, -76)
-
-[node name="Ball28" parent="Temp/TempBalls" unique_id=510303196 instance=ExtResource("3_aeuny")]
-position = Vector2(246, -76)
-
-[node name="Ball29" parent="Temp/TempBalls" unique_id=1721802959 instance=ExtResource("3_aeuny")]
-position = Vector2(-238, -76)
-
-[node name="Ball30" parent="Temp/TempBalls" unique_id=1949589992 instance=ExtResource("3_aeuny")]
-position = Vector2(-169, -76)
-
-[node name="Ball31" parent="Temp/TempBalls" unique_id=724508998 instance=ExtResource("3_aeuny")]
-position = Vector2(-95, -76)
-
-[node name="Ball32" parent="Temp/TempBalls" unique_id=96712566 instance=ExtResource("3_aeuny")]
-position = Vector2(-26, -76)
 
 [node name="PinGrid" parent="Temp" unique_id=389836355 instance=ExtResource("4_7umm5")]
 position = Vector2(-362, 7)

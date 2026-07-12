@@ -3,9 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://c6cgra7w5psvw" path="res://src/levels/boundary_rect.tscn" id="1_3h226"]
 [ext_resource type="Script" uid="uid://dtg33c0gk2kxu" path="res://src/hopper/Hopper.cs" id="1_dxyfh"]
 [ext_resource type="PackedScene" uid="uid://biu6ucbfgptk2" path="res://src/pins/pin_wall_ellipse.tscn" id="2_gmkmf"]
+[ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="2_mdjoa"]
 
-[node name="Hopper" type="Node2D" unique_id=1019095757]
+[node name="Hopper" type="Node2D" unique_id=1019095757 node_paths=PackedStringArray("BallsRoot", "QueuedBallDispenseTimer", "QueuedBallDispenseHoles")]
 script = ExtResource("1_dxyfh")
+BallsRoot = NodePath("BallsRoot")
+InitQueuedBallsScene = ExtResource("2_mdjoa")
+QueuedBallDispenseTimer = NodePath("QueuedBallsDispenseTimer")
+QueuedBallDispenseHoles = []
 
 [node name="BoundaryRect" parent="." unique_id=1819436732 groups=["pin_material"] instance=ExtResource("1_3h226")]
 Width = 512.0
@@ -18,3 +23,7 @@ position = Vector2(0, 318)
 RadiusX = 256.0
 AverageSpacing = 10.0
 EndAngle = 180.0
+
+[node name="BallsRoot" type="Node2D" parent="." unique_id=1950479956]
+
+[node name="QueuedBallsDispenseTimer" type="Timer" parent="." unique_id=748157450]

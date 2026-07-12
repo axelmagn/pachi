@@ -121,7 +121,7 @@ public partial class Launcher : Node2D
 
         // see if we can pop a ball from the hopper
         if (_chargedBall != null) return;
-        Ball poppedBall = Hopper.PopFirstBall();
+        Ball poppedBall = Hopper.PopFirstContainedBall();
         if (poppedBall == null) return;
 
         // set up charged ball

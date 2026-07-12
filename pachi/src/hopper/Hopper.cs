@@ -7,22 +7,48 @@ using System.Linq;
 
 public partial class Hopper : Node2D
 {
+    [Export]
+    public Node2D BallsRoot { get; set; }
+
+    [Export]
+    public int InitQueuedBalls { get; set; } = 0;
+
+    [Export]
+    public PackedScene InitQueuedBallsScene { get; set; }
+
+    [Export]
+    public Timer QueuedBallDispenseTimer { get; set; }
+
+    [Export]
+    public Array<Hole> QueuedBallDispenseHoles { get; set; }
+
     private readonly LinkedList<Ball> _containedBalls = new();
+    private readonly LinkedList<Ball> _queuedBalls = new();
 
     public override void _Ready()
     {
-        Debug.Assert(_containedBalls != null);
+        Debug.Assert(BallsRoot != null);
+        Debug.Assert(QueuedBallDispenseTimer != null);
+        Debug.Assert(QueuedBallDispenseHoles != null);
+        Debug.Assert(QueuedBallDispenseHoles.Count > 0);
 
-        // find all contained balls at start
-        foreach (Node child in GetChildren())
+        foreach (Node child in BallsRoot.GetChildren())
         {
             if (child is Ball ball)
             {
-                GD.Print("found hopper ball");
                 _containedBalls.AddLast(ball);
             }
         }
-        GD.Print("total hopper balls:", _containedBalls.Count());
+
+        if (InitQueuedBalls > 0)
+        {
+            Debug.Assert(InitQueuedBallsScene != null);
+            for (int i = 0; i < InitQueuedBalls; i++)
+            {
+                Ball ball = InitQueuedBallsScene.Instantiate<Ball>();
+                _queuedBalls.AddLast(ball);
+            }
+        }
     }
 
     public int BallCount()
@@ -30,7 +56,7 @@ public partial class Hopper : Node2D
         return _containedBalls.Count();
     }
 
-    public Ball PopFirstBall()
+    public Ball PopFirstContainedBall()
     {
         if (_containedBalls.Count() == 0)
         {
@@ -40,4 +66,5 @@ public partial class Hopper : Node2D
         _containedBalls.RemoveFirst();
         return first;
     }
+
 }
