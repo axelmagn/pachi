@@ -4,13 +4,15 @@
 [ext_resource type="Script" uid="uid://dtg33c0gk2kxu" path="res://src/hopper/Hopper.cs" id="1_dxyfh"]
 [ext_resource type="PackedScene" uid="uid://biu6ucbfgptk2" path="res://src/pins/pin_wall_ellipse.tscn" id="2_gmkmf"]
 [ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="2_mdjoa"]
+[ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="5_myq0o"]
 
 [node name="Hopper" type="Node2D" unique_id=1019095757 node_paths=PackedStringArray("BallsRoot", "QueuedBallDispenseTimer", "QueuedBallDispenseHoles")]
 script = ExtResource("1_dxyfh")
 BallsRoot = NodePath("BallsRoot")
+InitQueuedBalls = 20
 InitQueuedBallsScene = ExtResource("2_mdjoa")
 QueuedBallDispenseTimer = NodePath("QueuedBallsDispenseTimer")
-QueuedBallDispenseHoles = []
+QueuedBallDispenseHoles = [NodePath("DispenseHoles/Hole"), NodePath("DispenseHoles/Hole2"), NodePath("DispenseHoles/Hole3"), NodePath("DispenseHoles/Hole4"), NodePath("DispenseHoles/Hole5"), NodePath("DispenseHoles/Hole6")]
 
 [node name="BoundaryRect" parent="." unique_id=1819436732 groups=["pin_material"] instance=ExtResource("1_3h226")]
 Width = 512.0
@@ -27,3 +29,25 @@ EndAngle = 180.0
 [node name="BallsRoot" type="Node2D" parent="." unique_id=1950479956]
 
 [node name="QueuedBallsDispenseTimer" type="Timer" parent="." unique_id=748157450]
+wait_time = 0.2
+autostart = true
+
+[node name="DispenseHoles" type="Node2D" parent="." unique_id=156763745]
+
+[node name="Hole" parent="DispenseHoles" unique_id=428848470 instance=ExtResource("5_myq0o")]
+position = Vector2(-162, -357)
+
+[node name="Hole2" parent="DispenseHoles" unique_id=1747479979 instance=ExtResource("5_myq0o")]
+position = Vector2(-108, -357)
+
+[node name="Hole3" parent="DispenseHoles" unique_id=1293258724 instance=ExtResource("5_myq0o")]
+position = Vector2(-52, -357)
+
+[node name="Hole4" parent="DispenseHoles" unique_id=396146742 instance=ExtResource("5_myq0o")]
+position = Vector2(0, -357)
+
+[node name="Hole5" parent="DispenseHoles" unique_id=288894788 instance=ExtResource("5_myq0o")]
+position = Vector2(62, -357)
+
+[node name="Hole6" parent="DispenseHoles" unique_id=877378987 instance=ExtResource("5_myq0o")]
+position = Vector2(116, -357)

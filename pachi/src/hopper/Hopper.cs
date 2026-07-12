@@ -24,6 +24,7 @@ public partial class Hopper : Node2D
 
     private readonly LinkedList<Ball> _containedBalls = new();
     private readonly LinkedList<Ball> _queuedBalls = new();
+    private int _nextDispenseHoleIndex = 0;
 
     public override void _Ready()
     {
@@ -49,6 +50,8 @@ public partial class Hopper : Node2D
                 _queuedBalls.AddLast(ball);
             }
         }
+
+        QueuedBallDispenseTimer.Timeout += OnDispenseTimeout;
     }
 
     public int BallCount()
@@ -65,6 +68,34 @@ public partial class Hopper : Node2D
         Ball first = _containedBalls.First();
         _containedBalls.RemoveFirst();
         return first;
+    }
+
+    public void DispenseBall(Ball ball)
+    {
+        ball.Freeze = true;
+        if (ball.GetParent() != null)
+        {
+            ball.Reparent(BallsRoot);
+        }
+        else
+        {
+            BallsRoot.AddChild(ball);
+        }
+
+        int numHoles = QueuedBallDispenseHoles.Count();
+        Debug.Assert(_nextDispenseHoleIndex < numHoles);
+        Hole hole = QueuedBallDispenseHoles[_nextDispenseHoleIndex];
+        ball.GlobalPosition = hole.GlobalPosition;
+        _nextDispenseHoleIndex += 1;
+        _nextDispenseHoleIndex %= numHoles;
+        ball.FadeIn(initFadedOut: true);
+    }
+
+    private void OnDispenseTimeout() {
+        if (_queuedBalls.Count() == 0) return;
+        Ball ball = _queuedBalls.First();
+        _queuedBalls.RemoveFirst();
+        DispenseBall(ball);
     }
 
 }
