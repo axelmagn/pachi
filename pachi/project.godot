@@ -43,6 +43,10 @@ launcher_charge={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_2="Ball"
+
 [physics]
 
 2d/physics_engine="Rapier2D"

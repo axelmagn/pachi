@@ -12,6 +12,8 @@ bounce = 0.4
 radius = 11.0
 
 [node name="Ball" type="RigidBody2D" unique_id=1594434914 node_paths=PackedStringArray("BallPinBounceAudioPlayer", "BallBallBounceAudioPlayer", "Collider", "FadeTimer", "StuckTimer") groups=["ball"]]
+collision_layer = 2
+collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_tsi0e")
 continuous_cd = 2
 contact_monitor = true

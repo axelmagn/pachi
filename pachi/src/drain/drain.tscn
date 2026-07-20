@@ -1,26 +1,11 @@
 [gd_scene format=3 uid="uid://bmmgwhohdsx2d"]
 
 [ext_resource type="Script" uid="uid://bf0bad82asfim" path="res://src/drain/Drain.cs" id="1_1n2xc"]
-[ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_g6svu"]
+[ext_resource type="PackedScene" uid="uid://b03it50g2k3q1" path="res://src/holes/drain_hole.tscn" id="2_1n2xc"]
 
-[sub_resource type="Curve" id="Curve_deqfd"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.39106148), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
-radius = 36.0
-
-[node name="Drain" type="Node2D" unique_id=1795231198 node_paths=PackedStringArray("Hole", "AttractorArea", "AttractorAreaShape")]
+[node name="Drain" type="Node2D" unique_id=1795231198 node_paths=PackedStringArray("Hole")]
 script = ExtResource("1_1n2xc")
-Hole = NodePath("Hole")
-AttractorImpulse = 64.0
-AttractorArea = NodePath("AttractorArea")
-AttractorAreaShape = NodePath("AttractorArea/AttractorAreaShape")
-AttractorImpulseByDistance = SubResource("Curve_deqfd")
+Hole = NodePath("DrainHole")
 
-[node name="Hole" parent="." unique_id=428848470 instance=ExtResource("1_g6svu")]
-
-[node name="AttractorArea" type="Area2D" parent="." unique_id=343634381]
-
-[node name="AttractorAreaShape" type="CollisionShape2D" parent="AttractorArea" unique_id=696345951]
-shape = SubResource("CircleShape2D_ubxs6")
+[node name="DrainHole" parent="." unique_id=428848470 instance=ExtResource("2_1n2xc")]
+MonitorBallOverlap = true

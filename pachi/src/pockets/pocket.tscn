@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://camastfknnaxx"]
+
+[ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_2u1n5"]
+[ext_resource type="Script" uid="uid://i6t2n8takshu" path="res://src/pockets/Pocket.cs" id="1_mtvat"]
+[ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_241cg"]
+[ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="3_r7ej6"]
+[ext_resource type="Script" uid="uid://bwd78gnw7egqp" path="res://src/shape_sprites/ColliderCapsuleSprite.cs" id="4_lxxho"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
+radius = 1.5
+height = 32.0
+
+[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm")]
+script = ExtResource("1_mtvat")
+CatchHole = NodePath("CatchHole")
+RejectHole = NodePath("RejectHole")
+LeftArm = NodePath("LeftArm")
+RightArm = NodePath("RightArm")
+
+[node name="CatchHole" parent="." unique_id=428848470 instance=ExtResource("1_2u1n5")]
+
+[node name="RejectHole" parent="." unique_id=1955688582 instance=ExtResource("1_2u1n5")]
+position = Vector2(0, 32)
+
+[node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_241cg")]
+RadiusX = 16.0
+RadiusY = 16.0
+AverageSpacing = 4.0
+EndAngle = 180.0
+
+[node name="PinEllipse2" parent="." unique_id=1537409262 instance=ExtResource("2_241cg")]
+position = Vector2(0, 32)
+RadiusX = 16.0
+RadiusY = 16.0
+AverageSpacing = 4.0
+StartAngle = 180.0
+EndAngle = 360.0
+
+[node name="RightArm" type="CharacterBody2D" parent="." unique_id=634194663]
+position = Vector2(16, -3)
+script = ExtResource("3_r7ej6")
+metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightArm" unique_id=1277358654]
+position = Vector2(0, -15)
+shape = SubResource("CapsuleShape2D_7ivt2")
+
+[node name="ColliderCapsuleSprite" type="Node2D" parent="RightArm/CollisionShape2D" unique_id=898727807]
+script = ExtResource("4_lxxho")
+Radius = 1.5
+Height = 32.0
+metadata/_custom_type_script = "uid://bwd78gnw7egqp"
+
+[node name="LeftArm" type="CharacterBody2D" parent="." unique_id=1693192151]
+position = Vector2(-16, -4)
+script = ExtResource("3_r7ej6")
+metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArm" unique_id=560707818]
+position = Vector2(0, -14)
+shape = SubResource("CapsuleShape2D_7ivt2")
+
+[node name="ColliderCapsuleSprite" type="Node2D" parent="LeftArm/CollisionShape2D" unique_id=1314152300]
+script = ExtResource("4_lxxho")
+Radius = 1.5
+Height = 32.0
+metadata/_custom_type_script = "uid://bwd78gnw7egqp"

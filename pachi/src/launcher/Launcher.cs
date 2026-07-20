@@ -155,7 +155,6 @@ public partial class Launcher : Node2D
         _chargedBall.Freeze = false;
         // TODO: retrieve velocity vector from launch point
         // TODO: feed charge ratio through curve
-        GD.Print("charge ratio:", _chargeRatio);
         _chargedBall.LinearVelocity = new Vector2(100.0f, -200.0f) * 5.0f * _chargeRatio;
         _chargedBall = null;
     }

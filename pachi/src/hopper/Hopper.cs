@@ -81,6 +81,7 @@ public partial class Hopper : Node2D
         {
             BallsRoot.AddChild(ball);
         }
+        _containedBalls.AddLast(ball);
 
         int numHoles = QueuedBallDispenseHoles.Count();
         Debug.Assert(_nextDispenseHoleIndex < numHoles);
