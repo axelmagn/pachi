@@ -22,7 +22,6 @@ public partial class Drain : Node2D
     {
         ball.FadeOut(Hole.GlobalPosition);
         ball.FadeOutFinished += ball.QueueFree;
-
     }
 
 

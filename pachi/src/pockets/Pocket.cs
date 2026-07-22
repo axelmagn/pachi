@@ -22,5 +22,17 @@ public partial class Pocket : Node2D
         Debug.Assert(RejectHole != null);
         Debug.Assert(LeftArm != null);
         Debug.Assert(RightArm != null);
+
+        CatchHole.BallOverlapped += OnBallCatch;
+    }
+
+    private void OnBallCatch(Ball ball)
+    {
+        ball.FadeOut(CatchHole.GlobalPosition);
+        ball.FadeOutFinished += () =>
+        {
+            ball.QueueFree();
+            GD.Print("ball caught by pocket");
+        };
     }
 }
