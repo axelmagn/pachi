@@ -44,6 +44,9 @@ public partial class Ball : RigidBody2D
     [Export]
     public bool InitDetectStuck { get; set; }
 
+    public static readonly StringName BallMaterialGroup = "ball_material";
+    public static readonly StringName PinMaterialGroup = "pin_material";
+
     public TransitionState CurrentTransitionState { get; set; } = TransitionState.None;
 
     public enum TransitionState
@@ -112,13 +115,13 @@ public partial class Ball : RigidBody2D
         Freeze = true;
         CurrentTransitionState = TransitionState.FadeIn;
         _transitionTween = GetTree().CreateTween().SetParallel(true);
-        _transitionTween.TweenProperty(this, "scale", Vector2.One, FadeDuration);
+        _transitionTween.TweenProperty(this, (NodePath)PropertyName.Scale.ToString(), Vector2.One, FadeDuration);
         if (globalDestination != null)
         {
             // TODO: lerp shaping
-            _transitionTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration);
+            _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
         }
-        _transitionTween.TweenProperty(this, "modulate", _originalModulate, FadeDuration);
+        _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), _originalModulate, FadeDuration);
         FadeTimer.Start(FadeDuration);
     }
 
@@ -128,16 +131,16 @@ public partial class Ball : RigidBody2D
         Freeze = true;
         CurrentTransitionState = TransitionState.FadeOut;
         _transitionTween = GetTree().CreateTween().SetParallel(true);
-        _transitionTween.TweenProperty(this, "scale", new Vector2(FadeScale, FadeScale), FadeDuration);
+        _transitionTween.TweenProperty(this, (NodePath)PropertyName.Scale.ToString(), new Vector2(FadeScale, FadeScale), FadeDuration);
 
-        // _fadeTween.TweenProperty(this, "global_position", Vector2.Zero, FadeDuration); // DEBUG
+        // _fadeTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), Vector2.Zero, FadeDuration); // DEBUG
         if (globalDestination != null)
         {
             // TODO: lerp shaping
-            _transitionTween.TweenProperty(this, "global_position", globalDestination.Value, FadeDuration);
+            _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
         }
         Color fadeModulate = _originalModulate * (fadeModulateOverride ?? FadeModulate);
-        _transitionTween.TweenProperty(this, "modulate", fadeModulate, FadeDuration);
+        _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), fadeModulate, FadeDuration);
         FadeTimer.Start(FadeDuration);
     }
 
@@ -149,12 +152,11 @@ public partial class Ball : RigidBody2D
 
         if (impactStrength < BounceAudioThreshold) return;
 
-        // TODO: move group names to a constant
-        if (body.IsInGroup("ball_material"))
+        if (body.IsInGroup(BallMaterialGroup))
         {
             PlayImpactAudio(BallBallBounceAudioPlayer, impactStrength);
         }
-        else if (body.IsInGroup("pin_material"))
+        else if (body.IsInGroup(PinMaterialGroup))
         {
             PlayImpactAudio(BallPinBounceAudioPlayer, impactStrength);
         }
@@ -181,7 +183,7 @@ public partial class Ball : RigidBody2D
     private void OnStuck()
     {
         FadeOut();
-        FadeOutFinished += QueueFree;
+        Connect(SignalName.FadeOutFinished, Callable.From(QueueFree), (uint)ConnectFlags.OneShot);
     }
 
     private void PlayImpactAudio(AudioStreamPlayer2D audioPlayer, float impactStrength)
@@ -204,7 +206,7 @@ public partial class Ball : RigidBody2D
         CurrentTransitionState = TransitionState.None;
     }
 
-    async private void TestFadeInFadeOut()
+    private async Task TestFadeInFadeOut()
     {
         SceneTreeTimer testTimer = GetTree().CreateTimer(1.0);
         await ToSignal(testTimer, SceneTreeTimer.SignalName.Timeout);

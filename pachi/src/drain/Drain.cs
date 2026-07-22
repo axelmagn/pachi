@@ -21,8 +21,6 @@ public partial class Drain : Node2D
     private void OnBallOverlap(Ball ball)
     {
         ball.FadeOut(Hole.GlobalPosition);
-        ball.FadeOutFinished += ball.QueueFree;
+        ball.Connect(Ball.SignalName.FadeOutFinished, Callable.From(ball.QueueFree), (uint)GodotObject.ConnectFlags.OneShot);
     }
-
-
 }

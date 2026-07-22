@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 public partial class Launcher : Node2D
 {
@@ -104,7 +105,7 @@ public partial class Launcher : Node2D
     private void ChargeStart()
     {
         _rotationRate = (_endRotation - _startRotation) / ChargeTime;
-        TryLoadBallFromHopper();
+        _ = TryLoadBallFromHopper();
     }
 
     private void ChargeEnd()
@@ -114,7 +115,7 @@ public partial class Launcher : Node2D
     }
 
     // TODO: replace fade in / out effect with zoop animation
-    async private void TryLoadBallFromHopper()
+    private async Task TryLoadBallFromHopper()
     {
         Debug.Assert(Hopper != null);
         Debug.Assert(Level != null);
@@ -135,17 +136,17 @@ public partial class Launcher : Node2D
 
         // animate out popped ball
         poppedBall.FadeOut();
-        poppedBall.FadeOutFinished += poppedBall.QueueFree;
+        poppedBall.Connect(Ball.SignalName.FadeOutFinished, Callable.From(poppedBall.QueueFree), (uint)GodotObject.ConnectFlags.OneShot);
 
         // animate in charged ball
         _chargedBall.FadeIn(initFadedOut: true);
         Ball ballMemo = _chargedBall;
-        _chargedBall.FadeInFinished += () =>
+        _chargedBall.Connect(Ball.SignalName.FadeInFinished, Callable.From(() =>
             {
                 // check if ball has already been launched
                 if (_chargedBall != ballMemo) return;
                 _chargedBall.Freeze = true;
-            };
+            }), (uint)GodotObject.ConnectFlags.OneShot);
 
     }
 

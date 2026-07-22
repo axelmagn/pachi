@@ -29,10 +29,10 @@ public partial class Pocket : Node2D
     private void OnBallCatch(Ball ball)
     {
         ball.FadeOut(CatchHole.GlobalPosition);
-        ball.FadeOutFinished += () =>
+        ball.Connect(Ball.SignalName.FadeOutFinished, Callable.From(() =>
         {
             ball.QueueFree();
             GD.Print("ball caught by pocket");
-        };
+        }), (uint)GodotObject.ConnectFlags.OneShot);
     }
 }
