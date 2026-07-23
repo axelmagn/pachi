@@ -12,9 +12,16 @@ public partial class Ball : RigidBody2D
     public delegate void FadeOutFinishedEventHandler();
 
     [Export]
+    public BallVariant Variant { get; set; }
+
+    [Export]
     public AudioStreamPlayer2D BallPinBounceAudioPlayer { get; set; }
+
     [Export]
     public AudioStreamPlayer2D BallBallBounceAudioPlayer { get; set; }
+
+    [Export]
+    public ColliderCircleSprite PlaceholderSprite { get; set; }
 
     /// impact strength threshold at which bounce audio will play
     [Export]
@@ -67,6 +74,8 @@ public partial class Ball : RigidBody2D
 
     public override void _Ready()
     {
+        Debug.Assert(Variant != null);
+        Debug.Assert(PlaceholderSprite != null);
         Debug.Assert(BallPinBounceAudioPlayer != null);
         Debug.Assert(BallBallBounceAudioPlayer != null);
         Debug.Assert(Collider != null);
@@ -85,8 +94,7 @@ public partial class Ball : RigidBody2D
             StuckTimer.Start();
         }
 
-        // TEST - DEBUG
-        // TestFadeInFadeOut();
+        PlaceholderSprite.Color = Variant.PlaceholderColor;
     }
 
     public override void _PhysicsProcess(double delta)

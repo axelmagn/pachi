@@ -1,7 +1,9 @@
 using Godot;
 using System;
 
-public partial class BallType : Resource
+/// Configuration for a ball variant
+[GlobalClass]
+public partial class BallVariant : Resource
 {
     /// The color the ball's placeholder circle renders as when a sprite is not available.
     [Export]

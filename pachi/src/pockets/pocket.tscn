@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_2u1n5"]
 [ext_resource type="Script" uid="uid://i6t2n8takshu" path="res://src/pockets/Pocket.cs" id="1_mtvat"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_241cg"]
+[ext_resource type="Resource" uid="uid://bgim4kd1qkg7s" path="res://src/balls/default_ball_variant.tres" id="2_ogt5k"]
 [ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="3_r7ej6"]
 [ext_resource type="Script" uid="uid://bwd78gnw7egqp" path="res://src/shape_sprites/ColliderCapsuleSprite.cs" id="4_lxxho"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_8lcgt"]
@@ -11,12 +12,16 @@
 radius = 1.5
 height = 32.0
 
-[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm")]
+[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "InputsIndicator", "OutputsIndicator")]
 script = ExtResource("1_mtvat")
 CatchHole = NodePath("CatchHole")
 RejectHole = NodePath("RejectHole")
 LeftArm = NodePath("LeftArm")
 RightArm = NodePath("RightArm")
+InputBalls = Array[Object]([ExtResource("2_ogt5k")])
+OutputBalls = Array[Object]([ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k")])
+InputsIndicator = NodePath("InputsIndicator")
+OutputsIndicator = NodePath("OutputsIndicator")
 
 [node name="CatchHole" parent="." unique_id=428848470 instance=ExtResource("1_2u1n5")]
 MonitorBallOverlap = true
@@ -73,9 +78,7 @@ position = Vector2(0, 8)
 script = ExtResource("6_8lcgt")
 BackgroundColor = Color(0.08701607, 0.08701607, 0.08701607, 1)
 Size = Vector2(35, 16)
-NumDots = 1
 DotRadius = 2.0
-DotColor = Color(0.9682575, 0.9682575, 0.9682575, 1)
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 
 [node name="OutputsIndicator" type="Node2D" parent="." unique_id=188350990]
@@ -83,7 +86,5 @@ position = Vector2(0, 24)
 script = ExtResource("6_8lcgt")
 BackgroundColor = Color(0.08701607, 0.08701607, 0.08701607, 1)
 Size = Vector2(35, 16)
-NumDots = 5
 DotRadius = 2.0
-DotColor = Color(0.9682575, 0.9682575, 0.9682575, 1)
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"

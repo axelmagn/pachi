@@ -6,11 +6,18 @@ using System.Diagnostics;
 public partial class GlobalEvents : Node
 {
 
+    [Signal]
+    public delegate void BallAwardedEventHandler(BallVariant ballVariant);
+
     public static GlobalEvents Instance { get; private set; }
 
     public override void _EnterTree()
     {
         Debug.Assert(Instance == null);
         Instance = this;
+    }
+
+    public void NotifyBallAwarded(BallVariant ballVariant) {
+        EmitSignal(SignalName.BallAwarded, ballVariant);
     }
 }

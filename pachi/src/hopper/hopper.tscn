@@ -26,12 +26,6 @@ RadiusX = 256.0
 AverageSpacing = 10.0
 EndAngle = 180.0
 
-[node name="BallsRoot" type="Node2D" parent="." unique_id=1950479956]
-
-[node name="QueuedBallsDispenseTimer" type="Timer" parent="." unique_id=748157450]
-wait_time = 0.2
-autostart = true
-
 [node name="DispenseHoles" type="Node2D" parent="." unique_id=156763745]
 
 [node name="Hole" parent="DispenseHoles" unique_id=428848470 instance=ExtResource("5_myq0o")]
@@ -51,3 +45,9 @@ position = Vector2(62, -357)
 
 [node name="Hole6" parent="DispenseHoles" unique_id=877378987 instance=ExtResource("5_myq0o")]
 position = Vector2(116, -357)
+
+[node name="BallsRoot" type="Node2D" parent="." unique_id=1950479956]
+
+[node name="QueuedBallsDispenseTimer" type="Timer" parent="." unique_id=748157450]
+wait_time = 0.2
+autostart = true
