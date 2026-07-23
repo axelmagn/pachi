@@ -52,16 +52,17 @@ public partial class Hopper : Node2D
         }
 
         QueuedBallDispenseTimer.Timeout += OnDispenseTimeout;
+        GlobalEvents.Instance.BallAwarded += OnBallAwarded;
     }
 
     public int BallCount()
     {
-        return _containedBalls.Count();
+        return _containedBalls.Count;
     }
 
     public Ball PopFirstContainedBall()
     {
-        if (_containedBalls.Count() == 0)
+        if (_containedBalls.Count == 0)
         {
             return null;
         }
@@ -83,7 +84,7 @@ public partial class Hopper : Node2D
         }
         _containedBalls.AddLast(ball);
 
-        int numHoles = QueuedBallDispenseHoles.Count();
+        int numHoles = QueuedBallDispenseHoles.Count;
         Debug.Assert(_nextDispenseHoleIndex < numHoles);
         Hole hole = QueuedBallDispenseHoles[_nextDispenseHoleIndex];
         ball.GlobalPosition = hole.GlobalPosition;
@@ -93,10 +94,16 @@ public partial class Hopper : Node2D
     }
 
     private void OnDispenseTimeout() {
-        if (_queuedBalls.Count() == 0) return;
+        if (_queuedBalls.Count == 0) return;
         Ball ball = _queuedBalls.First();
         _queuedBalls.RemoveFirst();
         DispenseBall(ball);
+    }
+
+    private void OnBallAwarded(BallVariant variant) {
+        Ball ball = GameConfig.Instance.BallScene.Instantiate<Ball>();
+        ball.Variant = variant;
+        _queuedBalls.AddLast(ball);
     }
 
 }

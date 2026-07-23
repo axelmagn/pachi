@@ -20,7 +20,7 @@ public partial class Pocket : Node2D
     [Export]
     public Array<BallVariant> InputBalls;
 
-    public Array<bool> InputBallsHeld;
+    public Array<bool> InputBallSlotAvailable;
 
     [Export]
     public Array<BallVariant> OutputBalls;
@@ -45,24 +45,66 @@ public partial class Pocket : Node2D
         OutputsIndicator.Balls = OutputBalls;
 
         // initialize held balls tracker
-        InputBallsHeld = [];
-        for(int i = 0; i < InputBalls.Count; i++) {
-            InputBallsHeld.Add(false);
+        InputBallSlotAvailable = [];
+        for (int i = 0; i < InputBalls.Count; i++)
+        {
+            InputBallSlotAvailable.Add(true);
 
         }
+        Debug.Assert(InputBalls.Count == InputBallSlotAvailable.Count);
     }
 
     private void OnBallCatch(Ball ball)
     {
 
-        // TODO: accumulate or reject ball
-        // TODO: emit reward signal if accumulated
-        
-        // TODO: only delete ball if it is being accumulated
-        ball.FadeOut(CatchHole.GlobalPosition);
-        ball.Connect(Ball.SignalName.FadeOutFinished,
-                Callable.From(ball.QueueFree),
-                (uint)GodotObject.ConnectFlags.OneShot);
+        // accumulate ball
+        bool reject = true;
+        Debug.Assert(InputBalls.Count == InputBallSlotAvailable.Count);
+        for (int i = 0; i < InputBalls.Count; i++)
+        {
+            ball.FadeOut(CatchHole.GlobalPosition);
+            if (InputBalls[i] == ball.Variant && InputBallSlotAvailable[i])
+            {
+                InputBallSlotAvailable[i] = false;
+                reject = false;
+                ball.Connect(Ball.SignalName.FadeOutFinished, Callable.From(ball.QueueFree),
+                        (uint)ConnectFlags.OneShot);
+                break;
+            }
+        }
+
+        // reject ball
+        if (reject)
+        {
+            ball.Connect(Ball.SignalName.FadeOutFinished,
+                    Callable.From(() => { ball.FadeIn(RejectHole.GlobalPosition, true); }),
+                    (uint)ConnectFlags.OneShot);
+        }
+
+        // emit reward signal if accumulated
+        bool accumulationFilled = true;
+        foreach (bool available in InputBallSlotAvailable)
+        {
+            if (available)
+            {
+                accumulationFilled = false;
+                break;
+            }
+        }
+
+        if (accumulationFilled)
+        {
+            // pay out rewards
+            foreach (BallVariant variant in OutputBalls)
+            {
+                GlobalEvents.Instance.NotifyBallAwarded(variant);
+            }
+
+            // reset input ball slots
+            for(int i = 0; i < InputBallSlotAvailable.Count; i++) {
+                InputBallSlotAvailable[i] = true;
+            }
+        }
 
 
     }
