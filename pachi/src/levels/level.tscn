@@ -61,9 +61,13 @@ position = Vector2(-1, -141)
 
 [node name="Pocket" parent="Temp" unique_id=1383612129 instance=ExtResource("8_idw2h")]
 position = Vector2(-91, -83)
+RandomizeInputBalls = true
+RandomizeOutputBalls = true
 
 [node name="Pocket2" parent="Temp" unique_id=390261802 instance=ExtResource("8_idw2h")]
 position = Vector2(110, -79)
+RandomizeInputBalls = true
+RandomizeOutputBalls = true
 
 [node name="Hole" parent="." unique_id=428848470 instance=ExtResource("8_54iga")]
 position = Vector2(-355, -236)

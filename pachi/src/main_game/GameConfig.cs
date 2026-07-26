@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Diagnostics;
 
@@ -9,7 +10,13 @@ public partial class GameConfig : Node
     [Export]
     public PackedScene BallScene { get; set; }
 
-    public override void _EnterTree() {
+    [Export]
+    public Array<BallVariant> BallTiers { get; set; }
+
+    public Random Rng { get; set; } = new Random();
+
+    public override void _EnterTree()
+    {
         Debug.Assert(Instance == null);
         Instance = this;
     }

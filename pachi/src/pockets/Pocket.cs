@@ -31,6 +31,13 @@ public partial class Pocket : Node2D
     [Export]
     public PocketBallsIndicator OutputsIndicator;
 
+    [Export]
+    public bool RandomizeInputBalls = false;
+
+    [Export]
+    public bool RandomizeOutputBalls = false;
+
+
     public override void _Ready()
     {
         Debug.Assert(CatchHole != null);
@@ -40,18 +47,48 @@ public partial class Pocket : Node2D
         Debug.Assert(InputsIndicator != null);
         Debug.Assert(OutputsIndicator != null);
 
+        if (InputBalls != null)
+        {
+            InputBalls = InputBalls.Duplicate();
+        }
+        if (OutputBalls != null)
+        {
+            OutputBalls = OutputBalls.Duplicate();
+        }
+
+        var tiers = GameConfig.Instance.BallTiers;
+        var random = GameConfig.Instance.Rng;
+        if (RandomizeInputBalls && InputBalls != null && tiers != null)
+        {
+            for (int i = 0; i < InputBalls.Count; i++)
+            {
+                var idx = random.Next(0, tiers.Count);
+                InputBalls[i] = tiers[idx];
+            }
+        }
+        if (RandomizeOutputBalls && OutputBalls != null && tiers != null)
+        {
+            for (int i = 0; i < OutputBalls.Count; i++)
+            {
+                var idx = random.Next(0, tiers.Count);
+                OutputBalls[i] = tiers[idx];
+            }
+        }
+
         CatchHole.BallOverlapped += OnBallCatch;
         InputsIndicator.Balls = InputBalls;
         OutputsIndicator.Balls = OutputBalls;
 
         // initialize held balls tracker
         InputBallSlotAvailable = [];
-        for (int i = 0; i < InputBalls.Count; i++)
+        if (InputBalls != null)
         {
-            InputBallSlotAvailable.Add(true);
-
+            for (int i = 0; i < InputBalls.Count; i++)
+            {
+                InputBallSlotAvailable.Add(true);
+            }
+            Debug.Assert(InputBalls.Count == InputBallSlotAvailable.Count);
         }
-        Debug.Assert(InputBalls.Count == InputBallSlotAvailable.Count);
     }
 
     private void OnBallCatch(Ball ball)

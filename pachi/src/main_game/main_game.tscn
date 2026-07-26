@@ -4,8 +4,14 @@
 [ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="2_5oiny"]
 [ext_resource type="Script" uid="uid://qflarudidago" path="res://src/main_game/GameConfig.cs" id="2_ju3mb"]
 [ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="3_4kfrx"]
+[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="4_00jtp"]
 [ext_resource type="PackedScene" uid="uid://b4aaqhmywy8m1" path="res://src/levels/level.tscn" id="4_2laqp"]
 [ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="4_ju3mb"]
+[ext_resource type="Resource" uid="uid://cgc7p5ki85b0n" path="res://src/balls/tiers/tier_2.tres" id="5_22jfb"]
+[ext_resource type="Resource" uid="uid://d0xlprysuxrgu" path="res://src/balls/tiers/tier_3.tres" id="6_2auq4"]
+[ext_resource type="Resource" uid="uid://dw62p3bhrmxyb" path="res://src/balls/tiers/tier_4.tres" id="7_q845l"]
+[ext_resource type="Resource" uid="uid://dr1147xep24y" path="res://src/balls/tiers/tier_5.tres" id="8_jbje6"]
+[ext_resource type="Resource" uid="uid://dhobpxp8e5msm" path="res://src/balls/tiers/tier_6.tres" id="9_n8mq4"]
 
 [node name="Game" type="Node" unique_id=727896907]
 
@@ -17,6 +23,7 @@ script = ExtResource("1_n5cg8")
 [node name="GameConfig" type="Node" parent="Systems" unique_id=514418528]
 script = ExtResource("2_ju3mb")
 BallScene = ExtResource("3_4kfrx")
+BallTiers = Array[Object]([ExtResource("4_00jtp"), ExtResource("5_22jfb"), ExtResource("6_2auq4"), ExtResource("7_q845l"), ExtResource("8_jbje6"), ExtResource("9_n8mq4")])
 
 [node name="LayersRoot" type="Node" parent="." unique_id=1519063191]
 

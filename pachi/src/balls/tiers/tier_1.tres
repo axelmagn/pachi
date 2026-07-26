@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BallVariant" format=3 uid="uid://cv127icc77rio"]
+
+[ext_resource type="Script" uid="uid://cr0t46tii2w3s" path="res://src/balls/BallVariant.cs" id="1_l6iwd"]
+
+[resource]
+script = ExtResource("1_l6iwd")
+PlaceholderColor = Color(0.22745098, 0.5254902, 1, 1)
+BasePrice = 2
+metadata/_custom_type_script = "uid://cr0t46tii2w3s"
