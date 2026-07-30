@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="1_i7lfl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
-radius = 1.5
+radius = 2.0
 
 [node name="Pin" type="StaticBody2D" unique_id=849448400 groups=["pin_material"]]
 script = ExtResource("1_i7lfl")
@@ -15,5 +15,5 @@ shape = SubResource("CircleShape2D_ubxs6")
 
 [node name="ColliderCircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=474608943]
 script = ExtResource("1_d1wp5")
-Radius = 1.5
+Radius = 2.0
 metadata/_custom_type_script = "uid://vnclow3lkur1"

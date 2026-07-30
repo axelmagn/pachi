@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="1_8hmh5"]
 [ext_resource type="Script" uid="uid://ts8cecg1g12g" path="res://src/balls/Ball.cs" id="1_tsi0e"]
-[ext_resource type="Resource" uid="uid://bgim4kd1qkg7s" path="res://src/balls/default_ball_variant.tres" id="2_6rsrr"]
+[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="2_6rsrr"]
 [ext_resource type="AudioStream" uid="uid://gj8u53pfsujo" path="res://assets/audio/marble_rpg_sounds/ball_click_02.wav" id="3_tsi0e"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tsi0e"]
@@ -10,7 +10,7 @@ friction = 0.5
 bounce = 0.4
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
-radius = 11.0
+radius = 6.0
 
 [node name="Ball" type="RigidBody2D" unique_id=1594434914 node_paths=PackedStringArray("BallPinBounceAudioPlayer", "BallBallBounceAudioPlayer", "PlaceholderSprite", "Collider", "FadeTimer", "StuckTimer") groups=["ball"]]
 collision_layer = 2
@@ -35,7 +35,7 @@ shape = SubResource("CircleShape2D_ubxs6")
 
 [node name="ColliderCircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=2040255732]
 script = ExtResource("1_8hmh5")
-Radius = 11.0
+Radius = 6.0
 Color = Color(0.8158153, 0.81581545, 0.8158154, 1)
 metadata/_custom_type_script = "uid://vnclow3lkur1"
 

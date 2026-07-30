@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dlgnkc1h1cvtf" path="res://src/spinner/spinner.tscn" id="7_2tyx5"]
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="8_54iga"]
 [ext_resource type="PackedScene" uid="uid://camastfknnaxx" path="res://src/pockets/pocket.tscn" id="8_idw2h"]
+[ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="9_idw2h"]
 
 [node name="Level" type="Node2D" unique_id=756612389 node_paths=PackedStringArray("BallsRoot", "BallLaunchPoint")]
 script = ExtResource("1_2tyx5")
@@ -23,21 +24,21 @@ position = Vector2(0, 515)
 [node name="Boundary" type="Node2D" parent="." unique_id=2101518844]
 
 [node name="BoundaryRect" parent="Boundary" unique_id=1819436732 instance=ExtResource("1_g8rii")]
-Width = 810.0
-Height = 1080.0
+Width = 270.0
+Height = 360.0
 
 [node name="BottomEllipse" parent="Boundary" unique_id=345411889 instance=ExtResource("2_ub47v")]
-position = Vector2(0, 230)
-RadiusX = 405.0
-RadiusY = 300.0
+position = Vector2(0, 77)
+RadiusX = 135.0
+RadiusY = 100.0
 AverageSpacing = 8.0
 EndAngle = 180.0
 PinScene = ExtResource("4_deqfd")
 
 [node name="TopEllipse" parent="Boundary" unique_id=61049413 instance=ExtResource("2_ub47v")]
-position = Vector2(0, -230)
-RadiusX = 405.0
-RadiusY = 300.0
+position = Vector2(0, -77)
+RadiusX = 135.0
+RadiusY = 100.0
 AverageSpacing = 8.0
 StartAngle = 180.0
 EndAngle = 360.0
@@ -46,9 +47,11 @@ PinScene = ExtResource("4_deqfd")
 [node name="Temp" type="Node2D" parent="." unique_id=1776195324]
 
 [node name="PinGrid" parent="Temp" unique_id=389836355 instance=ExtResource("4_7umm5")]
-position = Vector2(-362, 7)
+position = Vector2(-121, 7)
 Rows = 8
 Columns = 12
+SpacingX = 22.0
+SpacingY = 16.0
 
 [node name="Spinner" parent="Temp" unique_id=1816530947 instance=ExtResource("7_2tyx5")]
 position = Vector2(-193, -141)
@@ -61,13 +64,16 @@ position = Vector2(-1, -141)
 
 [node name="Pocket" parent="Temp" unique_id=1383612129 instance=ExtResource("8_idw2h")]
 position = Vector2(-91, -83)
-RandomizeInputBalls = true
-RandomizeOutputBalls = true
+InputBalls = null
+OutputBalls = null
 
 [node name="Pocket2" parent="Temp" unique_id=390261802 instance=ExtResource("8_idw2h")]
 position = Vector2(110, -79)
-RandomizeInputBalls = true
-RandomizeOutputBalls = true
+InputBalls = null
+OutputBalls = null
+
+[node name="Ball" parent="Temp" unique_id=1594434914 instance=ExtResource("9_idw2h")]
+position = Vector2(1, -43)
 
 [node name="Hole" parent="." unique_id=428848470 instance=ExtResource("8_54iga")]
 position = Vector2(-355, -236)

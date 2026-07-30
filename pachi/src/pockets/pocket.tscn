@@ -3,13 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_2u1n5"]
 [ext_resource type="Script" uid="uid://i6t2n8takshu" path="res://src/pockets/Pocket.cs" id="1_mtvat"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_241cg"]
-[ext_resource type="Resource" uid="uid://bgim4kd1qkg7s" path="res://src/balls/default_ball_variant.tres" id="2_ogt5k"]
 [ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="3_r7ej6"]
 [ext_resource type="Script" uid="uid://bwd78gnw7egqp" path="res://src/shape_sprites/ColliderCapsuleSprite.cs" id="4_lxxho"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_8lcgt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
-radius = 1.5
+radius = 2.0
 height = 32.0
 
 [node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "InputsIndicator", "OutputsIndicator")]
@@ -18,8 +17,6 @@ CatchHole = NodePath("CatchHole")
 RejectHole = NodePath("RejectHole")
 LeftArm = NodePath("LeftArm")
 RightArm = NodePath("RightArm")
-InputBalls = Array[Object]([ExtResource("2_ogt5k"), ExtResource("2_ogt5k")])
-OutputBalls = Array[Object]([ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k")])
 InputsIndicator = NodePath("InputsIndicator")
 OutputsIndicator = NodePath("OutputsIndicator")
 
@@ -27,24 +24,24 @@ OutputsIndicator = NodePath("OutputsIndicator")
 MonitorBallOverlap = true
 
 [node name="RejectHole" parent="." unique_id=1955688582 instance=ExtResource("1_2u1n5")]
-position = Vector2(0, 32)
+position = Vector2(0, 24)
 
 [node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_241cg")]
-RadiusX = 16.0
-RadiusY = 16.0
-AverageSpacing = 4.0
+RadiusX = 10.0
+RadiusY = 10.0
+AverageSpacing = 6.0
 EndAngle = 180.0
 
 [node name="PinEllipse2" parent="." unique_id=1537409262 instance=ExtResource("2_241cg")]
-position = Vector2(0, 32)
-RadiusX = 16.0
-RadiusY = 16.0
-AverageSpacing = 4.0
+position = Vector2(0, 24)
+RadiusX = 10.0
+RadiusY = 10.0
+AverageSpacing = 6.0
 StartAngle = 180.0
 EndAngle = 360.0
 
 [node name="RightArm" type="CharacterBody2D" parent="." unique_id=634194663]
-position = Vector2(16, -3)
+position = Vector2(10, -4)
 script = ExtResource("3_r7ej6")
 metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 
@@ -54,12 +51,12 @@ shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="ColliderCapsuleSprite" type="Node2D" parent="RightArm/CollisionShape2D" unique_id=898727807]
 script = ExtResource("4_lxxho")
-Radius = 1.5
+Radius = 2.0
 Height = 32.0
 metadata/_custom_type_script = "uid://bwd78gnw7egqp"
 
 [node name="LeftArm" type="CharacterBody2D" parent="." unique_id=1693192151]
-position = Vector2(-16, -4)
+position = Vector2(-10, -5)
 script = ExtResource("3_r7ej6")
 metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 
@@ -69,24 +66,24 @@ shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="ColliderCapsuleSprite" type="Node2D" parent="LeftArm/CollisionShape2D" unique_id=1314152300]
 script = ExtResource("4_lxxho")
-Radius = 1.5
+Radius = 2.0
 Height = 32.0
 metadata/_custom_type_script = "uid://bwd78gnw7egqp"
 
 [node name="InputsIndicator" type="Node2D" parent="." unique_id=1399337656]
 z_index = 3
-position = Vector2(0, 8)
+position = Vector2(0, 6)
 script = ExtResource("6_8lcgt")
 BackgroundColor = Color(0.08701607, 0.08701607, 0.08701607, 1)
-Size = Vector2(35, 16)
-DotRadius = 2.0
+Size = Vector2(24, 8)
+DotRadius = 1.0
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 
 [node name="OutputsIndicator" type="Node2D" parent="." unique_id=188350990]
 z_index = 3
-position = Vector2(0, 24)
+position = Vector2(0, 18)
 script = ExtResource("6_8lcgt")
 BackgroundColor = Color(0.08701607, 0.08701607, 0.08701607, 1)
-Size = Vector2(35, 16)
-DotRadius = 2.0
+Size = Vector2(24, 8)
+DotRadius = 1.0
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"

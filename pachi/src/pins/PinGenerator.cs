@@ -51,6 +51,11 @@ public abstract partial class PinGenerator : Node2D
         pinInstance.Rotation = rotation;
         AddChild(pinInstance);
 
+        // snap to pixel
+        int x = (int) pinInstance.GlobalPosition.X;
+        int y = (int) pinInstance.GlobalPosition.Y;
+        pinInstance.GlobalPosition = new Vector2(x, y);
+
         // if (Engine.IsEditorHint())
         // {
         //     // pinInstance.Owner = GetTree().EditedSceneRoot;
