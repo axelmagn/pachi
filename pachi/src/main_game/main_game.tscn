@@ -1,12 +1,10 @@
 [gd_scene format=3 uid="uid://ca6fr03smyobw"]
 
 [ext_resource type="Script" uid="uid://fkpri4x34viw" path="res://src/main_game/GlobalEvents.cs" id="1_n5cg8"]
-[ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="2_5oiny"]
 [ext_resource type="Script" uid="uid://qflarudidago" path="res://src/main_game/GameConfig.cs" id="2_ju3mb"]
 [ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/Ball.tscn" id="3_4kfrx"]
 [ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="4_00jtp"]
 [ext_resource type="PackedScene" uid="uid://b4aaqhmywy8m1" path="res://src/levels/level.tscn" id="4_2laqp"]
-[ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="4_ju3mb"]
 [ext_resource type="Resource" uid="uid://cgc7p5ki85b0n" path="res://src/balls/tiers/tier_2.tres" id="5_22jfb"]
 [ext_resource type="Resource" uid="uid://d0xlprysuxrgu" path="res://src/balls/tiers/tier_3.tres" id="6_2auq4"]
 [ext_resource type="Resource" uid="uid://dw62p3bhrmxyb" path="res://src/balls/tiers/tier_4.tres" id="7_q845l"]
@@ -47,7 +45,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=1117147172]
+[node name="HBoxContainer" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=1518397088]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,62 +53,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LeftColumn" type="VBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1337816237]
+[node name="LeftPlaceholder" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1653218578]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HopperViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn" unique_id=685771812]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1201145242]
+custom_minimum_size = Vector2(405, 540)
 layout_mode = 2
 
-[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer" unique_id=1984252242]
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/SubViewportContainer" unique_id=908849300]
 transparent_bg = true
 handle_input_locally = false
-audio_listener_enable_2d = true
-size = Vector2i(512, 800)
+size = Vector2i(400, 540)
 render_target_update_mode = 4
 
-[node name="Hopper" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport" unique_id=1019095757 instance=ExtResource("2_5oiny")]
-position = Vector2(277, 540)
+[node name="Level" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/SubViewportContainer/SubViewport" unique_id=756612389 instance=ExtResource("4_2laqp")]
 
-[node name="LauncherViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn" unique_id=1008237227]
-layout_mode = 2
-
-[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/LauncherViewportContainer" unique_id=812786388]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(512, 224)
-render_target_update_mode = 4
-
-[node name="LauncherAssembly" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/LeftColumn/LauncherViewportContainer/SubViewport" unique_id=2132420869 node_paths=PackedStringArray("Hopper", "Level") instance=ExtResource("4_ju3mb")]
-position = Vector2(329, 40)
-Hopper = NodePath("../../../HopperViewportContainer/SubViewport/Hopper")
-Level = NodePath("../../../../CenterColumn/LevelViewportContainer/LevelViewport/Level")
-
-[node name="CenterColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=200510283]
-custom_minimum_size = Vector2(810, 1080)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="LevelViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn" unique_id=915644729]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
-stretch_shrink = 3
-
-[node name="LevelViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer" unique_id=1539707723]
-transparent_bg = true
-handle_input_locally = false
-audio_listener_enable_2d = true
-size = Vector2i(270, 360)
-render_target_update_mode = 4
-
-[node name="Level" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/CenterColumn/LevelViewportContainer/LevelViewport" unique_id=756612389 instance=ExtResource("4_2laqp")]
-position = Vector2(405, 540)
-
-[node name="RightColumn" type="VBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=523689007]
+[node name="RightPlaceholder" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1220220990]
 layout_mode = 2
 size_flags_horizontal = 3

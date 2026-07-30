@@ -24,21 +24,21 @@ position = Vector2(0, 515)
 [node name="Boundary" type="Node2D" parent="." unique_id=2101518844]
 
 [node name="BoundaryRect" parent="Boundary" unique_id=1819436732 instance=ExtResource("1_g8rii")]
-Width = 270.0
-Height = 360.0
+Width = 405.0
+Height = 540.0
 
 [node name="BottomEllipse" parent="Boundary" unique_id=345411889 instance=ExtResource("2_ub47v")]
-position = Vector2(0, 77)
-RadiusX = 135.0
-RadiusY = 100.0
+position = Vector2(0, 115)
+RadiusX = 202.0
+RadiusY = 150.0
 AverageSpacing = 8.0
 EndAngle = 180.0
 PinScene = ExtResource("4_deqfd")
 
 [node name="TopEllipse" parent="Boundary" unique_id=61049413 instance=ExtResource("2_ub47v")]
-position = Vector2(0, -77)
-RadiusX = 135.0
-RadiusY = 100.0
+position = Vector2(0, -115)
+RadiusX = 202.0
+RadiusY = 150.0
 AverageSpacing = 8.0
 StartAngle = 180.0
 EndAngle = 360.0
@@ -47,35 +47,35 @@ PinScene = ExtResource("4_deqfd")
 [node name="Temp" type="Node2D" parent="." unique_id=1776195324]
 
 [node name="PinGrid" parent="Temp" unique_id=389836355 instance=ExtResource("4_7umm5")]
-position = Vector2(-121, 7)
+position = Vector2(-176, 0)
 Rows = 8
 Columns = 12
-SpacingX = 22.0
-SpacingY = 16.0
+SpacingX = 32.0
+SpacingY = 20.0
 
 [node name="Spinner" parent="Temp" unique_id=1816530947 instance=ExtResource("7_2tyx5")]
-position = Vector2(-193, -141)
+position = Vector2(-102, -30)
 
 [node name="Spinner2" parent="Temp" unique_id=711023319 instance=ExtResource("7_2tyx5")]
-position = Vector2(200, -141)
+position = Vector2(113, -53)
 
 [node name="Spinner3" parent="Temp" unique_id=281712952 instance=ExtResource("7_2tyx5")]
-position = Vector2(-1, -141)
+position = Vector2(-1, -80)
 
 [node name="Pocket" parent="Temp" unique_id=1383612129 instance=ExtResource("8_idw2h")]
-position = Vector2(-91, -83)
-InputBalls = null
-OutputBalls = null
+position = Vector2(-56, -37)
+RandomizeInputBalls = true
+RandomizeOutputBalls = true
 
 [node name="Pocket2" parent="Temp" unique_id=390261802 instance=ExtResource("8_idw2h")]
-position = Vector2(110, -79)
-InputBalls = null
-OutputBalls = null
+position = Vector2(60, -41)
+RandomizeInputBalls = true
+RandomizeOutputBalls = true
 
 [node name="Ball" parent="Temp" unique_id=1594434914 instance=ExtResource("9_idw2h")]
 position = Vector2(1, -43)
 
 [node name="Hole" parent="." unique_id=428848470 instance=ExtResource("8_54iga")]
-position = Vector2(-355, -236)
+position = Vector2(-105, -81)
 
 [node name="BallsRoot" type="Node2D" parent="." unique_id=479261600]

@@ -47,14 +47,8 @@ public partial class Pocket : Node2D
         Debug.Assert(InputsIndicator != null);
         Debug.Assert(OutputsIndicator != null);
 
-        if (InputBalls != null)
-        {
-            InputBalls = InputBalls.Duplicate();
-        }
-        if (OutputBalls != null)
-        {
-            OutputBalls = OutputBalls.Duplicate();
-        }
+        InputBalls = InputBalls == null ? [] : InputBalls.Duplicate();
+        OutputBalls = OutputBalls == null ? [] : OutputBalls.Duplicate();
 
         var tiers = GameConfig.Instance.BallTiers;
         var random = GameConfig.Instance.Rng;
@@ -138,7 +132,8 @@ public partial class Pocket : Node2D
             }
 
             // reset input ball slots
-            for(int i = 0; i < InputBallSlotAvailable.Count; i++) {
+            for (int i = 0; i < InputBallSlotAvailable.Count; i++)
+            {
                 InputBallSlotAvailable[i] = true;
             }
         }

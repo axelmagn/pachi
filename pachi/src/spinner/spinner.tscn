@@ -6,8 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/pin.tscn" id="4_k7r40"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
-radius = 3.0
-height = 60.0
+radius = 2.0
+height = 32.0
 
 [node name="Spinner" type="Node2D" unique_id=1816530947]
 
@@ -20,7 +20,8 @@ shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="ColliderCapsuleSprite" type="Node2D" parent="RapierRigidBody2D/CollisionShape2D" unique_id=2098536757]
 script = ExtResource("2_1urhu")
-Radius = 3.0
+Radius = 2.0
+Height = 32.0
 metadata/_custom_type_script = "uid://bwd78gnw7egqp"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="RapierRigidBody2D" unique_id=627875748]
@@ -29,7 +30,8 @@ shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="ColliderCapsuleSprite" type="Node2D" parent="RapierRigidBody2D/CollisionShape2D2" unique_id=2125783506]
 script = ExtResource("2_1urhu")
-Radius = 3.0
+Radius = 2.0
+Height = 32.0
 metadata/_custom_type_script = "uid://bwd78gnw7egqp"
 
 [node name="RapierPinJoint2D" type="PinJoint2D" parent="." unique_id=302449971]

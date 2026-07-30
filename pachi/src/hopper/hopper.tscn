@@ -15,36 +15,37 @@ QueuedBallDispenseTimer = NodePath("QueuedBallsDispenseTimer")
 QueuedBallDispenseHoles = [NodePath("DispenseHoles/Hole"), NodePath("DispenseHoles/Hole2"), NodePath("DispenseHoles/Hole3"), NodePath("DispenseHoles/Hole4"), NodePath("DispenseHoles/Hole5"), NodePath("DispenseHoles/Hole6")]
 
 [node name="BoundaryRect" parent="." unique_id=1819436732 groups=["pin_material"] instance=ExtResource("1_3h226")]
-Width = 512.0
-Height = 800.0
+Width = 183.0
+Height = 239.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1714356661]
 
 [node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_gmkmf")]
-position = Vector2(0, 318)
-RadiusX = 256.0
+position = Vector2(0, 76)
+RadiusX = 91.5
+RadiusY = 40.0
 AverageSpacing = 10.0
 EndAngle = 180.0
 
 [node name="DispenseHoles" type="Node2D" parent="." unique_id=156763745]
 
 [node name="Hole" parent="DispenseHoles" unique_id=428848470 instance=ExtResource("5_myq0o")]
-position = Vector2(-162, -357)
+position = Vector2(-45, -98)
 
 [node name="Hole2" parent="DispenseHoles" unique_id=1747479979 instance=ExtResource("5_myq0o")]
-position = Vector2(-108, -357)
+position = Vector2(-27, -98)
 
 [node name="Hole3" parent="DispenseHoles" unique_id=1293258724 instance=ExtResource("5_myq0o")]
-position = Vector2(-52, -357)
+position = Vector2(-9, -98)
 
 [node name="Hole4" parent="DispenseHoles" unique_id=396146742 instance=ExtResource("5_myq0o")]
-position = Vector2(0, -357)
+position = Vector2(9, -98)
 
 [node name="Hole5" parent="DispenseHoles" unique_id=288894788 instance=ExtResource("5_myq0o")]
-position = Vector2(62, -357)
+position = Vector2(27, -98)
 
 [node name="Hole6" parent="DispenseHoles" unique_id=877378987 instance=ExtResource("5_myq0o")]
-position = Vector2(116, -357)
+position = Vector2(45, -98)
 
 [node name="BallsRoot" type="Node2D" parent="." unique_id=1950479956]
 
