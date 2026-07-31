@@ -19,25 +19,25 @@ BallLaunchPoint = NodePath("Hole")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1646304660]
 
 [node name="Drain" parent="." unique_id=1795231198 instance=ExtResource("5_8tcek")]
-position = Vector2(0, 515)
+position = Vector2(0, 241)
 
 [node name="Boundary" type="Node2D" parent="." unique_id=2101518844]
 
 [node name="BoundaryRect" parent="Boundary" unique_id=1819436732 instance=ExtResource("1_g8rii")]
-Width = 405.0
-Height = 540.0
+Width = 388.0
+Height = 508.0
 
 [node name="BottomEllipse" parent="Boundary" unique_id=345411889 instance=ExtResource("2_ub47v")]
-position = Vector2(0, 115)
-RadiusX = 202.0
+position = Vector2(0, 99)
+RadiusX = 196.0
 RadiusY = 150.0
 AverageSpacing = 8.0
 EndAngle = 180.0
 PinScene = ExtResource("4_deqfd")
 
 [node name="TopEllipse" parent="Boundary" unique_id=61049413 instance=ExtResource("2_ub47v")]
-position = Vector2(0, -115)
-RadiusX = 202.0
+position = Vector2(0, -100)
+RadiusX = 196.0
 RadiusY = 150.0
 AverageSpacing = 8.0
 StartAngle = 180.0
@@ -64,18 +64,14 @@ position = Vector2(-1, -80)
 
 [node name="Pocket" parent="Temp" unique_id=1383612129 instance=ExtResource("8_idw2h")]
 position = Vector2(-56, -37)
-RandomizeInputBalls = true
-RandomizeOutputBalls = true
 
 [node name="Pocket2" parent="Temp" unique_id=390261802 instance=ExtResource("8_idw2h")]
 position = Vector2(60, -41)
-RandomizeInputBalls = true
-RandomizeOutputBalls = true
 
 [node name="Ball" parent="Temp" unique_id=1594434914 instance=ExtResource("9_idw2h")]
 position = Vector2(1, -43)
 
 [node name="Hole" parent="." unique_id=428848470 instance=ExtResource("8_54iga")]
-position = Vector2(-105, -81)
+position = Vector2(-161, -69)
 
 [node name="BallsRoot" type="Node2D" parent="." unique_id=479261600]

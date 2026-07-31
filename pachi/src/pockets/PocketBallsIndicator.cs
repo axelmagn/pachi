@@ -91,7 +91,7 @@ public partial class PocketBallsIndicator : Node2D
             {
                 float dotX = -0.5f * (dotsInThisRow - 1) * step + c * step;
                 Color dotColor = Balls[dotIndex].PlaceholderColor;
-                DrawCircle(new Vector2(dotX, rowY), DotRadius, dotColor);
+                DrawCircle(new Vector2((int)dotX, (int)rowY), DotRadius, dotColor);
                 dotIndex++;
             }
         }

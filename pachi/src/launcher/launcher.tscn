@@ -12,16 +12,21 @@ LauncherGhostSprite = NodePath("LauncherGhostSprite")
 rotation = -0.61086524
 
 [node name="CapsuleSprite" type="Node2D" parent="LauncherGhostSprite" unique_id=284985626]
-position = Vector2(-130, 0)
+position = Vector2(-64, 0)
 rotation = 1.5707964
 script = ExtResource("2_h1ipi")
-Height = 300.0
+Radius = 10.0
+Height = 150.0
 Color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
 [node name="LauncherSprite" type="Node2D" parent="." unique_id=1680024580]
 
 [node name="CapsuleSprite" type="Node2D" parent="LauncherSprite" unique_id=1280229580]
-position = Vector2(-130, 0)
+position = Vector2(-64, 0)
 rotation = 1.5707964
 script = ExtResource("2_h1ipi")
-Height = 300.0
+Radius = 10.0
+Height = 150.0
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=264779633]
+position = Vector2(-59, 25)

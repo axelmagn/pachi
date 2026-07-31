@@ -10,6 +10,8 @@
 [ext_resource type="Resource" uid="uid://dw62p3bhrmxyb" path="res://src/balls/tiers/tier_4.tres" id="7_q845l"]
 [ext_resource type="Resource" uid="uid://dr1147xep24y" path="res://src/balls/tiers/tier_5.tres" id="8_jbje6"]
 [ext_resource type="Resource" uid="uid://dhobpxp8e5msm" path="res://src/balls/tiers/tier_6.tres" id="9_n8mq4"]
+[ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="10_cq107"]
+[ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="11_00jtp"]
 
 [node name="Game" type="Node" unique_id=727896907]
 
@@ -45,7 +47,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=1518397088]
+[node name="VBoxContainer" type="VBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=945005467]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,22 +55,50 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LeftPlaceholder" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1653218578]
+[node name="HBoxContainer2" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer" unique_id=21955957]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer" unique_id=1518397088]
+layout_mode = 2
+
+[node name="LeftColumn" type="VBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1449998833]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1201145242]
-custom_minimum_size = Vector2(405, 540)
+[node name="HopperViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn" unique_id=2103993086]
 layout_mode = 2
 
-[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/SubViewportContainer" unique_id=908849300]
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer" unique_id=814168454]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(400, 540)
+size = Vector2i(276, 338)
 render_target_update_mode = 4
 
-[node name="Level" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer/SubViewportContainer/SubViewport" unique_id=756612389 instance=ExtResource("4_2laqp")]
+[node name="Hopper" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport" unique_id=1019095757 instance=ExtResource("10_cq107")]
 
-[node name="RightPlaceholder" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/HBoxContainer" unique_id=1220220990]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn" unique_id=292800038]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer" unique_id=1261388088]
+transparent_bg = true
+size = Vector2i(276, 170)
+
+[node name="Launcher" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer/SubViewport" unique_id=2132420869 node_paths=PackedStringArray("Hopper", "Level") instance=ExtResource("11_00jtp")]
+Hopper = NodePath("../../../HopperViewportContainer/SubViewport/Hopper")
+Level = NodePath("../../../../LevelViewportContainer/SubViewport/Level")
+
+[node name="LevelViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1201145242]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer" unique_id=908849300]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(400, 508)
+render_target_update_mode = 4
+
+[node name="Level" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer/SubViewport" unique_id=756612389 instance=ExtResource("4_2laqp")]
+
+[node name="RightColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1220220990]
 layout_mode = 2
 size_flags_horizontal = 3
