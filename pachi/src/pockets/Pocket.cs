@@ -5,6 +5,21 @@ using System.Diagnostics;
 
 public partial class Pocket : Node2D
 {
+    public enum ArmBehavior
+    {
+        None,
+        Open,
+        Close,
+        Toggle,
+    }
+
+    public enum ArmState {
+        Open,
+        Closed,
+        Opening,
+        Closing,
+    }
+
     [Export]
     public Hole CatchHole { get; set; }
 
@@ -32,10 +47,30 @@ public partial class Pocket : Node2D
     public PocketBallsIndicator OutputsIndicator;
 
     [Export]
+    public ArmBehavior CatchArmBehavior = ArmBehavior.None;
+
+    [Export]
+    public ArmBehavior AccumulateArmBehavior = ArmBehavior.Toggle;
+
+    [Export]
+    public ArmBehavior RejectArmBehavior = ArmBehavior.Close;
+
+    [Export]
+    public ArmBehavior PayoutArmBehavior = ArmBehavior.Open;
+
+    [Export]
+    public float ArmOpenRotation = 60.0f;
+
+    [Export]
+    public float ArmRotationSpeed = Mathf.Pi;
+
+    [Export]
     public bool RandomizeInputBalls = false;
 
     [Export]
     public bool RandomizeOutputBalls = false;
+
+    private Tween _activeArmTween = null;
 
 
     public override void _Ready()
@@ -83,6 +118,10 @@ public partial class Pocket : Node2D
             }
             Debug.Assert(InputBalls.Count == InputBallSlotAvailable.Count);
         }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
     }
 
     private void OnBallCatch(Ball ball)
@@ -137,7 +176,5 @@ public partial class Pocket : Node2D
                 InputBallSlotAvailable[i] = true;
             }
         }
-
-
     }
 }
