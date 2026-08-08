@@ -10,7 +10,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
 radius = 2.0
-height = 32.0
+height = 24.0
 
 [node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "InputsIndicator", "OutputsIndicator")]
 script = ExtResource("1_mtvat")
@@ -51,28 +51,28 @@ script = ExtResource("3_r7ej6")
 metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightArm" unique_id=1277358654]
-position = Vector2(0, -15)
+position = Vector2(0, -10)
 shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="ColliderCapsuleSprite" type="Node2D" parent="RightArm/CollisionShape2D" unique_id=898727807]
 script = ExtResource("4_lxxho")
 Radius = 2.0
-Height = 32.0
+Height = 24.0
 metadata/_custom_type_script = "uid://bwd78gnw7egqp"
 
 [node name="LeftArm" type="CharacterBody2D" parent="." unique_id=1693192151]
-position = Vector2(-10, -5)
+position = Vector2(-10, -4)
 script = ExtResource("3_r7ej6")
 metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArm" unique_id=560707818]
-position = Vector2(0, -14)
+position = Vector2(0, -10)
 shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="ColliderCapsuleSprite" type="Node2D" parent="LeftArm/CollisionShape2D" unique_id=1314152300]
 script = ExtResource("4_lxxho")
 Radius = 2.0
-Height = 32.0
+Height = 24.0
 metadata/_custom_type_script = "uid://bwd78gnw7egqp"
 
 [node name="InputsIndicator" type="Node2D" parent="." unique_id=1399337656]

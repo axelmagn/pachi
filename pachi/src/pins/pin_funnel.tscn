@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bi1s03fy653fj"]
+
+[ext_resource type="Script" uid="uid://dujsa5y3rhc3p" path="res://src/pins/PinFunnel.cs" id="1_aa0nd"]
+[ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_ruf5u"]
+
+[node name="PinFunnel" type="Node2D" unique_id=313265733 node_paths=PackedStringArray("LeftEllipse", "RightEllipse")]
+script = ExtResource("1_aa0nd")
+InnerWidth = 30.0
+OuterWidth = 150.0
+Height = 80.0
+LeftEllipse = NodePath("LeftEllipse")
+RightEllipse = NodePath("RightEllipse")
+
+[node name="LeftEllipse" parent="." unique_id=345411889 instance=ExtResource("2_ruf5u")]
+position = Vector2(-75, 0)
+RadiusX = 60.0
+StartAngle = -90.0
+EndAngle = 0.0
+
+[node name="RightEllipse" parent="." unique_id=765199748 instance=ExtResource("2_ruf5u")]
+position = Vector2(75, 0)
+RadiusX = 60.0
+StartAngle = -180.0
+EndAngle = -90.0
