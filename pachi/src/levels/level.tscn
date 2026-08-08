@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dlgnkc1h1cvtf" path="res://src/spinner/spinner.tscn" id="8_2tyx5"]
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="8_54iga"]
 [ext_resource type="PackedScene" uid="uid://camastfknnaxx" path="res://src/pockets/pocket.tscn" id="8_idw2h"]
+[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="8_m3sl2"]
 
 [node name="Level" type="Node2D" unique_id=756612389 node_paths=PackedStringArray("BallsRoot", "BallLaunchPoint")]
 script = ExtResource("1_2tyx5")
@@ -48,6 +49,24 @@ position = Vector2(-167, -105)
 [node name="BallsRoot" type="Node2D" parent="." unique_id=479261600]
 
 [node name="Pocket" parent="." unique_id=1383612129 instance=ExtResource("8_idw2h")]
+InputBalls = [ExtResource("8_m3sl2")]
+OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
+HasArms = false
+
+[node name="Pocket2" parent="." unique_id=99851573 instance=ExtResource("8_idw2h")]
+position = Vector2(0, 173)
+InputBalls = [ExtResource("8_m3sl2")]
+OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
+
+[node name="Pocket3" parent="." unique_id=1571469770 instance=ExtResource("8_idw2h")]
+position = Vector2(96, 130)
+InputBalls = [ExtResource("8_m3sl2")]
+OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
+
+[node name="Pocket4" parent="." unique_id=1965552333 instance=ExtResource("8_idw2h")]
+position = Vector2(-96, 130)
+InputBalls = [ExtResource("8_m3sl2")]
+OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
 
 [node name="Spinner" parent="." unique_id=1816530947 instance=ExtResource("8_2tyx5")]
 position = Vector2(-50, 0)

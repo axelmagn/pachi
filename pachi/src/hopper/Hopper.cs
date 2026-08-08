@@ -50,8 +50,8 @@ public partial class Hopper : Node2D
                 Ball ball = InitQueuedBallsScene.Instantiate<Ball>();
 
                 // TODO: remove this when ball variants no longer need testing
-                int variantIdx = random.Next(0, GameConfig.Instance.BallTiers.Count);
-                ball.Variant = GameConfig.Instance.BallTiers[variantIdx];
+                // int variantIdx = random.Next(0, GameConfig.Instance.BallTiers.Count);
+                // ball.Variant = GameConfig.Instance.BallTiers[variantIdx];
 
                 _queuedBalls.AddLast(ball);
             }

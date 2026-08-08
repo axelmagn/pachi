@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://dhobpxp8e5msm" path="res://src/balls/tiers/tier_6.tres" id="9_n8mq4"]
 [ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="10_cq107"]
 [ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="11_00jtp"]
+[ext_resource type="PackedScene" uid="uid://dlehti7vll0ar" path="res://src/balls/ball_t1.tscn" id="11_22jfb"]
 
 [node name="Game" type="Node" unique_id=727896907]
 
@@ -76,6 +77,7 @@ size = Vector2i(276, 338)
 render_target_update_mode = 4
 
 [node name="Hopper" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport" unique_id=1019095757 instance=ExtResource("10_cq107")]
+InitQueuedBallsScene = ExtResource("11_22jfb")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn" unique_id=292800038]
 layout_mode = 2

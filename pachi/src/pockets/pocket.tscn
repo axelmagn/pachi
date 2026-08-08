@@ -11,8 +11,10 @@
 radius = 2.0
 height = 24.0
 
-[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "InputsIndicator", "OutputsIndicator")]
+[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "InputsIndicator", "OutputsIndicator")]
 script = ExtResource("1_mtvat")
+CatchHole = NodePath("CatchHole")
+RejectHole = NodePath("RejectHole")
 LeftArm = NodePath("LeftArm")
 RightArm = NodePath("RightArm")
 LeftArmCollider = NodePath("LeftArm/CollisionShape2D")
@@ -37,6 +39,7 @@ StartAngle = 180.0
 EndAngle = 360.0
 
 [node name="CatchHole" parent="." unique_id=428848470 instance=ExtResource("1_2u1n5")]
+MonitorBallOverlap = true
 
 [node name="RejectHole" parent="." unique_id=207641503 instance=ExtResource("1_2u1n5")]
 position = Vector2(0, 24)

@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dlehti7vll0ar"]
+
+[ext_resource type="Script" uid="uid://ts8cecg1g12g" path="res://src/balls/Ball.cs" id="1_b3nib"]
+[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="2_jhysf"]
+[ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="3_812d8"]
+[ext_resource type="AudioStream" uid="uid://gj8u53pfsujo" path="res://assets/audio/marble_rpg_sounds/ball_click_02.wav" id="4_mmbnj"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tsi0e"]
+friction = 0.5
+bounce = 0.4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
+radius = 6.0
+
+[node name="Ball" type="RigidBody2D" unique_id=1594434914 node_paths=PackedStringArray("BallPinBounceAudioPlayer", "BallBallBounceAudioPlayer", "PlaceholderSprite", "Collider", "FadeTimer", "StuckTimer") groups=["ball"]]
+collision_layer = 2
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_tsi0e")
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 4
+script = ExtResource("1_b3nib")
+Variant = ExtResource("2_jhysf")
+BallPinBounceAudioPlayer = NodePath("BallPinBounceAudioPlayer")
+BallBallBounceAudioPlayer = NodePath("BallBallBounceAudioPlayer")
+PlaceholderSprite = NodePath("CollisionShape2D/ColliderCircleSprite")
+FadeModulate = Color(0.5019608, 0.5019608, 0.5019608, 0.7529412)
+Collider = NodePath("CollisionShape2D")
+FadeTimer = NodePath("FadeTimer")
+StuckTimer = NodePath("StuckTimer")
+metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1206895688]
+shape = SubResource("CircleShape2D_ubxs6")
+
+[node name="ColliderCircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=2040255732]
+script = ExtResource("3_812d8")
+Radius = 6.0
+Color = Color(0.8158153, 0.81581545, 0.8158154, 1)
+metadata/_custom_type_script = "uid://vnclow3lkur1"
+
+[node name="BallPinBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1111486999]
+stream = ExtResource("4_mmbnj")
+pitch_scale = 1.6
+
+[node name="BallBallBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=895391539]
+stream = ExtResource("4_mmbnj")
+
+[node name="FadeTimer" type="Timer" parent="." unique_id=1629553787]
+one_shot = true
+
+[node name="StuckTimer" type="Timer" parent="." unique_id=2011649999]
+wait_time = 60.0
+one_shot = true

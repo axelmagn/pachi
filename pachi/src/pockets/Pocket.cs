@@ -3,6 +3,8 @@ using Godot.Collections;
 using System;
 using System.Diagnostics;
 
+// TODO: arm behavior
+
 [Tool]
 public partial class Pocket : Node2D
 {
@@ -163,9 +165,8 @@ public partial class Pocket : Node2D
             LeftArm.Visible = HasArms;
             LeftArm.ProcessMode = HasArms ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 
-            if (LeftArmCollider != null)
+            if (LeftArmCollider != null && LeftArmCollider.Shape != null)
             {
-                Debug.Assert(LeftArmCollider.Shape != null);
                 Debug.Assert(LeftArmCollider.Shape is CapsuleShape2D);
                 LeftArmCollider.Position = new(0, armColliderY);
                 CapsuleShape2D leftArmShape = (CapsuleShape2D)LeftArmCollider.Shape;
@@ -178,9 +179,8 @@ public partial class Pocket : Node2D
             RightArm.Visible = HasArms;
             RightArm.ProcessMode = HasArms ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
 
-            if (RightArmCollider != null)
+            if (RightArmCollider != null && RightArmCollider.Shape != null)
             {
-                Debug.Assert(RightArmCollider.Shape != null);
                 Debug.Assert(RightArmCollider.Shape is CapsuleShape2D);
                 RightArmCollider.Position = new(0, armColliderY);
                 CapsuleShape2D rightArmShape = (CapsuleShape2D)RightArmCollider.Shape;
@@ -197,9 +197,9 @@ public partial class Pocket : Node2D
         // accumulate ball
         bool reject = true;
         Debug.Assert(InputBalls.Count == InputBallSlotAvailable.Count);
+            ball.FadeOut(CatchHole.GlobalPosition);
         for (int i = 0; i < InputBalls.Count; i++)
         {
-            ball.FadeOut(CatchHole.GlobalPosition);
             if (InputBalls[i] == ball.Variant && InputBallSlotAvailable[i])
             {
                 InputBallSlotAvailable[i] = false;

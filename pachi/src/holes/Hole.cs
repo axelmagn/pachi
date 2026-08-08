@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.Diagnostics;
 
+[Tool]
+[GlobalClass]
 public partial class Hole : Area2D
 {
     [Signal]
@@ -15,6 +17,8 @@ public partial class Hole : Area2D
 
     public override void _Ready()
     {
+        if (Engine.IsEditorHint()) return;
+
         Debug.Assert(Collider != null);
 
         // we only need to tick physics if we are monitoring for ball overlaps
@@ -23,6 +27,7 @@ public partial class Hole : Area2D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (Engine.IsEditorHint()) return;
         CheckBallOverlaps();
     }
 
