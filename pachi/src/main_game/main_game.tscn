@@ -82,7 +82,9 @@ layout_mode = 2
 
 [node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer" unique_id=1261388088]
 transparent_bg = true
+handle_input_locally = false
 size = Vector2i(276, 170)
+render_target_update_mode = 4
 
 [node name="Launcher" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer/SubViewport" unique_id=2132420869 node_paths=PackedStringArray("Hopper", "Level") instance=ExtResource("11_00jtp")]
 Hopper = NodePath("../../../HopperViewportContainer/SubViewport/Hopper")

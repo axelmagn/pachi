@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_2u1n5"]
 [ext_resource type="Script" uid="uid://i6t2n8takshu" path="res://src/pockets/Pocket.cs" id="1_mtvat"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_241cg"]
-[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="2_ogt5k"]
 [ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="3_r7ej6"]
 [ext_resource type="Script" uid="uid://bwd78gnw7egqp" path="res://src/shape_sprites/ColliderCapsuleSprite.cs" id="4_lxxho"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_8lcgt"]
@@ -12,24 +11,16 @@
 radius = 2.0
 height = 24.0
 
-[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "InputsIndicator", "OutputsIndicator")]
+[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "InputsIndicator", "OutputsIndicator")]
 script = ExtResource("1_mtvat")
-CatchHole = NodePath("CatchHole")
-RejectHole = NodePath("RejectHole")
 LeftArm = NodePath("LeftArm")
 RightArm = NodePath("RightArm")
-InputBalls = Array[Object]([ExtResource("2_ogt5k"), ExtResource("2_ogt5k")])
-OutputBalls = Array[Object]([ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k"), ExtResource("2_ogt5k")])
+LeftArmCollider = NodePath("LeftArm/CollisionShape2D")
+RightArmCollider = NodePath("RightArm/CollisionShape2D")
+InputBalls = []
+OutputBalls = []
 InputsIndicator = NodePath("InputsIndicator")
 OutputsIndicator = NodePath("OutputsIndicator")
-RandomizeInputBalls = true
-RandomizeOutputBalls = true
-
-[node name="CatchHole" parent="." unique_id=428848470 instance=ExtResource("1_2u1n5")]
-MonitorBallOverlap = true
-
-[node name="RejectHole" parent="." unique_id=1955688582 instance=ExtResource("1_2u1n5")]
-position = Vector2(0, 24)
 
 [node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_241cg")]
 RadiusX = 10.0
@@ -45,13 +36,18 @@ AverageSpacing = 6.0
 StartAngle = 180.0
 EndAngle = 360.0
 
+[node name="CatchHole" parent="." unique_id=428848470 instance=ExtResource("1_2u1n5")]
+
+[node name="RejectHole" parent="." unique_id=207641503 instance=ExtResource("1_2u1n5")]
+position = Vector2(0, 24)
+
 [node name="RightArm" type="CharacterBody2D" parent="." unique_id=634194663]
 position = Vector2(10, -4)
 script = ExtResource("3_r7ej6")
 metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightArm" unique_id=1277358654]
-position = Vector2(0, -10)
+position = Vector2(0, -11)
 shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="ColliderCapsuleSprite" type="Node2D" parent="RightArm/CollisionShape2D" unique_id=898727807]
@@ -66,7 +62,7 @@ script = ExtResource("3_r7ej6")
 metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArm" unique_id=560707818]
-position = Vector2(0, -10)
+position = Vector2(0, -11)
 shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="ColliderCapsuleSprite" type="Node2D" parent="LeftArm/CollisionShape2D" unique_id=1314152300]

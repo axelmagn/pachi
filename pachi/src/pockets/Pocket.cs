@@ -3,6 +3,7 @@ using Godot.Collections;
 using System;
 using System.Diagnostics;
 
+[Tool]
 public partial class Pocket : Node2D
 {
     public enum ArmBehavior
@@ -13,7 +14,8 @@ public partial class Pocket : Node2D
         Toggle,
     }
 
-    public enum ArmState {
+    public enum ArmState
+    {
         Open,
         Closed,
         Opening,
@@ -31,6 +33,12 @@ public partial class Pocket : Node2D
 
     [Export]
     public CharacterBody2D RightArm { get; set; }
+
+    [Export]
+    public CollisionShape2D LeftArmCollider;
+
+    [Export]
+    public CollisionShape2D RightArmCollider;
 
     [Export]
     public Array<BallVariant> InputBalls;
@@ -70,11 +78,38 @@ public partial class Pocket : Node2D
     [Export]
     public bool RandomizeOutputBalls = false;
 
+    [Export]
+    public bool HasArms
+    {
+        get => _hasArms;
+        set { _hasArms = value; Rebuild(); }
+    }
+
+    [Export]
+    public float ArmLength
+    {
+        get => _armLength;
+        set { _armLength = value; Rebuild(); }
+    }
+
+    [Export]
+    public float ArmRadius
+    {
+        get => _armRadius;
+        set { _armRadius = value; Rebuild(); }
+    }
+
     private Tween _activeArmTween = null;
+    private bool _hasArms = true;
+    private float _armLength = 24;
+    private float _armRadius = 2;
 
 
     public override void _Ready()
     {
+        // for now, do nothing on editor ready
+        if (Engine.IsEditorHint()) return;
+
         Debug.Assert(CatchHole != null);
         Debug.Assert(RejectHole != null);
         Debug.Assert(LeftArm != null);
@@ -120,8 +155,40 @@ public partial class Pocket : Node2D
         }
     }
 
-    public override void _PhysicsProcess(double delta)
+    private void Rebuild()
     {
+        float armColliderY = (ArmRadius - ArmLength) / 2;
+        if (LeftArm != null)
+        {
+            LeftArm.Visible = HasArms;
+            LeftArm.ProcessMode = HasArms ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+
+            if (LeftArmCollider != null)
+            {
+                Debug.Assert(LeftArmCollider.Shape != null);
+                Debug.Assert(LeftArmCollider.Shape is CapsuleShape2D);
+                LeftArmCollider.Position = new(0, armColliderY);
+                CapsuleShape2D leftArmShape = (CapsuleShape2D)LeftArmCollider.Shape;
+                leftArmShape.Radius = ArmRadius;
+                leftArmShape.Height = ArmLength;
+            }
+        }
+        if (RightArm != null)
+        {
+            RightArm.Visible = HasArms;
+            RightArm.ProcessMode = HasArms ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
+
+            if (RightArmCollider != null)
+            {
+                Debug.Assert(RightArmCollider.Shape != null);
+                Debug.Assert(RightArmCollider.Shape is CapsuleShape2D);
+                RightArmCollider.Position = new(0, armColliderY);
+                CapsuleShape2D rightArmShape = (CapsuleShape2D)RightArmCollider.Shape;
+                rightArmShape.Radius = ArmRadius;
+                rightArmShape.Height = ArmLength;
+            }
+        }
+
     }
 
     private void OnBallCatch(Ball ball)
