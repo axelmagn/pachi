@@ -5,15 +5,19 @@
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_ub47v"]
 [ext_resource type="PackedScene" uid="uid://4wtihlnetfmr" path="res://src/pins/pin_wall.tscn" id="4_deqfd"]
 [ext_resource type="PackedScene" uid="uid://bmmgwhohdsx2d" path="res://src/drain/drain.tscn" id="5_8tcek"]
+[ext_resource type="PackedScene" uid="uid://b41dwgsigjsei" path="res://src/holes/launch_hole.tscn" id="6_54iga"]
 [ext_resource type="PackedScene" uid="uid://dlgnkc1h1cvtf" path="res://src/spinner/spinner.tscn" id="8_2tyx5"]
-[ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="8_54iga"]
 [ext_resource type="PackedScene" uid="uid://camastfknnaxx" path="res://src/pockets/pocket.tscn" id="8_idw2h"]
 [ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="8_m3sl2"]
+[ext_resource type="Resource" uid="uid://cgc7p5ki85b0n" path="res://src/balls/tiers/tier_2.tres" id="9_mhwal"]
+[ext_resource type="PackedScene" uid="uid://bi1s03fy653fj" path="res://src/pins/pin_funnel.tscn" id="10_idw2h"]
+[ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/pin.tscn" id="10_m3sl2"]
+[ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="11_du6bw"]
 
 [node name="Level" type="Node2D" unique_id=756612389 node_paths=PackedStringArray("BallsRoot", "BallLaunchPoint")]
 script = ExtResource("1_2tyx5")
 BallsRoot = NodePath("BallsRoot")
-BallLaunchPoint = NodePath("Hole")
+BallLaunchPoint = NodePath("LaunchHole")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1646304660]
 
@@ -43,45 +47,193 @@ StartAngle = 180.0
 EndAngle = 360.0
 PinScene = ExtResource("4_deqfd")
 
-[node name="Hole" parent="." unique_id=428848470 instance=ExtResource("8_54iga")]
-position = Vector2(-167, -105)
+[node name="LaunchHole" parent="." unique_id=428848470 instance=ExtResource("6_54iga")]
+position = Vector2(-159, -145)
+rotation = 0.48665807
 
 [node name="BallsRoot" type="Node2D" parent="." unique_id=479261600]
 
 [node name="Pocket" parent="." unique_id=1383612129 instance=ExtResource("8_idw2h")]
+position = Vector2(0, -13)
 InputBalls = [ExtResource("8_m3sl2")]
-OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
+OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("9_mhwal")]
 HasArms = false
+
+[node name="PinFunnel3" parent="Pocket" unique_id=785708144 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -125)
+InnerWidth = 40.0
+OuterWidth = 80.0
+Height = 40.0
+AverageSpacing = 8.0
+MirrorX = true
+
+[node name="Pin" parent="Pocket" unique_id=849448400 instance=ExtResource("10_m3sl2")]
+position = Vector2(-11, -36)
+
+[node name="Pin2" parent="Pocket" unique_id=568121454 instance=ExtResource("10_m3sl2")]
+position = Vector2(11, -36)
+
+[node name="Pin4" parent="Pocket" unique_id=216096641 instance=ExtResource("10_m3sl2")]
+position = Vector2(-11, -139)
+
+[node name="Pin5" parent="Pocket" unique_id=1036266824 instance=ExtResource("10_m3sl2")]
+position = Vector2(11, -139)
+
+[node name="Pin3" parent="Pocket" unique_id=1489455543 instance=ExtResource("10_m3sl2")]
+position = Vector2(0, -166)
+
+[node name="PinGrid" parent="Pocket" unique_id=389836355 instance=ExtResource("11_du6bw")]
+position = Vector2(-40, -114)
+Rows = 4
+SpacingX = 20.0
+SpacingY = 20.0
 
 [node name="Pocket2" parent="." unique_id=99851573 instance=ExtResource("8_idw2h")]
 position = Vector2(0, 173)
 InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
 
-[node name="Pocket3" parent="." unique_id=1571469770 instance=ExtResource("8_idw2h")]
-position = Vector2(96, 130)
-InputBalls = [ExtResource("8_m3sl2")]
-OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
+[node name="PinGrid" parent="Pocket2" unique_id=594424742 instance=ExtResource("11_du6bw")]
+position = Vector2(-40, -134)
+SpacingX = 20.0
+SpacingY = 20.0
 
 [node name="Pocket4" parent="." unique_id=1965552333 instance=ExtResource("8_idw2h")]
-position = Vector2(-96, 130)
+position = Vector2(-105, 165)
 InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
 
+[node name="PinFunnel" parent="Pocket4" unique_id=313265733 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -34)
+InnerWidth = 20.0
+OuterWidth = 40.0
+Height = 40.0
+AverageSpacing = 6.0
+MirrorY = true
+
+[node name="PinFunnel2" parent="Pocket4" unique_id=1799266497 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -51)
+InnerWidth = 60.0
+OuterWidth = 80.0
+Height = 40.0
+AverageSpacing = 6.0
+MirrorY = true
+
+[node name="Pin" parent="Pocket4" unique_id=2043838577 instance=ExtResource("10_m3sl2")]
+position = Vector2(-10, -100)
+
+[node name="Pin2" parent="Pocket4" unique_id=1528072019 instance=ExtResource("10_m3sl2")]
+position = Vector2(10, -100)
+
+[node name="PinGrid2" parent="Pocket4" unique_id=501212060 instance=ExtResource("11_du6bw")]
+position = Vector2(-72, -139)
+Rows = 2
+SpacingX = 20.0
+SpacingY = 20.0
+
+[node name="Pocket5" parent="." unique_id=308209589 instance=ExtResource("8_idw2h")]
+position = Vector2(105, 165)
+InputBalls = [ExtResource("8_m3sl2")]
+OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
+
+[node name="PinFunnel" parent="Pocket5" unique_id=1499990178 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -34)
+InnerWidth = 20.0
+OuterWidth = 40.0
+Height = 40.0
+AverageSpacing = 6.0
+MirrorY = true
+
+[node name="PinFunnel2" parent="Pocket5" unique_id=530598274 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -51)
+InnerWidth = 60.0
+OuterWidth = 80.0
+Height = 40.0
+AverageSpacing = 6.0
+MirrorY = true
+
+[node name="Pin" parent="Pocket5" unique_id=2099461821 instance=ExtResource("10_m3sl2")]
+position = Vector2(-10, -100)
+
+[node name="Pin2" parent="Pocket5" unique_id=182119281 instance=ExtResource("10_m3sl2")]
+position = Vector2(10, -100)
+
+[node name="PinGrid" parent="Pocket5" unique_id=1706393072 instance=ExtResource("11_du6bw")]
+position = Vector2(-8, -140)
+Rows = 2
+SpacingX = 20.0
+SpacingY = 20.0
+
 [node name="Spinner" parent="." unique_id=1816530947 instance=ExtResource("8_2tyx5")]
-position = Vector2(-50, 0)
+position = Vector2(-50, 18)
+
+[node name="PinFunnel2" parent="Spinner" unique_id=1550671865 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -25)
+InnerWidth = 20.0
+OuterWidth = 60.0
+Height = 40.0
+AverageSpacing = 8.0
+
+[node name="Spinner4" parent="." unique_id=907226347 instance=ExtResource("8_2tyx5")]
+position = Vector2(50, 18)
+
+[node name="PinFunnel2" parent="Spinner4" unique_id=1675791235 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -25)
+InnerWidth = 20.0
+OuterWidth = 60.0
+Height = 40.0
+AverageSpacing = 8.0
 
 [node name="Spinner2" parent="." unique_id=797711148 instance=ExtResource("8_2tyx5")]
-position = Vector2(-150, 0)
+position = Vector2(-148, 6)
+
+[node name="PinFunnel3" parent="Spinner2" unique_id=1124843296 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -25)
+InnerWidth = 20.0
+OuterWidth = 80.0
+Height = 40.0
+AverageSpacing = 8.0
+
+[node name="PinGrid" parent="Spinner2" unique_id=1005526133 instance=ExtResource("11_du6bw")]
+position = Vector2(-20, -135)
+Rows = 4
+Columns = 3
+SpacingX = 20.0
+SpacingY = 20.0
+
+[node name="Spinner5" parent="." unique_id=1362514920 instance=ExtResource("8_2tyx5")]
+position = Vector2(148, 6)
+
+[node name="PinFunnel3" parent="Spinner5" unique_id=373786879 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -25)
+InnerWidth = 20.0
+OuterWidth = 80.0
+Height = 40.0
+AverageSpacing = 8.0
+
+[node name="PinGrid" parent="Spinner5" unique_id=1636655832 instance=ExtResource("11_du6bw")]
+position = Vector2(-21, -137)
+Rows = 4
+Columns = 3
+SpacingX = 20.0
+SpacingY = 20.0
 
 [node name="Spinner3" parent="." unique_id=1489706659 instance=ExtResource("8_2tyx5")]
-position = Vector2(-80, -100)
+position = Vector2(-87, -91)
 
-[node name="Spinner4" parent="." unique_id=947830138 instance=ExtResource("8_2tyx5")]
-position = Vector2(150, 0)
-
-[node name="Spinner5" parent="." unique_id=1047286652 instance=ExtResource("8_2tyx5")]
-position = Vector2(50, 0)
+[node name="PinFunnel" parent="Spinner3" unique_id=409545682 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -24)
+InnerWidth = 20.0
+OuterWidth = 50.0
+Height = 40.0
+AverageSpacing = 8.0
 
 [node name="Spinner6" parent="." unique_id=1037498190 instance=ExtResource("8_2tyx5")]
-position = Vector2(80, -100)
+position = Vector2(87, -91)
+
+[node name="PinFunnel2" parent="Spinner6" unique_id=838241989 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -24)
+InnerWidth = 20.0
+OuterWidth = 50.0
+Height = 40.0
+AverageSpacing = 8.0

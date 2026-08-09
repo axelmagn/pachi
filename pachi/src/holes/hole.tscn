@@ -18,5 +18,5 @@ shape = SubResource("CircleShape2D_7ivt2")
 [node name="HoleSprite" type="Node2D" parent="CollisionShape2D" unique_id=1442140950]
 script = ExtResource("1_15b0b")
 Radius = 8.0
-Color = Color(0.20332184, 0.20332184, 0.20332184, 1)
+Color = Color(0.20392157, 0.20392157, 0.20392157, 1)
 metadata/_custom_type_script = "uid://vnclow3lkur1"

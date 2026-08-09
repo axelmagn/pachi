@@ -84,6 +84,7 @@ public partial class PinFunnel : Node2D
             LeftEllipse.RadiusY = Height;
             LeftEllipse.MirrorX = MirrorX;
             LeftEllipse.MirrorY = MirrorY;
+            LeftEllipse.AverageSpacing = AverageSpacing;
         }
         if (RightEllipse != null)
         {
@@ -94,6 +95,7 @@ public partial class PinFunnel : Node2D
             RightEllipse.RadiusY = Height;
             RightEllipse.MirrorX = MirrorX;
             RightEllipse.MirrorY = MirrorY;
+            RightEllipse.AverageSpacing = AverageSpacing;
         }
     }
 }
