@@ -68,10 +68,10 @@ AverageSpacing = 8.0
 MirrorX = true
 
 [node name="Pin" parent="Pocket" unique_id=849448400 instance=ExtResource("10_m3sl2")]
-position = Vector2(-11, -36)
+position = Vector2(-13, -36)
 
 [node name="Pin2" parent="Pocket" unique_id=568121454 instance=ExtResource("10_m3sl2")]
-position = Vector2(11, -36)
+position = Vector2(13, -36)
 
 [node name="Pin4" parent="Pocket" unique_id=216096641 instance=ExtResource("10_m3sl2")]
 position = Vector2(-11, -139)

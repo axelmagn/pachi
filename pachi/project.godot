@@ -33,6 +33,7 @@ project/assembly_name="Pachi"
 
 ball_material=""
 pin_material=""
+pin_wall=""
 
 [gui]
 

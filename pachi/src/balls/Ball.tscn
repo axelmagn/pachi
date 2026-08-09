@@ -12,7 +12,7 @@ bounce = 0.4
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
 radius = 6.0
 
-[node name="Ball" type="RigidBody2D" unique_id=1594434914 node_paths=PackedStringArray("BallPinBounceAudioPlayer", "BallBallBounceAudioPlayer", "PlaceholderSprite", "Collider", "FadeTimer", "StuckTimer") groups=["ball"]]
+[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("BallPinBounceAudioPlayer", "BallBallBounceAudioPlayer", "PlaceholderSprite", "Collider", "FadeTimer", "StuckTimer") groups=["ball"]]
 collision_layer = 2
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_tsi0e")
@@ -28,6 +28,7 @@ FadeModulate = Color(0.5019608, 0.5019608, 0.5019608, 0.7529412)
 Collider = NodePath("CollisionShape2D")
 FadeTimer = NodePath("FadeTimer")
 StuckTimer = NodePath("StuckTimer")
+WallFollowAngleThresholdDeg = 30.0
 metadata/_custom_type_script = "uid://unwhnooi7g2c"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1206895688]

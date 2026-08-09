@@ -51,6 +51,26 @@ public partial class Ball : RigidBody2D
     [Export]
     public bool InitDetectStuck { get; set; }
 
+    [Export]
+    public bool EnableWallFollowing { get; set; } = true;
+
+    /// Incident angle threshold relative to wall surface (in degrees).
+    /// Angles shallower than this (default: 15.0 deg) will redirect velocity parallel to wall.
+    [Export(PropertyHint.Range, "1,60")]
+    public float WallFollowAngleThresholdDeg { get; set; } = 15.0f;
+
+    /// Continuous factor [0.0, 1.0] for speed preservation:
+    /// 0.0 = Raw tangential velocity (drops normal velocity component entirely, speed = |Vt|).
+    /// 1.0 = Full speed preservation (maintains original scalar speed |V| along tangent).
+    /// Intermediate values smoothly blend between the two.
+    [Export(PropertyHint.Range, "0.0,1.0")]
+    public float WallFollowSpeedPreservation { get; set; } = 0.5f;
+
+    /// Group filter. Only colliders belonging to this group will trigger wall-following.
+    /// Set to empty string to apply to all static colliders.
+    [Export]
+    public string WallGroupFilter { get; set; } = "pin_wall";
+
     public static readonly StringName BallMaterialGroup = "ball_material";
     public static readonly StringName PinMaterialGroup = "pin_material";
 
@@ -67,6 +87,12 @@ public partial class Ball : RigidBody2D
     private Tween _transitionTween = null;
 
     private Color _originalModulate = Colors.White;
+
+    public Color OriginalModulate
+    {
+        get => _originalModulate;
+        set => _originalModulate = value;
+    }
 
     private Vector2 _previousVelocity = Vector2.Zero;
 
@@ -87,7 +113,10 @@ public partial class Ball : RigidBody2D
         FadeTimer.Timeout += OnFadeTimeout;
         StuckTimer.Timeout += OnStuck;
 
-        _originalModulate = Modulate;
+        if (_originalModulate == Colors.White && CurrentTransitionState == TransitionState.None)
+        {
+            _originalModulate = Modulate;
+        }
 
         if (InitDetectStuck)
         {
@@ -100,6 +129,67 @@ public partial class Ball : RigidBody2D
     public override void _PhysicsProcess(double delta)
     {
         _previousVelocity = LinearVelocity;
+    }
+
+    public override void _IntegrateForces(PhysicsDirectBodyState2D state)
+    {
+        base._IntegrateForces(state);
+
+        if (!EnableWallFollowing) return;
+
+        int contactCount = state.GetContactCount();
+        if (contactCount == 0) return;
+
+        Vector2 currentVel = state.LinearVelocity;
+        float currentSpeed = currentVel.Length();
+        if (currentSpeed < 0.001f) return;
+
+        Vector2 velDir = currentVel / currentSpeed;
+
+        for (int i = 0; i < contactCount; i++)
+        {
+            // Transform contact normal from local body space to world space
+            Vector2 localNormal = state.GetContactLocalNormal(i);
+            Vector2 worldNormal = Transform.BasisXform(localNormal).Normalized();
+
+            // Check if ball is moving into wall (Dot < 0)
+            float normalVelComponent = currentVel.Dot(worldNormal);
+            if (normalVelComponent >= 0f) continue;
+
+            // Check group filter if specified
+            if (!string.IsNullOrEmpty(WallGroupFilter))
+            {
+                GodotObject collider = state.GetContactColliderObject(i);
+                if (collider is Node node && !node.IsInGroup(WallGroupFilter))
+                {
+                    continue;
+                }
+            }
+
+            // Calculate incident angle with surface using world normal
+            // cos(angle to normal) = -velDir.Dot(worldNormal)
+            // sin(angle to surface) = cos(angle to normal)
+            float cosNormalAngle = Mathf.Clamp(-velDir.Dot(worldNormal), 0f, 1f);
+            float surfaceAngleRad = Mathf.Asin(cosNormalAngle);
+            float surfaceAngleDeg = Mathf.RadToDeg(surfaceAngleRad);
+
+            if (surfaceAngleDeg <= WallFollowAngleThresholdDeg)
+            {
+                // Tangential component of velocity in world space (normal component removed)
+                Vector2 tangentVel = currentVel - normalVelComponent * worldNormal;
+
+                if (tangentVel.LengthSquared() > 0.0001f)
+                {
+                    Vector2 tangentDir = tangentVel.Normalized();
+                    Vector2 fullSpeedVel = tangentDir * currentSpeed;
+
+                    // Continuously blend between raw tangential velocity and full scalar speed
+                    float factor = Mathf.Clamp(WallFollowSpeedPreservation, 0.0f, 1.0f);
+                    state.LinearVelocity = tangentVel.Lerp(fullSpeedVel, factor);
+                }
+                break; // Apply redirect for primary shallow contact
+            }
+        }
     }
 
     public float GetRadius()
@@ -205,7 +295,7 @@ public partial class Ball : RigidBody2D
         audioPlayer.Play();
     }
 
-    private void CancelFade()
+    public void CancelFade()
     {
         if (CurrentTransitionState == TransitionState.None) return;
         Debug.Assert(_transitionTween != null);

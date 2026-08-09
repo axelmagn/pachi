@@ -26,6 +26,9 @@ public partial class Launcher : Node2D
     [Export]
     public Level Level { get; set; }
 
+    [Export]
+    public float LaunchSpeed { get; set; } = 1100.0f;
+
 
     private float _startRotation;
     private float _endRotation;
@@ -40,8 +43,31 @@ public partial class Launcher : Node2D
 
         _startRotation = LauncherSprite.Rotation;
         _endRotation = LauncherGhostSprite.Rotation;
+
+        _ = TryLoadBallFromHopper();
     }
 
+
+    private bool IsLaunchPointClear()
+    {
+        if (Level == null || Level.BallLaunchPoint == null || Level.BallsRoot == null) return false;
+
+        float clearanceRadius = 24.0f;
+        float clearanceRadiusSq = clearanceRadius * clearanceRadius;
+        Vector2 launchPos = Level.BallLaunchPoint.GlobalPosition;
+
+        foreach (Node child in Level.BallsRoot.GetChildren())
+        {
+            if (child is Ball ball && !ball.Freeze && ball.CurrentTransitionState == Ball.TransitionState.None)
+            {
+                if ((ball.GlobalPosition - launchPos).LengthSquared() < clearanceRadiusSq)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -52,6 +78,11 @@ public partial class Launcher : Node2D
         if (Input.IsActionJustReleased(ChargeInput))
         {
             ChargeEnd();
+        }
+
+        if (_chargedBall == null && IsLaunchPointClear())
+        {
+            _ = TryLoadBallFromHopper();
         }
 
         // TODO: make launcher feel better to use
@@ -127,6 +158,11 @@ public partial class Launcher : Node2D
 
         // set up charged ball
         _chargedBall = (Ball)poppedBall.Duplicate();
+        _chargedBall.CancelFade();
+        _chargedBall.OriginalModulate = poppedBall.OriginalModulate;
+        _chargedBall.Modulate = poppedBall.OriginalModulate;
+        _chargedBall.Scale = Vector2.One;
+
         Level.BallsRoot.AddChild(_chargedBall);
         Level.BallsRoot.MoveChild(_chargedBall, 0);
         Debug.Assert(Level.BallsRoot != null);
@@ -153,10 +189,13 @@ public partial class Launcher : Node2D
     private void TryLaunchBall()
     {
         if (_chargedBall == null) return;
+        if (Level == null || Level.BallLaunchPoint == null) return;
+
         _chargedBall.Freeze = false;
-        // TODO: retrieve velocity vector from launch point
+        // Calculate local "Up" (-Y) vector of BallLaunchPoint in world space
+        Vector2 launchDirection = Vector2.Up.Rotated(Level.BallLaunchPoint.GlobalRotation);
         // TODO: feed charge ratio through curve
-        _chargedBall.LinearVelocity = new Vector2(100.0f, -200.0f) * 5.0f * _chargeRatio;
+        _chargedBall.LinearVelocity = launchDirection * LaunchSpeed * _chargeRatio;
         _chargedBall = null;
     }
 }
