@@ -6,8 +6,8 @@ A rolling log of todo items.
 
 - [ ] balls deflect smoothly off of wall surface (override velocity)
 - [ ] balls shoot in direction of launcher hole
-- [ ] launcher hole previews next ball
-- [ ] pockets open when reward is achieved
+- [ ] launcher hole loads next ball as preview prior to firing
+- [ ] implement pocket arm behavior on events
 
 ## 2026-07-??
 

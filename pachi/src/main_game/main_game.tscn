@@ -12,8 +12,7 @@
 [ext_resource type="Resource" uid="uid://dhobpxp8e5msm" path="res://src/balls/tiers/tier_6.tres" id="9_n8mq4"]
 [ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="10_cq107"]
 [ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="11_00jtp"]
-[ext_resource type="FontFile" uid="uid://dsfxlckpk5ofm" path="res://assets/fonts/pixelify_sans/static/PixelifySans-Regular.ttf" id="13_22jfb"]
-[ext_resource type="FontFile" uid="uid://c11bkg3cnm0r5" path="res://assets/fonts/tiny5/Tiny5-Regular.ttf" id="14_2auq4"]
+[ext_resource type="PackedScene" uid="uid://dlehti7vll0ar" path="res://src/balls/ball_t1.tscn" id="11_22jfb"]
 
 [node name="Game" type="Node" unique_id=727896907]
 
@@ -107,47 +106,3 @@ render_target_update_mode = 4
 [node name="RightColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1220220990]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="FontTest1" type="RichTextLabel" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=333867342]
-texture_filter = 1
-custom_minimum_size = Vector2(256, 128)
-layout_mode = 0
-offset_left = 684.0
-offset_top = 19.0
-offset_right = 940.0
-offset_bottom = 147.0
-bbcode_enabled = true
-text = "DotGothic16
-[font_size=8]8em: lorem ipsum[/font_size]
-[font_size=12]12em: lorem ipsum[/font_size]
-[font_size=16]16em: lorem ipsum[/font_size]"
-
-[node name="FontTest2" type="RichTextLabel" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=1843793773]
-texture_filter = 1
-custom_minimum_size = Vector2(256, 128)
-layout_mode = 0
-offset_left = 686.0
-offset_top = 136.0
-offset_right = 942.0
-offset_bottom = 264.0
-theme_override_fonts/normal_font = ExtResource("13_22jfb")
-bbcode_enabled = true
-text = "Pixel Sans
-[font_size=8]8em: lorem ipsum[/font_size]
-[font_size=12]12em: lorem ipsum[/font_size]
-[font_size=16]16em: lorem ipsum[/font_size]"
-
-[node name="FontTest3" type="RichTextLabel" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=1343208866]
-texture_filter = 1
-custom_minimum_size = Vector2(256, 128)
-layout_mode = 0
-offset_left = 683.0
-offset_top = 233.0
-offset_right = 939.0
-offset_bottom = 361.0
-theme_override_fonts/normal_font = ExtResource("14_2auq4")
-bbcode_enabled = true
-text = "Tiny5
-[font_size=5]5em: lorem ipsum[/font_size]
-[font_size=10]10em: lorem ipsum[/font_size]
-[font_size=15]15em: lorem ipsum[/font_size]"
