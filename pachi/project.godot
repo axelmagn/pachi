@@ -34,6 +34,14 @@ project/assembly_name="Pachi"
 ball_material=""
 pin_material=""
 
+[gui]
+
+fonts/dynamic_fonts/use_oversampling=false
+theme/default_font_antialiasing=0
+theme/default_font_hinting=0
+theme/default_font_subpixel_positioning=0
+theme/custom_font="uid://dxuvilsmgyk88"
+
 [input]
 
 launcher_charge={

@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://i6t2n8takshu" path="res://src/pockets/Pocket.cs" id="1_mtvat"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_241cg"]
 [ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="3_r7ej6"]
-[ext_resource type="Script" uid="uid://bwd78gnw7egqp" path="res://src/shape_sprites/ColliderCapsuleSprite.cs" id="4_lxxho"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_8lcgt"]
+[ext_resource type="Texture2D" uid="uid://dcxgv7fnskjmj" path="res://assets/sprites/ellis/Tulip sprite v 1.png" id="6_ogt5k"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
 radius = 2.0
@@ -53,11 +53,11 @@ metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 position = Vector2(0, -11)
 shape = SubResource("CapsuleShape2D_7ivt2")
 
-[node name="ColliderCapsuleSprite" type="Node2D" parent="RightArm/CollisionShape2D" unique_id=898727807]
-script = ExtResource("4_lxxho")
-Radius = 2.0
-Height = 24.0
-metadata/_custom_type_script = "uid://bwd78gnw7egqp"
+[node name="Sprite2D" type="Sprite2D" parent="RightArm/CollisionShape2D" unique_id=1901193732]
+position = Vector2(2, 5)
+rotation = 0.8121756
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("6_ogt5k")
 
 [node name="LeftArm" type="CharacterBody2D" parent="." unique_id=1693192151]
 position = Vector2(-10, -4)
@@ -68,11 +68,12 @@ metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 position = Vector2(0, -11)
 shape = SubResource("CapsuleShape2D_7ivt2")
 
-[node name="ColliderCapsuleSprite" type="Node2D" parent="LeftArm/CollisionShape2D" unique_id=1314152300]
-script = ExtResource("4_lxxho")
-Radius = 2.0
-Height = 24.0
-metadata/_custom_type_script = "uid://bwd78gnw7egqp"
+[node name="Sprite2D2" type="Sprite2D" parent="LeftArm" unique_id=1861880180]
+position = Vector2(-2, -8.999999)
+rotation = -0.81002015
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("6_ogt5k")
+flip_h = true
 
 [node name="InputsIndicator" type="Node2D" parent="." unique_id=1399337656]
 z_index = 3
