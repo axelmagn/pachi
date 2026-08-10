@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://7b4rhp6qit0a"]
 
-[ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="1_8hmh5"]
-[ext_resource type="Script" uid="uid://ts8cecg1g12g" path="res://src/balls/Ball.cs" id="1_tsi0e"]
-[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="2_6rsrr"]
-[ext_resource type="AudioStream" uid="uid://gj8u53pfsujo" path="res://assets/audio/marble_rpg_sounds/ball_click_02.wav" id="3_tsi0e"]
+[ext_resource type="Script" uid="uid://ts8cecg1g12g" path="res://src/balls/Ball.cs" id="1_sv7c3"]
+[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="2_pjjxd"]
+[ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="3_r56ug"]
+[ext_resource type="AudioStream" uid="uid://gcg8a2s0a2ay" path="res://assets/audio/chiptone/pin_hit.01.wav" id="4_ykjch"]
+[ext_resource type="AudioStream" uid="uid://c7amups2w4yn3" path="res://assets/audio/chiptone/ball_collision.01.wav" id="5_ys5hv"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tsi0e"]
 friction = 0.5
@@ -12,17 +13,17 @@ bounce = 0.4
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
 radius = 6.0
 
-[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("BallPinBounceAudioPlayer", "BallBallBounceAudioPlayer", "PlaceholderSprite", "Collider", "FadeTimer", "StuckTimer") groups=["ball"]]
+[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "PlaceholderSprite", "Collider", "FadeTimer", "StuckTimer") groups=["ball"]]
 collision_layer = 2
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_tsi0e")
 continuous_cd = 2
 contact_monitor = true
 max_contacts_reported = 4
-script = ExtResource("1_tsi0e")
-Variant = ExtResource("2_6rsrr")
-BallPinBounceAudioPlayer = NodePath("BallPinBounceAudioPlayer")
-BallBallBounceAudioPlayer = NodePath("BallBallBounceAudioPlayer")
+script = ExtResource("1_sv7c3")
+Variant = ExtResource("2_pjjxd")
+PinBounceAudioPlayer = NodePath("PinBounceAudioPlayer")
+BallBounceAudioPlayer = NodePath("BallBounceAudioPlayer")
 PlaceholderSprite = NodePath("CollisionShape2D/ColliderCircleSprite")
 FadeModulate = Color(0.5019608, 0.5019608, 0.5019608, 0.7529412)
 Collider = NodePath("CollisionShape2D")
@@ -35,17 +36,22 @@ metadata/_custom_type_script = "uid://unwhnooi7g2c"
 shape = SubResource("CircleShape2D_ubxs6")
 
 [node name="ColliderCircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=2040255732]
-script = ExtResource("1_8hmh5")
+script = ExtResource("3_r56ug")
 Radius = 6.0
 Color = Color(0.8158153, 0.81581545, 0.8158154, 1)
 metadata/_custom_type_script = "uid://vnclow3lkur1"
 
-[node name="BallPinBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1111486999]
-stream = ExtResource("3_tsi0e")
+[node name="PinBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1111486999]
+stream = ExtResource("4_ykjch")
 pitch_scale = 1.6
+bus = &"SFX"
 
-[node name="BallBallBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=895391539]
-stream = ExtResource("3_tsi0e")
+[node name="BallBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=895391539]
+stream = ExtResource("5_ys5hv")
+bus = &"SFX"
+
+[node name="WallBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1972571410]
+stream = ExtResource("5_ys5hv")
 
 [node name="FadeTimer" type="Timer" parent="." unique_id=1629553787]
 one_shot = true

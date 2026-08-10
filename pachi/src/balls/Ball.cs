@@ -15,10 +15,10 @@ public partial class Ball : RigidBody2D
     public BallVariant Variant { get; set; }
 
     [Export]
-    public AudioStreamPlayer2D BallPinBounceAudioPlayer { get; set; }
+    public AudioStreamPlayer2D PinBounceAudioPlayer { get; set; }
 
     [Export]
-    public AudioStreamPlayer2D BallBallBounceAudioPlayer { get; set; }
+    public AudioStreamPlayer2D BallBounceAudioPlayer { get; set; }
 
     [Export]
     public ColliderCircleSprite PlaceholderSprite { get; set; }
@@ -102,8 +102,8 @@ public partial class Ball : RigidBody2D
     {
         Debug.Assert(Variant != null);
         Debug.Assert(PlaceholderSprite != null);
-        Debug.Assert(BallPinBounceAudioPlayer != null);
-        Debug.Assert(BallBallBounceAudioPlayer != null);
+        Debug.Assert(PinBounceAudioPlayer != null);
+        Debug.Assert(BallBounceAudioPlayer != null);
         Debug.Assert(Collider != null);
         Debug.Assert(Collider.Shape is CircleShape2D);
         Debug.Assert(FadeTimer != null);
@@ -244,7 +244,8 @@ public partial class Ball : RigidBody2D
 
     private void OnBodyEntered(Node body)
     {
-        Debug.Assert(BallPinBounceAudioPlayer != null);
+        Debug.Assert(BallBounceAudioPlayer != null);
+        Debug.Assert(PinBounceAudioPlayer != null);
 
         float impactStrength = (_previousVelocity - LinearVelocity).Length();
 
@@ -252,11 +253,11 @@ public partial class Ball : RigidBody2D
 
         if (body.IsInGroup(BallMaterialGroup))
         {
-            PlayImpactAudio(BallBallBounceAudioPlayer, impactStrength);
+            PlayImpactAudio(BallBounceAudioPlayer, impactStrength);
         }
         else if (body.IsInGroup(PinMaterialGroup))
         {
-            PlayImpactAudio(BallPinBounceAudioPlayer, impactStrength);
+            PlayImpactAudio(PinBounceAudioPlayer, impactStrength);
         }
     }
 
