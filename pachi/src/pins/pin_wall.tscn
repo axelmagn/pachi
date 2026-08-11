@@ -7,7 +7,7 @@
 radius = 2.0
 height = 16.0
 
-[node name="PinWall" type="StaticBody2D" unique_id=849448400 groups=["pin_material", "pin_wall"]]
+[node name="PinWall" type="StaticBody2D" unique_id=849448400 groups=["wall_material"]]
 script = ExtResource("1_3cex1")
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 

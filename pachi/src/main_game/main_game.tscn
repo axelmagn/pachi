@@ -72,6 +72,7 @@ layout_mode = 2
 [node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer" unique_id=814168454]
 transparent_bg = true
 handle_input_locally = false
+audio_listener_enable_2d = true
 size = Vector2i(276, 338)
 render_target_update_mode = 4
 
@@ -83,6 +84,7 @@ layout_mode = 2
 [node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer" unique_id=1261388088]
 transparent_bg = true
 handle_input_locally = false
+audio_listener_enable_2d = true
 size = Vector2i(276, 170)
 render_target_update_mode = 4
 
@@ -96,6 +98,7 @@ layout_mode = 2
 [node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer" unique_id=908849300]
 transparent_bg = true
 handle_input_locally = false
+audio_listener_enable_2d = true
 size = Vector2i(400, 508)
 render_target_update_mode = 4
 

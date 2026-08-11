@@ -21,6 +21,9 @@ public partial class Ball : RigidBody2D
     public AudioStreamPlayer2D BallBounceAudioPlayer { get; set; }
 
     [Export]
+    public AudioStreamPlayer2D WallBounceAudioPlayer { get; set; }
+
+    [Export]
     public ColliderCircleSprite PlaceholderSprite { get; set; }
 
     /// impact strength threshold at which bounce audio will play
@@ -69,10 +72,11 @@ public partial class Ball : RigidBody2D
     /// Group filter. Only colliders belonging to this group will trigger wall-following.
     /// Set to empty string to apply to all static colliders.
     [Export]
-    public string WallGroupFilter { get; set; } = "pin_wall";
+    public string WallGroupFilter { get; set; } = "wall_material";
 
     public static readonly StringName BallMaterialGroup = "ball_material";
     public static readonly StringName PinMaterialGroup = "pin_material";
+    public static readonly StringName WallMaterialGroup = "wall_material";
 
     public TransitionState CurrentTransitionState { get; set; } = TransitionState.None;
 
@@ -104,6 +108,7 @@ public partial class Ball : RigidBody2D
         Debug.Assert(PlaceholderSprite != null);
         Debug.Assert(PinBounceAudioPlayer != null);
         Debug.Assert(BallBounceAudioPlayer != null);
+        Debug.Assert(WallBounceAudioPlayer != null);
         Debug.Assert(Collider != null);
         Debug.Assert(Collider.Shape is CircleShape2D);
         Debug.Assert(FadeTimer != null);
@@ -246,12 +251,17 @@ public partial class Ball : RigidBody2D
     {
         Debug.Assert(BallBounceAudioPlayer != null);
         Debug.Assert(PinBounceAudioPlayer != null);
+        Debug.Assert(WallBounceAudioPlayer != null);
 
         float impactStrength = (_previousVelocity - LinearVelocity).Length();
 
         if (impactStrength < BounceAudioThreshold) return;
 
-        if (body.IsInGroup(BallMaterialGroup))
+        if (body.IsInGroup(WallMaterialGroup))
+        {
+            PlayImpactAudio(WallBounceAudioPlayer, impactStrength);
+        }
+        else if (body.IsInGroup(BallMaterialGroup))
         {
             PlayImpactAudio(BallBounceAudioPlayer, impactStrength);
         }

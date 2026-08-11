@@ -13,7 +13,7 @@ normal = Vector2(1, 0)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ub47v"]
 normal = Vector2(-1, 0)
 
-[node name="BoundaryRect" type="StaticBody2D" unique_id=1819436732 node_paths=PackedStringArray("TopBoundary", "BottomBoundary", "LeftBoundary", "RightBoundary")]
+[node name="BoundaryRect" type="StaticBody2D" unique_id=1819436732 node_paths=PackedStringArray("TopBoundary", "BottomBoundary", "LeftBoundary", "RightBoundary") groups=["pin_material", "pin_wall"]]
 script = ExtResource("1_0eswa")
 TopBoundary = NodePath("TopBoundary")
 BottomBoundary = NodePath("BottomBoundary")

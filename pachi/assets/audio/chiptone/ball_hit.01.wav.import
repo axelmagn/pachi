@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c7amups2w4yn3"
-path="res://.godot/imported/ball_collision.01.wav-97ea2efd451fc7145bc7a0a2ea713561.sample"
+path="res://.godot/imported/ball_hit.01.wav-ce892887d8c4d50a6df367cc1ca86603.sample"
 
 [deps]
 
-source_file="res://assets/audio/chiptone/ball_collision.01.wav"
-dest_files=["res://.godot/imported/ball_collision.01.wav-97ea2efd451fc7145bc7a0a2ea713561.sample"]
+source_file="res://assets/audio/chiptone/ball_hit.01.wav"
+dest_files=["res://.godot/imported/ball_hit.01.wav-ce892887d8c4d50a6df367cc1ca86603.sample"]
 
 [params]
 

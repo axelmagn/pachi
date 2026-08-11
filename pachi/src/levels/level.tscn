@@ -49,7 +49,7 @@ PinScene = ExtResource("4_deqfd")
 
 [node name="LaunchHole" parent="." unique_id=428848470 instance=ExtResource("6_54iga")]
 position = Vector2(-159, -145)
-rotation = 0.48665807
+rotation = 0.6417135
 
 [node name="BallsRoot" type="Node2D" parent="." unique_id=479261600]
 

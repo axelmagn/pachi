@@ -27,14 +27,14 @@ OutputsIndicator = NodePath("OutputsIndicator")
 [node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_241cg")]
 RadiusX = 10.0
 RadiusY = 10.0
-AverageSpacing = 6.0
+AverageSpacing = 5.0
 EndAngle = 180.0
 
 [node name="PinEllipse2" parent="." unique_id=1537409262 instance=ExtResource("2_241cg")]
 position = Vector2(0, 24)
 RadiusX = 10.0
 RadiusY = 10.0
-AverageSpacing = 6.0
+AverageSpacing = 5.0
 StartAngle = 180.0
 EndAngle = 360.0
 
