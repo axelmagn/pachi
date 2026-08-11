@@ -10,6 +10,8 @@ public partial class GlobalEvents : Node
     [Signal]
     public delegate void BallAwardedEventHandler(BallVariant ballVariant);
 
+    [Signal]
+    public delegate void CentralPocketPaidOutEventHandler();
 
     public override void _EnterTree()
     {
@@ -20,5 +22,10 @@ public partial class GlobalEvents : Node
     public void NotifyBallAwarded(BallVariant ballVariant)
     {
         EmitSignal(SignalName.BallAwarded, ballVariant);
+    }
+
+    public void NotifyCentralPocketPaidOut()
+    {
+        EmitSignal(SignalName.CentralPocketPaidOut);
     }
 }

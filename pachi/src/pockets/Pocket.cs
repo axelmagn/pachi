@@ -63,10 +63,16 @@ public partial class Pocket : Node2D
     public AudioStreamPlayer2D RejectAudioPlayer { get; set; }
 
     [Export]
+    public AudioStreamPlayer2D PayoutAudioPlayer { get; set; }
+
+    [Export]
     public Array<AudioStream> AcceptAudioStreams { get; set; }
 
     [Export]
     public AudioStream RejectAudioStream { get; set; }
+
+    [Export]
+    public AudioStream PayoutAudioStream { get; set; }
 
     [Export]
     public bool UsePitchScaleFallback { get; set; } = true;
@@ -91,6 +97,21 @@ public partial class Pocket : Node2D
 
     [Export]
     public float ArmRotationSpeed = Mathf.Pi;
+
+    [Export]
+    public bool IsCentralPocket { get; set; } = false;
+
+    [Export]
+    public float ArmOpenDuration { get; set; } = 5.0f;
+
+    [Export]
+    public float ArmTweenDuration { get; set; } = 0.3f;
+
+    [Export]
+    public Tween.TransitionType ArmTweenTransition { get; set; } = Tween.TransitionType.Cubic;
+
+    [Export]
+    public Tween.EaseType ArmTweenEase { get; set; } = Tween.EaseType.Out;
 
     [Export]
     public bool RandomizeInputBalls = false;
@@ -119,7 +140,12 @@ public partial class Pocket : Node2D
         set { _armRadius = value; Rebuild(); }
     }
 
+    public ArmState CurrentArmState { get; private set; } = ArmState.Closed;
+
+    public bool IsOpen => CurrentArmState == ArmState.Open || CurrentArmState == ArmState.Opening;
+
     private Tween _activeArmTween = null;
+    private double _openTimerRemaining = 0.0;
     private bool _hasArms = true;
     private float _armLength = 24;
     private float _armRadius = 2;
@@ -176,6 +202,110 @@ public partial class Pocket : Node2D
 
         AcceptAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>("AcceptAudioPlayer");
         RejectAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>("RejectAudioPlayer");
+        PayoutAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>("PayoutAudioPlayer");
+
+        if (GlobalEvents.Instance != null)
+        {
+            GlobalEvents.Instance.CentralPocketPaidOut += OnCentralPocketPaidOut;
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        if (GlobalEvents.Instance != null)
+        {
+            GlobalEvents.Instance.CentralPocketPaidOut -= OnCentralPocketPaidOut;
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Engine.IsEditorHint()) return;
+
+        if (_openTimerRemaining > 0.0)
+        {
+            _openTimerRemaining -= delta;
+            if (_openTimerRemaining <= 0.0)
+            {
+                _openTimerRemaining = 0.0;
+                CloseArms();
+            }
+        }
+    }
+
+    public void OpenArms(float duration = 5.0f)
+    {
+        if (!HasArms || LeftArm == null || RightArm == null) return;
+
+        _openTimerRemaining = duration;
+
+        if (CurrentArmState == ArmState.Open)
+        {
+            return;
+        }
+
+        _activeArmTween?.Kill();
+        _activeArmTween = CreateTween();
+        _activeArmTween.SetProcessMode(Tween.TweenProcessMode.Physics);
+        _activeArmTween.SetParallel(true);
+
+        CurrentArmState = ArmState.Opening;
+
+        _activeArmTween.TweenProperty(LeftArm, Node2D.PropertyName.RotationDegrees.ToString(), -ArmOpenRotation, ArmTweenDuration)
+            .SetTrans(ArmTweenTransition)
+            .SetEase(ArmTweenEase);
+
+        _activeArmTween.TweenProperty(RightArm, Node2D.PropertyName.RotationDegrees.ToString(), ArmOpenRotation, ArmTweenDuration)
+            .SetTrans(ArmTweenTransition)
+            .SetEase(ArmTweenEase);
+
+        _activeArmTween.Finished += () =>
+        {
+            if (CurrentArmState == ArmState.Opening)
+            {
+                CurrentArmState = ArmState.Open;
+            }
+        };
+    }
+
+    public void CloseArms()
+    {
+        if (!HasArms || LeftArm == null || RightArm == null) return;
+
+        _openTimerRemaining = 0.0;
+
+        if (CurrentArmState == ArmState.Closed)
+        {
+            return;
+        }
+
+        _activeArmTween?.Kill();
+        _activeArmTween = CreateTween();
+        _activeArmTween.SetProcessMode(Tween.TweenProcessMode.Physics);
+        _activeArmTween.SetParallel(true);
+
+        CurrentArmState = ArmState.Closing;
+
+        _activeArmTween.TweenProperty(LeftArm, Node2D.PropertyName.RotationDegrees.ToString(), 0.0f, ArmTweenDuration)
+            .SetTrans(ArmTweenTransition)
+            .SetEase(ArmTweenEase);
+
+        _activeArmTween.TweenProperty(RightArm, Node2D.PropertyName.RotationDegrees.ToString(), 0.0f, ArmTweenDuration)
+            .SetTrans(ArmTweenTransition)
+            .SetEase(ArmTweenEase);
+
+        _activeArmTween.Finished += () =>
+        {
+            if (CurrentArmState == ArmState.Closing)
+            {
+                CurrentArmState = ArmState.Closed;
+            }
+        };
+    }
+
+    private void OnCentralPocketPaidOut()
+    {
+        OpenArms(ArmOpenDuration);
     }
 
     private void Rebuild()
@@ -251,6 +381,19 @@ public partial class Pocket : Node2D
         RejectAudioPlayer.Play();
     }
 
+    private void PlayPayoutSound()
+    {
+        var player = PayoutAudioPlayer ?? AcceptAudioPlayer;
+        if (player == null) return;
+
+        if (PayoutAudioStream != null)
+        {
+            player.Stream = PayoutAudioStream;
+        }
+        player.PitchScale = 1.0f;
+        player.Play();
+    }
+
     private void OnBallCatch(Ball ball)
     {
         int filledBefore = 0;
@@ -269,7 +412,6 @@ public partial class Pocket : Node2D
             {
                 InputBallSlotAvailable[i] = false;
                 reject = false;
-                PlayAcceptSound(filledBefore);
                 ball.Connect(Ball.SignalName.FadeOutFinished, Callable.From(ball.QueueFree),
                         (uint)ConnectFlags.OneShot);
                 break;
@@ -283,6 +425,7 @@ public partial class Pocket : Node2D
             ball.Connect(Ball.SignalName.FadeOutFinished,
                     Callable.From(() => { ball.FadeIn(RejectHole.GlobalPosition, true); }),
                     (uint)ConnectFlags.OneShot);
+            return;
         }
 
         // emit reward signal if accumulated
@@ -298,6 +441,8 @@ public partial class Pocket : Node2D
 
         if (accumulationFilled)
         {
+            PlayPayoutSound();
+
             // pay out rewards
             foreach (BallVariant variant in OutputBalls)
             {
@@ -309,6 +454,26 @@ public partial class Pocket : Node2D
             {
                 InputBallSlotAvailable[i] = true;
             }
+
+            if (IsCentralPocket)
+            {
+                GlobalEvents.Instance.NotifyCentralPocketPaidOut();
+            }
+            else
+            {
+                if (IsOpen)
+                {
+                    CloseArms();
+                }
+                else
+                {
+                    OpenArms(ArmOpenDuration);
+                }
+            }
+        }
+        else
+        {
+            PlayAcceptSound(filledBefore);
         }
     }
 }

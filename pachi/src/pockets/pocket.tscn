@@ -11,12 +11,13 @@
 [ext_resource type="AudioStream" uid="uid://b8qkohof6hhkn" path="res://assets/audio/chiptone/pocket_accept.G4.01.wav" id="9_g4"]
 [ext_resource type="AudioStream" uid="uid://cx84sq7u73y4q" path="res://assets/audio/chiptone/pocket_accept.B5.01.wav" id="10_b5"]
 [ext_resource type="AudioStream" uid="uid://p134pnv1q6gq" path="res://assets/audio/chiptone/pocket_reject.01.wav" id="11_rej"]
+[ext_resource type="AudioStream" path="res://assets/audio/chiptone/pocket_payout.01.wav" id="12_pay"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
 radius = 2.0
 height = 24.0
 
-[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "InputsIndicator", "OutputsIndicator", "AcceptAudioPlayer", "RejectAudioPlayer")]
+[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "InputsIndicator", "OutputsIndicator", "AcceptAudioPlayer", "RejectAudioPlayer", "PayoutAudioPlayer")]
 script = ExtResource("1_mtvat")
 CatchHole = NodePath("CatchHole")
 RejectHole = NodePath("RejectHole")
@@ -30,8 +31,10 @@ InputsIndicator = NodePath("InputsIndicator")
 OutputsIndicator = NodePath("OutputsIndicator")
 AcceptAudioPlayer = NodePath("AcceptAudioPlayer")
 RejectAudioPlayer = NodePath("RejectAudioPlayer")
+PayoutAudioPlayer = NodePath("PayoutAudioPlayer")
 AcceptAudioStreams = Array[AudioStream]([ExtResource("7_c4"), ExtResource("8_e4"), ExtResource("9_g4"), ExtResource("10_b5")])
 RejectAudioStream = ExtResource("11_rej")
+PayoutAudioStream = ExtResource("12_pay")
 
 [node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_241cg")]
 RadiusX = 10.0
@@ -103,3 +106,6 @@ metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 [node name="AcceptAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123451]
 
 [node name="RejectAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123452]
+
+[node name="PayoutAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123453]
+
