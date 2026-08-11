@@ -1,14 +1,18 @@
 [gd_scene format=3 uid="uid://prxlg5i85m5h"]
 
 [ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="1_d1wp5"]
-[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="1_i7lfl"]
+[ext_resource type="Script" path="res://src/pins/Pin.cs" id="2_pinscript"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
 radius = 2.0
 
-[node name="Pin" type="StaticBody2D" unique_id=849448400 groups=["pin_material"]]
-script = ExtResource("1_i7lfl")
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+[sub_resource type="Gradient" id="Gradient_sparks"]
+colors = PackedColorArray(1, 0.9, 0.5, 1, 1, 0.5, 0.1, 0)
+
+[node name="Pin" type="StaticBody2D" unique_id=849448400 node_paths=PackedStringArray("Sprite", "SparkParticles") groups=["pin_material"]]
+script = ExtResource("2_pinscript")
+Sprite = NodePath("CollisionShape2D/ColliderCircleSprite")
+SparkParticles = NodePath("SparkParticles")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2078823946]
 shape = SubResource("CircleShape2D_ubxs6")
@@ -17,3 +21,17 @@ shape = SubResource("CircleShape2D_ubxs6")
 script = ExtResource("1_d1wp5")
 Radius = 2.0
 metadata/_custom_type_script = "uid://vnclow3lkur1"
+
+[node name="SparkParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 5
+lifetime = 0.18
+one_shot = true
+explosiveness = 1.0
+spread = 45.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+scale_amount_min = 1.5
+scale_amount_max = 2.5
+color_ramp = SubResource("Gradient_sparks")

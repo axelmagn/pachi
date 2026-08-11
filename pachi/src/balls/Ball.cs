@@ -273,6 +273,16 @@ public partial class Ball : RigidBody2D
         else if (body.IsInGroup(PinMaterialGroup))
         {
             PlayImpactAudio(PinBounceAudioPlayer, impactStrength);
+            if (body is Pin pin)
+            {
+                Vector2 impactNormal = (GlobalPosition - pin.GlobalPosition).Normalized();
+                if (impactNormal == Vector2.Zero)
+                {
+                    impactNormal = Vector2.Up;
+                }
+                Vector2 impactPosition = pin.GlobalPosition + impactNormal * pin.GetRadius();
+                pin.NotifyHit(impactPosition, impactNormal, impactStrength);
+            }
         }
     }
 
