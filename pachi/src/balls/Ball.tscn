@@ -6,15 +6,20 @@
 [ext_resource type="AudioStream" uid="uid://gcg8a2s0a2ay" path="res://assets/audio/chiptone/pin_hit.01.wav" id="4_ykjch"]
 [ext_resource type="AudioStream" uid="uid://c7amups2w4yn3" path="res://assets/audio/chiptone/ball_hit.01.wav" id="5_ys5hv"]
 [ext_resource type="AudioStream" uid="uid://xm3iphstpd88" path="res://assets/audio/chiptone/wall_hit.01.wav" id="6_pjjxd"]
+[ext_resource type="Script" uid="uid://cce5qsnt5vx1b" path="res://src/balls/MotionTrail2D.cs" id="7_trail"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tsi0e"]
 friction = 0.5
 bounce = 0.4
 
+[sub_resource type="Curve" id="Curve_ykekq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
 radius = 6.0
 
-[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "WallBounceAudioPlayer", "PlaceholderSprite", "Collider", "FadeTimer", "StuckTimer") groups=["ball", "ball_material"]]
+[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "WallBounceAudioPlayer", "PlaceholderSprite", "MotionTrail", "Collider", "FadeTimer", "StuckTimer") groups=["ball", "ball_material"]]
 collision_layer = 2
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_tsi0e")
@@ -27,12 +32,22 @@ PinBounceAudioPlayer = NodePath("PinBounceAudioPlayer")
 BallBounceAudioPlayer = NodePath("BallBounceAudioPlayer")
 WallBounceAudioPlayer = NodePath("WallBounceAudioPlayer")
 PlaceholderSprite = NodePath("CollisionShape2D/ColliderCircleSprite")
+MotionTrail = NodePath("MotionTrail2D")
 FadeModulate = Color(0.5019608, 0.5019608, 0.5019608, 0.7529412)
 Collider = NodePath("CollisionShape2D")
 FadeTimer = NodePath("FadeTimer")
 StuckTimer = NodePath("StuckTimer")
 WallFollowAngleThresholdDeg = 30.0
 metadata/_custom_type_script = "uid://unwhnooi7g2c"
+
+[node name="MotionTrail2D" type="Line2D" parent="." unique_id=314159265]
+show_behind_parent = true
+top_level = true
+width_curve = SubResource("Curve_ykekq")
+joint_mode = 2
+end_cap_mode = 2
+antialiased = true
+script = ExtResource("7_trail")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1206895688]
 shape = SubResource("CircleShape2D_ubxs6")

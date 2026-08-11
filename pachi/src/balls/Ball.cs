@@ -26,6 +26,9 @@ public partial class Ball : RigidBody2D
     [Export]
     public ColliderCircleSprite PlaceholderSprite { get; set; }
 
+    [Export]
+    public MotionTrail2D MotionTrail { get; set; }
+
     /// impact strength threshold at which bounce audio will play
     [Export]
     public float BounceAudioThreshold { get; set; } = 10.0f;
@@ -113,6 +116,7 @@ public partial class Ball : RigidBody2D
         Debug.Assert(Collider.Shape is CircleShape2D);
         Debug.Assert(FadeTimer != null);
         Debug.Assert(StuckTimer != null);
+        Debug.Assert(MotionTrail != null);
 
         BodyEntered += OnBodyEntered;
         FadeTimer.Timeout += OnFadeTimeout;
@@ -129,6 +133,7 @@ public partial class Ball : RigidBody2D
         }
 
         PlaceholderSprite.Color = Variant.PlaceholderColor;
+        MotionTrail.SyncWithBall();
     }
 
     public override void _PhysicsProcess(double delta)
