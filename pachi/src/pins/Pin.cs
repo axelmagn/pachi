@@ -29,15 +29,65 @@ public partial class Pin : StaticBody2D
     [Export]
     public Color FlashColor { get; set; } = new Color(1.0f, 0.85f, 0.2f, 1.0f);
 
+    [ExportGroup("Particle Modulation")]
+    /// <summary>
+    /// Minimum impact strength required to trigger spark particles. Hits below this threshold omit particles entirely.
+    /// </summary>
+    [Export]
+    public float MinParticleImpactThreshold { get; set; } = 50.0f;
+
+    /// <summary>
+    /// Impact strength at which particle emission reaches maximum intensity.
+    /// </summary>
+    [Export]
+    public float MaxParticleImpactThreshold { get; set; } = 500.0f;
+
+    /// <summary>
+    /// Particle count emitted for hits at the minimum impact threshold.
+    /// </summary>
+    [Export]
+    public int MinParticleAmount { get; set; } = 1;
+
+    /// <summary>
+    /// Particle count emitted for hits at or above maximum impact threshold.
+    /// </summary>
+    [Export]
+    public int MaxParticleAmount { get; set; } = 4;
+
+    /// <summary>
+    /// Speed multiplier for particles emitted at minimum impact threshold.
+    /// </summary>
+    [Export(PropertyHint.Range, "0.1,1.0")]
+    public float MinParticleSpeedScale { get; set; } = 0.4f;
+
+    /// <summary>
+    /// Size multiplier for particles emitted at minimum impact threshold.
+    /// </summary>
+    [Export(PropertyHint.Range, "0.1,1.0")]
+    public float MinParticleSizeScale { get; set; } = 0.5f;
+
     private Tween _pulseTween;
     private Vector2 _baseScale = Vector2.One;
     private Color _baseModulate = Colors.White;
+
+    private float _baseInitialVelocityMin = 50.0f;
+    private float _baseInitialVelocityMax = 100.0f;
+    private float _baseScaleAmountMin = 1.5f;
+    private float _baseScaleAmountMax = 2.5f;
 
     public override void _Ready()
     {
         Debug.Assert(Sprite != null, "Pin requires a Sprite reference.");
         _baseScale = Sprite.Scale;
         _baseModulate = Sprite.Modulate;
+
+        if (SparkParticles != null)
+        {
+            _baseInitialVelocityMin = SparkParticles.InitialVelocityMin;
+            _baseInitialVelocityMax = SparkParticles.InitialVelocityMax;
+            _baseScaleAmountMin = SparkParticles.ScaleAmountMin;
+            _baseScaleAmountMax = SparkParticles.ScaleAmountMax;
+        }
     }
 
     public void NotifyHit(Vector2 impactPosition, Vector2 impactNormal, float impactStrength)
@@ -67,9 +117,25 @@ public partial class Pin : StaticBody2D
 
         if (EnableSparkParticles && SparkParticles != null)
         {
-            SparkParticles.GlobalPosition = impactPosition;
-            SparkParticles.Rotation = impactNormal.Angle();
-            SparkParticles.Restart();
+            GD.Print("Pin Impact Strength: ", impactStrength);
+            if (impactStrength >= MinParticleImpactThreshold)
+            {
+                float range = Math.Max(1.0f, MaxParticleImpactThreshold - MinParticleImpactThreshold);
+                float t = Mathf.Clamp((impactStrength - MinParticleImpactThreshold) / range, 0.0f, 1.0f);
+
+                int particleAmount = Mathf.RoundToInt(Mathf.Lerp(MinParticleAmount, MaxParticleAmount, t));
+                float speedScale = Mathf.Lerp(MinParticleSpeedScale, 1.0f, t);
+                float sizeScale = Mathf.Lerp(MinParticleSizeScale, 1.0f, t);
+
+                SparkParticles.GlobalPosition = impactPosition;
+                SparkParticles.Rotation = impactNormal.Angle();
+                SparkParticles.Amount = Math.Max(1, particleAmount);
+                SparkParticles.InitialVelocityMin = _baseInitialVelocityMin * speedScale;
+                SparkParticles.InitialVelocityMax = _baseInitialVelocityMax * speedScale;
+                SparkParticles.ScaleAmountMin = _baseScaleAmountMin * sizeScale;
+                SparkParticles.ScaleAmountMax = _baseScaleAmountMax * sizeScale;
+                SparkParticles.Restart();
+            }
         }
     }
 
