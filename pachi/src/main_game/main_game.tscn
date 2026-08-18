@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://fkpri4x34viw" path="res://src/main_game/GlobalEvents.cs" id="1_n5cg8"]
 [ext_resource type="Script" uid="uid://qflarudidago" path="res://src/main_game/GameConfig.cs" id="2_ju3mb"]
-[ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/ball.tscn" id="3_4kfrx"]
+[ext_resource type="PackedScene" uid="uid://dve7mck4b7200" path="res://src/balls/ball.tscn" id="3_4kfrx"]
 [ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="4_00jtp"]
 [ext_resource type="PackedScene" uid="uid://b4aaqhmywy8m1" path="res://src/levels/level.tscn" id="4_2laqp"]
 [ext_resource type="Resource" uid="uid://cgc7p5ki85b0n" path="res://src/balls/tiers/tier_2.tres" id="5_22jfb"]
@@ -12,6 +12,48 @@
 [ext_resource type="Resource" uid="uid://dhobpxp8e5msm" path="res://src/balls/tiers/tier_6.tres" id="9_n8mq4"]
 [ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="10_cq107"]
 [ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="11_00jtp"]
+[ext_resource type="Script" uid="uid://bqswtjn4hqcjx" path="res://src/cards/CardDragController.cs" id="12_dragcontroller"]
+[ext_resource type="PackedScene" uid="uid://b5m6c7d8faf0a" path="res://src/cards/card_sidebar.tscn" id="13_sidebar"]
+[ext_resource type="Script" uid="uid://cieu86dcpj8qk" path="res://src/cards/archetypes/BallPackArchetype.cs" id="14_pack_script"]
+[ext_resource type="Script" uid="uid://doehcjn5r5b6" path="res://src/cards/archetypes/IncrementInputTierArchetype.cs" id="15_inc_in_script"]
+[ext_resource type="Script" uid="uid://dyyxs4588jj0k" path="res://src/cards/archetypes/DecrementInputTierArchetype.cs" id="16_dec_in_script"]
+[ext_resource type="Script" uid="uid://c006md3l05cpj" path="res://src/cards/archetypes/IncrementOutputTierArchetype.cs" id="17_inc_out_script"]
+[ext_resource type="Script" uid="uid://dyjxr7oxlurb4" path="res://src/cards/archetypes/DecrementOutputTierArchetype.cs" id="18_dec_out_script"]
+[ext_resource type="Script" uid="uid://7dj4gjfeovtu" path="res://src/cards/archetypes/AddInputBallArchetype.cs" id="19_add_in_script"]
+[ext_resource type="Script" uid="uid://utdeug40a1vy" path="res://src/cards/archetypes/RemoveInputBallArchetype.cs" id="20_rem_in_script"]
+[ext_resource type="Script" uid="uid://dtks2imexvdig" path="res://src/cards/archetypes/AddOutputBallArchetype.cs" id="21_add_out_script"]
+[ext_resource type="Script" uid="uid://vxwn2yjh2ce6" path="res://src/cards/archetypes/RemoveOutputBallArchetype.cs" id="22_rem_out_script"]
+
+[sub_resource type="Resource" id="Resource_pack"]
+script = ExtResource("14_pack_script")
+
+[sub_resource type="Resource" id="Resource_inc_in"]
+script = ExtResource("15_inc_in_script")
+BaseWeight = 0.2
+
+[sub_resource type="Resource" id="Resource_dec_in"]
+script = ExtResource("16_dec_in_script")
+
+[sub_resource type="Resource" id="Resource_inc_out"]
+script = ExtResource("17_inc_out_script")
+
+[sub_resource type="Resource" id="Resource_dec_out"]
+script = ExtResource("18_dec_out_script")
+BaseWeight = 0.2
+
+[sub_resource type="Resource" id="Resource_add_in"]
+script = ExtResource("19_add_in_script")
+BaseWeight = 0.2
+
+[sub_resource type="Resource" id="Resource_rem_in"]
+script = ExtResource("20_rem_in_script")
+
+[sub_resource type="Resource" id="Resource_add_out"]
+script = ExtResource("21_add_out_script")
+
+[sub_resource type="Resource" id="Resource_rem_out"]
+script = ExtResource("22_rem_out_script")
+BaseWeight = 0.2
 
 [node name="Game" type="Node" unique_id=727896907]
 
@@ -24,8 +66,13 @@ script = ExtResource("1_n5cg8")
 script = ExtResource("2_ju3mb")
 BallScene = ExtResource("3_4kfrx")
 BallTiers = Array[Object]([ExtResource("4_00jtp"), ExtResource("5_22jfb"), ExtResource("6_2auq4"), ExtResource("7_q845l"), ExtResource("8_jbje6"), ExtResource("9_n8mq4")])
+CardArchetypes = Array[Object]([SubResource("Resource_pack"), SubResource("Resource_inc_in"), SubResource("Resource_dec_in"), SubResource("Resource_inc_out"), SubResource("Resource_dec_out"), SubResource("Resource_add_in"), SubResource("Resource_rem_in"), SubResource("Resource_add_out"), SubResource("Resource_rem_out")])
 
 [node name="LayersRoot" type="Node" parent="." unique_id=1519063191]
+
+[node name="CardDragLayer" type="CanvasLayer" parent="LayersRoot" unique_id=314159265]
+layer = 10
+script = ExtResource("12_dragcontroller")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="LayersRoot" unique_id=2013472659]
 
@@ -91,6 +138,8 @@ render_target_update_mode = 4
 [node name="Launcher" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer/SubViewport" unique_id=2132420869 node_paths=PackedStringArray("Hopper", "Level") instance=ExtResource("11_00jtp")]
 Hopper = NodePath("../../../HopperViewportContainer/SubViewport/Hopper")
 Level = NodePath("../../../../LevelViewportContainer/SubViewport/Level")
+LaunchPowerCurve = null
+AutoFireWeightCurve = null
 
 [node name="LevelViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1201145242]
 layout_mode = 2
@@ -104,6 +153,5 @@ render_target_update_mode = 4
 
 [node name="Level" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer/SubViewport" unique_id=756612389 instance=ExtResource("4_2laqp")]
 
-[node name="RightColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1220220990]
+[node name="CardSidebar" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1220220990 instance=ExtResource("13_sidebar")]
 layout_mode = 2
-size_flags_horizontal = 3

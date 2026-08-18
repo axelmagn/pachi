@@ -14,7 +14,15 @@ public partial class PocketBallsIndicator : Node2D
         get => _backgroundColor;
         set { _backgroundColor = value; QueueRedraw(); }
     }
-    private Color _backgroundColor = Colors.White;
+    private Color _backgroundColor = new(0.14f, 0.14f, 0.14f);
+
+    [Export]
+    public bool ShowQuestionMark
+    {
+        get => _showQuestionMark;
+        set { _showQuestionMark = value; QueueRedraw(); }
+    }
+    private bool _showQuestionMark = false;
 
     [Export]
     public Vector2 Size
@@ -68,6 +76,13 @@ public partial class PocketBallsIndicator : Node2D
         if (BorderThickness > 0.0f)
         {
             DrawRect(rect, BorderColor, filled: false, width: BorderThickness);
+        }
+
+        if (ShowQuestionMark)
+        {
+            Font font = ThemeDB.FallbackFont;
+            DrawString(font, new Vector2(-3, 4), "?", HorizontalAlignment.Center, -1, 11, Colors.White);
+            return;
         }
 
         // draw dots

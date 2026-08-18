@@ -117,7 +117,7 @@ public partial class Pin : StaticBody2D
 
         if (EnableSparkParticles && SparkParticles != null)
         {
-            GD.Print("Pin Impact Strength: ", impactStrength);
+            // GD.Print("Pin Impact Strength: ", impactStrength);
             if (impactStrength >= MinParticleImpactThreshold)
             {
                 float range = Math.Max(1.0f, MaxParticleImpactThreshold - MinParticleImpactThreshold);

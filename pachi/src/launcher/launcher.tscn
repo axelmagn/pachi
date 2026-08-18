@@ -2,11 +2,23 @@
 
 [ext_resource type="Script" uid="uid://dnslcmv1udepo" path="res://src/launcher/Launcher.cs" id="1_ob4jl"]
 [ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="2_h1ipi"]
+[ext_resource type="Script" uid="uid://biyglyxa47gj2" path="res://src/launcher/LauncherModeIndicator.cs" id="3_modeind"]
 
-[node name="Launcher" type="Node2D" unique_id=2132420869 node_paths=PackedStringArray("LauncherSprite", "LauncherGhostSprite")]
+[sub_resource type="Curve" id="Curve_ra4up"]
+_data = [Vector2(0, 0.13407826), 0.0, 0.3075909, 0, 0, Vector2(1, 0.6648045), 0.36481753, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_autofire"]
+_data = [Vector2(0, 0.6703911), 0.0, 0.0, 0, 0, Vector2(0.5384615, 0.95530736), 0.0, 0.0, 0, 0, Vector2(1, 0.6759777), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="Launcher" type="Node2D" unique_id=2132420869 node_paths=PackedStringArray("LauncherSprite", "LauncherGhostSprite", "ModeIndicator")]
 script = ExtResource("1_ob4jl")
 LauncherSprite = NodePath("LauncherSprite")
 LauncherGhostSprite = NodePath("LauncherGhostSprite")
+LaunchPowerCurve = SubResource("Curve_ra4up")
+AutoFireWeightCurve = SubResource("Curve_autofire")
+ModeIndicator = NodePath("LauncherModeIndicator")
 
 [node name="LauncherGhostSprite" type="Node2D" parent="." unique_id=1563860130]
 rotation = -0.61086524
@@ -30,3 +42,7 @@ Height = 150.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=264779633]
 position = Vector2(-59, 25)
+
+[node name="LauncherModeIndicator" type="Node2D" parent="." unique_id=987654321]
+position = Vector2(-135, -42)
+script = ExtResource("3_modeind")

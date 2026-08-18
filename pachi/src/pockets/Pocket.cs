@@ -204,10 +204,12 @@ public partial class Pocket : Node2D
         RejectAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>("RejectAudioPlayer");
         PayoutAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>("PayoutAudioPlayer");
 
-        if (GlobalEvents.Instance != null)
-        {
-            GlobalEvents.Instance.CentralPocketPaidOut += OnCentralPocketPaidOut;
-        }
+        Debug.Assert(GlobalEvents.Instance != null, "GlobalEvents.Instance must not be null");
+        GlobalEvents.Instance.CentralPocketPaidOut += OnCentralPocketPaidOut;
+
+        AddToGroup("pockets");
+        Debug.Assert(CardDragController.Instance != null, "CardDragController.Instance must not be null");
+        CardDragController.Instance.RegisterTarget(this, 40.0f);
     }
 
     public override void _ExitTree()
@@ -215,6 +217,31 @@ public partial class Pocket : Node2D
         if (GlobalEvents.Instance != null)
         {
             GlobalEvents.Instance.CentralPocketPaidOut -= OnCentralPocketPaidOut;
+        }
+
+        CardDragController.Instance?.UnregisterTarget(this);
+    }
+
+    public void RefreshIndicatorAndSlots()
+    {
+        InputBallSlotAvailable = [];
+        if (InputBalls != null)
+        {
+            for (int i = 0; i < InputBalls.Count; i++)
+            {
+                InputBallSlotAvailable.Add(true);
+            }
+        }
+
+        if (InputsIndicator != null)
+        {
+            InputsIndicator.Balls = InputBalls;
+            InputsIndicator.QueueRedraw();
+        }
+        if (OutputsIndicator != null)
+        {
+            OutputsIndicator.Balls = OutputBalls;
+            OutputsIndicator.QueueRedraw();
         }
     }
 
@@ -396,6 +423,9 @@ public partial class Pocket : Node2D
 
     private void OnBallCatch(Ball ball)
     {
+        Debug.Assert(GlobalEvents.Instance != null, "GlobalEvents.Instance must not be null");
+        GlobalEvents.Instance.NotifyBallEnteredPocket(this, ball);
+
         int filledBefore = 0;
         foreach (bool available in InputBallSlotAvailable)
         {

@@ -29,12 +29,39 @@ public partial class Launcher : Node2D
     [Export]
     public float LaunchSpeed { get; set; } = 1100.0f;
 
+    [Export]
+    public bool IsAutoFiring { get; set; } = false;
+
+    [Export]
+    public float AutoFireInterval { get; set; } = 1.0f;
+
+    [Export]
+    public Curve LaunchPowerCurve { get; set; }
+
+    [Export]
+    public Curve AutoFireWeightCurve { get; set; }
+
+    [Export]
+    public int AutoFireBagResolution { get; set; } = 10;
+
+    [Export]
+    public float AutoFireWeightScale { get; set; } = 10.0f;
+
+    [Export]
+    public LauncherModeIndicator ModeIndicator { get; set; }
+
 
     private float _startRotation;
     private float _endRotation;
     private float _rotationRate = 0.0f;
     private float _chargeRatio = 0.0f;
     private Ball _chargedBall;
+    private double _autoFireTimer = 0.0;
+    private bool _isAutoCharging = false;
+    private float _autoFireTargetRatio = 0.5f;
+    private readonly System.Collections.Generic.List<float> _autoFireBag = new();
+    private int _autoFireBagIndex = 0;
+    private float _autoFireCurrentRatio = 1.0f;
 
     public override void _Ready()
     {
@@ -44,7 +71,30 @@ public partial class Launcher : Node2D
         _startRotation = LauncherSprite.Rotation;
         _endRotation = LauncherGhostSprite.Rotation;
 
+        ModeIndicator ??= GetNodeOrNull<LauncherModeIndicator>("LauncherModeIndicator");
+        if (ModeIndicator != null)
+        {
+            ModeIndicator.IsAutoFiring = IsAutoFiring;
+            ModeIndicator.AutoFireInterval = AutoFireInterval;
+            ModeIndicator.ModeChanged += OnLauncherModeChanged;
+        }
+
         _ = TryLoadBallFromHopper();
+    }
+
+    public override void _ExitTree()
+    {
+        if (ModeIndicator != null)
+        {
+            ModeIndicator.ModeChanged -= OnLauncherModeChanged;
+        }
+    }
+
+    private void OnLauncherModeChanged(bool isAutoFiring, float interval)
+    {
+        IsAutoFiring = isAutoFiring;
+        AutoFireInterval = interval;
+        _autoFireTimer = 0.0;
     }
 
 
@@ -73,11 +123,32 @@ public partial class Launcher : Node2D
     {
         if (Input.IsActionJustPressed(ChargeInput))
         {
+            _isAutoCharging = false;
             ChargeStart();
         }
         if (Input.IsActionJustReleased(ChargeInput))
         {
+            _isAutoCharging = false;
             ChargeEnd();
+        }
+
+        if (IsAutoFiring && !_isAutoCharging)
+        {
+            if (Mathf.IsZeroApprox(_rotationRate) && Mathf.IsEqualApprox(LauncherSprite.Rotation, _startRotation))
+            {
+                _autoFireTimer += delta;
+                if (_autoFireTimer >= AutoFireInterval && _chargedBall != null && IsLaunchPointClear())
+                {
+                    _autoFireTimer = 0.0;
+                    _isAutoCharging = true;
+
+                    Debug.Assert(GameConfig.Instance != null && GameConfig.Instance.Rng != null, "GameConfig.Instance and Rng must not be null");
+                    float jitter = ((float)GameConfig.Instance.Rng.NextDouble() - 0.5f) * 0.08f;
+                    _autoFireCurrentRatio = Mathf.Clamp(_autoFireTargetRatio + jitter, 0.0f, 1.0f);
+
+                    ChargeStart();
+                }
+            }
         }
 
         if (_chargedBall == null && IsLaunchPointClear())
@@ -95,14 +166,24 @@ public partial class Launcher : Node2D
             _rotationRate = 0.0f;
         }
 
-        if (Mathf.IsEqualApprox(LauncherSprite.Rotation, _endRotation)
+        if (_isAutoCharging && !Mathf.IsZeroApprox(_rotationRate))
+        {
+            float targetRotation = Mathf.Lerp(_startRotation, _endRotation, _autoFireCurrentRatio);
+            bool reachedTarget = (_endRotation > _startRotation)
+                ? LauncherSprite.Rotation >= targetRotation
+                : LauncherSprite.Rotation <= targetRotation;
+
+            if (reachedTarget)
+            {
+                _isAutoCharging = false;
+                ChargeEnd();
+            }
+        }
+        else if (Mathf.IsEqualApprox(LauncherSprite.Rotation, _endRotation)
                 && !Mathf.IsZeroApprox(_rotationRate))
         {
-            // TODO: play audio cue
             _rotationRate = 0.0f;
         }
-
-
     }
 
     private float MinRotation()
@@ -194,8 +275,60 @@ public partial class Launcher : Node2D
         _chargedBall.Freeze = false;
         // Calculate local "Up" (-Y) vector of BallLaunchPoint in world space
         Vector2 launchDirection = Vector2.Up.Rotated(Level.BallLaunchPoint.GlobalRotation);
-        // TODO: feed charge ratio through curve
-        _chargedBall.LinearVelocity = launchDirection * LaunchSpeed * _chargeRatio;
+        
+        float evaluatedPower = LaunchPowerCurve != null ? LaunchPowerCurve.Sample(_chargeRatio) : _chargeRatio;
+        _chargedBall.LinearVelocity = launchDirection * LaunchSpeed * evaluatedPower;
         _chargedBall = null;
+    }
+
+    private float GetNextAutoFireTargetRatio()
+    {
+        if (_autoFireBag.Count == 0 || _autoFireBagIndex >= _autoFireBag.Count)
+        {
+            RebuildAndShuffleAutoFireBag();
+        }
+        if (_autoFireBag.Count == 0) return 0.5f;
+
+        return _autoFireBag[_autoFireBagIndex++];
+    }
+
+    private void RebuildAndShuffleAutoFireBag()
+    {
+        _autoFireBag.Clear();
+        int steps = Mathf.Max(2, AutoFireBagResolution);
+        float minRatio = 0.0f;
+        float maxRatio = 1.0f;
+
+        for (int i = 0; i < steps; i++)
+        {
+            float t = (float)i / (steps - 1);
+            float ratio = Mathf.Lerp(minRatio, maxRatio, t);
+            float weight = AutoFireWeightCurve != null ? Mathf.Max(0.0f, AutoFireWeightCurve.Sample(t)) : 1.0f;
+            int count = Mathf.RoundToInt(weight * AutoFireWeightScale);
+
+            for (int c = 0; c < count; c++)
+            {
+                _autoFireBag.Add(ratio);
+            }
+        }
+
+        if (_autoFireBag.Count == 0)
+        {
+            for (int i = 0; i < steps; i++)
+            {
+                float t = (float)i / (steps - 1);
+                _autoFireBag.Add(Mathf.Lerp(minRatio, maxRatio, t));
+            }
+        }
+
+        Debug.Assert(GameConfig.Instance != null && GameConfig.Instance.Rng != null, "GameConfig.Instance and Rng must not be null");
+        var rng = GameConfig.Instance.Rng;
+        for (int i = _autoFireBag.Count - 1; i > 0; i--)
+        {
+            int j = rng.Next(i + 1);
+            (_autoFireBag[i], _autoFireBag[j]) = (_autoFireBag[j], _autoFireBag[i]);
+        }
+
+        _autoFireBagIndex = 0;
     }
 }
