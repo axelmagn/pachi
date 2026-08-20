@@ -42,10 +42,10 @@ public partial class Launcher : Node2D
     public Curve AutoFireWeightCurve { get; set; }
 
     [Export]
-    public int AutoFireBagResolution { get; set; } = 10;
+    public int AutoFireBagResolution { get; set; } = 100;
 
     [Export]
-    public float AutoFireWeightScale { get; set; } = 10.0f;
+    public int AutoFireBagSize { get; set; } = 20;
 
     [Export]
     public LauncherModeIndicator ModeIndicator { get; set; }
@@ -143,6 +143,7 @@ public partial class Launcher : Node2D
                     _isAutoCharging = true;
 
                     Debug.Assert(GameConfig.Instance != null && GameConfig.Instance.Rng != null, "GameConfig.Instance and Rng must not be null");
+                    _autoFireTargetRatio = GetNextAutoFireTargetRatio();
                     float jitter = ((float)GameConfig.Instance.Rng.NextDouble() - 0.5f) * 0.08f;
                     _autoFireCurrentRatio = Mathf.Clamp(_autoFireTargetRatio + jitter, 0.0f, 1.0f);
 
@@ -292,41 +293,60 @@ public partial class Launcher : Node2D
         return _autoFireBag[_autoFireBagIndex++];
     }
 
+    private float SampleFromWeightCurve(Random rng)
+    {
+        if (AutoFireWeightCurve == null)
+        {
+            return (float)rng.NextDouble();
+        }
+
+        int segments = Mathf.Max(16, AutoFireBagResolution);
+        float[] cdf = new float[segments];
+        float totalArea = 0.0f;
+
+        float prevWeight = Mathf.Max(0.0f, AutoFireWeightCurve.Sample(0.0f));
+        for (int k = 0; k < segments; k++)
+        {
+            float tNext = (float)(k + 1) / segments;
+            float nextWeight = Mathf.Max(0.0f, AutoFireWeightCurve.Sample(tNext));
+            float area = 0.5f * (prevWeight + nextWeight);
+            totalArea += area;
+            cdf[k] = totalArea;
+            prevWeight = nextWeight;
+        }
+
+        if (totalArea <= 0.00001f)
+        {
+            return (float)rng.NextDouble();
+        }
+
+        float target = (float)rng.NextDouble() * totalArea;
+        int index = Array.BinarySearch(cdf, target);
+        if (index < 0)
+        {
+            index = ~index;
+        }
+        index = Mathf.Clamp(index, 0, segments - 1);
+
+        float prevCdf = (index > 0) ? cdf[index - 1] : 0.0f;
+        float nextCdf = cdf[index];
+        float fraction = (nextCdf > prevCdf) ? (target - prevCdf) / (nextCdf - prevCdf) : 0.0f;
+
+        float t0 = (float)index / segments;
+        float t1 = (float)(index + 1) / segments;
+        return Mathf.Clamp(Mathf.Lerp(t0, t1, fraction), 0.0f, 1.0f);
+    }
+
     private void RebuildAndShuffleAutoFireBag()
     {
         _autoFireBag.Clear();
-        int steps = Mathf.Max(2, AutoFireBagResolution);
-        float minRatio = 0.0f;
-        float maxRatio = 1.0f;
-
-        for (int i = 0; i < steps; i++)
-        {
-            float t = (float)i / (steps - 1);
-            float ratio = Mathf.Lerp(minRatio, maxRatio, t);
-            float weight = AutoFireWeightCurve != null ? Mathf.Max(0.0f, AutoFireWeightCurve.Sample(t)) : 1.0f;
-            int count = Mathf.RoundToInt(weight * AutoFireWeightScale);
-
-            for (int c = 0; c < count; c++)
-            {
-                _autoFireBag.Add(ratio);
-            }
-        }
-
-        if (_autoFireBag.Count == 0)
-        {
-            for (int i = 0; i < steps; i++)
-            {
-                float t = (float)i / (steps - 1);
-                _autoFireBag.Add(Mathf.Lerp(minRatio, maxRatio, t));
-            }
-        }
-
         Debug.Assert(GameConfig.Instance != null && GameConfig.Instance.Rng != null, "GameConfig.Instance and Rng must not be null");
         var rng = GameConfig.Instance.Rng;
-        for (int i = _autoFireBag.Count - 1; i > 0; i--)
+
+        int bagSize = Mathf.Max(1, AutoFireBagSize);
+        for (int i = 0; i < bagSize; i++)
         {
-            int j = rng.Next(i + 1);
-            (_autoFireBag[i], _autoFireBag[j]) = (_autoFireBag[j], _autoFireBag[i]);
+            _autoFireBag.Add(SampleFromWeightCurve(rng));
         }
 
         _autoFireBagIndex = 0;

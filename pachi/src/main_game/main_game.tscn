@@ -138,8 +138,6 @@ render_target_update_mode = 4
 [node name="Launcher" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer/SubViewport" unique_id=2132420869 node_paths=PackedStringArray("Hopper", "Level") instance=ExtResource("11_00jtp")]
 Hopper = NodePath("../../../HopperViewportContainer/SubViewport/Hopper")
 Level = NodePath("../../../../LevelViewportContainer/SubViewport/Level")
-LaunchPowerCurve = null
-AutoFireWeightCurve = null
 
 [node name="LevelViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1201145242]
 layout_mode = 2

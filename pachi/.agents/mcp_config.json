@@ -6,6 +6,16 @@
         "dlx",
         "@tugcantopaloglu/godot-mcp"
       ]
+    },
+    "trello": {
+      "command": "pnpm",
+      "args": [
+        "dlx",
+        "@delorenj/mcp-server-trello"
+      ],
+      "env": {
+        "TRELLO_BOARD_ID": "RJcc5ZJK"
+      }
     }
   }
 }

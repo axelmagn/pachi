@@ -9,7 +9,7 @@ _data = [Vector2(0, 0.13407826), 0.0, 0.3075909, 0, 0, Vector2(1, 0.6648045), 0.
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_autofire"]
-_data = [Vector2(0, 0.6703911), 0.0, 0.0, 0, 0, Vector2(0.5384615, 0.95530736), 0.0, 0.0, 0, 0, Vector2(1, 0.6759777), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.49706745, 0.98876405), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [node name="Launcher" type="Node2D" unique_id=2132420869 node_paths=PackedStringArray("LauncherSprite", "LauncherGhostSprite", "ModeIndicator")]
@@ -46,3 +46,4 @@ position = Vector2(-59, 25)
 [node name="LauncherModeIndicator" type="Node2D" parent="." unique_id=987654321]
 position = Vector2(-135, -42)
 script = ExtResource("3_modeind")
+AutoFireInterval = 1.0

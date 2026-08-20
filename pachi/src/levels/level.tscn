@@ -106,6 +106,12 @@ Rows = 4
 SpacingX = 20.0
 SpacingY = 20.0
 
+[node name="PinFunnel" parent="CenterPocket" unique_id=313265733 instance=ExtResource("10_idw2h")]
+InnerWidth = 20.0
+OuterWidth = 40.0
+Height = 30.0
+AverageSpacing = 4.0
+
 [node name="Pocket2" parent="." unique_id=99851573 instance=ExtResource("8_idw2h")]
 position = Vector2(0, 173)
 InputBalls = [ExtResource("8_m3sl2")]
@@ -113,7 +119,8 @@ OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3
 AcceptAudioStreams = Array[AudioStream]([])
 
 [node name="PinGrid" parent="Pocket2" unique_id=594424742 instance=ExtResource("11_du6bw")]
-position = Vector2(-40, -134)
+position = Vector2(-50, -134)
+Columns = 6
 SpacingX = 20.0
 SpacingY = 20.0
 
@@ -123,7 +130,7 @@ InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
 AcceptAudioStreams = Array[AudioStream]([])
 
-[node name="PinFunnel" parent="Pocket4" unique_id=313265733 instance=ExtResource("10_idw2h")]
+[node name="PinFunnel" parent="Pocket4" unique_id=1919490897 instance=ExtResource("10_idw2h")]
 position = Vector2(0, -34)
 InnerWidth = 20.0
 OuterWidth = 40.0
@@ -154,6 +161,7 @@ metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 [node name="PinGrid2" parent="Pocket4" unique_id=501212060 instance=ExtResource("11_du6bw")]
 position = Vector2(-72, -139)
 Rows = 2
+Columns = 6
 SpacingX = 20.0
 SpacingY = 20.0
 
@@ -192,8 +200,9 @@ body_skin = 0.0
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
 [node name="PinGrid" parent="Pocket5" unique_id=1706393072 instance=ExtResource("11_du6bw")]
-position = Vector2(-8, -140)
+position = Vector2(-28, -140)
 Rows = 2
+Columns = 6
 SpacingX = 20.0
 SpacingY = 20.0
 
