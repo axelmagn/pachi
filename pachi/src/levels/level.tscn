@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/pin.tscn" id="10_m3sl2"]
 [ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="11_du6bw"]
 [ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="12_rgvsn"]
+[ext_resource type="PackedScene" uid="uid://yakumonoscene01" path="res://src/yakumono/yakumono.tscn" id="13_yakumono"]
 
 [node name="Level" type="Node2D" unique_id=756612389 node_paths=PackedStringArray("BallsRoot", "BallLaunchPoint")]
 script = ExtResource("1_2tyx5")
@@ -55,7 +56,7 @@ rotation = 0.6417135
 
 [node name="BallsRoot" type="Node2D" parent="." unique_id=479261600]
 
-[node name="CenterPocket" parent="." unique_id=1383612129 instance=ExtResource("8_idw2h")]
+[node name="CenterYakumono" parent="." unique_id=1383612129 instance=ExtResource("13_yakumono")]
 position = Vector2(0, -13)
 InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("9_mhwal")]
@@ -63,7 +64,7 @@ AcceptAudioStreams = Array[AudioStream]([])
 IsCentralPocket = true
 HasArms = false
 
-[node name="PinFunnel3" parent="CenterPocket" unique_id=785708144 instance=ExtResource("10_idw2h")]
+[node name="PinFunnel3" parent="CenterYakumono" unique_id=785708144 instance=ExtResource("10_idw2h")]
 position = Vector2(0, -125)
 InnerWidth = 40.0
 OuterWidth = 80.0
@@ -71,43 +72,43 @@ Height = 40.0
 AverageSpacing = 8.0
 MirrorX = true
 
-[node name="Pin" parent="CenterPocket" unique_id=849448400 instance=ExtResource("10_m3sl2")]
+[node name="Pin" parent="CenterYakumono" unique_id=849448400 instance=ExtResource("10_m3sl2")]
 position = Vector2(-13, -36)
 script = ExtResource("12_rgvsn")
 body_skin = 0.0
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
-[node name="Pin2" parent="CenterPocket" unique_id=568121454 instance=ExtResource("10_m3sl2")]
+[node name="Pin2" parent="CenterYakumono" unique_id=568121454 instance=ExtResource("10_m3sl2")]
 position = Vector2(13, -36)
 script = ExtResource("12_rgvsn")
 body_skin = 0.0
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
-[node name="Pin4" parent="CenterPocket" unique_id=216096641 instance=ExtResource("10_m3sl2")]
+[node name="Pin4" parent="CenterYakumono" unique_id=216096641 instance=ExtResource("10_m3sl2")]
 position = Vector2(-11, -139)
 script = ExtResource("12_rgvsn")
 body_skin = 0.0
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
-[node name="Pin5" parent="CenterPocket" unique_id=1036266824 instance=ExtResource("10_m3sl2")]
+[node name="Pin5" parent="CenterYakumono" unique_id=1036266824 instance=ExtResource("10_m3sl2")]
 position = Vector2(11, -139)
 script = ExtResource("12_rgvsn")
 body_skin = 0.0
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
-[node name="Pin3" parent="CenterPocket" unique_id=1489455543 instance=ExtResource("10_m3sl2")]
+[node name="Pin3" parent="CenterYakumono" unique_id=1489455543 instance=ExtResource("10_m3sl2")]
 position = Vector2(0, -166)
 script = ExtResource("12_rgvsn")
 body_skin = 0.0
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
-[node name="PinGrid" parent="CenterPocket" unique_id=389836355 instance=ExtResource("11_du6bw")]
+[node name="PinGrid" parent="CenterYakumono" unique_id=389836355 instance=ExtResource("11_du6bw")]
 position = Vector2(-40, -114)
 Rows = 4
 SpacingX = 20.0
 SpacingY = 20.0
 
-[node name="PinFunnel" parent="CenterPocket" unique_id=313265733 instance=ExtResource("10_idw2h")]
+[node name="PinFunnel" parent="CenterYakumono" unique_id=313265733 instance=ExtResource("10_idw2h")]
 InnerWidth = 20.0
 OuterWidth = 40.0
 Height = 30.0

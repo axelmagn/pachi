@@ -208,6 +208,71 @@ public partial class VisualConfig : Resource
     }
 
     // -------------------------------------------------------------------------
+    // Yakumono
+    // -------------------------------------------------------------------------
+    private Godot.Collections.Array<Texture2D> _faceTextures = new();
+    private Texture2D _jackpotFaceTexture;
+    private Color _yakumonoBaseColor = new Color(0.85f, 0.35f, 0.35f, 1.0f);
+    private Texture2D _frameTexture;
+    private Texture2D _foregroundTexture;
+
+    [ExportGroup("Yakumono")]
+    [Export]
+    public Godot.Collections.Array<Texture2D> FaceTextures
+    {
+        get => _faceTextures;
+        set
+        {
+            _faceTextures = value ?? new Godot.Collections.Array<Texture2D>();
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Texture2D JackpotFaceTexture
+    {
+        get => _jackpotFaceTexture;
+        set
+        {
+            _jackpotFaceTexture = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Color YakumonoBaseColor
+    {
+        get => _yakumonoBaseColor;
+        set
+        {
+            _yakumonoBaseColor = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Texture2D FrameTexture
+    {
+        get => _frameTexture;
+        set
+        {
+            _frameTexture = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Texture2D ForegroundTexture
+    {
+        get => _foregroundTexture;
+        set
+        {
+            _foregroundTexture = value;
+            EmitChanged();
+        }
+    }
+
+    // -------------------------------------------------------------------------
     // Helper Loader
     // -------------------------------------------------------------------------
     public static VisualConfig? LoadDefault()

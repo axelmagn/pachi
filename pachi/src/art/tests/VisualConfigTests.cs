@@ -16,6 +16,11 @@ public static class VisualConfigTests
         TestPocketTexturePriority();
         TestPocketBallsIndicatorPropagation();
         TestCardUIStylingPropagation();
+        TestYakumonoVisualConfigDefaults();
+        TestYakumonoVisualConfigPropertyChangesEmitChanged();
+        TestYakumonoDualRenderingFallback();
+        TestYakumonoTexturePriority();
+        TestYakumonoFaceStateTransitions();
         TestNullConfigGracefulHandling();
     }
 
@@ -223,6 +228,171 @@ public static class VisualConfigTests
         Assert(style!.BorderColor == config.CardBorderColor, "Card panel BorderColor should match CardBorderColor.");
     }
 
+    public static void TestYakumonoVisualConfigDefaults()
+    {
+        var config = new VisualConfig();
+        Assert(config.FaceTextures != null, "FaceTextures default should not be null.");
+        Assert(config.JackpotFaceTexture == null, "JackpotFaceTexture default should be null.");
+        Assert(config.FrameTexture == null, "FrameTexture default should be null.");
+        Assert(config.ForegroundTexture == null, "ForegroundTexture default should be null.");
+    }
+
+    public static void TestYakumonoVisualConfigPropertyChangesEmitChanged()
+    {
+        var config = new VisualConfig();
+        bool changedFired = false;
+        config.Changed += () => { changedFired = true; };
+
+        config.YakumonoBaseColor = Colors.Magenta;
+        Assert(changedFired, "Setting YakumonoBaseColor should emit Changed.");
+
+        changedFired = false;
+        config.FaceTextures = new Godot.Collections.Array<Texture2D> { new ImageTexture() };
+        Assert(changedFired, "Setting FaceTextures should emit Changed.");
+
+        changedFired = false;
+        config.JackpotFaceTexture = new ImageTexture();
+        Assert(changedFired, "Setting JackpotFaceTexture should emit Changed.");
+
+        changedFired = false;
+        config.FrameTexture = new ImageTexture();
+        Assert(changedFired, "Setting FrameTexture should emit Changed.");
+
+        changedFired = false;
+        config.ForegroundTexture = new ImageTexture();
+        Assert(changedFired, "Setting ForegroundTexture should emit Changed.");
+    }
+
+    private static (Yakumono yakumono, Node2D frameProcedural, Node2D faceProcedural, Node2D fgProcedural, Sprite2D frameSprite, Sprite2D faceSprite, Sprite2D fgSprite) CreateTestYakumonoWithNodes()
+    {
+        var yakumono = new Yakumono();
+        var frameProcedural = new Node2D();
+        var faceProcedural = new Node2D();
+        var fgProcedural = new Node2D();
+        var frameSprite = new Sprite2D();
+        var faceSprite = new Sprite2D();
+        var fgSprite = new Sprite2D();
+
+        yakumono.FrameProcedural = frameProcedural;
+        yakumono.FaceProcedural = faceProcedural;
+        yakumono.ForegroundProcedural = fgProcedural;
+        yakumono.FrameSprite = frameSprite;
+        yakumono.FaceSprite = faceSprite;
+        yakumono.ForegroundSprite = fgSprite;
+
+        return (yakumono, frameProcedural, faceProcedural, fgProcedural, frameSprite, faceSprite, fgSprite);
+    }
+
+    public static void TestYakumonoDualRenderingFallback()
+    {
+        var (yakumono, frameProcedural, faceProcedural, fgProcedural, frameSprite, faceSprite, fgSprite) = CreateTestYakumonoWithNodes();
+
+        var config = new VisualConfig
+        {
+            FrameTexture = null,
+            JackpotFaceTexture = null,
+            ForegroundTexture = null,
+            YakumonoBaseColor = Colors.Purple
+        };
+
+        yakumono.ApplyVisualConfig(config);
+
+        Assert(frameProcedural.Visible && faceProcedural.Visible && fgProcedural.Visible, "Procedural nodes should be visible when textures are null.");
+        Assert(!frameSprite.Visible && !faceSprite.Visible && !fgSprite.Visible, "Sprite nodes should be hidden when textures are null.");
+        Assert(frameProcedural.Modulate == Colors.Purple, "FrameProcedural modulate should match YakumonoBaseColor.");
+        Assert(faceProcedural.Modulate == Colors.Purple, "FaceProcedural modulate should match YakumonoBaseColor.");
+        Assert(fgProcedural.Modulate == Colors.Purple, "ForegroundProcedural modulate should match YakumonoBaseColor.");
+    }
+
+    public static void TestYakumonoTexturePriority()
+    {
+        var (yakumono, frameProcedural, faceProcedural, fgProcedural, frameSprite, faceSprite, fgSprite) = CreateTestYakumonoWithNodes();
+
+        var frameTex = new ImageTexture();
+        var faceTex1 = new ImageTexture();
+        var faceTex2 = new ImageTexture();
+        var fgTex = new ImageTexture();
+
+        var config = new VisualConfig
+        {
+            FrameTexture = frameTex,
+            FaceTextures = new Godot.Collections.Array<Texture2D> { faceTex1, faceTex2 },
+            ForegroundTexture = fgTex
+        };
+
+        yakumono.ConfigOverride = config;
+        yakumono.ApplyVisualConfig(config);
+
+        Assert(!frameProcedural.Visible && !faceProcedural.Visible && !fgProcedural.Visible, "Procedural nodes should be hidden when textures are set.");
+        Assert(frameSprite.Visible && faceSprite.Visible && fgSprite.Visible, "Sprites should be visible when textures are set.");
+        Assert(frameSprite.Texture == frameTex, "FrameSprite texture should match FrameTexture.");
+        Assert(faceSprite.Texture == faceTex1, "FaceSprite texture should match FaceTextures[0] for face index 0.");
+        Assert(fgSprite.Texture == fgTex, "ForegroundSprite texture should match ForegroundTexture.");
+    }
+
+    public static void TestYakumonoFaceStateTransitions()
+    {
+        var yakumono = new Yakumono();
+        var faceTex1 = new ImageTexture();
+        var faceTex2 = new ImageTexture();
+        var faceTex3 = new ImageTexture();
+        var jackpotTex = new ImageTexture();
+
+        var config = new VisualConfig
+        {
+            FaceTextures = new Godot.Collections.Array<Texture2D> { faceTex1, faceTex2, faceTex3 },
+            JackpotFaceTexture = jackpotTex
+        };
+
+        yakumono.ConfigOverride = config;
+
+        int stateChangeCount = 0;
+        int paidOutCount = 0;
+
+        GlobalEvents.YakumonoStateChangedEventHandler stateHandler = (node, state) =>
+        {
+            if (node == yakumono)
+            {
+                stateChangeCount++;
+            }
+        };
+        GlobalEvents.YakumonoPaidOutEventHandler paidOutHandler = (node) =>
+        {
+            if (node == yakumono)
+            {
+                paidOutCount++;
+            }
+        };
+
+        if (GlobalEvents.Instance != null)
+        {
+            GlobalEvents.Instance.YakumonoStateChanged += stateHandler;
+            GlobalEvents.Instance.YakumonoPaidOut += paidOutHandler;
+        }
+
+        try
+        {
+            yakumono.TransitionToFaceState(1);
+            Assert(yakumono.CurrentFaceIndex == 1, "CurrentFaceIndex should be 1.");
+            Assert(!yakumono.IsJackpotState, "IsJackpotState should be false for state 1.");
+
+            yakumono.TransitionToRandomFaceState();
+            Assert(yakumono.CurrentFaceIndex >= 0 && yakumono.CurrentFaceIndex < 3, "Random face state should be within bounds.");
+
+            yakumono.TransitionToJackpotState();
+            Assert(yakumono.CurrentFaceIndex == Yakumono.JackpotFaceIndex, "CurrentFaceIndex should match JackpotFaceIndex.");
+            Assert(yakumono.IsJackpotState, "IsJackpotState should be true in Jackpot state.");
+        }
+        finally
+        {
+            if (GlobalEvents.Instance != null)
+            {
+                GlobalEvents.Instance.YakumonoStateChanged -= stateHandler;
+                GlobalEvents.Instance.YakumonoPaidOut -= paidOutHandler;
+            }
+        }
+    }
+
     public static void TestNullConfigGracefulHandling()
     {
         var boundary = new BoundaryRect();
@@ -242,5 +412,8 @@ public static class VisualConfigTests
 
         var env = new EnvironmentBackground();
         env.ApplyVisualConfig(null);
+
+        var yakumono = new Yakumono();
+        yakumono.ApplyVisualConfig(null);
     }
 }

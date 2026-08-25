@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://biu6ucbfgptk2" path="res://src/pins/pin_wall_ellipse.tscn" id="18_hopper_pins"]
 [ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="19_capsule"]
 [ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="20_grid"]
+[ext_resource type="PackedScene" uid="uid://yakumonoscene01" path="res://src/yakumono/yakumono.tscn" id="21_yakumono"]
 
 [sub_resource type="Resource" id="Config_Procedural"]
 script = ExtResource("16_vcfg")
@@ -208,6 +209,11 @@ position = Vector2(145, 0)
 position = Vector2(0, -20)
 InputBalls = Array[Object]([ExtResource("11_t1"), ExtResource("12_t2")])
 OutputBalls = Array[Object]([ExtResource("13_t3"), ExtResource("14_t4")])
+
+[node name="YakumonoShowcase" parent="BoardSection" instance=ExtResource("21_yakumono")]
+position = Vector2(0, -90)
+InputBalls = Array[Object]([ExtResource("11_t1")])
+OutputBalls = Array[Object]([ExtResource("12_t2")])
 
 [node name="CenterPinGrid" parent="BoardSection" instance=ExtResource("20_grid")]
 position = Vector2(-20, 30)

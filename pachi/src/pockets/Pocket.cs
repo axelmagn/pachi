@@ -283,7 +283,7 @@ public partial class Pocket : Node2D
         CardDragController.Instance?.RegisterTarget(this, 40.0f);
     }
 
-    public void ApplyVisualConfig(VisualConfig? config)
+    public virtual void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
 
@@ -442,7 +442,7 @@ public partial class Pocket : Node2D
         };
     }
 
-    private void OnCentralPocketPaidOut()
+    protected virtual void OnCentralPocketPaidOut()
     {
         OpenArms(ArmOpenDuration);
     }
@@ -544,7 +544,7 @@ public partial class Pocket : Node2D
         player.Play();
     }
 
-    private void OnBallCatch(Ball ball)
+    protected virtual void OnBallCatch(Ball ball)
     {
         Debug.Assert(GlobalEvents.Instance != null, "GlobalEvents.Instance must not be null");
         GlobalEvents.Instance.NotifyBallEnteredPocket(this, ball);

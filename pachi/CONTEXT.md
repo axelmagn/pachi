@@ -32,3 +32,6 @@ _Avoid_: Shake, Tilt, Jolt
 The recovery process that despawns a persistently stuck ball after failed nudges and re-queues an equivalent ball variant in the hopper.
 _Avoid_: Despawn Penalty, Void Ball, Ball Recycle
 
+**Yakumono**:
+A specialized centerpiece feature on the board with dynamic mechanics, dedicated graphics/animations, and enhanced payout or state-altering behaviors.
+_Avoid_: Center Pocket, Gimmick, Central Feature
