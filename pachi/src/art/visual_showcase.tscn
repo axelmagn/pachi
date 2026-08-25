@@ -21,6 +21,12 @@
 [ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="19_capsule"]
 [ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="20_grid"]
 [ext_resource type="PackedScene" uid="uid://yakumonoscene01" path="res://src/yakumono/yakumono.tscn" id="21_yakumono"]
+[ext_resource type="Texture2D" uid="uid://blcgh7copmpg5" path="res://assets/sprites/ellis/Neutralmoonv1.png" id="22_neutral"]
+[ext_resource type="Texture2D" uid="uid://txosouesl7op" path="res://assets/sprites/ellis/Sadmoonv2.png" id="23_sad"]
+[ext_resource type="Texture2D" uid="uid://dte8gwbpq2acy" path="res://assets/sprites/ellis/Madmoonv1.png" id="24_mad"]
+[ext_resource type="Texture2D" uid="uid://bxcmrqaqgca7j" path="res://assets/sprites/ellis/Plainmoonv1.png" id="25_plain"]
+[ext_resource type="Texture2D" uid="uid://c7wu72flkwycq" path="res://assets/sprites/ellis/Happymoonv1.png" id="26_happy"]
+[ext_resource type="Texture2D" uid="uid://jibe3yckulyo" path="res://assets/sprites/ellis/Pocketv2.png" id="27_frame"]
 
 [sub_resource type="Resource" id="Config_Procedural"]
 script = ExtResource("16_vcfg")
@@ -51,6 +57,9 @@ ArmTextureOffset = Vector2(2, 6)
 CardBackgroundColor = Color(0.2, 0.4, 0.8, 1)
 CardBorderColor = Color(1, 1, 1, 0.4)
 CardIndicatorBackgroundColor = Color(0.14, 0.14, 0.14, 1)
+FaceTextures = Array[Texture2D]([ExtResource("22_neutral"), ExtResource("23_sad"), ExtResource("24_mad"), ExtResource("25_plain")])
+JackpotFaceTexture = ExtResource("26_happy")
+FrameTexture = ExtResource("27_frame")
 
 [sub_resource type="Resource" id="Card_Pack"]
 script = ExtResource("15_carddata")

@@ -1,10 +1,19 @@
 [gd_resource type="Resource" script_class="VisualConfig" format=3 uid="uid://cnhqbdl0d5sw8"]
 
-[ext_resource type="Texture2D" uid="uid://dcxgv7fnskjmj" path="res://assets/sprites/ellis/Tulip sprite v 1.png" id="1_b4u4n"]
-[ext_resource type="Script" uid="uid://wiahn3kg7jq0" path="res://src/art/VisualConfig.cs" id="1_vcfg"]
+[ext_resource type="Texture2D" uid="uid://blcgh7copmpg5" path="res://assets/sprites/ellis/Neutralmoonv1.png" id="1_neutral"]
+[ext_resource type="Texture2D" uid="uid://txosouesl7op" path="res://assets/sprites/ellis/Sadmoonv2.png" id="2_sad"]
+[ext_resource type="Texture2D" uid="uid://dte8gwbpq2acy" path="res://assets/sprites/ellis/Madmoonv1.png" id="3_mad"]
+[ext_resource type="Texture2D" uid="uid://bxcmrqaqgca7j" path="res://assets/sprites/ellis/Plainmoonv1.png" id="4_plain"]
+[ext_resource type="Texture2D" uid="uid://c7wu72flkwycq" path="res://assets/sprites/ellis/Happymoonv1.png" id="5_happy"]
+[ext_resource type="Texture2D" uid="uid://jibe3yckulyo" path="res://assets/sprites/ellis/Pocketv2.png" id="6_frame"]
+[ext_resource type="Texture2D" uid="uid://dcxgv7fnskjmj" path="res://assets/sprites/ellis/Tulip sprite v 1.png" id="7_tulip"]
+[ext_resource type="Script" uid="uid://wiahn3kg7jq0" path="res://src/art/VisualConfig.cs" id="8_vcfg"]
 
 [resource]
-script = ExtResource("1_vcfg")
-ArmTexture = ExtResource("1_b4u4n")
+script = ExtResource("8_vcfg")
+ArmTexture = ExtResource("7_tulip")
 ArmTextureScale = 0.025
 ArmTextureOffset = Vector2(0, 2)
+FaceTextures = Array[Texture2D]([ExtResource("1_neutral"), ExtResource("2_sad"), ExtResource("3_mad"), ExtResource("4_plain")])
+JackpotFaceTexture = ExtResource("5_happy")
+FrameTexture = ExtResource("6_frame")
