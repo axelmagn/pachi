@@ -6,7 +6,43 @@ using System;
 [GlobalClass]
 public partial class PocketBallsIndicator : Node2D
 {
+    private readonly VisualConfigBinding _binding;
+    private VisualConfig _configOverride;
 
+    public PocketBallsIndicator()
+    {
+        _binding = new VisualConfigBinding(ApplyVisualConfig);
+    }
+
+    [Export]
+    public VisualConfig ConfigOverride
+    {
+        get => _configOverride;
+        set
+        {
+            _configOverride = value;
+            if (IsInsideTree())
+            {
+                _binding.Bind(_configOverride);
+            }
+        }
+    }
+
+    [Export]
+    public bool IsCardIndicator
+    {
+        get => _isCardIndicator;
+        set
+        {
+            _isCardIndicator = value;
+            if (_binding.ActiveConfig != null)
+            {
+                ApplyVisualConfig(_binding.ActiveConfig);
+            }
+            QueueRedraw();
+        }
+    }
+    private bool _isCardIndicator = false;
 
     [Export]
     public Color BackgroundColor
@@ -40,7 +76,6 @@ public partial class PocketBallsIndicator : Node2D
     }
     private float _dotRadius = 1.5f;
 
-
     [Export]
     public Color BorderColor
     {
@@ -64,8 +99,35 @@ public partial class PocketBallsIndicator : Node2D
     }
     private Array<BallVariant> _balls;
 
+    public override void _EnterTree()
+    {
+        _binding.Bind(_configOverride);
+    }
 
+    public override void _ExitTree()
+    {
+        _binding.Unbind();
+    }
+
+    public override void _Ready()
+    {
+        if (_binding.ActiveConfig != null)
+        {
+            ApplyVisualConfig(_binding.ActiveConfig);
+        }
+    }
+
+    public void ApplyVisualConfig(VisualConfig config)
+    {
+        if (config == null) return;
+        BackgroundColor = IsCardIndicator ? config.CardIndicatorBackgroundColor : config.IndicatorBackgroundColor;
+        BorderColor = config.IndicatorBorderColor;
+        QueueRedraw();
+    }
+
+    /// <summary>
     /// Draw an array of circular dots with a rectangle background, centered on the node position.
+    /// </summary>
     public override void _Draw()
     {
         // draw background

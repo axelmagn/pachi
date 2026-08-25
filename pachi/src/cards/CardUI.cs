@@ -1,9 +1,34 @@
 using Godot;
 using System.Diagnostics;
 
+[Tool]
 [GlobalClass]
 public partial class CardUI : PanelContainer
 {
+    private static readonly StringName PanelStyleName = new("panel");
+
+    private readonly VisualConfigBinding _binding;
+    private VisualConfig _configOverride;
+
+    public CardUI()
+    {
+        _binding = new VisualConfigBinding(ApplyVisualConfig);
+    }
+
+    [Export]
+    public VisualConfig ConfigOverride
+    {
+        get => _configOverride;
+        set
+        {
+            _configOverride = value;
+            if (IsInsideTree())
+            {
+                _binding.Bind(_configOverride);
+            }
+        }
+    }
+
     [Export]
     public CardData CardData
     {
@@ -23,16 +48,41 @@ public partial class CardUI : PanelContainer
     private Vector2 _pressPosition;
     private const float DragThreshold = 5.0f;
 
+    public override void _EnterTree()
+    {
+        _binding.Bind(_configOverride);
+    }
+
+    public override void _ExitTree()
+    {
+        _binding.Unbind();
+    }
+
     public override void _Ready()
     {
         _titleLabel = GetNodeOrNull<Label>("%TitleLabel");
         _descriptionLabel = GetNodeOrNull<Label>("%DescriptionLabel");
         _indicatorContainer = GetNodeOrNull<Control>("%IndicatorContainer");
-        UpdateDisplay();
+
+        if (_binding.ActiveConfig != null)
+        {
+            ApplyVisualConfig(_binding.ActiveConfig);
+        }
+        else
+        {
+            UpdateDisplay();
+        }
+    }
+
+    public void ApplyVisualConfig(VisualConfig config)
+    {
+        if (config == null) return;
+        UpdateDisplay(config);
     }
 
     public override void _GuiInput(InputEvent @event)
     {
+        if (Engine.IsEditorHint()) return;
         if (CardData == null) return;
 
         if (@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex == MouseButton.Left)
@@ -58,38 +108,65 @@ public partial class CardUI : PanelContainer
         }
     }
 
-    private void UpdateDisplay()
+    private void UpdateDisplay(VisualConfig explicitConfig = null)
     {
-        if (_cardData == null) return;
+        if (_titleLabel == null) _titleLabel = GetNodeOrNull<Label>("%TitleLabel");
+        if (_descriptionLabel == null) _descriptionLabel = GetNodeOrNull<Label>("%DescriptionLabel");
+        if (_indicatorContainer == null) _indicatorContainer = GetNodeOrNull<Control>("%IndicatorContainer");
 
-        if (_titleLabel != null)
+        if (_cardData != null)
         {
-            _titleLabel.Text = _cardData.Title;
-        }
-        if (_descriptionLabel != null)
-        {
-            _descriptionLabel.Text = _cardData.Description;
+            if (_titleLabel != null)
+            {
+                _titleLabel.Text = _cardData.Title;
+            }
+            if (_descriptionLabel != null)
+            {
+                _descriptionLabel.Text = _cardData.Description;
+            }
+
+            if (_indicatorContainer != null)
+            {
+                foreach (Node child in _indicatorContainer.GetChildren())
+                {
+                    _indicatorContainer.RemoveChild(child);
+                    child.QueueFree();
+                }
+
+                _cardData.PopulateCardUI(_indicatorContainer);
+            }
         }
 
-        if (_indicatorContainer != null)
+        var activeConfig = explicitConfig ?? _binding?.ActiveConfig;
+        if (_indicatorContainer != null && activeConfig != null)
         {
             foreach (Node child in _indicatorContainer.GetChildren())
             {
-                child.QueueFree();
+                if (child is PocketBallsIndicator ind)
+                {
+                    ind.IsCardIndicator = true;
+                    ind.ApplyVisualConfig(activeConfig);
+                }
             }
-
-            _cardData.PopulateCardUI(_indicatorContainer);
         }
 
+        Color bgColor = (activeConfig != null)
+            ? activeConfig.CardBackgroundColor
+            : (_cardData != null ? _cardData.CardColor : new Color(0.2f, 0.4f, 0.8f, 1.0f));
+
+        Color borderColor = (activeConfig != null)
+            ? activeConfig.CardBorderColor
+            : new Color(1.0f, 1.0f, 1.0f, 0.4f);
+
         StyleBoxFlat style = new StyleBoxFlat();
-        style.BgColor = _cardData.CardColor;
+        style.BgColor = bgColor;
         style.SetCornerRadiusAll(6);
         style.SetBorderWidthAll(1);
-        style.BorderColor = new Color(1, 1, 1, 0.4f);
+        style.BorderColor = borderColor;
         style.ContentMarginLeft = 4;
         style.ContentMarginRight = 4;
         style.ContentMarginTop = 4;
         style.ContentMarginBottom = 4;
-        AddThemeStyleboxOverride("panel", style);
+        AddThemeStyleboxOverride(PanelStyleName, style);
     }
 }

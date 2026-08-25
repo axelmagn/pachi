@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b5m6c7d8e9f0a"]
 
-[ext_resource type="Script" uid="uid://d1c2b3cardsidebar" path="res://src/cards/CardSidebar.cs" id="1_sidebar"]
+[ext_resource type="Script" uid="uid://dt6h02wmp6dkq" path="res://src/cards/CardSidebar.cs" id="1_sidebar"]
 [ext_resource type="PackedScene" uid="uid://c3q4r8m7a1k0n" path="res://src/cards/card_ui.tscn" id="2_cardui"]
 
 [node name="CardSidebar" type="PanelContainer"]

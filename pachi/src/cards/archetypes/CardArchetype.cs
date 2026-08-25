@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 
+[Tool]
 [GlobalClass]
 public abstract partial class CardArchetype : Resource
 {

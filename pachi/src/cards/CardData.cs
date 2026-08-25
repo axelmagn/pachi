@@ -2,8 +2,9 @@ using Godot;
 using Godot.Collections;
 using System.Diagnostics;
 
+[Tool]
 [GlobalClass]
-public abstract partial class CardData : Resource
+public partial class CardData : Resource
 {
     [Export]
     public string Title { get; set; } = "Upgrade Card";
@@ -17,14 +18,34 @@ public abstract partial class CardData : Resource
     [Export]
     public Array<BallVariant> BonusBalls { get; set; } = [];
 
-    public abstract bool CanApply(Node target);
+    [Export]
+    public BallVariant TargetTier { get; set; }
 
-    public abstract bool Apply(Node target);
+    [Export]
+    public BallVariant ResultTier { get; set; }
+
+    [Export]
+    public Array<BallVariant> PackBalls { get; set; } = [];
+
+    public virtual bool CanApply(Node target) => false;
+
+    public virtual bool Apply(Node target) => false;
 
     public virtual void PopulateCardUI(Control container)
     {
-        // Default: render bonus balls if present
-        if (BonusBalls != null && BonusBalls.Count > 0)
+        if (TargetTier != null && ResultTier != null)
+        {
+            RenderTierTransitionIndicator(container, TargetTier, ResultTier, BonusBalls);
+        }
+        else if (PackBalls != null && PackBalls.Count > 0)
+        {
+            RenderPackIndicator(container, PackBalls, 18.0f);
+        }
+        else if (TargetTier != null)
+        {
+            RenderSingleTierIndicator(container, TargetTier, BonusBalls);
+        }
+        else if (BonusBalls != null && BonusBalls.Count > 0)
         {
             RenderPackIndicator(container, BonusBalls, 18.0f);
         }
@@ -49,6 +70,7 @@ public abstract partial class CardData : Resource
         if (container == null || balls == null || balls.Count == 0) return;
 
         PocketBallsIndicator packInd = new PocketBallsIndicator();
+        packInd.IsCardIndicator = true;
         packInd.Balls = balls;
         float width = Mathf.Clamp(balls.Count * 10.0f + 8.0f, 30.0f, 90.0f);
         packInd.Size = new Vector2(width, 14.0f);
@@ -67,6 +89,7 @@ public abstract partial class CardData : Resource
         if (sourceTier != null)
         {
             PocketBallsIndicator sourceInd = new PocketBallsIndicator();
+            sourceInd.IsCardIndicator = true;
             sourceInd.Balls = [sourceTier];
             sourceInd.Size = new Vector2(20.0f, 14.0f);
             sourceInd.Position = new Vector2(25.0f, topY);
@@ -83,6 +106,7 @@ public abstract partial class CardData : Resource
         if (resultTier != null)
         {
             PocketBallsIndicator resInd = new PocketBallsIndicator();
+            resInd.IsCardIndicator = true;
             resInd.Balls = [resultTier];
             resInd.Size = new Vector2(20.0f, 14.0f);
             resInd.Position = new Vector2(82.0f, topY);
@@ -105,6 +129,7 @@ public abstract partial class CardData : Resource
         if (tier != null)
         {
             PocketBallsIndicator sourceInd = new PocketBallsIndicator();
+            sourceInd.IsCardIndicator = true;
             sourceInd.Balls = [tier];
             sourceInd.Size = new Vector2(20.0f, 14.0f);
             sourceInd.Position = new Vector2(53.5f, topY);
@@ -118,12 +143,10 @@ public abstract partial class CardData : Resource
     }
 }
 
+[Tool]
 [GlobalClass]
 public partial class BallPackCardData : CardData
 {
-    [Export]
-    public Array<BallVariant> PackBalls { get; set; } = [];
-
     public override bool CanApply(Node target)
     {
         return target is Hopper;
@@ -147,15 +170,10 @@ public partial class BallPackCardData : CardData
     }
 }
 
+[Tool]
 [GlobalClass]
 public partial class ModifyInputTierCardData : CardData
 {
-    [Export]
-    public BallVariant TargetTier { get; set; }
-
-    [Export]
-    public BallVariant ResultTier { get; set; }
-
     public override bool CanApply(Node target)
     {
         return target is Pocket pocket && pocket.InputBalls != null && TargetTier != null && pocket.InputBalls.Contains(TargetTier);
@@ -180,15 +198,10 @@ public partial class ModifyInputTierCardData : CardData
     }
 }
 
+[Tool]
 [GlobalClass]
 public partial class ModifyOutputTierCardData : CardData
 {
-    [Export]
-    public BallVariant TargetTier { get; set; }
-
-    [Export]
-    public BallVariant ResultTier { get; set; }
-
     public override bool CanApply(Node target)
     {
         return target is Pocket pocket && pocket.OutputBalls != null && TargetTier != null && pocket.OutputBalls.Contains(TargetTier);
@@ -213,6 +226,7 @@ public partial class ModifyOutputTierCardData : CardData
     }
 }
 
+[Tool]
 [GlobalClass]
 public partial class AddInputBallCardData : CardData
 {
@@ -241,6 +255,7 @@ public partial class AddInputBallCardData : CardData
     }
 }
 
+[Tool]
 [GlobalClass]
 public partial class RemoveInputBallCardData : CardData
 {
@@ -268,6 +283,7 @@ public partial class RemoveInputBallCardData : CardData
     }
 }
 
+[Tool]
 [GlobalClass]
 public partial class AddOutputBallCardData : CardData
 {
@@ -296,6 +312,7 @@ public partial class AddOutputBallCardData : CardData
     }
 }
 
+[Tool]
 [GlobalClass]
 public partial class RemoveOutputBallCardData : CardData
 {

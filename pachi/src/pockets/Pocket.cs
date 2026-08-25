@@ -3,11 +3,12 @@ using Godot.Collections;
 using System;
 using System.Diagnostics;
 
-// TODO: arm behavior
-
 [Tool]
+[GlobalClass]
 public partial class Pocket : Node2D
 {
+    public static readonly StringName GroupPockets = new("pockets");
+
     public enum ArmBehavior
     {
         None,
@@ -22,6 +23,30 @@ public partial class Pocket : Node2D
         Closed,
         Opening,
         Closing,
+    }
+
+    private readonly VisualConfigBinding _binding;
+    private VisualConfig _configOverride;
+
+    public Pocket()
+    {
+        _binding = new VisualConfigBinding(ApplyVisualConfig);
+    }
+
+    [Export]
+    public VisualConfig ConfigOverride
+    {
+        get => _configOverride;
+        set
+        {
+            _configOverride = value;
+            if (InputsIndicator != null) InputsIndicator.ConfigOverride = value;
+            if (OutputsIndicator != null) OutputsIndicator.ConfigOverride = value;
+            if (IsInsideTree())
+            {
+                _binding.Bind(_configOverride);
+            }
+        }
     }
 
     [Export]
@@ -41,6 +66,18 @@ public partial class Pocket : Node2D
 
     [Export]
     public CollisionShape2D RightArmCollider;
+
+    [Export]
+    public Sprite2D LeftArmSprite { get; set; }
+
+    [Export]
+    public Sprite2D RightArmSprite { get; set; }
+
+    [Export]
+    public Node2D LeftArmProcedural { get; set; }
+
+    [Export]
+    public Node2D RightArmProcedural { get; set; }
 
     [Export]
     public Array<BallVariant> InputBalls;
@@ -150,25 +187,58 @@ public partial class Pocket : Node2D
     private float _armLength = 24;
     private float _armRadius = 2;
 
+    public override void _EnterTree()
+    {
+        _binding.Bind(_configOverride);
+    }
+
+    public override void _ExitTree()
+    {
+        _binding.Unbind();
+
+        if (Engine.IsEditorHint()) return;
+
+        if (GlobalEvents.Instance != null)
+        {
+            GlobalEvents.Instance.CentralPocketPaidOut -= OnCentralPocketPaidOut;
+        }
+
+        CardDragController.Instance?.UnregisterTarget(this);
+    }
 
     public override void _Ready()
     {
-        // for now, do nothing on editor ready
+        Rebuild();
+
+        if (InputsIndicator != null && InputBalls != null)
+        {
+            InputsIndicator.Balls = InputBalls;
+        }
+        if (OutputsIndicator != null && OutputBalls != null)
+        {
+            OutputsIndicator.Balls = OutputBalls;
+        }
+
+        if (_binding.ActiveConfig != null)
+        {
+            ApplyVisualConfig(_binding.ActiveConfig);
+        }
+
         if (Engine.IsEditorHint()) return;
 
-        Debug.Assert(CatchHole != null);
-        Debug.Assert(RejectHole != null);
-        Debug.Assert(LeftArm != null);
-        Debug.Assert(RightArm != null);
-        Debug.Assert(InputsIndicator != null);
-        Debug.Assert(OutputsIndicator != null);
+        Debug.Assert(CatchHole != null, "Pocket requires CatchHole reference.");
+        Debug.Assert(RejectHole != null, "Pocket requires RejectHole reference.");
+        Debug.Assert(LeftArm != null, "Pocket requires LeftArm reference.");
+        Debug.Assert(RightArm != null, "Pocket requires RightArm reference.");
+        Debug.Assert(InputsIndicator != null, "Pocket requires InputsIndicator reference.");
+        Debug.Assert(OutputsIndicator != null, "Pocket requires OutputsIndicator reference.");
 
         InputBalls = InputBalls == null ? [] : InputBalls.Duplicate();
         OutputBalls = OutputBalls == null ? [] : OutputBalls.Duplicate();
 
-        var tiers = GameConfig.Instance.BallTiers;
-        var random = GameConfig.Instance.Rng;
-        if (RandomizeInputBalls && InputBalls != null && tiers != null)
+        var tiers = GameConfig.Instance?.BallTiers;
+        var random = GameConfig.Instance?.Rng;
+        if (RandomizeInputBalls && InputBalls != null && tiers != null && random != null)
         {
             for (int i = 0; i < InputBalls.Count; i++)
             {
@@ -176,7 +246,7 @@ public partial class Pocket : Node2D
                 InputBalls[i] = tiers[idx];
             }
         }
-        if (RandomizeOutputBalls && OutputBalls != null && tiers != null)
+        if (RandomizeOutputBalls && OutputBalls != null && tiers != null && random != null)
         {
             for (int i = 0; i < OutputBalls.Count; i++)
             {
@@ -200,26 +270,68 @@ public partial class Pocket : Node2D
             Debug.Assert(InputBalls.Count == InputBallSlotAvailable.Count);
         }
 
-        AcceptAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>("AcceptAudioPlayer");
-        RejectAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>("RejectAudioPlayer");
-        PayoutAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>("PayoutAudioPlayer");
+        AcceptAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>(nameof(AcceptAudioPlayer));
+        RejectAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>(nameof(RejectAudioPlayer));
+        PayoutAudioPlayer ??= GetNodeOrNull<AudioStreamPlayer2D>(nameof(PayoutAudioPlayer));
 
-        Debug.Assert(GlobalEvents.Instance != null, "GlobalEvents.Instance must not be null");
-        GlobalEvents.Instance.CentralPocketPaidOut += OnCentralPocketPaidOut;
-
-        AddToGroup("pockets");
-        Debug.Assert(CardDragController.Instance != null, "CardDragController.Instance must not be null");
-        CardDragController.Instance.RegisterTarget(this, 40.0f);
-    }
-
-    public override void _ExitTree()
-    {
         if (GlobalEvents.Instance != null)
         {
-            GlobalEvents.Instance.CentralPocketPaidOut -= OnCentralPocketPaidOut;
+            GlobalEvents.Instance.CentralPocketPaidOut += OnCentralPocketPaidOut;
         }
 
-        CardDragController.Instance?.UnregisterTarget(this);
+        AddToGroup(GroupPockets);
+        CardDragController.Instance?.RegisterTarget(this, 40.0f);
+    }
+
+    public void ApplyVisualConfig(VisualConfig config)
+    {
+        if (config == null) return;
+
+        ApplyArmVisual(LeftArmSprite, LeftArmProcedural, config, isLeft: true);
+        ApplyArmVisual(RightArmSprite, RightArmProcedural, config, isLeft: false);
+
+        InputsIndicator?.ApplyVisualConfig(config);
+        OutputsIndicator?.ApplyVisualConfig(config);
+    }
+
+    private static void ApplyArmVisual(Sprite2D sprite, Node2D procedural, VisualConfig config, bool isLeft)
+    {
+        if (config.ArmTexture != null)
+        {
+            if (sprite != null)
+            {
+                sprite.Texture = config.ArmTexture;
+                sprite.Scale = Vector2.One * config.ArmTextureScale;
+                sprite.Position = isLeft
+                    ? new Vector2(-config.ArmTextureOffset.X, config.ArmTextureOffset.Y)
+                    : config.ArmTextureOffset;
+                sprite.FlipH = isLeft;
+                sprite.Visible = true;
+            }
+            if (procedural != null)
+            {
+                procedural.Visible = false;
+            }
+        }
+        else
+        {
+            if (sprite != null)
+            {
+                sprite.Visible = false;
+            }
+            if (procedural != null)
+            {
+                procedural.Visible = true;
+                if (procedural is CapsuleSprite cs)
+                {
+                    cs.Color = config.ArmColor;
+                }
+                else
+                {
+                    procedural.Modulate = config.ArmColor;
+                }
+            }
+        }
     }
 
     public void RefreshIndicatorAndSlots()
@@ -351,6 +463,12 @@ public partial class Pocket : Node2D
                 leftArmShape.Radius = ArmRadius;
                 leftArmShape.Height = ArmLength;
             }
+
+            if (LeftArmProcedural is CapsuleSprite csLeft)
+            {
+                csLeft.Radius = ArmRadius;
+                csLeft.Height = ArmLength;
+            }
         }
         if (RightArm != null)
         {
@@ -365,8 +483,13 @@ public partial class Pocket : Node2D
                 rightArmShape.Radius = ArmRadius;
                 rightArmShape.Height = ArmLength;
             }
-        }
 
+            if (RightArmProcedural is CapsuleSprite csRight)
+            {
+                csRight.Radius = ArmRadius;
+                csRight.Height = ArmLength;
+            }
+        }
     }
 
     private void PlayAcceptSound(int filledSlotIndex)

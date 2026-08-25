@@ -28,6 +28,7 @@ position = Vector2(0, 241)
 [node name="Boundary" type="Node2D" parent="." unique_id=2101518844]
 
 [node name="BoundaryRect" parent="Boundary" unique_id=1819436732 instance=ExtResource("1_g8rii")]
+BackgroundColor = Color(0.075, 0.075, 0.075, 1)
 Width = 388.0
 Height = 508.0
 

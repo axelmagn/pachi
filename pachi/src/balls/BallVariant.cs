@@ -2,6 +2,7 @@ using Godot;
 using System;
 
 /// Configuration for a ball variant
+[Tool]
 [GlobalClass]
 public partial class BallVariant : Resource
 {

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c6cgra7w5psvw" path="res://src/levels/boundary_rect.tscn" id="1_3h226"]
 [ext_resource type="Script" uid="uid://dtg33c0gk2kxu" path="res://src/hopper/Hopper.cs" id="1_dxyfh"]
 [ext_resource type="PackedScene" uid="uid://biu6ucbfgptk2" path="res://src/pins/pin_wall_ellipse.tscn" id="2_gmkmf"]
-[ext_resource type="PackedScene" uid="uid://7b4rhp6qit0a" path="res://src/balls/ball.tscn" id="2_mdjoa"]
+[ext_resource type="PackedScene" uid="uid://dve7mck4b7200" path="res://src/balls/ball.tscn" id="2_mdjoa"]
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="5_myq0o"]
 
 [node name="Hopper" type="Node2D" unique_id=1019095757 node_paths=PackedStringArray("BallsRoot", "QueuedBallDispenseTimer", "QueuedBallDispenseHoles")]

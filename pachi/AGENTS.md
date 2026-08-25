@@ -21,13 +21,25 @@ Guidelines and technical context for AI coding agents working on **Pachi**.
   ```bash
   dotnet build Pachi.sln
   ```
-- **Rule**: Always execute `dotnet build Pachi.sln` after modifying C# code to verify 0 errors and 0 warnings before declaring a task complete.  Do not execute this command if no code has changed.
+- **Editor & Runtime Verification**:
+  - Headless Editor Verification:
+    ```bash
+    godot-mono --headless --editor --quit
+    ```
+  - Headless Runtime Verification:
+    ```bash
+    godot-mono --headless --quit
+    ```
+- **Rules**:
+  - Always execute `dotnet build Pachi.sln` after modifying C# code to verify 0 errors and 0 warnings before declaring a task complete.
+  - After modifying code or scene files, run `godot-mono --headless --editor --quit` and `godot-mono --headless --quit` to verify no new editor or runtime errors are introduced.
+  - Do not execute verification commands if no code or scene files have changed.
 
 ## 4. Coding Standards & Patterns
 - **Partial Classes**: Godot C# scripts must be partial classes inheriting from Godot node types (e.g., `public partial class Pocket : Node2D`).
 - **Attributes**:
   - `[GlobalClass]`: Apply to custom node classes globally registered in Godot.
-  - `[Tool]`: Apply to scripts meant to execute in the Godot editor viewport.
+  - `[Tool]`: Apply to scripts meant to execute in the Godot editor viewport, as well as custom `Resource` classes referenced or loaded by `[Tool]` scripts.
   - `[Export]`: Apply to inspector-exposed properties.
 - **Redraw Property Setters**: For `[Tool]` scripts with custom `_Draw()` rendering, use backing fields and call `QueueRedraw()` inside the property setter. Reference: [PocketBallsIndicator.cs](file:///C:/Users/Axel/workspace/axelmagn/pachi/pachi/src/pockets/PocketBallsIndicator.cs).
 - **Node Validation**: Use `Debug.Assert(...)` in `_Ready()` to validate required exported node references. Reference: [Pocket.cs](file:///C:/Users/Axel/workspace/axelmagn/pachi/pachi/src/pockets/Pocket.cs).

@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://i6t2n8takshu" path="res://src/pockets/Pocket.cs" id="1_mtvat"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_241cg"]
 [ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="3_r7ej6"]
+[ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="5_capsule"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_8lcgt"]
-[ext_resource type="Texture2D" uid="uid://dcxgv7fnskjmj" path="res://assets/sprites/ellis/Tulip sprite v 1.png" id="6_ogt5k"]
 [ext_resource type="AudioStream" uid="uid://dx7gog5ngagtj" path="res://assets/audio/chiptone/pocket_accept.C4.wav" id="7_c4"]
 [ext_resource type="AudioStream" uid="uid://bwwacb0po7wab" path="res://assets/audio/chiptone/pocket_accept.E4.01.wav" id="8_e4"]
 [ext_resource type="AudioStream" uid="uid://b8qkohof6hhkn" path="res://assets/audio/chiptone/pocket_accept.G4.01.wav" id="9_g4"]
@@ -17,7 +17,7 @@
 radius = 2.0
 height = 24.0
 
-[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "InputsIndicator", "OutputsIndicator", "AcceptAudioPlayer", "RejectAudioPlayer", "PayoutAudioPlayer")]
+[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "LeftArmSprite", "RightArmSprite", "LeftArmProcedural", "RightArmProcedural", "InputsIndicator", "OutputsIndicator", "AcceptAudioPlayer", "RejectAudioPlayer", "PayoutAudioPlayer")]
 script = ExtResource("1_mtvat")
 CatchHole = NodePath("CatchHole")
 RejectHole = NodePath("RejectHole")
@@ -25,6 +25,10 @@ LeftArm = NodePath("LeftArm")
 RightArm = NodePath("RightArm")
 LeftArmCollider = NodePath("LeftArm/CollisionShape2D")
 RightArmCollider = NodePath("RightArm/CollisionShape2D")
+LeftArmSprite = NodePath("LeftArm/CollisionShape2D/Sprite2D")
+RightArmSprite = NodePath("RightArm/CollisionShape2D/Sprite2D")
+LeftArmProcedural = NodePath("LeftArm/CollisionShape2D/CapsuleSprite")
+RightArmProcedural = NodePath("RightArm/CollisionShape2D/CapsuleSprite")
 InputBalls = []
 OutputBalls = []
 InputsIndicator = NodePath("InputsIndicator")
@@ -65,11 +69,17 @@ metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 position = Vector2(0, -11)
 shape = SubResource("CapsuleShape2D_7ivt2")
 
+[node name="CapsuleSprite" type="Node2D" parent="RightArm/CollisionShape2D" unique_id=981273641]
+script = ExtResource("5_capsule")
+Radius = 2.0
+Height = 24.0
+metadata/_custom_type_script = "uid://d3yoc8v0u2x7y"
+
 [node name="Sprite2D" type="Sprite2D" parent="RightArm/CollisionShape2D" unique_id=1901193732]
+visible = false
 position = Vector2(2, 6)
 rotation = 0.8121756
 scale = Vector2(0.035, 0.035)
-texture = ExtResource("6_ogt5k")
 
 [node name="LeftArm" type="CharacterBody2D" parent="." unique_id=1693192151]
 position = Vector2(-10, -4)
@@ -80,11 +90,17 @@ metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
 position = Vector2(0, -11)
 shape = SubResource("CapsuleShape2D_7ivt2")
 
-[node name="Sprite2D2" type="Sprite2D" parent="LeftArm" unique_id=1861880180]
-position = Vector2(-2, -5)
+[node name="CapsuleSprite" type="Node2D" parent="LeftArm/CollisionShape2D" unique_id=981273642]
+script = ExtResource("5_capsule")
+Radius = 2.0
+Height = 24.0
+metadata/_custom_type_script = "uid://d3yoc8v0u2x7y"
+
+[node name="Sprite2D" type="Sprite2D" parent="LeftArm/CollisionShape2D" unique_id=1861880180]
+visible = false
+position = Vector2(-2, 6)
 rotation = -0.81002015
 scale = Vector2(0.035, 0.035)
-texture = ExtResource("6_ogt5k")
 flip_h = true
 
 [node name="InputsIndicator" type="Node2D" parent="." unique_id=1399337656]
@@ -108,4 +124,3 @@ metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 [node name="RejectAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123452]
 
 [node name="PayoutAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123453]
-
