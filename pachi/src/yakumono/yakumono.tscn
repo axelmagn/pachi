@@ -1,24 +1,19 @@
-[gd_scene format=3 uid="uid://yakumonoscene01"]
+[gd_scene format=3 uid="uid://p44mc7erkedo"]
 
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_hole"]
-[ext_resource type="Script" path="res://src/yakumono/Yakumono.cs" id="1_yakumono"]
+[ext_resource type="Script" uid="uid://bolm5e1llrvi4" path="res://src/yakumono/Yakumono.cs" id="1_yakumono"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_pinellipse"]
-[ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="3_rapier"]
-[ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="4_capsule"]
-[ext_resource type="Script" path="res://src/shape_sprites/CircleSprite.cs" id="5_circle"]
+[ext_resource type="Script" uid="uid://cnsllcl4xmgqy" path="res://src/shape_sprites/CircleSprite.cs" id="5_circle"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_indicator"]
 [ext_resource type="AudioStream" uid="uid://dx7gog5ngagtj" path="res://assets/audio/chiptone/pocket_accept.C4.wav" id="7_c4"]
 [ext_resource type="AudioStream" uid="uid://bwwacb0po7wab" path="res://assets/audio/chiptone/pocket_accept.E4.01.wav" id="8_e4"]
 [ext_resource type="AudioStream" uid="uid://b8qkohof6hhkn" path="res://assets/audio/chiptone/pocket_accept.G4.01.wav" id="9_g4"]
+[ext_resource type="Texture2D" uid="uid://blcgh7copmpg5" path="res://assets/sprites/ellis/Neutralmoonv1.png" id="9_gd0wc"]
 [ext_resource type="AudioStream" uid="uid://cx84sq7u73y4q" path="res://assets/audio/chiptone/pocket_accept.B5.01.wav" id="10_b5"]
 [ext_resource type="AudioStream" uid="uid://p134pnv1q6gq" path="res://assets/audio/chiptone/pocket_reject.01.wav" id="11_rej"]
-[ext_resource type="AudioStream" path="res://assets/audio/chiptone/pocket_payout.01.wav" id="12_pay"]
+[ext_resource type="AudioStream" uid="uid://bnd6e8jlb4r1o" path="res://assets/audio/chiptone/pocket_payout.01.wav" id="12_pay"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
-radius = 2.0
-height = 24.0
-
-[node name="Yakumono" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("FrameSprite", "FaceSprite", "ForegroundSprite", "FrameProcedural", "FaceProcedural", "ForegroundProcedural", "CatchHole", "RejectHole", "LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "LeftArmSprite", "RightArmSprite", "LeftArmProcedural", "RightArmProcedural", "InputsIndicator", "OutputsIndicator", "AcceptAudioPlayer", "RejectAudioPlayer", "PayoutAudioPlayer")]
+[node name="Yakumono" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("FrameSprite", "FaceSprite", "ForegroundSprite", "FrameProcedural", "FaceProcedural", "ForegroundProcedural", "VisualLayersContainer", "CatchHole", "RejectHole", "LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "LeftArmSprite", "RightArmSprite", "LeftArmProcedural", "RightArmProcedural", "InputsIndicator", "OutputsIndicator", "AcceptAudioPlayer", "RejectAudioPlayer", "PayoutAudioPlayer")]
 script = ExtResource("1_yakumono")
 FrameSprite = NodePath("VisualLayers/FrameSprite")
 FaceSprite = NodePath("VisualLayers/FaceSprite")
@@ -26,16 +21,17 @@ ForegroundSprite = NodePath("VisualLayers/ForegroundSprite")
 FrameProcedural = NodePath("VisualLayers/FrameProcedural")
 FaceProcedural = NodePath("VisualLayers/FaceProcedural")
 ForegroundProcedural = NodePath("VisualLayers/ForegroundProcedural")
+VisualLayersContainer = NodePath("VisualLayers")
 CatchHole = NodePath("CatchHole")
 RejectHole = NodePath("RejectHole")
-LeftArm = NodePath("LeftArm")
-RightArm = NodePath("RightArm")
-LeftArmCollider = NodePath("LeftArm/CollisionShape2D")
-RightArmCollider = NodePath("RightArm/CollisionShape2D")
-LeftArmSprite = NodePath("LeftArm/CollisionShape2D/Sprite2D")
-RightArmSprite = NodePath("RightArm/CollisionShape2D/Sprite2D")
-LeftArmProcedural = NodePath("LeftArm/CollisionShape2D/CapsuleSprite")
-RightArmProcedural = NodePath("RightArm/CollisionShape2D/CapsuleSprite")
+LeftArm = NodePath("")
+RightArm = NodePath("")
+LeftArmCollider = NodePath("")
+RightArmCollider = NodePath("")
+LeftArmSprite = NodePath("")
+RightArmSprite = NodePath("")
+LeftArmProcedural = NodePath("")
+RightArmProcedural = NodePath("")
 InputBalls = []
 OutputBalls = []
 InputsIndicator = NodePath("InputsIndicator")
@@ -47,26 +43,33 @@ AcceptAudioStreams = Array[AudioStream]([ExtResource("7_c4"), ExtResource("8_e4"
 RejectAudioStream = ExtResource("11_rej")
 PayoutAudioStream = ExtResource("12_pay")
 
-[node name="VisualLayers" type="Node2D" parent="."]
+[node name="VisualLayers" type="Node2D" parent="." unique_id=1684601704]
+z_index = 2
 
-[node name="FrameSprite" type="Sprite2D" parent="VisualLayers"]
+[node name="FrameSprite" type="Sprite2D" parent="VisualLayers" unique_id=108718492]
 visible = false
+scale = Vector2(0.2, 0.2)
 
-[node name="FrameProcedural" type="Node2D" parent="VisualLayers"]
+[node name="FrameProcedural" type="Node2D" parent="VisualLayers" unique_id=530122115]
+modulate = Color(0.85, 0.35, 0.35, 1)
 script = ExtResource("5_circle")
 Radius = 14.0
 
-[node name="FaceSprite" type="Sprite2D" parent="VisualLayers"]
-visible = false
+[node name="FaceSprite" type="Sprite2D" parent="VisualLayers" unique_id=905321262]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("9_gd0wc")
 
-[node name="FaceProcedural" type="Node2D" parent="VisualLayers"]
+[node name="FaceProcedural" type="Node2D" parent="VisualLayers" unique_id=413371361]
+visible = false
 script = ExtResource("5_circle")
 Radius = 8.0
 
-[node name="ForegroundSprite" type="Sprite2D" parent="VisualLayers"]
+[node name="ForegroundSprite" type="Sprite2D" parent="VisualLayers" unique_id=1662241344]
 visible = false
+scale = Vector2(0.2, 0.2)
 
-[node name="ForegroundProcedural" type="Node2D" parent="VisualLayers"]
+[node name="ForegroundProcedural" type="Node2D" parent="VisualLayers" unique_id=139978551]
+modulate = Color(0.85, 0.35, 0.35, 1)
 
 [node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_pinellipse")]
 RadiusX = 10.0
@@ -88,57 +91,20 @@ MonitorBallOverlap = true
 [node name="RejectHole" parent="." unique_id=207641503 instance=ExtResource("1_hole")]
 position = Vector2(0, 24)
 
-[node name="RightArm" type="CharacterBody2D" parent="." unique_id=634194663]
-position = Vector2(10, -4)
-script = ExtResource("3_rapier")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightArm" unique_id=1277358654]
-position = Vector2(0, -11)
-shape = SubResource("CapsuleShape2D_7ivt2")
-
-[node name="CapsuleSprite" type="Node2D" parent="RightArm/CollisionShape2D" unique_id=981273641]
-script = ExtResource("4_capsule")
-Radius = 2.0
-Height = 24.0
-
-[node name="Sprite2D" type="Sprite2D" parent="RightArm/CollisionShape2D" unique_id=1901193732]
-visible = false
-position = Vector2(2, 6)
-rotation = 0.8121756
-scale = Vector2(0.035, 0.035)
-
-[node name="LeftArm" type="CharacterBody2D" parent="." unique_id=1693192151]
-position = Vector2(-10, -4)
-script = ExtResource("3_rapier")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArm" unique_id=560707818]
-position = Vector2(0, -11)
-shape = SubResource("CapsuleShape2D_7ivt2")
-
-[node name="CapsuleSprite" type="Node2D" parent="LeftArm/CollisionShape2D" unique_id=981273642]
-script = ExtResource("4_capsule")
-Radius = 2.0
-Height = 24.0
-
-[node name="Sprite2D" type="Sprite2D" parent="LeftArm/CollisionShape2D" unique_id=1861880180]
-visible = false
-position = Vector2(-2, 6)
-rotation = -0.81002015
-scale = Vector2(0.035, 0.035)
-flip_h = true
-
 [node name="InputsIndicator" type="Node2D" parent="." unique_id=1399337656]
+modulate = Color(1, 1, 1, 0.76862746)
 z_index = 3
-position = Vector2(0, 7)
+position = Vector2(0, 44)
 script = ExtResource("6_indicator")
-BackgroundColor = Color(0.08701607, 0.08701607, 0.08701607, 1)
+BackgroundColor = Color(0.087, 0.087, 0.087, 1)
 Size = Vector2(24, 8)
 
 [node name="OutputsIndicator" type="Node2D" parent="." unique_id=188350990]
+modulate = Color(1, 1, 1, 0.76862746)
 z_index = 3
-position = Vector2(0, 19)
+position = Vector2(0, 56)
 script = ExtResource("6_indicator")
-BackgroundColor = Color(0.08701607, 0.08701607, 0.08701607, 1)
+BackgroundColor = Color(0.087, 0.087, 0.087, 1)
 Size = Vector2(24, 12)
 
 [node name="AcceptAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123451]

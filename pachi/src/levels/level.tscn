@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/pin.tscn" id="10_m3sl2"]
 [ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="11_du6bw"]
 [ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="12_rgvsn"]
-[ext_resource type="PackedScene" uid="uid://yakumonoscene01" path="res://src/yakumono/yakumono.tscn" id="13_yakumono"]
+[ext_resource type="PackedScene" uid="uid://p44mc7erkedo" path="res://src/yakumono/yakumono.tscn" id="13_yakumono"]
 
 [node name="Level" type="Node2D" unique_id=756612389 node_paths=PackedStringArray("BallsRoot", "BallLaunchPoint")]
 script = ExtResource("1_2tyx5")

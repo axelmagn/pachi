@@ -26,6 +26,12 @@ public partial class Yakumono : Pocket
     [Export]
     public Node2D ForegroundProcedural { get; set; }
 
+    [Export]
+    public Node2D VisualLayersContainer { get; set; }
+
+    [Export]
+    public int VisualZIndex { get; set; } = 2;
+
     public int CurrentFaceIndex { get; private set; } = 0;
 
     public bool IsJackpotState => CurrentFaceIndex == JackpotFaceIndex;
@@ -41,6 +47,11 @@ public partial class Yakumono : Pocket
     {
         base.ApplyVisualConfig(config);
         if (config == null) return;
+
+        if (VisualLayersContainer != null)
+        {
+            VisualLayersContainer.ZIndex = VisualZIndex;
+        }
 
         Vector2 scaleVector = Vector2.One * config.YakumonoScale;
         if (FrameSprite != null) FrameSprite.Scale = scaleVector;

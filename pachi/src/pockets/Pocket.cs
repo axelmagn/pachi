@@ -240,8 +240,11 @@ public partial class Pocket : Node2D
 
         Debug.Assert(CatchHole != null, "Pocket requires CatchHole reference.");
         Debug.Assert(RejectHole != null, "Pocket requires RejectHole reference.");
-        Debug.Assert(LeftArm != null, "Pocket requires LeftArm reference.");
-        Debug.Assert(RightArm != null, "Pocket requires RightArm reference.");
+        if (HasArms)
+        {
+            Debug.Assert(LeftArm != null, "Pocket requires LeftArm reference.");
+            Debug.Assert(RightArm != null, "Pocket requires RightArm reference.");
+        }
         Debug.Assert(InputsIndicator != null, "Pocket requires InputsIndicator reference.");
         Debug.Assert(OutputsIndicator != null, "Pocket requires OutputsIndicator reference.");
 

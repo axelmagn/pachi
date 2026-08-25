@@ -11,9 +11,10 @@
 
 [resource]
 script = ExtResource("8_vcfg")
-PocketTexture = ExtResource("6_pocket")
 ArmTexture = ExtResource("7_tulipv3")
-ArmTextureScale = 0.025
+ArmTextureScale = 0.12
 ArmTextureOffset = Vector2(0, 2)
+PocketTexture = ExtResource("6_pocket")
+YakumonoScale = 0.2
 FaceTextures = Array[Texture2D]([ExtResource("1_neutral"), ExtResource("2_sad"), ExtResource("3_mad"), ExtResource("4_plain")])
 JackpotFaceTexture = ExtResource("5_happy")
