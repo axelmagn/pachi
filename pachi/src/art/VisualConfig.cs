@@ -166,6 +166,43 @@ public partial class VisualConfig : Resource
         }
     }
 
+    private Texture2D _pocketTexture;
+    private float _pocketTextureScale = 1.0f;
+    private Vector2 _pocketTextureOffset = Vector2.Zero;
+
+    [Export]
+    public Texture2D PocketTexture
+    {
+        get => _pocketTexture;
+        set
+        {
+            _pocketTexture = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public float PocketTextureScale
+    {
+        get => _pocketTextureScale;
+        set
+        {
+            _pocketTextureScale = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Vector2 PocketTextureOffset
+    {
+        get => _pocketTextureOffset;
+        set
+        {
+            _pocketTextureOffset = value;
+            EmitChanged();
+        }
+    }
+
     // -------------------------------------------------------------------------
     // Cards & UI
     // -------------------------------------------------------------------------

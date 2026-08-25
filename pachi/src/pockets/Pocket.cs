@@ -80,7 +80,19 @@ public partial class Pocket : Node2D
     public Node2D? RightArmProcedural { get; set; }
 
     [Export]
+<<<<<<< HEAD
     public Array<BallVariant>? InputBalls;
+||||||| parent of e67073d (Rewire Pocketv2.png to regular PocketTexture and Tulipv3.png to regular pocket ArmTexture)
+    public Array<BallVariant> InputBalls;
+=======
+    public Sprite2D PocketSprite { get; set; }
+
+    [Export]
+    public Node2D PocketProcedural { get; set; }
+
+    [Export]
+    public Array<BallVariant> InputBalls;
+>>>>>>> e67073d (Rewire Pocketv2.png to regular PocketTexture and Tulipv3.png to regular pocket ArmTexture)
 
     public Array<bool>? InputBallSlotAvailable;
 
@@ -286,6 +298,32 @@ public partial class Pocket : Node2D
     public virtual void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
+
+        if (config.PocketTexture != null)
+        {
+            if (PocketSprite != null)
+            {
+                PocketSprite.Texture = config.PocketTexture;
+                PocketSprite.Scale = Vector2.One * config.PocketTextureScale;
+                PocketSprite.Position = config.PocketTextureOffset;
+                PocketSprite.Visible = true;
+            }
+            if (PocketProcedural != null)
+            {
+                PocketProcedural.Visible = false;
+            }
+        }
+        else
+        {
+            if (PocketSprite != null)
+            {
+                PocketSprite.Visible = false;
+            }
+            if (PocketProcedural != null)
+            {
+                PocketProcedural.Visible = true;
+            }
+        }
 
         ApplyArmVisual(LeftArmSprite, LeftArmProcedural, config, isLeft: true);
         ApplyArmVisual(RightArmSprite, RightArmProcedural, config, isLeft: false);
