@@ -16,11 +16,12 @@ Guidelines and technical context for AI coding agents working on **Pachi**.
 - **UID Sidecar Files**: Do not modify or delete `.cs.uid` files; these are managed by Godot 4.7's UID system.
 
 ## 3. Build & Verification Commands
+
 - **Compile Solution**:
   ```bash
   dotnet build Pachi.sln
   ```
-- **Rule**: Always execute `dotnet build Pachi.sln` after modifying C# code to verify 0 errors and 0 warnings before declaring a task complete.
+- **Rule**: Always execute `dotnet build Pachi.sln` after modifying C# code to verify 0 errors and 0 warnings before declaring a task complete.  Do not execute this command if no code has changed.
 
 ## 4. Coding Standards & Patterns
 - **Partial Classes**: Godot C# scripts must be partial classes inheriting from Godot node types (e.g., `public partial class Pocket : Node2D`).
@@ -38,3 +39,17 @@ Guidelines and technical context for AI coding agents working on **Pachi**.
 - **Physics Layer 2**: Designated for `"Ball"`.
 - **Input Action**: `launcher_charge` (mapped to Spacebar).
 - **Language Boundary**: Write all logic in C#. Do not introduce GDScript files unless explicitly instructed.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and tickets live as local markdown files under `.scratch/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Canonical triage roles mapped to standard labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout (`CONTEXT.md` and `docs/adr/` at the repo root). See `docs/agents/domain.md`.
