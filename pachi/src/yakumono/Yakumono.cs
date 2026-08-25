@@ -42,6 +42,11 @@ public partial class Yakumono : Pocket
         base.ApplyVisualConfig(config);
         if (config == null) return;
 
+        Vector2 scaleVector = Vector2.One * config.YakumonoScale;
+        if (FrameSprite != null) FrameSprite.Scale = scaleVector;
+        if (FaceSprite != null) FaceSprite.Scale = scaleVector;
+        if (ForegroundSprite != null) ForegroundSprite.Scale = scaleVector;
+
         // Frame Layer
         if (config.FrameTexture != null)
         {

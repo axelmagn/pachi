@@ -235,6 +235,7 @@ public static class VisualConfigTests
         Assert(config.JackpotFaceTexture == null, "JackpotFaceTexture default should be null.");
         Assert(config.FrameTexture == null, "FrameTexture default should be null.");
         Assert(config.ForegroundTexture == null, "ForegroundTexture default should be null.");
+        Assert(config.YakumonoScale == 1.0f, "YakumonoScale default should be 1.0f.");
     }
 
     public static void TestYakumonoVisualConfigPropertyChangesEmitChanged()
@@ -261,6 +262,10 @@ public static class VisualConfigTests
         changedFired = false;
         config.ForegroundTexture = new ImageTexture();
         Assert(changedFired, "Setting ForegroundTexture should emit Changed.");
+
+        changedFired = false;
+        config.YakumonoScale = 1.5f;
+        Assert(changedFired, "Setting YakumonoScale should emit Changed.");
     }
 
     private static (Yakumono yakumono, Node2D frameProcedural, Node2D faceProcedural, Node2D fgProcedural, Sprite2D frameSprite, Sprite2D faceSprite, Sprite2D fgSprite) CreateTestYakumonoWithNodes()
@@ -317,7 +322,8 @@ public static class VisualConfigTests
         {
             FrameTexture = frameTex,
             FaceTextures = new Godot.Collections.Array<Texture2D> { faceTex1, faceTex2 },
-            ForegroundTexture = fgTex
+            ForegroundTexture = fgTex,
+            YakumonoScale = 0.5f
         };
 
         yakumono.ConfigOverride = config;
@@ -328,6 +334,9 @@ public static class VisualConfigTests
         Assert(frameSprite.Texture == frameTex, "FrameSprite texture should match FrameTexture.");
         Assert(faceSprite.Texture == faceTex1, "FaceSprite texture should match FaceTextures[0] for face index 0.");
         Assert(fgSprite.Texture == fgTex, "ForegroundSprite texture should match ForegroundTexture.");
+        Assert(frameSprite.Scale == new Vector2(0.5f, 0.5f), "FrameSprite scale should match YakumonoScale.");
+        Assert(faceSprite.Scale == new Vector2(0.5f, 0.5f), "FaceSprite scale should match YakumonoScale.");
+        Assert(fgSprite.Scale == new Vector2(0.5f, 0.5f), "ForegroundSprite scale should match YakumonoScale.");
     }
 
     public static void TestYakumonoFaceStateTransitions()

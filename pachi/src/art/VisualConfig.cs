@@ -252,8 +252,19 @@ public partial class VisualConfig : Resource
     private Color _yakumonoBaseColor = new Color(0.85f, 0.35f, 0.35f, 1.0f);
     private Texture2D _frameTexture;
     private Texture2D _foregroundTexture;
+    private float _yakumonoScale = 1.0f;
 
     [ExportGroup("Yakumono")]
+    [Export]
+    public float YakumonoScale
+    {
+        get => _yakumonoScale;
+        set
+        {
+            _yakumonoScale = value;
+            EmitChanged();
+        }
+    }
     [Export]
     public Godot.Collections.Array<Texture2D> FaceTextures
     {
