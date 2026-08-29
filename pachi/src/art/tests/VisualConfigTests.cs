@@ -500,6 +500,14 @@ public static class VisualConfigTests
         };
         indicator.Balls = [variant];
         Assert(indicator.Balls.Count == 1, "Indicator balls count should be 1.");
+        Assert(indicator.Size == new Vector2(10, 10), "Card indicator with 1 ball should size to (10, 10).");
+
+        indicator.IsCardIndicator = false;
+        Assert(indicator.Size == new Vector2(34, 10), "Pocket indicator with 1 ball should size to (34, 10).");
+
+        indicator.Balls = [variant, variant, variant, variant, variant];
+        Assert(indicator.Size == new Vector2(34, 18), "Pocket indicator with 5 balls should size to (34, 18).");
+
         var darkened = variant.PlaceholderColor.Darkened(0.35f);
         Assert(darkened.R < variant.PlaceholderColor.R && darkened.G < variant.PlaceholderColor.G && darkened.B < variant.PlaceholderColor.B, "Dynamic contrast outline should be darkened from placeholder color.");
     }

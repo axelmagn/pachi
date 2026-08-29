@@ -116,7 +116,7 @@ position = Vector2(0, 30)
 script = ExtResource("6_8lcgt")
 IsInputIndicator = true
 BackgroundColor = Color(0.101960786, 0.14117648, 0.2, 1)
-Size = Vector2(26, 10)
+Size = Vector2(34, 10)
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 
 [node name="OutputsIndicator" type="Node2D" parent="." unique_id=188350990]
@@ -125,7 +125,7 @@ position = Vector2(0, 42)
 script = ExtResource("6_8lcgt")
 IsInputIndicator = false
 BackgroundColor = Color(0.2, 0.13333334, 0.101960786, 1)
-Size = Vector2(26, 10)
+Size = Vector2(34, 10)
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 
 [node name="AcceptAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123451]

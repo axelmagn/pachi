@@ -72,8 +72,8 @@ public partial class CardData : Resource
         PocketBallsIndicator packInd = new PocketBallsIndicator();
         packInd.IsCardIndicator = true;
         packInd.Balls = balls;
-        float width = Mathf.Clamp(balls.Count * 10.0f + 8.0f, 30.0f, 90.0f);
-        packInd.Size = new Vector2(width, 14.0f);
+        float width = Mathf.Clamp(balls.Count * 8.0f + 2.0f, 10.0f, 90.0f);
+        packInd.Size = new Vector2(width, 10.0f);
         packInd.Position = new Vector2(53.5f, centerY);
         container.AddChild(packInd);
     }
@@ -91,7 +91,7 @@ public partial class CardData : Resource
             PocketBallsIndicator sourceInd = new PocketBallsIndicator();
             sourceInd.IsCardIndicator = true;
             sourceInd.Balls = [sourceTier];
-            sourceInd.Size = new Vector2(20.0f, 14.0f);
+            sourceInd.Size = new Vector2(10.0f, 10.0f);
             sourceInd.Position = new Vector2(25.0f, topY);
             container.AddChild(sourceInd);
         }
@@ -108,7 +108,7 @@ public partial class CardData : Resource
             PocketBallsIndicator resInd = new PocketBallsIndicator();
             resInd.IsCardIndicator = true;
             resInd.Balls = [resultTier];
-            resInd.Size = new Vector2(20.0f, 14.0f);
+            resInd.Size = new Vector2(10.0f, 10.0f);
             resInd.Position = new Vector2(82.0f, topY);
             container.AddChild(resInd);
         }
@@ -131,7 +131,7 @@ public partial class CardData : Resource
             PocketBallsIndicator sourceInd = new PocketBallsIndicator();
             sourceInd.IsCardIndicator = true;
             sourceInd.Balls = [tier];
-            sourceInd.Size = new Vector2(20.0f, 14.0f);
+            sourceInd.Size = new Vector2(10.0f, 10.0f);
             sourceInd.Position = new Vector2(53.5f, topY);
             container.AddChild(sourceInd);
         }
@@ -235,7 +235,7 @@ public partial class AddInputBallCardData : CardData
 
     public override bool CanApply(Node target)
     {
-        return target is Pocket pocket && (pocket.InputBalls == null || pocket.InputBalls.Count < 6);
+        return target is Pocket pocket && (pocket.InputBalls == null || pocket.InputBalls.Count < Pocket.MaxInputCapacity);
     }
 
     public override bool Apply(Node target)
@@ -292,7 +292,7 @@ public partial class AddOutputBallCardData : CardData
 
     public override bool CanApply(Node target)
     {
-        return target is Pocket pocket && (pocket.OutputBalls == null || pocket.OutputBalls.Count < 6);
+        return target is Pocket pocket && (pocket.OutputBalls == null || pocket.OutputBalls.Count < Pocket.MaxOutputCapacity);
     }
 
     public override bool Apply(Node target)

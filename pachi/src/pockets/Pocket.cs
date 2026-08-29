@@ -8,6 +8,8 @@ using System.Diagnostics;
 public partial class Pocket : Node2D
 {
     public static readonly StringName GroupPockets = new("pockets");
+    public const int MaxInputCapacity = 4;
+    public const int MaxOutputCapacity = 8;
 
     public enum ArmBehavior
     {
@@ -215,6 +217,7 @@ public partial class Pocket : Node2D
     public override void _Ready()
     {
         Rebuild();
+        ClampBallCapacities();
 
         if (InputsIndicator != null)
         {
@@ -232,6 +235,7 @@ public partial class Pocket : Node2D
                 OutputsIndicator.Balls = OutputBalls;
             }
         }
+        UpdateIndicatorLayout();
 
         if (_binding.ActiveConfig != null)
         {
@@ -272,9 +276,11 @@ public partial class Pocket : Node2D
             }
         }
 
+        ClampBallCapacities();
         CatchHole!.BallOverlapped += OnBallCatch;
         InputsIndicator!.Balls = InputBalls;
         OutputsIndicator!.Balls = OutputBalls;
+        UpdateIndicatorLayout();
 
         // initialize held balls tracker
         InputBallSlotAvailable = [];
@@ -377,8 +383,39 @@ public partial class Pocket : Node2D
         }
     }
 
+    public void ClampBallCapacities()
+    {
+        if (InputBalls != null)
+        {
+            while (InputBalls.Count > MaxInputCapacity)
+            {
+                InputBalls.RemoveAt(InputBalls.Count - 1);
+            }
+        }
+        if (OutputBalls != null)
+        {
+            while (OutputBalls.Count > MaxOutputCapacity)
+            {
+                OutputBalls.RemoveAt(OutputBalls.Count - 1);
+            }
+        }
+    }
+
+    public void UpdateIndicatorLayout()
+    {
+        if (InputsIndicator != null && OutputsIndicator != null)
+        {
+            float gap = 2.0f;
+            OutputsIndicator.Position = new Vector2(
+                OutputsIndicator.Position.X,
+                InputsIndicator.Position.Y + (InputsIndicator.Size.Y / 2.0f) + gap + (OutputsIndicator.Size.Y / 2.0f)
+            );
+        }
+    }
+
     public void RefreshIndicatorAndSlots()
     {
+        ClampBallCapacities();
         InputBallSlotAvailable = [];
         if (InputBalls != null)
         {
@@ -398,6 +435,7 @@ public partial class Pocket : Node2D
             OutputsIndicator.Balls = OutputBalls;
             OutputsIndicator.QueueRedraw();
         }
+        UpdateIndicatorLayout();
     }
 
     public override void _Process(double delta)

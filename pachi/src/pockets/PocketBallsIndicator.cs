@@ -51,6 +51,7 @@ public partial class PocketBallsIndicator : Node2D
         set
         {
             _isCardIndicator = value;
+            UpdateIndicatorSize();
             if (_binding.ActiveConfig != null)
             {
                 ApplyVisualConfig(_binding.ActiveConfig);
@@ -82,7 +83,7 @@ public partial class PocketBallsIndicator : Node2D
         get => _size;
         set { _size = value; QueueRedraw(); }
     }
-    private Vector2 _size = new(32, 16);
+    private Vector2 _size = new(34, 10);
 
     [Export]
     public float DotRadius
@@ -111,9 +112,27 @@ public partial class PocketBallsIndicator : Node2D
     public Array<BallVariant>? Balls
     {
         get => _balls;
-        set { _balls = value; QueueRedraw(); }
+        set
+        {
+            _balls = value;
+            UpdateIndicatorSize();
+            QueueRedraw();
+        }
     }
     private Array<BallVariant>? _balls;
+
+    private void UpdateIndicatorSize()
+    {
+        if (IsCardIndicator)
+        {
+            int count = _balls != null ? Math.Clamp(_balls.Count, 0, 8) : 0;
+            _size = new Vector2(Math.Max(10.0f, count * 8.0f + 2.0f), 10.0f);
+        }
+        else
+        {
+            _size = (_balls == null || _balls.Count <= 4) ? new Vector2(34, 10) : new Vector2(34, 18);
+        }
+    }
 
     public override void _EnterTree()
     {
@@ -176,50 +195,47 @@ public partial class PocketBallsIndicator : Node2D
 
         // draw squircle pips
         if (Balls == null) return;
-        int numDots = Balls.Count;
+        int numDots = Math.Min(Balls.Count, 8);
         if (numDots <= 0) return;
 
-        float borderInset = BorderThickness > 0.0f ? BorderThickness : 1.0f;
-        float availableHeight = Math.Max(2.0f, Size.Y - 2.0f * borderInset);
-        float availableWidth = Math.Max(2.0f, Size.X - 2.0f * borderInset);
-        float spacing = 2.0f;
+        const float pipSize = 8.0f;
+        const int cornerRadius = 2;
+        int numRows = numDots > 4 ? 2 : 1;
 
-        float pipSize = availableHeight;
-        if (numDots * pipSize + (numDots - 1) * spacing > availableWidth)
+        for (int r = 0; r < numRows; r++)
         {
-            pipSize = Math.Max(2.0f, (availableWidth - (numDots - 1) * spacing) / numDots);
-        }
+            int countInRow = (r == 0) ? Math.Min(numDots, 4) : (numDots - 4);
+            float totalWidth = countInRow * pipSize;
+            float startX = -totalWidth / 2.0f;
+            float startY = (numRows == 1) ? -pipSize / 2.0f : (r == 0 ? -pipSize : 0.0f);
 
-        float totalWidth = numDots * pipSize + (numDots - 1) * spacing;
-        float startX = -totalWidth / 2.0f;
-        float startY = -pipSize / 2.0f;
-        int cornerRadius = Math.Max(1, (int)MathF.Round(pipSize * 0.25f));
-
-        for (int i = 0; i < numDots; i++)
-        {
-            float pipX = startX + i * (pipSize + spacing);
-            Rect2 pipRect = new Rect2(pipX, startY, pipSize, pipSize);
-            Color pipColor = Balls[i].PlaceholderColor;
-            float lum = 0.299f * pipColor.R + 0.587f * pipColor.G + 0.114f * pipColor.B;
-            Color strokeColor = lum < 0.35f
-                ? pipColor.Lightened(0.25f)
-                : pipColor.Darkened(0.35f);
-
-            var styleBox = new StyleBoxFlat
+            for (int c = 0; c < countInRow; c++)
             {
-                BgColor = pipColor,
-                BorderColor = strokeColor,
-                BorderWidthLeft = 1,
-                BorderWidthTop = 1,
-                BorderWidthRight = 1,
-                BorderWidthBottom = 1,
-                CornerRadiusTopLeft = cornerRadius,
-                CornerRadiusTopRight = cornerRadius,
-                CornerRadiusBottomRight = cornerRadius,
-                CornerRadiusBottomLeft = cornerRadius,
-                AntiAliasing = false,
-            };
-            DrawStyleBox(styleBox, pipRect);
+                int ballIndex = r * 4 + c;
+                float pipX = startX + c * pipSize;
+                Rect2 pipRect = new Rect2(pipX, startY, pipSize, pipSize);
+                Color pipColor = Balls[ballIndex].PlaceholderColor;
+                float lum = 0.299f * pipColor.R + 0.587f * pipColor.G + 0.114f * pipColor.B;
+                Color strokeColor = lum < 0.35f
+                    ? pipColor.Lightened(0.25f)
+                    : pipColor.Darkened(0.35f);
+
+                var styleBox = new StyleBoxFlat
+                {
+                    BgColor = pipColor,
+                    BorderColor = strokeColor,
+                    BorderWidthLeft = 1,
+                    BorderWidthTop = 1,
+                    BorderWidthRight = 1,
+                    BorderWidthBottom = 1,
+                    CornerRadiusTopLeft = cornerRadius,
+                    CornerRadiusTopRight = cornerRadius,
+                    CornerRadiusBottomRight = cornerRadius,
+                    CornerRadiusBottomLeft = cornerRadius,
+                    AntiAliasing = false,
+                };
+                DrawStyleBox(styleBox, pipRect);
+            }
         }
     }
 }

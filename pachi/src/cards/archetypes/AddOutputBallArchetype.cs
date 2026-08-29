@@ -11,7 +11,7 @@ public partial class AddOutputBallArchetype : CardArchetype
 
         foreach (var pocket in context.Pockets)
         {
-            if (pocket.OutputBalls != null && pocket.OutputBalls.Count >= 6) continue;
+            if (pocket.OutputBalls != null && pocket.OutputBalls.Count >= Pocket.MaxOutputCapacity) continue;
 
             var candidates = new List<BallVariant>();
             if (pocket.OutputBalls != null)

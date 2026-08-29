@@ -11,7 +11,7 @@ public partial class AddInputBallArchetype : CardArchetype
 
         foreach (var pocket in context.Pockets)
         {
-            if (pocket.InputBalls != null && pocket.InputBalls.Count >= 6) continue;
+            if (pocket.InputBalls != null && pocket.InputBalls.Count >= Pocket.MaxInputCapacity) continue;
 
             var candidates = new List<BallVariant>();
             if (pocket.InputBalls != null)

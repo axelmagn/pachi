@@ -219,13 +219,13 @@ position = Vector2(145, 0)
 
 [node name="PocketCentral" parent="BoardSection" instance=ExtResource("8_pocket")]
 position = Vector2(0, -20)
-InputBalls = Array[Object]([ExtResource("11_t1"), ExtResource("12_t2")])
-OutputBalls = Array[Object]([ExtResource("13_t3"), ExtResource("14_t4")])
+InputBalls = Array[Object]([ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("12_t2"), ExtResource("12_t2")])
+OutputBalls = Array[Object]([ExtResource("12_t2"), ExtResource("12_t2"), ExtResource("13_t3"), ExtResource("13_t3"), ExtResource("14_t4"), ExtResource("14_t4")])
 
 [node name="YakumonoShowcase" parent="BoardSection" instance=ExtResource("21_yakumono")]
 position = Vector2(0, -90)
 InputBalls = Array[Object]([ExtResource("11_t1")])
-OutputBalls = Array[Object]([ExtResource("12_t2")])
+OutputBalls = Array[Object]([ExtResource("12_t2"), ExtResource("12_t2"), ExtResource("12_t2"), ExtResource("12_t2"), ExtResource("13_t3"), ExtResource("13_t3"), ExtResource("14_t4"), ExtResource("14_t4")])
 
 [node name="CenterPinGrid" parent="BoardSection" instance=ExtResource("20_grid")]
 position = Vector2(-20, 30)
@@ -252,8 +252,8 @@ position = Vector2(-75, 145)
 [node name="PocketProcedural" parent="BoardSection/ProceduralSide" instance=ExtResource("8_pocket")]
 position = Vector2(0, 0)
 ConfigOverride = SubResource("Config_Procedural")
-InputBalls = Array[Object]([ExtResource("11_t1")])
-OutputBalls = Array[Object]([ExtResource("12_t2"), ExtResource("12_t2")])
+InputBalls = Array[Object]([ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("12_t2")])
+OutputBalls = Array[Object]([ExtResource("12_t2"), ExtResource("12_t2"), ExtResource("13_t3"), ExtResource("13_t3"), ExtResource("14_t4")])
 
 [node name="PinFunnelLeft" parent="BoardSection/ProceduralSide" instance=ExtResource("6_funnel")]
 position = Vector2(0, -50)
@@ -268,8 +268,8 @@ position = Vector2(75, 145)
 [node name="PocketTextured" parent="BoardSection/TexturedSide" instance=ExtResource("8_pocket")]
 position = Vector2(0, 0)
 ConfigOverride = SubResource("Config_Textured")
-InputBalls = Array[Object]([ExtResource("12_t2")])
-OutputBalls = Array[Object]([ExtResource("13_t3"), ExtResource("14_t4")])
+InputBalls = Array[Object]([ExtResource("12_t2"), ExtResource("12_t2")])
+OutputBalls = Array[Object]([ExtResource("13_t3"), ExtResource("13_t3"), ExtResource("14_t4"), ExtResource("14_t4")])
 
 [node name="PinFunnelRight" parent="BoardSection/TexturedSide" instance=ExtResource("6_funnel")]
 position = Vector2(0, -50)
