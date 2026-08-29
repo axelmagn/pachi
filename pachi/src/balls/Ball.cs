@@ -11,6 +11,9 @@ public partial class Ball : RigidBody2D
     [Signal]
     public delegate void FadeOutFinishedEventHandler();
 
+    [Signal]
+    public delegate void NudgedEventHandler(Vector2 impulse);
+
     [Export]
     public BallVariant? Variant { get; set; }
 
@@ -52,10 +55,28 @@ public partial class Ball : RigidBody2D
     public Timer? FadeTimer { get; set; }
 
     [Export]
-    public Timer? StuckTimer { get; set; }
+    public bool DetectStuck { get; set; } = true;
 
     [Export]
-    public bool InitDetectStuck { get; set; }
+    public float StuckDisplacementThreshold { get; set; } = 10.0f;
+
+    [Export]
+    public float InitialNudgeDuration { get; set; } = 2.0f;
+
+    [Export]
+    public float NudgeRetryInterval { get; set; } = 1.0f;
+
+    [Export]
+    public int MaxNudgeRetries { get; set; } = 2;
+
+    [Export]
+    public float NudgeImpulseStrength { get; set; } = 300.0f;
+
+    [Export]
+    public float NudgeAngleSpreadDeg { get; set; } = 30.0f;
+
+    [Export]
+    public float RefundTimeout { get; set; } = 4.5f;
 
     [Export]
     public bool EnableWallFollowing { get; set; } = true;
@@ -90,9 +111,12 @@ public partial class Ball : RigidBody2D
         FadeOut
     };
 
+    public Vector2 StuckAnchorPosition { get; set; } = Vector2.Zero;
+    public double AccumulatedStuckTime { get; set; } = 0.0;
+    public int NudgeCount { get; set; } = 0;
 
+    private bool _hasStuckAnchor = false;
     private Tween? _transitionTween = null;
-
     private Color _originalModulate = Colors.White;
 
     public Color OriginalModulate
@@ -102,8 +126,6 @@ public partial class Ball : RigidBody2D
     }
 
     private Vector2 _previousVelocity = Vector2.Zero;
-
-    private bool _detectStuck = false;
 
     public override void _Ready()
     {
@@ -115,21 +137,14 @@ public partial class Ball : RigidBody2D
         Debug.Assert(Collider != null);
         Debug.Assert(Collider.Shape is CircleShape2D);
         Debug.Assert(FadeTimer != null);
-        Debug.Assert(StuckTimer != null);
         Debug.Assert(MotionTrail != null);
 
         BodyEntered += OnBodyEntered;
         FadeTimer.Timeout += OnFadeTimeout;
-        StuckTimer.Timeout += OnStuck;
 
         if (_originalModulate == Colors.White && CurrentTransitionState == TransitionState.None)
         {
             _originalModulate = Modulate;
-        }
-
-        if (InitDetectStuck)
-        {
-            StuckTimer.Start();
         }
 
         PlaceholderSprite.Color = Variant.PlaceholderColor;
@@ -139,6 +154,76 @@ public partial class Ball : RigidBody2D
     public override void _PhysicsProcess(double delta)
     {
         _previousVelocity = LinearVelocity;
+        ProcessStuckDetection(delta);
+    }
+
+    public void ProcessStuckDetection(double delta)
+    {
+        if (!DetectStuck || Freeze || CurrentTransitionState != TransitionState.None)
+        {
+            _hasStuckAnchor = false;
+            return;
+        }
+
+        if (!_hasStuckAnchor)
+        {
+            StuckAnchorPosition = GlobalPosition;
+            _hasStuckAnchor = true;
+        }
+
+        float displacement = GlobalPosition.DistanceTo(StuckAnchorPosition);
+        if (displacement > StuckDisplacementThreshold)
+        {
+            StuckAnchorPosition = GlobalPosition;
+            AccumulatedStuckTime = 0.0;
+            NudgeCount = 0;
+        }
+        else
+        {
+            AccumulatedStuckTime += delta;
+
+            if (AccumulatedStuckTime >= RefundTimeout)
+            {
+                TriggerStuckRefund();
+            }
+            else if (NudgeCount == 0 && AccumulatedStuckTime >= InitialNudgeDuration)
+            {
+                NudgeCount++;
+                ApplyNudge();
+            }
+            else if (NudgeCount > 0 && NudgeCount < MaxNudgeRetries && AccumulatedStuckTime >= InitialNudgeDuration + NudgeCount * NudgeRetryInterval)
+            {
+                NudgeCount++;
+                ApplyNudge();
+            }
+        }
+    }
+
+    public void ApplyNudge()
+    {
+        float spreadRad = Mathf.DegToRad(NudgeAngleSpreadDeg);
+        float angle = (float)GD.RandRange(-spreadRad, spreadRad);
+        Vector2 impulse = Vector2.Up.Rotated(angle) * NudgeImpulseStrength;
+        ApplyCentralImpulse(impulse);
+        EmitSignal(SignalName.Nudged, impulse);
+    }
+
+    public void TriggerStuckRefund()
+    {
+        AccumulatedStuckTime = 0.0;
+        DetectStuck = false;
+        Freeze = true;
+        FadeOut();
+        Connect(SignalName.FadeOutFinished, Callable.From(OnStuckRefundFinished), (uint)ConnectFlags.OneShot);
+    }
+
+    private void OnStuckRefundFinished()
+    {
+        if (Variant != null && GlobalEvents.Instance != null)
+        {
+            GlobalEvents.Instance.NotifyBallAwarded(Variant);
+        }
+        QueueFree();
     }
 
     public override void _IntegrateForces(PhysicsDirectBodyState2D state)
@@ -222,15 +307,18 @@ public partial class Ball : RigidBody2D
 
         Freeze = true;
         CurrentTransitionState = TransitionState.FadeIn;
-        _transitionTween = GetTree().CreateTween().SetParallel(true);
-        _transitionTween.TweenProperty(this, (NodePath)PropertyName.Scale.ToString(), Vector2.One, FadeDuration);
-        if (globalDestination != null)
+        if (IsInsideTree())
         {
-            // TODO: lerp shaping
-            _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
+            _transitionTween = GetTree().CreateTween().SetParallel(true);
+            _transitionTween.TweenProperty(this, (NodePath)PropertyName.Scale.ToString(), Vector2.One, FadeDuration);
+            if (globalDestination != null)
+            {
+                // TODO: lerp shaping
+                _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
+            }
+            _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), _originalModulate, FadeDuration);
         }
-        _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), _originalModulate, FadeDuration);
-        FadeTimer!.Start(FadeDuration);
+        FadeTimer?.Start(FadeDuration);
     }
 
     public void FadeOut(Vector2? globalDestination = null, Color? fadeModulateOverride = null)
@@ -238,18 +326,21 @@ public partial class Ball : RigidBody2D
         CancelFade();
         Freeze = true;
         CurrentTransitionState = TransitionState.FadeOut;
-        _transitionTween = GetTree().CreateTween().SetParallel(true);
-        _transitionTween.TweenProperty(this, (NodePath)PropertyName.Scale.ToString(), new Vector2(FadeScale, FadeScale), FadeDuration);
-
-        // _fadeTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), Vector2.Zero, FadeDuration); // DEBUG
-        if (globalDestination != null)
+        if (IsInsideTree())
         {
-            // TODO: lerp shaping
-            _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
+            _transitionTween = GetTree().CreateTween().SetParallel(true);
+            _transitionTween.TweenProperty(this, (NodePath)PropertyName.Scale.ToString(), new Vector2(FadeScale, FadeScale), FadeDuration);
+
+            // _fadeTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), Vector2.Zero, FadeDuration); // DEBUG
+            if (globalDestination != null)
+            {
+                // TODO: lerp shaping
+                _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
+            }
+            Color fadeModulate = _originalModulate * (fadeModulateOverride ?? FadeModulate);
+            _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), fadeModulate, FadeDuration);
         }
-        Color fadeModulate = _originalModulate * (fadeModulateOverride ?? FadeModulate);
-        _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), fadeModulate, FadeDuration);
-        FadeTimer!.Start(FadeDuration);
+        FadeTimer?.Start(FadeDuration);
     }
 
     private void OnBodyEntered(Node body)
@@ -304,12 +395,6 @@ public partial class Ball : RigidBody2D
         }
     }
 
-    private void OnStuck()
-    {
-        FadeOut();
-        Connect(SignalName.FadeOutFinished, Callable.From(QueueFree), (uint)ConnectFlags.OneShot);
-    }
-
     private void PlayImpactAudio(AudioStreamPlayer2D audioPlayer, float impactStrength)
     {
         float normalizedImpact = Mathf.Clamp(impactStrength / MaxExpectedVelocity, 0.01f, 1.0f);
@@ -324,8 +409,7 @@ public partial class Ball : RigidBody2D
     public void CancelFade()
     {
         if (CurrentTransitionState == TransitionState.None) return;
-        Debug.Assert(_transitionTween != null);
-        _transitionTween.Stop();
+        _transitionTween?.Stop();
         _transitionTween = null;
         CurrentTransitionState = TransitionState.None;
     }
@@ -340,3 +424,4 @@ public partial class Ball : RigidBody2D
         FadeIn();
     }
 }
+

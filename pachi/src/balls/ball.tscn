@@ -19,7 +19,7 @@ point_count = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
 radius = 6.0
 
-[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "WallBounceAudioPlayer", "PlaceholderSprite", "MotionTrail", "Collider", "FadeTimer", "StuckTimer") groups=["ball", "ball_material"]]
+[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "WallBounceAudioPlayer", "PlaceholderSprite", "MotionTrail", "Collider", "FadeTimer") groups=["ball", "ball_material"]]
 collision_layer = 2
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_tsi0e")
@@ -36,7 +36,6 @@ MotionTrail = NodePath("MotionTrail2D")
 FadeModulate = Color(0.5019608, 0.5019608, 0.5019608, 0.7529412)
 Collider = NodePath("CollisionShape2D")
 FadeTimer = NodePath("FadeTimer")
-StuckTimer = NodePath("StuckTimer")
 WallFollowAngleThresholdDeg = 30.0
 metadata/_custom_type_script = "uid://unwhnooi7g2c"
 
@@ -72,8 +71,4 @@ stream = ExtResource("6_pjjxd")
 bus = &"SFX"
 
 [node name="FadeTimer" type="Timer" parent="." unique_id=1629553787]
-one_shot = true
-
-[node name="StuckTimer" type="Timer" parent="." unique_id=2011649999]
-wait_time = 60.0
 one_shot = true

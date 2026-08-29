@@ -10,6 +10,7 @@ public partial class TestRunner : SceneTree
         try
         {
             VisualConfigTests.RunAllTests();
+            BallStuckTests.RunAllTests();
             GD.Print("All tests passed successfully!");
             Quit(0);
         }

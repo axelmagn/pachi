@@ -19,3 +19,16 @@ _Avoid_: Ball Type, Ball Model
 **Shape Sprite**:
 A procedural vector drawing component used as a placeholder before final sprite textures are assigned.
 _Avoid_: Dummy Sprite, Placeholder Graphic
+
+**Stuck Ball**:
+An active ball in play whose displacement remains within a minimum spatial threshold for longer than the detection window.
+_Avoid_: Jammed Ball, Dead Ball
+
+**Nudge**:
+An automatic upward and lateral impulse applied to a stuck ball to dislodge it from pins, pockets, or bottlenecks.
+_Avoid_: Shake, Tilt, Jolt
+
+**Ball Refund**:
+The recovery process that despawns a persistently stuck ball after failed nudges and re-queues an equivalent ball variant in the hopper.
+_Avoid_: Despawn Penalty, Void Ball, Ball Recycle
+
