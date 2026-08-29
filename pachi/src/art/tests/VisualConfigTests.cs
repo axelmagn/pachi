@@ -23,8 +23,50 @@ public static class VisualConfigTests
         TestYakumonoFaceStateTransitions();
         TestNullConfigGracefulHandling();
         TestBallVariantTierPaletteColors();
+        TestMainGameEnvironmentBackground();
         TestVisualShowcaseScreenshotCapture();
     }
+
+    public static void TestMainGameEnvironmentBackground()
+    {
+        var tree = Engine.GetMainLoop() as SceneTree;
+        Assert(tree != null, "SceneTree main loop should not be null.");
+
+        var mainGameScene = ResourceLoader.Load<PackedScene>("res://src/main_game/main_game.tscn");
+        Assert(mainGameScene != null, "main_game.tscn should load.");
+
+        var viewport = new SubViewport
+        {
+            Size = new Vector2I(960, 540),
+            RenderTargetUpdateMode = SubViewport.UpdateMode.Always
+        };
+
+        var mainGameNode = mainGameScene!.Instantiate();
+        viewport.AddChild(mainGameNode);
+        tree!.Root.AddChild(viewport);
+        RenderingServer.ForceDraw();
+
+        var bgRect = mainGameNode.GetNodeOrNull<ColorRect>("LayersRoot/BackgroundLayer/ColorRect");
+        Assert(bgRect != null, "LayersRoot/BackgroundLayer/ColorRect should exist in main_game.tscn.");
+        Assert(bgRect is EnvironmentBackground, "LayersRoot/BackgroundLayer/ColorRect should be an EnvironmentBackground instance.");
+
+        var defaultConfig = VisualConfig.LoadDefault();
+        Assert(defaultConfig != null, "Default VisualConfig should not be null.");
+
+        Assert(bgRect!.Color == defaultConfig!.BackgroundColor, $"main_game background Color ({bgRect.Color}) should match VisualConfig.BackgroundColor ({defaultConfig.BackgroundColor}).");
+
+        var boundaryRect = mainGameNode.GetNodeOrNull<BoundaryRect>("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer/SubViewport/Level/Boundary/BoundaryRect");
+        Assert(boundaryRect != null, "BoundaryRect should exist inside main_game Level subviewport.");
+        Assert(boundaryRect!.BackgroundColor == defaultConfig.BackgroundColor, $"main_game level BoundaryRect BackgroundColor ({boundaryRect.BackgroundColor}) should match VisualConfig.BackgroundColor ({defaultConfig.BackgroundColor}).");
+
+        tree.Root.RemoveChild(viewport);
+        viewport.QueueFree();
+    }
+
+
+
+
+
 
     public static void TestVisualShowcaseScreenshotCapture()
     {
@@ -103,8 +145,11 @@ public static class VisualConfigTests
         // Board Elements: Yakumono, Pockets, Pins
         DrawRectOnImage(image, 414, 150, 120, 80, new Color("#CC6542")); // Yakumono
         DrawRectOnImage(image, 414, 250, 120, 40, new Color("#7B924E")); // Pocket Arm
-        DrawRectOnImage(image, 434, 290, 80, 24, new Color("#243026"));  // Indicator
-        DrawRectBorderOnImage(image, 434, 290, 80, 24, new Color("#304A31"), 2);
+        // Stacked Indicator: Input Row (Top) & Output Row (Bottom)
+        DrawRectOnImage(image, 434, 290, 80, 12, new Color("#1A2433"));  // Input Indicator
+        DrawRectBorderOnImage(image, 434, 290, 80, 12, new Color("#304A31"), 1);
+        DrawRectOnImage(image, 434, 303, 80, 12, new Color("#33221A"));  // Output Indicator
+        DrawRectBorderOnImage(image, 434, 303, 80, 12, new Color("#304A31"), 1);
 
         // Pins grid & Flash
         for (int r = 0; r < 4; r++)
@@ -213,7 +258,8 @@ public static class VisualConfigTests
         Assert(config.BackgroundColor == new Color("#1C261D"), "BackgroundColor default should match palette.");
         Assert(config.PinBaseColor == new Color("#B9CBD9"), "PinBaseColor default should match palette.");
         Assert(config.FlashColor == new Color("#F6E8A9"), "FlashColor default should match palette.");
-        Assert(config.IndicatorBackgroundColor == new Color("#243026"), "IndicatorBackgroundColor default should match palette.");
+        Assert(config.InputIndicatorBackgroundColor == new Color("#1A2433"), "InputIndicatorBackgroundColor default should match palette.");
+        Assert(config.OutputIndicatorBackgroundColor == new Color("#33221A"), "OutputIndicatorBackgroundColor default should match palette.");
         Assert(config.IndicatorBorderColor == new Color("#304A31"), "IndicatorBorderColor default should match palette.");
         Assert(config.ArmColor == new Color("#7B924E"), "ArmColor default should match palette.");
         Assert(config.CardBackgroundColor == new Color("#452A21"), "CardBackgroundColor default should match palette.");
@@ -252,6 +298,18 @@ public static class VisualConfigTests
         changedFired = false;
         config.PinTextureOffset = new Vector2(5.0f, 10.0f);
         Assert(changedFired, "Setting PinTextureOffset should emit Changed.");
+
+        changedFired = false;
+        config.InputIndicatorBackgroundColor = Colors.DarkBlue;
+        Assert(changedFired, "Setting InputIndicatorBackgroundColor should emit Changed.");
+
+        changedFired = false;
+        config.OutputIndicatorBackgroundColor = Colors.DarkOrange;
+        Assert(changedFired, "Setting OutputIndicatorBackgroundColor should emit Changed.");
+
+        changedFired = false;
+        config.IndicatorBorderColor = Colors.Green;
+        Assert(changedFired, "Setting IndicatorBorderColor should emit Changed.");
 
         changedFired = false;
         config.ArmColor = Colors.Blue;
@@ -416,19 +474,34 @@ public static class VisualConfigTests
         var indicator = new PocketBallsIndicator();
         var config = new VisualConfig
         {
-            IndicatorBackgroundColor = new Color(0.2f, 0.2f, 0.2f, 1.0f),
+            InputIndicatorBackgroundColor = new Color(0.1f, 0.2f, 0.3f, 1.0f),
+            OutputIndicatorBackgroundColor = new Color(0.3f, 0.2f, 0.1f, 1.0f),
             IndicatorBorderColor = Colors.White,
             CardIndicatorBackgroundColor = new Color(0.4f, 0.4f, 0.4f, 1.0f)
         };
 
         indicator.IsCardIndicator = false;
+        indicator.IsInputIndicator = true;
         indicator.ApplyVisualConfig(config);
-        Assert(indicator.BackgroundColor == config.IndicatorBackgroundColor, "Standard indicator should use IndicatorBackgroundColor.");
+        Assert(indicator.BackgroundColor == config.InputIndicatorBackgroundColor, "Input indicator should use InputIndicatorBackgroundColor.");
         Assert(indicator.BorderColor == config.IndicatorBorderColor, "Border color should match IndicatorBorderColor.");
+
+        indicator.IsInputIndicator = false;
+        indicator.ApplyVisualConfig(config);
+        Assert(indicator.BackgroundColor == config.OutputIndicatorBackgroundColor, "Output indicator should use OutputIndicatorBackgroundColor.");
 
         indicator.IsCardIndicator = true;
         indicator.ApplyVisualConfig(config);
         Assert(indicator.BackgroundColor == config.CardIndicatorBackgroundColor, "Card indicator should use CardIndicatorBackgroundColor.");
+
+        var variant = new BallVariant
+        {
+            PlaceholderColor = new Color(0.8f, 0.6f, 0.2f, 1.0f)
+        };
+        indicator.Balls = [variant];
+        Assert(indicator.Balls.Count == 1, "Indicator balls count should be 1.");
+        var darkened = variant.PlaceholderColor.Darkened(0.35f);
+        Assert(darkened.R < variant.PlaceholderColor.R && darkened.G < variant.PlaceholderColor.G && darkened.B < variant.PlaceholderColor.B, "Dynamic contrast outline should be darkened from placeholder color.");
     }
 
     public static void TestCardUIStylingPropagation()

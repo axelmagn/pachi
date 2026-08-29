@@ -17,7 +17,7 @@ public partial class BoundaryRect : StaticBody2D
     private readonly VisualConfigBinding _binding;
     private VisualConfig? _configOverride;
 
-    private Color _backgroundColor = Colors.Transparent;
+    private Color _backgroundColor = new Color("#1C261D");
 
     public BoundaryRect()
     {
@@ -124,6 +124,8 @@ public partial class BoundaryRect : StaticBody2D
         BackgroundColor = config.BackgroundColor;
         QueueRedraw();
     }
+
+
 
     public override void _Draw()
     {

@@ -242,6 +242,7 @@ public partial class Launcher : Node2D
 
         // set up charged ball
         _chargedBall = (Ball)poppedBall.Duplicate();
+        _chargedBall.IsInPlay = true;
         _chargedBall.CancelFade();
         _chargedBall.OriginalModulate = poppedBall.OriginalModulate;
         _chargedBall.Modulate = poppedBall.OriginalModulate;

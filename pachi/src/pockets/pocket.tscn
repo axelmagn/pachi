@@ -111,21 +111,21 @@ texture = ExtResource("12_ulcdp")
 flip_h = true
 
 [node name="InputsIndicator" type="Node2D" parent="." unique_id=1399337656]
-modulate = Color(1, 1, 1, 0.5921569)
 z_index = 3
-position = Vector2(0, 32)
+position = Vector2(0, 30)
 script = ExtResource("6_8lcgt")
-BackgroundColor = Color(0.087, 0.087, 0.087, 1)
-Size = Vector2(24, 8)
+IsInputIndicator = true
+BackgroundColor = Color(0.101960786, 0.14117648, 0.2, 1)
+Size = Vector2(26, 10)
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 
 [node name="OutputsIndicator" type="Node2D" parent="." unique_id=188350990]
-modulate = Color(1, 1, 1, 0.5921569)
 z_index = 3
-position = Vector2(0, 44)
+position = Vector2(0, 42)
 script = ExtResource("6_8lcgt")
-BackgroundColor = Color(0.087, 0.087, 0.087, 1)
-Size = Vector2(24, 12)
+IsInputIndicator = false
+BackgroundColor = Color(0.2, 0.13333334, 0.101960786, 1)
+Size = Vector2(26, 10)
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 
 [node name="AcceptAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123451]

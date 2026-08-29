@@ -216,13 +216,21 @@ public partial class Pocket : Node2D
     {
         Rebuild();
 
-        if (InputsIndicator != null && InputBalls != null)
+        if (InputsIndicator != null)
         {
-            InputsIndicator.Balls = InputBalls;
+            InputsIndicator.IsInputIndicator = true;
+            if (InputBalls != null)
+            {
+                InputsIndicator.Balls = InputBalls;
+            }
         }
-        if (OutputsIndicator != null && OutputBalls != null)
+        if (OutputsIndicator != null)
         {
-            OutputsIndicator.Balls = OutputBalls;
+            OutputsIndicator.IsInputIndicator = false;
+            if (OutputBalls != null)
+            {
+                OutputsIndicator.Balls = OutputBalls;
+            }
         }
 
         if (_binding.ActiveConfig != null)

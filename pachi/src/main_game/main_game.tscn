@@ -23,6 +23,7 @@
 [ext_resource type="Script" uid="uid://utdeug40a1vy" path="res://src/cards/archetypes/RemoveInputBallArchetype.cs" id="20_rem_in_script"]
 [ext_resource type="Script" uid="uid://dtks2imexvdig" path="res://src/cards/archetypes/AddOutputBallArchetype.cs" id="21_add_out_script"]
 [ext_resource type="Script" uid="uid://vxwn2yjh2ce6" path="res://src/cards/archetypes/RemoveOutputBallArchetype.cs" id="22_rem_out_script"]
+[ext_resource type="Script" uid="uid://dhchimq8w8vbc" path="res://src/art/EnvironmentBackground.cs" id="23_envbg"]
 
 [sub_resource type="Resource" id="Resource_pack"]
 script = ExtResource("14_pack_script")
@@ -82,7 +83,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.07484526, 0.07484528, 0.07484526, 1)
+color = Color(0.10980392, 0.14901961, 0.11372549, 1)
+script = ExtResource("23_envbg")
 
 [node name="PlayScreenLayer" type="CanvasLayer" parent="LayersRoot" unique_id=1085927762]
 

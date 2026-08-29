@@ -58,6 +58,9 @@ public partial class Ball : RigidBody2D
     public bool DetectStuck { get; set; } = true;
 
     [Export]
+    public bool IsInPlay { get; set; } = false;
+
+    [Export]
     public float StuckDisplacementThreshold { get; set; } = 10.0f;
 
     [Export]
@@ -159,7 +162,7 @@ public partial class Ball : RigidBody2D
 
     public void ProcessStuckDetection(double delta)
     {
-        if (!DetectStuck || Freeze || CurrentTransitionState != TransitionState.None)
+        if (!DetectStuck || !IsInPlay || Freeze || CurrentTransitionState != TransitionState.None)
         {
             _hasStuckAnchor = false;
             return;

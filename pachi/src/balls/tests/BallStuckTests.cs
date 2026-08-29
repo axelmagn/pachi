@@ -19,6 +19,7 @@ public static class BallStuckTests
         var ball = new Ball
         {
             DetectStuck = true,
+            IsInPlay = true,
             Freeze = false,
             StuckDisplacementThreshold = 10.0f,
             GlobalPosition = new Vector2(100, 100)
@@ -47,6 +48,7 @@ public static class BallStuckTests
         var frozenBall = new Ball
         {
             DetectStuck = true,
+            IsInPlay = true,
             Freeze = true,
             GlobalPosition = new Vector2(50, 50)
         };
@@ -57,16 +59,29 @@ public static class BallStuckTests
         var disabledBall = new Ball
         {
             DetectStuck = false,
+            IsInPlay = true,
             Freeze = false,
             GlobalPosition = new Vector2(50, 50)
         };
         disabledBall.ProcessStuckDetection(1.0);
         Assert(Mathf.IsEqualApprox((float)disabledBall.AccumulatedStuckTime, 0.0f), "Ball with DetectStuck disabled should not accumulate stuck time.");
 
-        // 3. FadeIn transition exemption
+        // 3. Hopper exemption (IsInPlay = false)
+        var hopperBall = new Ball
+        {
+            DetectStuck = true,
+            IsInPlay = false,
+            Freeze = false,
+            GlobalPosition = new Vector2(50, 50)
+        };
+        hopperBall.ProcessStuckDetection(1.0);
+        Assert(Mathf.IsEqualApprox((float)hopperBall.AccumulatedStuckTime, 0.0f), "Ball in hopper (IsInPlay = false) should not accumulate stuck time.");
+
+        // 4. FadeIn transition exemption
         var fadeInBall = new Ball
         {
             DetectStuck = true,
+            IsInPlay = true,
             Freeze = false,
             CurrentTransitionState = Ball.TransitionState.FadeIn,
             GlobalPosition = new Vector2(50, 50)
@@ -74,10 +89,11 @@ public static class BallStuckTests
         fadeInBall.ProcessStuckDetection(1.0);
         Assert(Mathf.IsEqualApprox((float)fadeInBall.AccumulatedStuckTime, 0.0f), "Ball in FadeIn transition should not accumulate stuck time.");
 
-        // 4. FadeOut transition exemption
+        // 5. FadeOut transition exemption
         var fadeOutBall = new Ball
         {
             DetectStuck = true,
+            IsInPlay = true,
             Freeze = false,
             CurrentTransitionState = Ball.TransitionState.FadeOut,
             GlobalPosition = new Vector2(50, 50)
@@ -91,6 +107,7 @@ public static class BallStuckTests
         var ball = new Ball
         {
             DetectStuck = true,
+            IsInPlay = true,
             Freeze = false,
             InitialNudgeDuration = 2.0f,
             NudgeRetryInterval = 1.0f,
@@ -140,6 +157,7 @@ public static class BallStuckTests
         var ball = new Ball
         {
             DetectStuck = true,
+            IsInPlay = true,
             Freeze = false,
             InitialNudgeDuration = 2.0f,
             StuckDisplacementThreshold = 10.0f,
@@ -167,6 +185,7 @@ public static class BallStuckTests
         var ball = new Ball
         {
             DetectStuck = true,
+            IsInPlay = true,
             Freeze = false,
             InitialNudgeDuration = 2.0f,
             NudgeRetryInterval = 1.0f,

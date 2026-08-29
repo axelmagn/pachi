@@ -37,6 +37,7 @@ public partial class Hopper : Node2D
         {
             if (child is Ball ball)
             {
+                ball.IsInPlay = false;
                 _containedBalls.AddLast(ball);
             }
         }
@@ -109,6 +110,7 @@ public partial class Hopper : Node2D
 
     public void DispenseBall(Ball ball)
     {
+        ball.IsInPlay = false;
         ball.Freeze = true;
         if (ball.GetParent() != null)
         {

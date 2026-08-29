@@ -92,7 +92,8 @@ public partial class VisualConfig : Resource
     // -------------------------------------------------------------------------
     // Pockets
     // -------------------------------------------------------------------------
-    private Color _indicatorBackgroundColor = new Color("#243026");
+    private Color _inputIndicatorBackgroundColor = new Color("#1A2433");
+    private Color _outputIndicatorBackgroundColor = new Color("#33221A");
     private Color _indicatorBorderColor = new Color("#304A31");
     private Color _armColor = new Color("#7B924E");
     private Texture2D? _armTexture;
@@ -101,12 +102,33 @@ public partial class VisualConfig : Resource
 
     [ExportGroup("Pockets")]
     [Export]
-    public Color IndicatorBackgroundColor
+    public Color InputIndicatorBackgroundColor
     {
-        get => _indicatorBackgroundColor;
+        get => _inputIndicatorBackgroundColor;
         set
         {
-            _indicatorBackgroundColor = value;
+            _inputIndicatorBackgroundColor = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Color OutputIndicatorBackgroundColor
+    {
+        get => _outputIndicatorBackgroundColor;
+        set
+        {
+            _outputIndicatorBackgroundColor = value;
+            EmitChanged();
+        }
+    }
+
+    public Color IndicatorBackgroundColor
+    {
+        get => _inputIndicatorBackgroundColor;
+        set
+        {
+            _inputIndicatorBackgroundColor = value;
             EmitChanged();
         }
     }
