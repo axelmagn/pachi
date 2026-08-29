@@ -15,7 +15,6 @@ public static class PocketIndicatorTests
     public static void TestStaticPipGridDimensions()
     {
         var indicator = new PocketBallsIndicator();
-        indicator.IsCardIndicator = false;
 
         // Default / empty
         indicator.Balls = null;

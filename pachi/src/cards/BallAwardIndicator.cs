@@ -4,12 +4,12 @@ using System;
 
 [Tool]
 [GlobalClass]
-public partial class PocketBallsIndicator : Node2D
+public partial class BallAwardIndicator : Node2D
 {
     private readonly VisualConfigBinding _binding;
     private VisualConfig? _configOverride;
 
-    public PocketBallsIndicator()
+    public BallAwardIndicator()
     {
         _binding = new VisualConfigBinding(ApplyVisualConfig);
     }
@@ -29,20 +29,17 @@ public partial class PocketBallsIndicator : Node2D
     }
 
     [Export]
-    public bool IsInputIndicator
+    public int MaxColumns
     {
-        get => _isInputIndicator;
+        get => _maxColumns;
         set
         {
-            _isInputIndicator = value;
-            if (_binding.ActiveConfig != null)
-            {
-                ApplyVisualConfig(_binding.ActiveConfig);
-            }
+            _maxColumns = Math.Max(1, value);
+            UpdateIndicatorSize();
             QueueRedraw();
         }
     }
-    private bool _isInputIndicator = true;
+    private int _maxColumns = 6;
 
     [Export]
     public Color BackgroundColor
@@ -53,28 +50,12 @@ public partial class PocketBallsIndicator : Node2D
     private Color _backgroundColor = new(0.14f, 0.14f, 0.14f);
 
     [Export]
-    public bool ShowQuestionMark
-    {
-        get => _showQuestionMark;
-        set { _showQuestionMark = value; QueueRedraw(); }
-    }
-    private bool _showQuestionMark = false;
-
-    [Export]
     public Vector2 Size
     {
         get => _size;
         set { _size = value; QueueRedraw(); }
     }
-    private Vector2 _size = new(34, 10);
-
-    [Export]
-    public float DotRadius
-    {
-        get => _dotRadius;
-        set { _dotRadius = value; QueueRedraw(); }
-    }
-    private float _dotRadius = 1.5f;
+    private Vector2 _size = new(10, 10);
 
     [Export]
     public Color BorderColor
@@ -104,9 +85,15 @@ public partial class PocketBallsIndicator : Node2D
     }
     private Array<BallVariant>? _balls;
 
-    private void UpdateIndicatorSize()
+    public void UpdateIndicatorSize()
     {
-        _size = (_balls == null || _balls.Count <= 4) ? new Vector2(34, 10) : new Vector2(34, 18);
+        int totalBalls = _balls != null ? _balls.Count : 0;
+        int cols = Math.Clamp(totalBalls, 1, MaxColumns);
+        int rows = totalBalls > 0 ? (int)Math.Ceiling((float)totalBalls / MaxColumns) : 1;
+
+        float width = cols * 8.0f + 2.0f;
+        float height = rows * 8.0f + 2.0f;
+        _size = new Vector2(width, height);
     }
 
     public override void _EnterTree()
@@ -130,62 +117,45 @@ public partial class PocketBallsIndicator : Node2D
     public void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
-        if (IsInputIndicator)
-        {
-            BackgroundColor = config.InputIndicatorBackgroundColor;
-        }
-        else
-        {
-            BackgroundColor = config.OutputIndicatorBackgroundColor;
-        }
+        BackgroundColor = config.CardIndicatorBackgroundColor;
         BorderColor = config.IndicatorBorderColor;
         QueueRedraw();
     }
 
-    /// <summary>
-    /// Draw an array of squircle pips with a rectangle background, centered on the node position.
-    /// </summary>
     public override void _Draw()
     {
-        // draw background
         Rect2 rect = new Rect2(-Size / 2.0f, Size);
         DrawRect(rect, BackgroundColor);
 
-        // draw border
         if (BorderThickness > 0.0f)
         {
             DrawRect(rect, BorderColor, filled: false, width: BorderThickness);
         }
 
-        if (ShowQuestionMark)
-        {
-            Font font = ThemeDB.FallbackFont;
-            DrawString(font, new Vector2(-3, 4), "?", HorizontalAlignment.Center, -1, 11, Colors.White);
-            return;
-        }
-
-        // draw squircle pips
-        if (Balls == null) return;
-        int numDots = Math.Min(Balls.Count, 8);
-        if (numDots <= 0) return;
+        if (Balls == null || Balls.Count == 0) return;
 
         const float pipSize = 8.0f;
         const int cornerRadius = 2;
-        int numRows = numDots > 4 ? 2 : 1;
+
+        int totalBalls = Balls.Count;
+        int numRows = (int)Math.Ceiling((float)totalBalls / MaxColumns);
+        float totalGridHeight = numRows * pipSize;
+        float startGridY = -totalGridHeight / 2.0f;
 
         for (int r = 0; r < numRows; r++)
         {
-            int countInRow = (r == 0) ? Math.Min(numDots, 4) : (numDots - 4);
-            float totalWidth = countInRow * pipSize;
-            float startX = -totalWidth / 2.0f;
-            float startY = (numRows == 1) ? -pipSize / 2.0f : (r == 0 ? -pipSize : 0.0f);
+            int startIdx = r * MaxColumns;
+            int countInRow = Math.Min(MaxColumns, totalBalls - startIdx);
+            float rowWidth = countInRow * pipSize;
+            float startX = -rowWidth / 2.0f;
+            float startY = startGridY + r * pipSize;
 
             for (int c = 0; c < countInRow; c++)
             {
-                int ballIndex = r * 4 + c;
+                int ballIdx = startIdx + c;
                 float pipX = startX + c * pipSize;
                 Rect2 pipRect = new Rect2(pipX, startY, pipSize, pipSize);
-                Color pipColor = Balls[ballIndex].PlaceholderColor;
+                Color pipColor = Balls[ballIdx].PlaceholderColor;
                 float lum = 0.299f * pipColor.R + 0.587f * pipColor.G + 0.114f * pipColor.B;
                 Color strokeColor = lum < 0.35f
                     ? pipColor.Lightened(0.25f)

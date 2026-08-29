@@ -69,11 +69,8 @@ public partial class CardData : Resource
     {
         if (container == null || balls == null || balls.Count == 0) return;
 
-        PocketBallsIndicator packInd = new PocketBallsIndicator();
-        packInd.IsCardIndicator = true;
+        BallAwardIndicator packInd = new BallAwardIndicator();
         packInd.Balls = balls;
-        float width = Mathf.Clamp(balls.Count * 8.0f + 2.0f, 10.0f, 90.0f);
-        packInd.Size = new Vector2(width, 10.0f);
         packInd.Position = new Vector2(53.5f, centerY);
         container.AddChild(packInd);
     }
@@ -88,10 +85,8 @@ public partial class CardData : Resource
 
         if (sourceTier != null)
         {
-            PocketBallsIndicator sourceInd = new PocketBallsIndicator();
-            sourceInd.IsCardIndicator = true;
+            BallAwardIndicator sourceInd = new BallAwardIndicator();
             sourceInd.Balls = [sourceTier];
-            sourceInd.Size = new Vector2(10.0f, 10.0f);
             sourceInd.Position = new Vector2(25.0f, topY);
             container.AddChild(sourceInd);
         }
@@ -105,10 +100,8 @@ public partial class CardData : Resource
 
         if (resultTier != null)
         {
-            PocketBallsIndicator resInd = new PocketBallsIndicator();
-            resInd.IsCardIndicator = true;
+            BallAwardIndicator resInd = new BallAwardIndicator();
             resInd.Balls = [resultTier];
-            resInd.Size = new Vector2(10.0f, 10.0f);
             resInd.Position = new Vector2(82.0f, topY);
             container.AddChild(resInd);
         }
@@ -128,10 +121,8 @@ public partial class CardData : Resource
 
         if (tier != null)
         {
-            PocketBallsIndicator sourceInd = new PocketBallsIndicator();
-            sourceInd.IsCardIndicator = true;
+            BallAwardIndicator sourceInd = new BallAwardIndicator();
             sourceInd.Balls = [tier];
-            sourceInd.Size = new Vector2(10.0f, 10.0f);
             sourceInd.Position = new Vector2(53.5f, topY);
             container.AddChild(sourceInd);
         }

@@ -142,10 +142,13 @@ public partial class CardUI : PanelContainer
         {
             foreach (Node child in _indicatorContainer.GetChildren())
             {
-                if (child is PocketBallsIndicator ind)
+                if (child is BallAwardIndicator bai)
                 {
-                    ind.IsCardIndicator = true;
-                    ind.ApplyVisualConfig(activeConfig);
+                    bai.ApplyVisualConfig(activeConfig);
+                }
+                else if (child is PocketBallsIndicator pbi)
+                {
+                    pbi.ApplyVisualConfig(activeConfig);
                 }
             }
         }

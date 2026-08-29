@@ -480,7 +480,6 @@ public static class VisualConfigTests
             CardIndicatorBackgroundColor = new Color(0.4f, 0.4f, 0.4f, 1.0f)
         };
 
-        indicator.IsCardIndicator = false;
         indicator.IsInputIndicator = true;
         indicator.ApplyVisualConfig(config);
         Assert(indicator.BackgroundColor == config.InputIndicatorBackgroundColor, "Input indicator should use InputIndicatorBackgroundColor.");
@@ -490,9 +489,10 @@ public static class VisualConfigTests
         indicator.ApplyVisualConfig(config);
         Assert(indicator.BackgroundColor == config.OutputIndicatorBackgroundColor, "Output indicator should use OutputIndicatorBackgroundColor.");
 
-        indicator.IsCardIndicator = true;
-        indicator.ApplyVisualConfig(config);
-        Assert(indicator.BackgroundColor == config.CardIndicatorBackgroundColor, "Card indicator should use CardIndicatorBackgroundColor.");
+        var awardIndicator = new BallAwardIndicator();
+        awardIndicator.ApplyVisualConfig(config);
+        Assert(awardIndicator.BackgroundColor == config.CardIndicatorBackgroundColor, "BallAwardIndicator should use CardIndicatorBackgroundColor.");
+        Assert(awardIndicator.BorderColor == config.IndicatorBorderColor, "BallAwardIndicator BorderColor should match IndicatorBorderColor.");
 
         var variant = new BallVariant
         {
@@ -500,9 +500,6 @@ public static class VisualConfigTests
         };
         indicator.Balls = [variant];
         Assert(indicator.Balls.Count == 1, "Indicator balls count should be 1.");
-        Assert(indicator.Size == new Vector2(10, 10), "Card indicator with 1 ball should size to (10, 10).");
-
-        indicator.IsCardIndicator = false;
         Assert(indicator.Size == new Vector2(34, 10), "Pocket indicator with 1 ball should size to (34, 10).");
 
         indicator.Balls = [variant, variant, variant, variant, variant];
