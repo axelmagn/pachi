@@ -23,6 +23,8 @@ if (Get-Command "godot-mono" -ErrorAction SilentlyContinue) {
     $GodotBin = "godot"
 } elseif (Get-Command "godot.exe" -ErrorAction SilentlyContinue) {
     $GodotBin = "godot.exe"
+} elseif (Test-Path "C:\Users\Axel\Godot_v4.7\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_mono_win64_console.exe") {
+    $GodotBin = "C:\Users\Axel\Godot_v4.7\Godot_v4.7-stable_mono_win64\Godot_v4.7-stable_mono_win64_console.exe"
 }
 
 # Stage 1: Format Check
@@ -60,10 +62,11 @@ if ($GodotBin) {
     if ($LASTEXITCODE -ne 0) { throw "TestRunner failed with exit code $LASTEXITCODE" }
     Write-Host "✓ Headless tests completed successfully!" -ForegroundColor Green
 } else {
-    Write-Host "⚠ Warning: godot-mono/godot executable not found in PATH; skipping headless Godot checks." -ForegroundColor DarkYellow
+    Write-Host "Warning: godot-mono/godot executable not found in PATH; skipping headless Godot checks." -ForegroundColor DarkYellow
 }
 
 Write-Host ""
 Write-Host "==================================================" -ForegroundColor Cyan
-Write-Host " All verification checks passed successfully! 🎉" -ForegroundColor Green
+Write-Host " All verification checks passed successfully!" -ForegroundColor Green
 Write-Host "==================================================" -ForegroundColor Cyan
+

@@ -31,34 +31,34 @@
 
 [sub_resource type="Resource" id="Config_Procedural"]
 script = ExtResource("16_vcfg")
-BackgroundColor = Color(0.075, 0.075, 0.075, 1)
-PinBaseColor = Color(1, 1, 1, 1)
-FlashColor = Color(1, 0.85, 0.2, 1)
-IndicatorBackgroundColor = Color(0.087, 0.087, 0.087, 1)
-IndicatorBorderColor = Color(0, 0, 0, 1)
-ArmColor = Color(1, 1, 1, 1)
-CardBackgroundColor = Color(0.2, 0.4, 0.8, 1)
-CardBorderColor = Color(1, 1, 1, 0.4)
-CardIndicatorBackgroundColor = Color(0.14, 0.14, 0.14, 1)
+BackgroundColor = Color(0.10980392, 0.14901961, 0.11372549, 1)
+PinBaseColor = Color(0.7254902, 0.79607843, 0.8509804, 1)
+FlashColor = Color(0.9647059, 0.9098039, 0.6627451, 1)
+IndicatorBackgroundColor = Color(0.14117647, 0.1882353, 0.14901961, 1)
+IndicatorBorderColor = Color(0.1882353, 0.2901961, 0.19215687, 1)
+ArmColor = Color(0.48235294, 0.57254904, 0.30588236, 1)
+CardBackgroundColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
+CardBorderColor = Color(0.8235294, 0.5058824, 0.2901961, 1)
+CardIndicatorBackgroundColor = Color(0.10980392, 0.14901961, 0.11372549, 1)
 
 [sub_resource type="Resource" id="Config_Textured"]
 script = ExtResource("16_vcfg")
-BackgroundColor = Color(0.075, 0.075, 0.075, 1)
-PinBaseColor = Color(1, 1, 1, 1)
+BackgroundColor = Color(0.10980392, 0.14901961, 0.11372549, 1)
+PinBaseColor = Color(0.7254902, 0.79607843, 0.8509804, 1)
 PinTexture = ExtResource("17_tulip")
 PinTextureScale = 0.035
 PinTextureOffset = Vector2(0, 0)
-FlashColor = Color(1, 0.85, 0.2, 1)
-IndicatorBackgroundColor = Color(0.087, 0.087, 0.087, 1)
-IndicatorBorderColor = Color(0, 0, 0, 1)
-ArmColor = Color(1, 1, 1, 1)
+FlashColor = Color(0.9647059, 0.9098039, 0.6627451, 1)
+IndicatorBackgroundColor = Color(0.14117647, 0.1882353, 0.14901961, 1)
+IndicatorBorderColor = Color(0.1882353, 0.2901961, 0.19215687, 1)
+ArmColor = Color(0.48235294, 0.57254904, 0.30588236, 1)
 ArmTexture = ExtResource("28_tulipv3")
 ArmTextureScale = 0.035
 ArmTextureOffset = Vector2(2, 6)
 PocketTexture = ExtResource("27_frame")
-CardBackgroundColor = Color(0.2, 0.4, 0.8, 1)
-CardBorderColor = Color(1, 1, 1, 0.4)
-CardIndicatorBackgroundColor = Color(0.14, 0.14, 0.14, 1)
+CardBackgroundColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
+CardBorderColor = Color(0.8235294, 0.5058824, 0.2901961, 1)
+CardIndicatorBackgroundColor = Color(0.10980392, 0.14901961, 0.11372549, 1)
 FaceTextures = Array[Texture2D]([ExtResource("22_neutral"), ExtResource("23_sad"), ExtResource("24_mad"), ExtResource("25_plain")])
 JackpotFaceTexture = ExtResource("26_happy")
 
@@ -66,14 +66,14 @@ JackpotFaceTexture = ExtResource("26_happy")
 script = ExtResource("15_carddata")
 Title = "Ball Pack"
 Description = "Adds 3 tier-1 balls to hopper."
-CardColor = Color(0.2, 0.4, 0.8, 1)
+CardColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
 PackBalls = Array[Object]([ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1")])
 
 [sub_resource type="Resource" id="Card_Upgrade_In"]
 script = ExtResource("15_carddata")
 Title = "In: T1 -> T2"
 Description = "Upgrade 1 Tier 1 input requirement to Tier 2."
-CardColor = Color(0.2, 0.4, 0.8, 1)
+CardColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
 TargetTier = ExtResource("11_t1")
 ResultTier = ExtResource("12_t2")
 
@@ -81,7 +81,7 @@ ResultTier = ExtResource("12_t2")
 script = ExtResource("15_carddata")
 Title = "Out: T2 -> T3"
 Description = "Upgrade 1 Tier 2 output payout to Tier 3."
-CardColor = Color(0.2, 0.4, 0.8, 1)
+CardColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
 TargetTier = ExtResource("12_t2")
 ResultTier = ExtResource("13_t3")
 
@@ -89,7 +89,7 @@ ResultTier = ExtResource("13_t3")
 script = ExtResource("15_carddata")
 Title = "Out: T2 -> T1"
 Description = "Downgrade 1 Tier 2 output to Tier 1. Gives a Ball Pack!"
-CardColor = Color(0.2, 0.4, 0.8, 1)
+CardColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
 TargetTier = ExtResource("12_t2")
 ResultTier = ExtResource("11_t1")
 BonusBalls = Array[Object]([ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1")])
@@ -103,7 +103,7 @@ offset_left = -480.0
 offset_top = -270.0
 offset_right = 480.0
 offset_bottom = 270.0
-color = Color(0.075, 0.075, 0.075, 1)
+color = Color(0.10980392, 0.14901961, 0.11372549, 1)
 script = ExtResource("1_bg")
 
 [node name="LeftSection" type="Node2D" parent="."]

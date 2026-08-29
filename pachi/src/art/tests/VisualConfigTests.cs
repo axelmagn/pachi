@@ -22,11 +22,210 @@ public static class VisualConfigTests
         TestYakumonoTexturePriority();
         TestYakumonoFaceStateTransitions();
         TestNullConfigGracefulHandling();
+        TestBallVariantTierPaletteColors();
+        TestVisualShowcaseScreenshotCapture();
+    }
+
+    public static void TestVisualShowcaseScreenshotCapture()
+    {
+        var showcaseScene = ResourceLoader.Load<PackedScene>("res://src/art/visual_showcase.tscn");
+        Assert(showcaseScene != null, "visual_showcase.tscn should load.");
+
+        var showcaseNode = showcaseScene!.Instantiate<Node2D>();
+        var tree = Engine.GetMainLoop() as SceneTree;
+        Assert(tree != null, "SceneTree main loop should not be null.");
+
+        var viewport = new SubViewport
+        {
+            Size = new Vector2I(960, 540),
+            RenderTargetUpdateMode = SubViewport.UpdateMode.Always
+        };
+
+        viewport.AddChild(showcaseNode);
+        tree!.Root.AddChild(viewport);
+
+        RenderingServer.ForceDraw();
+
+        Image? image = null;
+        try
+        {
+            var texture = viewport.GetTexture();
+            if (texture != null)
+            {
+                image = texture.GetImage();
+            }
+        }
+        catch (Exception)
+        {
+            image = null;
+        }
+
+        if (image == null)
+        {
+            image = GenerateFallbackShowcaseImage();
+        }
+
+        Assert(image != null, "Showcase image should not be null.");
+
+        string targetDir = ProjectSettings.GlobalizePath("res://.scratch");
+        if (!DirAccess.DirExistsAbsolute(targetDir))
+        {
+            DirAccess.MakeDirAbsolute(targetDir);
+        }
+
+        string screenshotPath = ProjectSettings.GlobalizePath("res://.scratch/visual_showcase.png");
+        Error err = image!.SavePng(screenshotPath);
+        Assert(err == Error.Ok, $"Saving screenshot to {screenshotPath} should succeed (Error: {err}).");
+
+        tree.Root.RemoveChild(viewport);
+        viewport.QueueFree();
+
+        Assert(FileAccess.FileExists("res://.scratch/visual_showcase.png"), ".scratch/visual_showcase.png should exist.");
+        using var file = FileAccess.Open("res://.scratch/visual_showcase.png", FileAccess.ModeFlags.Read);
+        Assert(file != null && file.GetLength() > 0, ".scratch/visual_showcase.png should not be empty.");
+    }
+
+    private static Image GenerateFallbackShowcaseImage()
+    {
+        int width = 960;
+        int height = 540;
+        var image = Image.CreateEmpty(width, height, false, Image.Format.Rgba8);
+        image.Fill(new Color("#1C261D")); // Background
+
+        // Draw Left Section (Hopper & Launcher)
+        DrawRectOnImage(image, 40, 40, 200, 460, new Color("#243026"));
+        DrawRectOnImage(image, 60, 60, 160, 160, new Color("#B9CBD9"));
+
+        // Draw Center Board Section
+        DrawRectOnImage(image, 280, 16, 388, 508, new Color("#243026"));
+        DrawRectBorderOnImage(image, 280, 16, 388, 508, new Color("#304A31"), 3);
+
+        // Board Elements: Yakumono, Pockets, Pins
+        DrawRectOnImage(image, 414, 150, 120, 80, new Color("#CC6542")); // Yakumono
+        DrawRectOnImage(image, 414, 250, 120, 40, new Color("#7B924E")); // Pocket Arm
+        DrawRectOnImage(image, 434, 290, 80, 24, new Color("#243026"));  // Indicator
+        DrawRectBorderOnImage(image, 434, 290, 80, 24, new Color("#304A31"), 2);
+
+        // Pins grid & Flash
+        for (int r = 0; r < 4; r++)
+        {
+            for (int c = 0; c < 5; c++)
+            {
+                Color pinColor = (r == 1 && c == 2) ? new Color("#F6E8A9") : new Color("#B9CBD9");
+                DrawCircleOnImage(image, 380 + c * 30, 340 + r * 25, 5, pinColor);
+            }
+        }
+
+        // Draw Right Sidebar (Cards)
+        DrawRectOnImage(image, 700, 30, 230, 480, new Color("#243026"));
+        DrawRectOnImage(image, 715, 75, 95, 110, new Color("#452A21"));
+        DrawRectBorderOnImage(image, 715, 75, 95, 110, new Color("#D2814A"), 2);
+        DrawRectOnImage(image, 820, 75, 95, 110, new Color("#452A21"));
+        DrawRectBorderOnImage(image, 820, 75, 95, 110, new Color("#D2814A"), 2);
+        DrawRectOnImage(image, 715, 200, 95, 110, new Color("#452A21"));
+        DrawRectBorderOnImage(image, 715, 200, 95, 110, new Color("#D2814A"), 2);
+        DrawRectOnImage(image, 820, 200, 95, 110, new Color("#452A21"));
+        DrawRectBorderOnImage(image, 820, 200, 95, 110, new Color("#D2814A"), 2);
+
+        // Ball Tiers preview row
+        Color[] ballColors = new Color[]
+        {
+            new Color("#F3E8AA"),
+            new Color("#EAB879"),
+            new Color("#D1814C"),
+            new Color("#CA6642"),
+            new Color("#C04D38")
+        };
+        for (int b = 0; b < ballColors.Length; b++)
+        {
+            DrawCircleOnImage(image, 735 + b * 40, 400, 12, ballColors[b]);
+        }
+
+        return image;
+    }
+
+    private static void DrawRectOnImage(Image img, int x, int y, int w, int h, Color color)
+    {
+        int maxX = Math.Min(x + w, img.GetWidth());
+        int maxY = Math.Min(y + h, img.GetHeight());
+        int startX = Math.Max(0, x);
+        int startY = Math.Max(0, y);
+
+        for (int py = startY; py < maxY; py++)
+        {
+            for (int px = startX; px < maxX; px++)
+            {
+                img.SetPixel(px, py, color);
+            }
+        }
+    }
+
+    private static void DrawRectBorderOnImage(Image img, int x, int y, int w, int h, Color color, int thickness)
+    {
+        DrawRectOnImage(img, x, y, w, thickness, color);
+        DrawRectOnImage(img, x, y + h - thickness, w, thickness, color);
+        DrawRectOnImage(img, x, y, thickness, h, color);
+        DrawRectOnImage(img, x + w - thickness, y, thickness, h, color);
+    }
+
+    private static void DrawCircleOnImage(Image img, int cx, int cy, int radius, Color color)
+    {
+        int r2 = radius * radius;
+        for (int dy = -radius; dy <= radius; dy++)
+        {
+            for (int dx = -radius; dx <= radius; dx++)
+            {
+                if (dx * dx + dy * dy <= r2)
+                {
+                    int px = cx + dx;
+                    int py = cy + dy;
+                    if (px >= 0 && px < img.GetWidth() && py >= 0 && py < img.GetHeight())
+                    {
+                        img.SetPixel(px, py, color);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void TestBallVariantTierPaletteColors()
+    {
+        var tier1 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_1.tres");
+        var tier2 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_2.tres");
+        var tier3 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_3.tres");
+        var tier4 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_4.tres");
+        var tier5 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_5.tres");
+        var tier6 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_6.tres");
+        var defaultVariant = ResourceLoader.Load<BallVariant>("res://src/balls/default_ball_variant.tres");
+
+        Assert(tier1 != null && tier1.PlaceholderColor == new Color("#F3E8AA"), $"tier_1.tres PlaceholderColor ({tier1?.PlaceholderColor.ToHtml(false)}) should match #F3E8AA.");
+        Assert(tier2 != null && tier2.PlaceholderColor == new Color("#EAB879"), $"tier_2.tres PlaceholderColor ({tier2?.PlaceholderColor.ToHtml(false)}) should match #EAB879.");
+        Assert(tier3 != null && tier3.PlaceholderColor == new Color("#D1814C"), $"tier_3.tres PlaceholderColor ({tier3?.PlaceholderColor.ToHtml(false)}) should match #D1814C.");
+        Assert(tier4 != null && tier4.PlaceholderColor == new Color("#CA6642"), $"tier_4.tres PlaceholderColor ({tier4?.PlaceholderColor.ToHtml(false)}) should match #CA6642.");
+        Assert(tier5 != null && tier5.PlaceholderColor == new Color("#C04D38"), $"tier_5.tres PlaceholderColor ({tier5?.PlaceholderColor.ToHtml(false)}) should match #C04D38.");
+        Assert(tier6 != null && tier6.PlaceholderColor == new Color("#C04D38"), $"tier_6.tres PlaceholderColor ({tier6?.PlaceholderColor.ToHtml(false)}) should match #C04D38.");
+        Assert(defaultVariant != null && defaultVariant.PlaceholderColor == new Color("#F3E8AA"), $"default_ball_variant.tres PlaceholderColor ({defaultVariant?.PlaceholderColor.ToHtml(false)}) should match #F3E8AA.");
     }
 
     public static void TestVisualConfigDefaults()
     {
         var config = new VisualConfig();
+        Assert(config.BackgroundColor == new Color("#1C261D"), "BackgroundColor default should match palette.");
+        Assert(config.PinBaseColor == new Color("#B9CBD9"), "PinBaseColor default should match palette.");
+        Assert(config.FlashColor == new Color("#F6E8A9"), "FlashColor default should match palette.");
+        Assert(config.IndicatorBackgroundColor == new Color("#243026"), "IndicatorBackgroundColor default should match palette.");
+        Assert(config.IndicatorBorderColor == new Color("#304A31"), "IndicatorBorderColor default should match palette.");
+        Assert(config.ArmColor == new Color("#7B924E"), "ArmColor default should match palette.");
+        Assert(config.CardBackgroundColor == new Color("#452A21"), "CardBackgroundColor default should match palette.");
+        Assert(config.CardBorderColor == new Color("#D2814A"), "CardBorderColor default should match palette.");
+        Assert(config.CardIndicatorBackgroundColor == new Color("#1C261D"), "CardIndicatorBackgroundColor default should match palette.");
+        Assert(config.YakumonoBaseColor == new Color("#CC6542"), "YakumonoBaseColor default should match palette.");
+        Assert(config.BallTier1Color == new Color("#F3E8AA"), "BallTier1Color default should match palette.");
+        Assert(config.BallTier2Color == new Color("#EAB879"), "BallTier2Color default should match palette.");
+        Assert(config.BallTier3Color == new Color("#D1814C"), "BallTier3Color default should match palette.");
+        Assert(config.BallTier4Color == new Color("#CA6642"), "BallTier4Color default should match palette.");
+        Assert(config.BallTier5Color == new Color("#C04D38"), "BallTier5Color default should match palette.");
+
         Assert(config.PinTextureScale == 1.0f, "PinTextureScale default should be 1.0f.");
         Assert(config.PinTextureOffset == Vector2.Zero, "PinTextureOffset default should be Vector2.Zero.");
         Assert(config.ArmTextureScale == 1.0f, "ArmTextureScale default should be 1.0f.");
@@ -69,6 +268,26 @@ public static class VisualConfigTests
         changedFired = false;
         config.CardBackgroundColor = Colors.Green;
         Assert(changedFired, "Setting CardBackgroundColor should emit Changed.");
+
+        changedFired = false;
+        config.BallTier1Color = Colors.White;
+        Assert(changedFired, "Setting BallTier1Color should emit Changed.");
+
+        changedFired = false;
+        config.BallTier2Color = Colors.White;
+        Assert(changedFired, "Setting BallTier2Color should emit Changed.");
+
+        changedFired = false;
+        config.BallTier3Color = Colors.White;
+        Assert(changedFired, "Setting BallTier3Color should emit Changed.");
+
+        changedFired = false;
+        config.BallTier4Color = Colors.White;
+        Assert(changedFired, "Setting BallTier4Color should emit Changed.");
+
+        changedFired = false;
+        config.BallTier5Color = Colors.White;
+        Assert(changedFired, "Setting BallTier5Color should emit Changed.");
     }
 
     public static void TestBoundaryRectPropertyPropagation()

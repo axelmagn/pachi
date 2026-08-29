@@ -18,6 +18,7 @@ A rolling log of todo items.
 - [ ] fix indicator appearance
 - [ ] pocket "or" inputs
 - [ ] ponder code architecture
+- [ ] color scheme
 
 ### Priority
 

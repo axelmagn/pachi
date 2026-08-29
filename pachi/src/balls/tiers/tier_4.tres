@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_ktn63")
-PlaceholderColor = Color(1, 0, 0.43137255, 1)
+PlaceholderColor = Color(0.7921569, 0.4, 0.25882354, 1)
 BasePrice = 8
 metadata/_custom_type_script = "uid://cr0t46tii2w3s"

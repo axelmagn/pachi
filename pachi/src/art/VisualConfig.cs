@@ -10,7 +10,7 @@ public partial class VisualConfig : Resource
     // -------------------------------------------------------------------------
     // Environment
     // -------------------------------------------------------------------------
-    private Color _backgroundColor = new Color(0.075f, 0.075f, 0.075f, 1.0f);
+    private Color _backgroundColor = new Color("#1C261D");
 
     [ExportGroup("Environment")]
     [Export]
@@ -27,11 +27,11 @@ public partial class VisualConfig : Resource
     // -------------------------------------------------------------------------
     // Pins
     // -------------------------------------------------------------------------
-    private Color _pinBaseColor = Colors.White;
+    private Color _pinBaseColor = new Color("#B9CBD9");
     private Texture2D? _pinTexture;
     private float _pinTextureScale = 1.0f;
     private Vector2 _pinTextureOffset = Vector2.Zero;
-    private Color _flashColor = new Color(1.0f, 0.85f, 0.2f, 1.0f);
+    private Color _flashColor = new Color("#F6E8A9");
 
     [ExportGroup("Pins")]
     [Export]
@@ -92,9 +92,9 @@ public partial class VisualConfig : Resource
     // -------------------------------------------------------------------------
     // Pockets
     // -------------------------------------------------------------------------
-    private Color _indicatorBackgroundColor = new Color(0.087f, 0.087f, 0.087f, 1.0f);
-    private Color _indicatorBorderColor = Colors.Black;
-    private Color _armColor = Colors.White;
+    private Color _indicatorBackgroundColor = new Color("#243026");
+    private Color _indicatorBorderColor = new Color("#304A31");
+    private Color _armColor = new Color("#7B924E");
     private Texture2D? _armTexture;
     private float _armTextureScale = 1.0f;
     private Vector2 _armTextureOffset = Vector2.Zero;
@@ -206,9 +206,9 @@ public partial class VisualConfig : Resource
     // -------------------------------------------------------------------------
     // Cards & UI
     // -------------------------------------------------------------------------
-    private Color _cardBackgroundColor = new Color(0.2f, 0.4f, 0.8f, 1.0f);
-    private Color _cardBorderColor = new Color(1.0f, 1.0f, 1.0f, 0.4f);
-    private Color _cardIndicatorBackgroundColor = new Color(0.14f, 0.14f, 0.14f, 1.0f);
+    private Color _cardBackgroundColor = new Color("#452A21");
+    private Color _cardBorderColor = new Color("#D2814A");
+    private Color _cardIndicatorBackgroundColor = new Color("#1C261D");
 
     [ExportGroup("Cards & UI")]
     [Export]
@@ -249,7 +249,7 @@ public partial class VisualConfig : Resource
     // -------------------------------------------------------------------------
     private Godot.Collections.Array<Texture2D> _faceTextures = new();
     private Texture2D? _jackpotFaceTexture;
-    private Color _yakumonoBaseColor = new Color(0.85f, 0.35f, 0.35f, 1.0f);
+    private Color _yakumonoBaseColor = new Color("#CC6542");
     private Texture2D? _frameTexture;
     private Texture2D? _foregroundTexture;
     private float _yakumonoScale = 1.0f;
@@ -316,6 +316,71 @@ public partial class VisualConfig : Resource
         set
         {
             _foregroundTexture = value;
+            EmitChanged();
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Ball Tiers
+    // -------------------------------------------------------------------------
+    private Color _ballTier1Color = new Color("#F3E8AA");
+    private Color _ballTier2Color = new Color("#EAB879");
+    private Color _ballTier3Color = new Color("#D1814C");
+    private Color _ballTier4Color = new Color("#CA6642");
+    private Color _ballTier5Color = new Color("#C04D38");
+
+    [ExportGroup("Ball Tiers")]
+    [Export]
+    public Color BallTier1Color
+    {
+        get => _ballTier1Color;
+        set
+        {
+            _ballTier1Color = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Color BallTier2Color
+    {
+        get => _ballTier2Color;
+        set
+        {
+            _ballTier2Color = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Color BallTier3Color
+    {
+        get => _ballTier3Color;
+        set
+        {
+            _ballTier3Color = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Color BallTier4Color
+    {
+        get => _ballTier4Color;
+        set
+        {
+            _ballTier4Color = value;
+            EmitChanged();
+        }
+    }
+
+    [Export]
+    public Color BallTier5Color
+    {
+        get => _ballTier5Color;
+        set
+        {
+            _ballTier5Color = value;
             EmitChanged();
         }
     }
