@@ -80,19 +80,13 @@ public partial class Pocket : Node2D
     public Node2D? RightArmProcedural { get; set; }
 
     [Export]
-<<<<<<< HEAD
     public Array<BallVariant>? InputBalls;
-||||||| parent of e67073d (Rewire Pocketv2.png to regular PocketTexture and Tulipv3.png to regular pocket ArmTexture)
-    public Array<BallVariant> InputBalls;
-=======
-    public Sprite2D PocketSprite { get; set; }
 
     [Export]
-    public Node2D PocketProcedural { get; set; }
+    public Sprite2D? PocketSprite { get; set; }
 
     [Export]
-    public Array<BallVariant> InputBalls;
->>>>>>> e67073d (Rewire Pocketv2.png to regular PocketTexture and Tulipv3.png to regular pocket ArmTexture)
+    public Node2D? PocketProcedural { get; set; }
 
     public Array<bool>? InputBallSlotAvailable;
 

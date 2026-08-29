@@ -166,12 +166,12 @@ public partial class VisualConfig : Resource
         }
     }
 
-    private Texture2D _pocketTexture;
+    private Texture2D? _pocketTexture;
     private float _pocketTextureScale = 1.0f;
     private Vector2 _pocketTextureOffset = Vector2.Zero;
 
     [Export]
-    public Texture2D PocketTexture
+    public Texture2D? PocketTexture
     {
         get => _pocketTexture;
         set
@@ -248,10 +248,10 @@ public partial class VisualConfig : Resource
     // Yakumono
     // -------------------------------------------------------------------------
     private Godot.Collections.Array<Texture2D> _faceTextures = new();
-    private Texture2D _jackpotFaceTexture;
+    private Texture2D? _jackpotFaceTexture;
     private Color _yakumonoBaseColor = new Color(0.85f, 0.35f, 0.35f, 1.0f);
-    private Texture2D _frameTexture;
-    private Texture2D _foregroundTexture;
+    private Texture2D? _frameTexture;
+    private Texture2D? _foregroundTexture;
     private float _yakumonoScale = 1.0f;
 
     [ExportGroup("Yakumono")]
@@ -277,7 +277,7 @@ public partial class VisualConfig : Resource
     }
 
     [Export]
-    public Texture2D JackpotFaceTexture
+    public Texture2D? JackpotFaceTexture
     {
         get => _jackpotFaceTexture;
         set
@@ -299,7 +299,7 @@ public partial class VisualConfig : Resource
     }
 
     [Export]
-    public Texture2D FrameTexture
+    public Texture2D? FrameTexture
     {
         get => _frameTexture;
         set
@@ -310,7 +310,7 @@ public partial class VisualConfig : Resource
     }
 
     [Export]
-    public Texture2D ForegroundTexture
+    public Texture2D? ForegroundTexture
     {
         get => _foregroundTexture;
         set

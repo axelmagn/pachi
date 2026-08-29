@@ -9,25 +9,25 @@ public partial class Yakumono : Pocket
     public const int JackpotFaceIndex = -1;
 
     [Export]
-    public Sprite2D FrameSprite { get; set; }
+    public Sprite2D? FrameSprite { get; set; }
 
     [Export]
-    public Sprite2D FaceSprite { get; set; }
+    public Sprite2D? FaceSprite { get; set; }
 
     [Export]
-    public Sprite2D ForegroundSprite { get; set; }
+    public Sprite2D? ForegroundSprite { get; set; }
 
     [Export]
-    public Node2D FrameProcedural { get; set; }
+    public Node2D? FrameProcedural { get; set; }
 
     [Export]
-    public Node2D FaceProcedural { get; set; }
+    public Node2D? FaceProcedural { get; set; }
 
     [Export]
-    public Node2D ForegroundProcedural { get; set; }
+    public Node2D? ForegroundProcedural { get; set; }
 
     [Export]
-    public Node2D VisualLayersContainer { get; set; }
+    public Node2D? VisualLayersContainer { get; set; }
 
     [Export]
     public int VisualZIndex { get; set; } = 2;
@@ -43,7 +43,7 @@ public partial class Yakumono : Pocket
         base._Ready();
     }
 
-    public override void ApplyVisualConfig(VisualConfig config)
+    public override void ApplyVisualConfig(VisualConfig? config)
     {
         base.ApplyVisualConfig(config);
         if (config == null) return;
@@ -85,7 +85,7 @@ public partial class Yakumono : Pocket
         }
 
         // Face Layer
-        Texture2D activeFaceTexture = null;
+        Texture2D? activeFaceTexture = null;
         if (CurrentFaceIndex == JackpotFaceIndex)
         {
             activeFaceTexture = config.JackpotFaceTexture;
