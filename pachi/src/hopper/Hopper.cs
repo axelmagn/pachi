@@ -8,19 +8,19 @@ using System.Linq;
 public partial class Hopper : Node2D
 {
     [Export]
-    public Node2D BallsRoot { get; set; }
+    public Node2D? BallsRoot { get; set; }
 
     [Export]
     public int InitQueuedBalls { get; set; } = 0;
 
     [Export]
-    public PackedScene InitQueuedBallsScene { get; set; }
+    public PackedScene? InitQueuedBallsScene { get; set; }
 
     [Export]
-    public Timer QueuedBallDispenseTimer { get; set; }
+    public Timer? QueuedBallDispenseTimer { get; set; }
 
     [Export]
-    public Array<Hole> QueuedBallDispenseHoles { get; set; }
+    public Array<Hole>? QueuedBallDispenseHoles { get; set; }
 
     private readonly LinkedList<Ball> _containedBalls = new();
     private readonly LinkedList<Ball> _queuedBalls = new();
@@ -33,7 +33,7 @@ public partial class Hopper : Node2D
         Debug.Assert(QueuedBallDispenseHoles != null);
         Debug.Assert(QueuedBallDispenseHoles.Count > 0);
 
-        foreach (Node child in BallsRoot.GetChildren())
+        foreach (Node child in BallsRoot!.GetChildren())
         {
             if (child is Ball ball)
             {
@@ -47,12 +47,12 @@ public partial class Hopper : Node2D
             Random random = new();
             for (int i = 0; i < InitQueuedBalls; i++)
             {
-                Ball ball = InitQueuedBallsScene.Instantiate<Ball>();
+                Ball ball = InitQueuedBallsScene!.Instantiate<Ball>();
                 _queuedBalls.AddLast(ball);
             }
         }
 
-        QueuedBallDispenseTimer.Timeout += OnDispenseTimeout;
+        QueuedBallDispenseTimer!.Timeout += OnDispenseTimeout;
         Debug.Assert(GlobalEvents.Instance != null, "GlobalEvents.Instance must not be null");
         GlobalEvents.Instance.BallAwarded += OnBallAwarded;
 
@@ -96,7 +96,7 @@ public partial class Hopper : Node2D
         return _containedBalls.Count;
     }
 
-    public Ball PopFirstContainedBall()
+    public Ball? PopFirstContainedBall()
     {
         if (_containedBalls.Count == 0)
         {
@@ -112,15 +112,15 @@ public partial class Hopper : Node2D
         ball.Freeze = true;
         if (ball.GetParent() != null)
         {
-            ball.Reparent(BallsRoot);
+            ball.Reparent(BallsRoot!);
         }
         else
         {
-            BallsRoot.AddChild(ball);
+            BallsRoot!.AddChild(ball);
         }
         _containedBalls.AddLast(ball);
 
-        int numHoles = QueuedBallDispenseHoles.Count;
+        int numHoles = QueuedBallDispenseHoles!.Count;
         Debug.Assert(_nextDispenseHoleIndex < numHoles);
         Hole hole = QueuedBallDispenseHoles[_nextDispenseHoleIndex];
         ball.GlobalPosition = hole.GlobalPosition;

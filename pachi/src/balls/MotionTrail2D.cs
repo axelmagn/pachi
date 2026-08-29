@@ -12,7 +12,7 @@ using System.Diagnostics;
 public partial class MotionTrail2D : Line2D
 {
     [Export]
-    public Ball TargetBall { get; set; }
+    public Ball? TargetBall { get; set; }
 
     [Export]
     public int MaxPoints { get; set; } = 20;

@@ -6,7 +6,7 @@ using System;
 public partial class EnvironmentBackground : ColorRect
 {
     private readonly VisualConfigBinding _binding;
-    private VisualConfig _configOverride;
+    private VisualConfig? _configOverride;
 
     public EnvironmentBackground()
     {
@@ -14,7 +14,7 @@ public partial class EnvironmentBackground : ColorRect
     }
 
     [Export]
-    public VisualConfig ConfigOverride
+    public VisualConfig? ConfigOverride
     {
         get => _configOverride;
         set
@@ -45,7 +45,7 @@ public partial class EnvironmentBackground : ColorRect
         }
     }
 
-    public void ApplyVisualConfig(VisualConfig config)
+    public void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
         Color = config.BackgroundColor;

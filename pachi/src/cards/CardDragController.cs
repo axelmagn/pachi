@@ -5,15 +5,15 @@ using System.Diagnostics;
 
 public partial class CardDragController : CanvasLayer
 {
-    public static CardDragController Instance { get; private set; }
+    public static CardDragController? Instance { get; private set; }
 
     public bool IsDragging { get; private set; } = false;
-    public CardData CurrentCard { get; private set; }
+    public CardData? CurrentCard { get; private set; }
 
-    private Control _dragPreview;
-    private Label _previewTitleLabel;
-    private Panel _previewPanel;
-    private Node2D _currentHoverTarget;
+    private Control? _dragPreview;
+    private Label? _previewTitleLabel;
+    private Panel? _previewPanel;
+    private Node2D? _currentHoverTarget;
     private readonly Dictionary<Node2D, float> _targets = [];
 
     public override void _Ready()
@@ -58,16 +58,26 @@ public partial class CardDragController : CanvasLayer
         IsDragging = true;
         CurrentCard = cardData;
 
-        _previewTitleLabel.Text = cardData.Title;
+        if (_previewTitleLabel != null)
+        {
+            _previewTitleLabel.Text = cardData.Title;
+        }
+
         StyleBoxFlat style = new StyleBoxFlat();
         style.BgColor = cardData.CardColor;
         style.SetCornerRadiusAll(6);
         style.SetBorderWidthAll(2);
         style.BorderColor = Colors.White;
-        _previewPanel.AddThemeStyleboxOverride("panel", style);
+        if (_previewPanel != null)
+        {
+            _previewPanel.AddThemeStyleboxOverride("panel", style);
+        }
 
-        _dragPreview.GlobalPosition = initialScreenPosition - (_dragPreview.Size / 2.0f);
-        _dragPreview.Visible = true;
+        if (_dragPreview != null)
+        {
+            _dragPreview.GlobalPosition = initialScreenPosition - (_dragPreview.Size / 2.0f);
+            _dragPreview.Visible = true;
+        }
     }
 
     public override void _Input(InputEvent @event)
@@ -76,7 +86,10 @@ public partial class CardDragController : CanvasLayer
 
         if (@event is InputEventMouseMotion motion)
         {
-            _dragPreview.GlobalPosition = motion.GlobalPosition - (_dragPreview.Size / 2.0f);
+            if (_dragPreview != null)
+            {
+                _dragPreview.GlobalPosition = motion.GlobalPosition - (_dragPreview.Size / 2.0f);
+            }
             UpdateHoverTarget(motion.GlobalPosition);
         }
         else if (@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex == MouseButton.Left && !mouseButton.Pressed)
@@ -87,13 +100,13 @@ public partial class CardDragController : CanvasLayer
 
     private void UpdateHoverTarget(Vector2 screenPosition)
     {
-        Node2D newHover = null;
+        Node2D? newHover = null;
 
         foreach (var (target, radius) in _targets)
         {
             if (target == null || !target.IsInsideTree()) continue;
 
-            if (GetScreenBounds(target, radius).HasPoint(screenPosition) && CurrentCard.CanApply(target))
+            if (GetScreenBounds(target, radius).HasPoint(screenPosition) && CurrentCard != null && CurrentCard.CanApply(target))
             {
                 newHover = target;
                 break;
@@ -134,7 +147,10 @@ public partial class CardDragController : CanvasLayer
 
         IsDragging = false;
         CurrentCard = null;
-        _dragPreview.Visible = false;
+        if (_dragPreview != null)
+        {
+            _dragPreview.Visible = false;
+        }
     }
 
     private static Rect2 GetScreenBounds(Node2D target, float radius)

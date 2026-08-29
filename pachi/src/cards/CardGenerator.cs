@@ -9,13 +9,13 @@ public class CardGenerationContext
 {
     public List<Pocket> Pockets { get; set; } = [];
     public Array<BallVariant> BallTiers { get; set; } = [];
-    public Random Rng { get; set; }
+    public Random? Rng { get; set; }
     public int HopperBallCount { get; set; }
 }
 
 public static class CardGenerator
 {
-    public static CardData GeneratePlayableCard(IEnumerable<Pocket> pockets)
+    public static CardData? GeneratePlayableCard(IEnumerable<Pocket> pockets)
     {
         Debug.Assert(GameConfig.Instance != null, "GameConfig.Instance must not be null");
         Debug.Assert(GameConfig.Instance.BallTiers != null && GameConfig.Instance.BallTiers.Count > 0, "BallTiers must be defined in GameConfig");
@@ -111,18 +111,19 @@ public static class CardGenerator
         }
 
         BallVariant bonusTier = (maxInputIdx + 1 < context.BallTiers.Count) ? context.BallTiers[maxInputIdx + 1] : context.BallTiers[maxInputIdx];
-        int packSize = context.Rng.Next(6, 13);
+        Random rng = context.Rng ?? new Random();
+        int packSize = rng.Next(6, 13);
         var packBalls = new Array<BallVariant>();
 
         for (int i = 0; i < packSize; i++)
         {
-            if (context.Rng.NextDouble() < 0.05 && bonusTier != null)
+            if (rng.NextDouble() < 0.05 && bonusTier != null)
             {
                 packBalls.Add(bonusTier);
             }
             else
             {
-                int inputIdx = context.Rng.Next(validInputs.Count);
+                int inputIdx = rng.Next(validInputs.Count);
                 packBalls.Add(validInputs[inputIdx]);
             }
         }

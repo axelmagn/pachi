@@ -1,4 +1,141 @@
+# Top-most EditorConfig file
 root = true
 
+# All files
 [*]
 charset = utf-8
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Markdown
+[*.md]
+trim_trailing_whitespace = false
+
+# C# files
+[*.cs]
+indent_size = 4
+
+#### Formatting Rules ####
+
+# New line preferences
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+
+# Indentation preferences
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = one_less_than_current
+
+# Space preferences
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_parentheses = false
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+
+#### Code Style Rules ####
+
+# 'var' preferences
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = true:suggestion
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = false:suggestion
+csharp_style_expression_bodied_operators = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_indexers = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+csharp_style_expression_bodied_lambdas = true:suggestion
+csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
+
+# Pattern matching preferences
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+csharp_style_inlined_variable_declarations = true:suggestion
+
+# Null-checking preferences
+csharp_style_throw_expression = true:suggestion
+csharp_style_conditional_delegate_call = true:suggestion
+csharp_style_null_coalescing_assignment = true:suggestion
+
+# Modifier preferences
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+
+# 'this.' and 'Me.' preferences
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+# Language keywords vs BCL types
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+dotnet_style_predefined_type_for_member_access = true:suggestion
+
+# Parentheses preferences
+dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary:suggestion
+dotnet_style_parentheses_in_relational_binary_operators = never_if_unnecessary:suggestion
+dotnet_style_parentheses_in_other_binary_operators = never_if_unnecessary:suggestion
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary:suggestion
+
+#### Naming Conventions ####
+
+# Interfaces
+dotnet_naming_rule.interface_rule.severity = warning
+dotnet_naming_rule.interface_rule.symbols = interface_symbols
+dotnet_naming_rule.interface_rule.style = interface_style
+
+dotnet_naming_symbols.interface_symbols.applicable_kinds = interface
+dotnet_naming_symbols.interface_symbols.applicable_accessibilities = *
+dotnet_naming_style.interface_style.capitalization = pascal_case
+dotnet_naming_style.interface_style.required_prefix = I
+
+# Types (class, struct, enum, delegate)
+dotnet_naming_rule.types_rule.severity = warning
+dotnet_naming_rule.types_rule.symbols = type_symbols
+dotnet_naming_rule.types_rule.style = pascal_case_style
+
+dotnet_naming_symbols.type_symbols.applicable_kinds = class, struct, enum, delegate
+dotnet_naming_symbols.type_symbols.applicable_accessibilities = *
+
+# Properties, Methods, Events
+dotnet_naming_rule.members_rule.severity = warning
+dotnet_naming_rule.members_rule.symbols = member_symbols
+dotnet_naming_rule.members_rule.style = pascal_case_style
+
+dotnet_naming_symbols.member_symbols.applicable_kinds = property, method, event
+dotnet_naming_symbols.member_symbols.applicable_accessibilities = *
+
+# Parameters, Locals
+dotnet_naming_rule.parameters_and_locals_rule.severity = warning
+dotnet_naming_rule.parameters_and_locals_rule.symbols = parameter_and_local_symbols
+dotnet_naming_rule.parameters_and_locals_rule.style = camel_case_style
+
+dotnet_naming_symbols.parameter_and_local_symbols.applicable_kinds = parameter, local
+dotnet_naming_symbols.parameter_and_local_symbols.applicable_accessibilities = *
+
+# Styles
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+
+#### Analyzer & Diagnostic Configurations for Godot .NET ####
+
+dotnet_diagnostic.CA1050.severity = none         # Declare types in namespaces (Godot classes use global namespace)
+dotnet_diagnostic.CA1805.severity = suggestion   # Member is explicitly initialized to default value
+dotnet_diagnostic.CA1822.severity = suggestion   # Mark members as static (Godot virtual methods & lifecycle)
+dotnet_diagnostic.CA1707.severity = none         # Identifiers should not contain underscores (Godot lifecycle methods like _Ready)
+dotnet_diagnostic.CA1051.severity = suggestion   # Do not declare visible instance fields (common for [Export] fields)
+dotnet_diagnostic.CA1001.severity = suggestion   # Types that own disposable fields (Godot handles node lifecycle)
+dotnet_diagnostic.CA2000.severity = suggestion   # Dispose objects before losing scope (Godot nodes managed via scene tree)

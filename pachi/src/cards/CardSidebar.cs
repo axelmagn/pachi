@@ -5,12 +5,12 @@ using System.Diagnostics;
 
 public partial class CardSidebar : Control
 {
-    public static CardSidebar Instance { get; private set; }
+    public static CardSidebar? Instance { get; private set; }
 
     [Export]
-    public PackedScene CardUIScene { get; set; }
+    public PackedScene? CardUIScene { get; set; }
 
-    private Container _cardsContainer;
+    private Container? _cardsContainer;
     private readonly List<CardData> _activeCards = new();
     private const int MaxCards = 8;
     private const int InitialCardCount = 4;
@@ -58,7 +58,7 @@ public partial class CardSidebar : Control
     public void AddPlayableCard()
     {
         var activePockets = GetActivePockets();
-        CardData newCard = CardGenerator.GeneratePlayableCard(activePockets);
+        CardData? newCard = CardGenerator.GeneratePlayableCard(activePockets);
         if (newCard == null) return;
 
         if (_activeCards.Count >= MaxCards)

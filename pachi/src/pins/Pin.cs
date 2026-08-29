@@ -7,7 +7,7 @@ using System.Diagnostics;
 public partial class Pin : StaticBody2D
 {
     private readonly VisualConfigBinding _binding;
-    private VisualConfig _configOverride;
+    private VisualConfig? _configOverride;
 
     public Pin()
     {
@@ -15,7 +15,7 @@ public partial class Pin : StaticBody2D
     }
 
     [Export]
-    public VisualConfig ConfigOverride
+    public VisualConfig? ConfigOverride
     {
         get => _configOverride;
         set
@@ -29,23 +29,23 @@ public partial class Pin : StaticBody2D
     }
 
     [Export]
-    public Node2D ProceduralSprite { get; set; }
+    public Node2D? ProceduralSprite { get; set; }
 
     [Export]
-    public Sprite2D TextureSprite { get; set; }
+    public Sprite2D? TextureSprite { get; set; }
 
     /// <summary>
     /// Legacy alias for ProceduralSprite for backward compatibility.
     /// </summary>
     [Export]
-    public Node2D Sprite
+    public Node2D? Sprite
     {
         get => ProceduralSprite;
         set => ProceduralSprite = value;
     }
 
     [Export]
-    public CpuParticles2D SparkParticles { get; set; }
+    public CpuParticles2D? SparkParticles { get; set; }
 
     [Export]
     public bool EnableSparkParticles { get; set; } = true;
@@ -84,11 +84,11 @@ public partial class Pin : StaticBody2D
     [Export(PropertyHint.Range, "0.1,1.0")]
     public float MinParticleSizeScale { get; set; } = 0.5f;
 
-    public Node2D ActiveVisual => (TextureSprite != null && TextureSprite.Visible)
+    public Node2D? ActiveVisual => (TextureSprite != null && TextureSprite.Visible)
         ? TextureSprite
         : ProceduralSprite;
 
-    private Tween _pulseTween;
+    private Tween? _pulseTween;
     private Vector2 _baseScale = Vector2.One;
     private Vector2 _basePosition = Vector2.Zero;
     private Color _baseModulate = Colors.White;
@@ -136,7 +136,7 @@ public partial class Pin : StaticBody2D
         }
     }
 
-    public void ApplyVisualConfig(VisualConfig config)
+    public void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
 

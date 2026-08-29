@@ -12,22 +12,22 @@ public partial class Ball : RigidBody2D
     public delegate void FadeOutFinishedEventHandler();
 
     [Export]
-    public BallVariant Variant { get; set; }
+    public BallVariant? Variant { get; set; }
 
     [Export]
-    public AudioStreamPlayer2D PinBounceAudioPlayer { get; set; }
+    public AudioStreamPlayer2D? PinBounceAudioPlayer { get; set; }
 
     [Export]
-    public AudioStreamPlayer2D BallBounceAudioPlayer { get; set; }
+    public AudioStreamPlayer2D? BallBounceAudioPlayer { get; set; }
 
     [Export]
-    public AudioStreamPlayer2D WallBounceAudioPlayer { get; set; }
+    public AudioStreamPlayer2D? WallBounceAudioPlayer { get; set; }
 
     [Export]
-    public ColliderCircleSprite PlaceholderSprite { get; set; }
+    public ColliderCircleSprite? PlaceholderSprite { get; set; }
 
     [Export]
-    public MotionTrail2D MotionTrail { get; set; }
+    public MotionTrail2D? MotionTrail { get; set; }
 
     /// impact strength threshold at which bounce audio will play
     [Export]
@@ -46,13 +46,13 @@ public partial class Ball : RigidBody2D
     public float MaxExpectedVelocity = 800.0f;
 
     [Export]
-    public CollisionShape2D Collider { get; set; }
+    public CollisionShape2D? Collider { get; set; }
 
     [Export]
-    public Timer FadeTimer { get; set; }
+    public Timer? FadeTimer { get; set; }
 
     [Export]
-    public Timer StuckTimer { get; set; }
+    public Timer? StuckTimer { get; set; }
 
     [Export]
     public bool InitDetectStuck { get; set; }
@@ -91,7 +91,7 @@ public partial class Ball : RigidBody2D
     };
 
 
-    private Tween _transitionTween = null;
+    private Tween? _transitionTween = null;
 
     private Color _originalModulate = Colors.White;
 
@@ -204,8 +204,8 @@ public partial class Ball : RigidBody2D
 
     public float GetRadius()
     {
-        Debug.Assert(Collider.Shape is CircleShape2D);
-        CircleShape2D circle = (CircleShape2D)Collider.Shape;
+        Debug.Assert(Collider?.Shape is CircleShape2D);
+        CircleShape2D circle = (CircleShape2D)Collider!.Shape;
         Debug.Assert(Mathf.IsEqualApprox(Scale.X, Scale.Y));
         return circle.Radius * Scale.X;
     }
@@ -230,7 +230,7 @@ public partial class Ball : RigidBody2D
             _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
         }
         _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), _originalModulate, FadeDuration);
-        FadeTimer.Start(FadeDuration);
+        FadeTimer!.Start(FadeDuration);
     }
 
     public void FadeOut(Vector2? globalDestination = null, Color? fadeModulateOverride = null)
@@ -249,7 +249,7 @@ public partial class Ball : RigidBody2D
         }
         Color fadeModulate = _originalModulate * (fadeModulateOverride ?? FadeModulate);
         _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), fadeModulate, FadeDuration);
-        FadeTimer.Start(FadeDuration);
+        FadeTimer!.Start(FadeDuration);
     }
 
     private void OnBodyEntered(Node body)

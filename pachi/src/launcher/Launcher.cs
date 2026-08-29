@@ -15,16 +15,16 @@ public partial class Launcher : Node2D
     public StringName ChargeInput { get; set; } = "launcher_charge";
 
     [Export]
-    public Node2D LauncherSprite { get; set; }
+    public Node2D? LauncherSprite { get; set; }
 
     [Export]
-    public Node2D LauncherGhostSprite { get; set; }
+    public Node2D? LauncherGhostSprite { get; set; }
 
     [Export]
-    public Hopper Hopper { get; set; }
+    public Hopper? Hopper { get; set; }
 
     [Export]
-    public Level Level { get; set; }
+    public Level? Level { get; set; }
 
     [Export]
     public float LaunchSpeed { get; set; } = 1100.0f;
@@ -36,10 +36,10 @@ public partial class Launcher : Node2D
     public float AutoFireInterval { get; set; } = 1.0f;
 
     [Export]
-    public Curve LaunchPowerCurve { get; set; }
+    public Curve? LaunchPowerCurve { get; set; }
 
     [Export]
-    public Curve AutoFireWeightCurve { get; set; }
+    public Curve? AutoFireWeightCurve { get; set; }
 
     [Export]
     public int AutoFireBagResolution { get; set; } = 100;
@@ -48,14 +48,14 @@ public partial class Launcher : Node2D
     public int AutoFireBagSize { get; set; } = 20;
 
     [Export]
-    public LauncherModeIndicator ModeIndicator { get; set; }
+    public LauncherModeIndicator? ModeIndicator { get; set; }
 
 
     private float _startRotation;
     private float _endRotation;
     private float _rotationRate = 0.0f;
     private float _chargeRatio = 0.0f;
-    private Ball _chargedBall;
+    private Ball? _chargedBall;
     private double _autoFireTimer = 0.0;
     private bool _isAutoCharging = false;
     private float _autoFireTargetRatio = 0.5f;
@@ -134,7 +134,7 @@ public partial class Launcher : Node2D
 
         if (IsAutoFiring && !_isAutoCharging)
         {
-            if (Mathf.IsZeroApprox(_rotationRate) && Mathf.IsEqualApprox(LauncherSprite.Rotation, _startRotation))
+            if (LauncherSprite != null && Mathf.IsZeroApprox(_rotationRate) && Mathf.IsEqualApprox(LauncherSprite.Rotation, _startRotation))
             {
                 _autoFireTimer += delta;
                 if (_autoFireTimer >= AutoFireInterval && _chargedBall != null && IsLaunchPointClear())
@@ -144,7 +144,7 @@ public partial class Launcher : Node2D
 
                     Debug.Assert(GameConfig.Instance != null && GameConfig.Instance.Rng != null, "GameConfig.Instance and Rng must not be null");
                     _autoFireTargetRatio = GetNextAutoFireTargetRatio();
-                    float jitter = ((float)GameConfig.Instance.Rng.NextDouble() - 0.5f) * 0.08f;
+                    float jitter = ((float)(GameConfig.Instance?.Rng ?? new Random()).NextDouble() - 0.5f) * 0.08f;
                     _autoFireCurrentRatio = Mathf.Clamp(_autoFireTargetRatio + jitter, 0.0f, 1.0f);
 
                     ChargeStart();
@@ -160,7 +160,7 @@ public partial class Launcher : Node2D
         // TODO: make launcher feel better to use
         RotateClamped((float)delta * _rotationRate);
 
-        if (Mathf.IsEqualApprox(LauncherSprite.Rotation, _startRotation)
+        if (LauncherSprite != null && Mathf.IsEqualApprox(LauncherSprite.Rotation, _startRotation)
                 && !Mathf.IsZeroApprox(_rotationRate))
         {
             TryLaunchBall();
@@ -171,8 +171,8 @@ public partial class Launcher : Node2D
         {
             float targetRotation = Mathf.Lerp(_startRotation, _endRotation, _autoFireCurrentRatio);
             bool reachedTarget = (_endRotation > _startRotation)
-                ? LauncherSprite.Rotation >= targetRotation
-                : LauncherSprite.Rotation <= targetRotation;
+                ? (LauncherSprite?.Rotation ?? 0f) >= targetRotation
+                : (LauncherSprite?.Rotation ?? 0f) <= targetRotation;
 
             if (reachedTarget)
             {
@@ -180,7 +180,7 @@ public partial class Launcher : Node2D
                 ChargeEnd();
             }
         }
-        else if (Mathf.IsEqualApprox(LauncherSprite.Rotation, _endRotation)
+        else if (LauncherSprite != null && Mathf.IsEqualApprox(LauncherSprite.Rotation, _endRotation)
                 && !Mathf.IsZeroApprox(_rotationRate))
         {
             _rotationRate = 0.0f;
@@ -200,7 +200,7 @@ public partial class Launcher : Node2D
     private float RotationRatio()
     {
         float rotationRange = MaxRotation() - MinRotation();
-        float rotationDelta = LauncherSprite.Rotation - MinRotation();
+        float rotationDelta = (LauncherSprite?.Rotation ?? 0f) - MinRotation();
         float rotationRatio = rotationDelta / rotationRange;
         if (_startRotation > _endRotation)
         {
@@ -211,6 +211,7 @@ public partial class Launcher : Node2D
 
     private void RotateClamped(float delta)
     {
+        if (LauncherSprite == null) return;
         float rotation = LauncherSprite.Rotation + delta;
         LauncherSprite.Rotation = Mathf.Clamp(rotation, MinRotation(), MaxRotation());
     }
@@ -235,7 +236,8 @@ public partial class Launcher : Node2D
 
         // see if we can pop a ball from the hopper
         if (_chargedBall != null) return;
-        Ball poppedBall = Hopper.PopFirstContainedBall();
+        if (Hopper == null) return;
+        Ball? poppedBall = Hopper.PopFirstContainedBall();
         if (poppedBall == null) return;
 
         // set up charged ball
@@ -245,12 +247,16 @@ public partial class Launcher : Node2D
         _chargedBall.Modulate = poppedBall.OriginalModulate;
         _chargedBall.Scale = Vector2.One;
 
-        Level.BallsRoot.AddChild(_chargedBall);
-        Level.BallsRoot.MoveChild(_chargedBall, 0);
-        Debug.Assert(Level.BallsRoot != null);
-        _chargedBall.Reparent(Level.BallsRoot);
-        Debug.Assert(Level.BallLaunchPoint != null);
-        _chargedBall.GlobalPosition = Level.BallLaunchPoint.GlobalPosition;
+        if (Level?.BallsRoot != null)
+        {
+            Level.BallsRoot.AddChild(_chargedBall);
+            Level.BallsRoot.MoveChild(_chargedBall, 0);
+            _chargedBall.Reparent(Level.BallsRoot);
+        }
+        if (Level?.BallLaunchPoint != null)
+        {
+            _chargedBall.GlobalPosition = Level.BallLaunchPoint.GlobalPosition;
+        }
 
         // animate out popped ball
         poppedBall.FadeOut();
@@ -276,7 +282,7 @@ public partial class Launcher : Node2D
         _chargedBall.Freeze = false;
         // Calculate local "Up" (-Y) vector of BallLaunchPoint in world space
         Vector2 launchDirection = Vector2.Up.Rotated(Level.BallLaunchPoint.GlobalRotation);
-        
+
         float evaluatedPower = LaunchPowerCurve != null ? LaunchPowerCurve.Sample(_chargeRatio) : _chargeRatio;
         _chargedBall.LinearVelocity = launchDirection * LaunchSpeed * evaluatedPower;
         _chargedBall = null;

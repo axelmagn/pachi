@@ -8,7 +8,7 @@ public partial class CardUI : PanelContainer
     private static readonly StringName PanelStyleName = new("panel");
 
     private readonly VisualConfigBinding _binding;
-    private VisualConfig _configOverride;
+    private VisualConfig? _configOverride;
 
     public CardUI()
     {
@@ -16,7 +16,7 @@ public partial class CardUI : PanelContainer
     }
 
     [Export]
-    public VisualConfig ConfigOverride
+    public VisualConfig? ConfigOverride
     {
         get => _configOverride;
         set
@@ -30,7 +30,7 @@ public partial class CardUI : PanelContainer
     }
 
     [Export]
-    public CardData CardData
+    public CardData? CardData
     {
         get => _cardData;
         set
@@ -40,10 +40,10 @@ public partial class CardUI : PanelContainer
         }
     }
 
-    private CardData _cardData;
-    private Label _titleLabel;
-    private Label _descriptionLabel;
-    private Control _indicatorContainer;
+    private CardData? _cardData;
+    private Label? _titleLabel;
+    private Label? _descriptionLabel;
+    private Control? _indicatorContainer;
     private bool _isPressed = false;
     private Vector2 _pressPosition;
     private const float DragThreshold = 5.0f;
@@ -74,7 +74,7 @@ public partial class CardUI : PanelContainer
         }
     }
 
-    public void ApplyVisualConfig(VisualConfig config)
+    public void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
         UpdateDisplay(config);
@@ -108,7 +108,7 @@ public partial class CardUI : PanelContainer
         }
     }
 
-    private void UpdateDisplay(VisualConfig explicitConfig = null)
+    private void UpdateDisplay(VisualConfig? explicitConfig = null)
     {
         if (_titleLabel == null) _titleLabel = GetNodeOrNull<Label>("%TitleLabel");
         if (_descriptionLabel == null) _descriptionLabel = GetNodeOrNull<Label>("%DescriptionLabel");

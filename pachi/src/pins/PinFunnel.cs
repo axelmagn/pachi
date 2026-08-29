@@ -49,13 +49,13 @@ public partial class PinFunnel : Node2D
     }
 
     [Export]
-    public PinEllipse LeftEllipse
+    public PinEllipse? LeftEllipse
     {
         get => _leftEllipse;
         set { _leftEllipse = value; Rebuild(); }
     }
     [Export]
-    public PinEllipse RightEllipse
+    public PinEllipse? RightEllipse
     {
         get => _rightEllipse;
         set { _rightEllipse = value; Rebuild(); }
@@ -68,8 +68,8 @@ public partial class PinFunnel : Node2D
     private bool _mirrorX = false;
     private bool _mirrorY = false;
 
-    private PinEllipse _leftEllipse;
-    private PinEllipse _rightEllipse;
+    private PinEllipse? _leftEllipse;
+    private PinEllipse? _rightEllipse;
 
     private void Rebuild()
     {

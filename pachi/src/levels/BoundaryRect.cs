@@ -9,13 +9,13 @@ public partial class BoundaryRect : StaticBody2D
     private float _width = 800;
     private float _height = 400;
 
-    private CollisionShape2D _topBoundary;
-    private CollisionShape2D _bottomBoundary;
-    private CollisionShape2D _leftBoundary;
-    private CollisionShape2D _rightBoundary;
+    private CollisionShape2D? _topBoundary;
+    private CollisionShape2D? _bottomBoundary;
+    private CollisionShape2D? _leftBoundary;
+    private CollisionShape2D? _rightBoundary;
 
     private readonly VisualConfigBinding _binding;
-    private VisualConfig _configOverride;
+    private VisualConfig? _configOverride;
 
     private Color _backgroundColor = Colors.Transparent;
 
@@ -25,7 +25,7 @@ public partial class BoundaryRect : StaticBody2D
     }
 
     [Export]
-    public VisualConfig ConfigOverride
+    public VisualConfig? ConfigOverride
     {
         get => _configOverride;
         set
@@ -64,28 +64,28 @@ public partial class BoundaryRect : StaticBody2D
     }
 
     [Export]
-    public CollisionShape2D TopBoundary
+    public CollisionShape2D? TopBoundary
     {
         get => _topBoundary;
         set { _topBoundary = value; Rebuild(); }
     }
 
     [Export]
-    public CollisionShape2D BottomBoundary
+    public CollisionShape2D? BottomBoundary
     {
         get => _bottomBoundary;
         set { _bottomBoundary = value; Rebuild(); }
     }
 
     [Export]
-    public CollisionShape2D LeftBoundary
+    public CollisionShape2D? LeftBoundary
     {
         get => _leftBoundary;
         set { _leftBoundary = value; Rebuild(); }
     }
 
     [Export]
-    public CollisionShape2D RightBoundary
+    public CollisionShape2D? RightBoundary
     {
         get => _rightBoundary;
         set { _rightBoundary = value; Rebuild(); }
@@ -118,7 +118,7 @@ public partial class BoundaryRect : StaticBody2D
         }
     }
 
-    public void ApplyVisualConfig(VisualConfig config)
+    public void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
         BackgroundColor = config.BackgroundColor;

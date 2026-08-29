@@ -10,7 +10,7 @@ public partial class Hole : Area2D
     public delegate void BallOverlappedEventHandler(Ball ball);
 
     [Export]
-    public CollisionShape2D Collider { get; set; }
+    public CollisionShape2D? Collider { get; set; }
 
     [Export]
     public bool MonitorBallOverlap = false;
@@ -33,8 +33,8 @@ public partial class Hole : Area2D
 
     public float GetRadius()
     {
-        Debug.Assert(Collider.Shape is CircleShape2D);
-        CircleShape2D circle = (CircleShape2D)Collider.Shape;
+        Debug.Assert(Collider?.Shape is CircleShape2D);
+        CircleShape2D circle = (CircleShape2D)Collider!.Shape;
         Debug.Assert(Mathf.IsEqualApprox(Scale.X, Scale.Y));
         return circle.Radius * Scale.X;
     }

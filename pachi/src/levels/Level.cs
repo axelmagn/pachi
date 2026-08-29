@@ -6,11 +6,11 @@ public partial class Level : Node2D
 {
 
     [Export]
-    public Node2D BallsRoot { get; set; }
+    public Node2D? BallsRoot { get; set; }
 
     // TODO: create launch point class
     [Export]
-    public Node2D BallLaunchPoint { get; set; }
+    public Node2D? BallLaunchPoint { get; set; }
 
     public override void _Ready()
     {

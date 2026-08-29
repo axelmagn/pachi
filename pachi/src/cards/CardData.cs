@@ -19,10 +19,10 @@ public partial class CardData : Resource
     public Array<BallVariant> BonusBalls { get; set; } = [];
 
     [Export]
-    public BallVariant TargetTier { get; set; }
+    public BallVariant? TargetTier { get; set; }
 
     [Export]
-    public BallVariant ResultTier { get; set; }
+    public BallVariant? ResultTier { get; set; }
 
     [Export]
     public Array<BallVariant> PackBalls { get; set; } = [];
@@ -65,7 +65,7 @@ public partial class CardData : Resource
         }
     }
 
-    protected static void RenderPackIndicator(Control container, Array<BallVariant> balls, float centerY = 18.0f)
+    protected static void RenderPackIndicator(Control container, Array<BallVariant>? balls, float centerY = 18.0f)
     {
         if (container == null || balls == null || balls.Count == 0) return;
 
@@ -78,7 +78,7 @@ public partial class CardData : Resource
         container.AddChild(packInd);
     }
 
-    protected static void RenderTierTransitionIndicator(Control container, BallVariant sourceTier, BallVariant resultTier, Array<BallVariant> bonusBalls)
+    protected static void RenderTierTransitionIndicator(Control container, BallVariant? sourceTier, BallVariant? resultTier, Array<BallVariant>? bonusBalls)
     {
         if (container == null) return;
 
@@ -119,7 +119,7 @@ public partial class CardData : Resource
         }
     }
 
-    protected static void RenderSingleTierIndicator(Control container, BallVariant tier, Array<BallVariant> bonusBalls)
+    protected static void RenderSingleTierIndicator(Control container, BallVariant? tier, Array<BallVariant>? bonusBalls)
     {
         if (container == null) return;
 
@@ -181,10 +181,10 @@ public partial class ModifyInputTierCardData : CardData
 
     public override bool Apply(Node target)
     {
-        if (target is not Pocket pocket || !CanApply(pocket)) return false;
+        if (target is not Pocket pocket || !CanApply(pocket) || TargetTier == null || ResultTier == null || pocket.InputBalls == null) return false;
 
         int idx = pocket.InputBalls.IndexOf(TargetTier);
-        if (idx < 0 || ResultTier == null) return false;
+        if (idx < 0) return false;
 
         pocket.InputBalls[idx] = ResultTier;
         pocket.RefreshIndicatorAndSlots();
@@ -209,10 +209,10 @@ public partial class ModifyOutputTierCardData : CardData
 
     public override bool Apply(Node target)
     {
-        if (target is not Pocket pocket || !CanApply(pocket)) return false;
+        if (target is not Pocket pocket || !CanApply(pocket) || TargetTier == null || ResultTier == null || pocket.OutputBalls == null) return false;
 
         int idx = pocket.OutputBalls.IndexOf(TargetTier);
-        if (idx < 0 || ResultTier == null) return false;
+        if (idx < 0) return false;
 
         pocket.OutputBalls[idx] = ResultTier;
         pocket.RefreshIndicatorAndSlots();
@@ -231,7 +231,7 @@ public partial class ModifyOutputTierCardData : CardData
 public partial class AddInputBallCardData : CardData
 {
     [Export]
-    public BallVariant BallToAdd { get; set; }
+    public BallVariant? BallToAdd { get; set; }
 
     public override bool CanApply(Node target)
     {
@@ -260,7 +260,7 @@ public partial class AddInputBallCardData : CardData
 public partial class RemoveInputBallCardData : CardData
 {
     [Export]
-    public BallVariant BallToRemove { get; set; }
+    public BallVariant? BallToRemove { get; set; }
 
     public override bool CanApply(Node target)
     {
@@ -269,7 +269,7 @@ public partial class RemoveInputBallCardData : CardData
 
     public override bool Apply(Node target)
     {
-        if (target is not Pocket pocket || !CanApply(pocket) || BallToRemove == null) return false;
+        if (target is not Pocket pocket || !CanApply(pocket) || BallToRemove == null || pocket.InputBalls == null) return false;
 
         pocket.InputBalls.Remove(BallToRemove);
         pocket.RefreshIndicatorAndSlots();
@@ -288,7 +288,7 @@ public partial class RemoveInputBallCardData : CardData
 public partial class AddOutputBallCardData : CardData
 {
     [Export]
-    public BallVariant BallToAdd { get; set; }
+    public BallVariant? BallToAdd { get; set; }
 
     public override bool CanApply(Node target)
     {
@@ -317,7 +317,7 @@ public partial class AddOutputBallCardData : CardData
 public partial class RemoveOutputBallCardData : CardData
 {
     [Export]
-    public BallVariant BallToRemove { get; set; }
+    public BallVariant? BallToRemove { get; set; }
 
     public override bool CanApply(Node target)
     {
@@ -326,7 +326,7 @@ public partial class RemoveOutputBallCardData : CardData
 
     public override bool Apply(Node target)
     {
-        if (target is not Pocket pocket || !CanApply(pocket) || BallToRemove == null) return false;
+        if (target is not Pocket pocket || !CanApply(pocket) || BallToRemove == null || pocket.OutputBalls == null) return false;
 
         pocket.OutputBalls.Remove(BallToRemove);
         pocket.RefreshIndicatorAndSlots();

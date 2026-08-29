@@ -26,7 +26,7 @@ public partial class Pocket : Node2D
     }
 
     private readonly VisualConfigBinding _binding;
-    private VisualConfig _configOverride;
+    private VisualConfig? _configOverride;
 
     public Pocket()
     {
@@ -34,7 +34,7 @@ public partial class Pocket : Node2D
     }
 
     [Export]
-    public VisualConfig ConfigOverride
+    public VisualConfig? ConfigOverride
     {
         get => _configOverride;
         set
@@ -50,66 +50,66 @@ public partial class Pocket : Node2D
     }
 
     [Export]
-    public Hole CatchHole { get; set; }
+    public Hole? CatchHole { get; set; }
 
     [Export]
-    public Hole RejectHole { get; set; }
+    public Hole? RejectHole { get; set; }
 
     [Export]
-    public CharacterBody2D LeftArm { get; set; }
+    public CharacterBody2D? LeftArm { get; set; }
 
     [Export]
-    public CharacterBody2D RightArm { get; set; }
+    public CharacterBody2D? RightArm { get; set; }
 
     [Export]
-    public CollisionShape2D LeftArmCollider;
+    public CollisionShape2D? LeftArmCollider;
 
     [Export]
-    public CollisionShape2D RightArmCollider;
+    public CollisionShape2D? RightArmCollider;
 
     [Export]
-    public Sprite2D LeftArmSprite { get; set; }
+    public Sprite2D? LeftArmSprite { get; set; }
 
     [Export]
-    public Sprite2D RightArmSprite { get; set; }
+    public Sprite2D? RightArmSprite { get; set; }
 
     [Export]
-    public Node2D LeftArmProcedural { get; set; }
+    public Node2D? LeftArmProcedural { get; set; }
 
     [Export]
-    public Node2D RightArmProcedural { get; set; }
+    public Node2D? RightArmProcedural { get; set; }
 
     [Export]
-    public Array<BallVariant> InputBalls;
+    public Array<BallVariant>? InputBalls;
 
-    public Array<bool> InputBallSlotAvailable;
-
-    [Export]
-    public Array<BallVariant> OutputBalls;
+    public Array<bool>? InputBallSlotAvailable;
 
     [Export]
-    public PocketBallsIndicator InputsIndicator;
+    public Array<BallVariant>? OutputBalls;
 
     [Export]
-    public PocketBallsIndicator OutputsIndicator;
+    public PocketBallsIndicator? InputsIndicator;
 
     [Export]
-    public AudioStreamPlayer2D AcceptAudioPlayer { get; set; }
+    public PocketBallsIndicator? OutputsIndicator;
 
     [Export]
-    public AudioStreamPlayer2D RejectAudioPlayer { get; set; }
+    public AudioStreamPlayer2D? AcceptAudioPlayer { get; set; }
 
     [Export]
-    public AudioStreamPlayer2D PayoutAudioPlayer { get; set; }
+    public AudioStreamPlayer2D? RejectAudioPlayer { get; set; }
 
     [Export]
-    public Array<AudioStream> AcceptAudioStreams { get; set; }
+    public AudioStreamPlayer2D? PayoutAudioPlayer { get; set; }
 
     [Export]
-    public AudioStream RejectAudioStream { get; set; }
+    public Array<AudioStream>? AcceptAudioStreams { get; set; }
 
     [Export]
-    public AudioStream PayoutAudioStream { get; set; }
+    public AudioStream? RejectAudioStream { get; set; }
+
+    [Export]
+    public AudioStream? PayoutAudioStream { get; set; }
 
     [Export]
     public bool UsePitchScaleFallback { get; set; } = true;
@@ -181,7 +181,7 @@ public partial class Pocket : Node2D
 
     public bool IsOpen => CurrentArmState == ArmState.Open || CurrentArmState == ArmState.Opening;
 
-    private Tween _activeArmTween = null;
+    private Tween? _activeArmTween = null;
     private double _openTimerRemaining = 0.0;
     private bool _hasArms = true;
     private float _armLength = 24;
@@ -255,9 +255,9 @@ public partial class Pocket : Node2D
             }
         }
 
-        CatchHole.BallOverlapped += OnBallCatch;
-        InputsIndicator.Balls = InputBalls;
-        OutputsIndicator.Balls = OutputBalls;
+        CatchHole!.BallOverlapped += OnBallCatch;
+        InputsIndicator!.Balls = InputBalls;
+        OutputsIndicator!.Balls = OutputBalls;
 
         // initialize held balls tracker
         InputBallSlotAvailable = [];
@@ -283,7 +283,7 @@ public partial class Pocket : Node2D
         CardDragController.Instance?.RegisterTarget(this, 40.0f);
     }
 
-    public void ApplyVisualConfig(VisualConfig config)
+    public void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
 
@@ -294,7 +294,7 @@ public partial class Pocket : Node2D
         OutputsIndicator?.ApplyVisualConfig(config);
     }
 
-    private static void ApplyArmVisual(Sprite2D sprite, Node2D procedural, VisualConfig config, bool isLeft)
+    private static void ApplyArmVisual(Sprite2D? sprite, Node2D? procedural, VisualConfig config, bool isLeft)
     {
         if (config.ArmTexture != null)
         {
@@ -550,15 +550,19 @@ public partial class Pocket : Node2D
         GlobalEvents.Instance.NotifyBallEnteredPocket(this, ball);
 
         int filledBefore = 0;
-        foreach (bool available in InputBallSlotAvailable)
+        if (InputBallSlotAvailable != null)
         {
-            if (!available) filledBefore++;
+            foreach (bool available in InputBallSlotAvailable)
+            {
+                if (!available) filledBefore++;
+            }
         }
 
         // accumulate ball
         bool reject = true;
-        Debug.Assert(InputBalls.Count == InputBallSlotAvailable.Count);
-        ball.FadeOut(CatchHole.GlobalPosition);
+        Debug.Assert(InputBalls != null && InputBallSlotAvailable != null && CatchHole != null && RejectHole != null);
+        Debug.Assert(InputBalls!.Count == InputBallSlotAvailable!.Count);
+        ball.FadeOut(CatchHole!.GlobalPosition);
         for (int i = 0; i < InputBalls.Count; i++)
         {
             if (InputBalls[i] == ball.Variant && InputBallSlotAvailable[i])
@@ -576,7 +580,7 @@ public partial class Pocket : Node2D
         {
             PlayRejectSound();
             ball.Connect(Ball.SignalName.FadeOutFinished,
-                    Callable.From(() => { ball.FadeIn(RejectHole.GlobalPosition, true); }),
+                    Callable.From(() => { ball.FadeIn(RejectHole!.GlobalPosition, true); }),
                     (uint)ConnectFlags.OneShot);
             return;
         }
@@ -597,9 +601,12 @@ public partial class Pocket : Node2D
             PlayPayoutSound();
 
             // pay out rewards
-            foreach (BallVariant variant in OutputBalls)
+            if (OutputBalls != null)
             {
-                GlobalEvents.Instance.NotifyBallAwarded(variant);
+                foreach (BallVariant variant in OutputBalls)
+                {
+                    GlobalEvents.Instance.NotifyBallAwarded(variant);
+                }
             }
 
             // reset input ball slots

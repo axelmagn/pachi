@@ -7,7 +7,7 @@ using System;
 public partial class PocketBallsIndicator : Node2D
 {
     private readonly VisualConfigBinding _binding;
-    private VisualConfig _configOverride;
+    private VisualConfig? _configOverride;
 
     public PocketBallsIndicator()
     {
@@ -15,7 +15,7 @@ public partial class PocketBallsIndicator : Node2D
     }
 
     [Export]
-    public VisualConfig ConfigOverride
+    public VisualConfig? ConfigOverride
     {
         get => _configOverride;
         set
@@ -92,12 +92,12 @@ public partial class PocketBallsIndicator : Node2D
     }
     private float _borderThickness = 2.0f;
 
-    public Array<BallVariant> Balls
+    public Array<BallVariant>? Balls
     {
         get => _balls;
         set { _balls = value; QueueRedraw(); }
     }
-    private Array<BallVariant> _balls;
+    private Array<BallVariant>? _balls;
 
     public override void _EnterTree()
     {
@@ -117,7 +117,7 @@ public partial class PocketBallsIndicator : Node2D
         }
     }
 
-    public void ApplyVisualConfig(VisualConfig config)
+    public void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
         BackgroundColor = IsCardIndicator ? config.CardIndicatorBackgroundColor : config.IndicatorBackgroundColor;

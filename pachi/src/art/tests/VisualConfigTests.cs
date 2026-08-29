@@ -225,8 +225,8 @@ public static class VisualConfigTests
         cardUI.ApplyVisualConfig(config);
         var style = cardUI.GetThemeStylebox(new StringName("panel")) as StyleBoxFlat;
         Assert(style != null, "CardUI should have a StyleBoxFlat panel override.");
-        Assert(style.BgColor == config.CardBackgroundColor, "Card panel BgColor should match CardBackgroundColor.");
-        Assert(style.BorderColor == config.CardBorderColor, "Card panel BorderColor should match CardBorderColor.");
+        Assert(style!.BgColor == config.CardBackgroundColor, "Card panel BgColor should match CardBackgroundColor.");
+        Assert(style!.BorderColor == config.CardBorderColor, "Card panel BorderColor should match CardBorderColor.");
     }
 
     public static void TestNullConfigGracefulHandling()

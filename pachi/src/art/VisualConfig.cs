@@ -28,7 +28,7 @@ public partial class VisualConfig : Resource
     // Pins
     // -------------------------------------------------------------------------
     private Color _pinBaseColor = Colors.White;
-    private Texture2D _pinTexture;
+    private Texture2D? _pinTexture;
     private float _pinTextureScale = 1.0f;
     private Vector2 _pinTextureOffset = Vector2.Zero;
     private Color _flashColor = new Color(1.0f, 0.85f, 0.2f, 1.0f);
@@ -46,7 +46,7 @@ public partial class VisualConfig : Resource
     }
 
     [Export]
-    public Texture2D PinTexture
+    public Texture2D? PinTexture
     {
         get => _pinTexture;
         set
@@ -95,7 +95,7 @@ public partial class VisualConfig : Resource
     private Color _indicatorBackgroundColor = new Color(0.087f, 0.087f, 0.087f, 1.0f);
     private Color _indicatorBorderColor = Colors.Black;
     private Color _armColor = Colors.White;
-    private Texture2D _armTexture;
+    private Texture2D? _armTexture;
     private float _armTextureScale = 1.0f;
     private Vector2 _armTextureOffset = Vector2.Zero;
 
@@ -134,7 +134,7 @@ public partial class VisualConfig : Resource
     }
 
     [Export]
-    public Texture2D ArmTexture
+    public Texture2D? ArmTexture
     {
         get => _armTexture;
         set
@@ -210,7 +210,7 @@ public partial class VisualConfig : Resource
     // -------------------------------------------------------------------------
     // Helper Loader
     // -------------------------------------------------------------------------
-    public static VisualConfig LoadDefault()
+    public static VisualConfig? LoadDefault()
     {
         if (ResourceLoader.Exists(DefaultPath))
         {

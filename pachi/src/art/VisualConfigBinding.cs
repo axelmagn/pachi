@@ -3,7 +3,7 @@ using System;
 
 public class VisualConfigBinding : IDisposable
 {
-    private VisualConfig _activeConfig;
+    private VisualConfig? _activeConfig;
     private readonly Action<VisualConfig> _onConfigApplied;
 
     public VisualConfigBinding(Action<VisualConfig> onConfigApplied)
@@ -11,9 +11,9 @@ public class VisualConfigBinding : IDisposable
         _onConfigApplied = onConfigApplied ?? throw new ArgumentNullException(nameof(onConfigApplied));
     }
 
-    public VisualConfig ActiveConfig => _activeConfig;
+    public VisualConfig? ActiveConfig => _activeConfig;
 
-    public void Bind(VisualConfig configOverride)
+    public void Bind(VisualConfig? configOverride)
     {
         Unbind();
         _activeConfig = configOverride ?? VisualConfig.LoadDefault();
@@ -44,5 +44,6 @@ public class VisualConfigBinding : IDisposable
     public void Dispose()
     {
         Unbind();
+        GC.SuppressFinalize(this);
     }
 }

@@ -6,10 +6,10 @@ using System.Diagnostics;
 public abstract partial class PinGenerator : Node2D
 {
 
-    private PackedScene _pinScene;
+    private PackedScene? _pinScene;
 
     [Export]
-    public PackedScene PinScene
+    public PackedScene? PinScene
     {
         get => _pinScene;
         set { _pinScene = value; Rebuild(); }
@@ -52,8 +52,8 @@ public abstract partial class PinGenerator : Node2D
         AddChild(pinInstance);
 
         // snap to pixel
-        int x = (int) pinInstance.GlobalPosition.X;
-        int y = (int) pinInstance.GlobalPosition.Y;
+        int x = (int)pinInstance.GlobalPosition.X;
+        int y = (int)pinInstance.GlobalPosition.Y;
         pinInstance.GlobalPosition = new Vector2(x, y);
 
         // if (Engine.IsEditorHint())

@@ -5,16 +5,16 @@ using System.Diagnostics;
 
 public partial class GameConfig : Node
 {
-    public static GameConfig Instance { get; private set; }
+    public static GameConfig? Instance { get; private set; }
 
     [Export]
-    public PackedScene BallScene { get; set; }
+    public PackedScene? BallScene { get; set; }
 
     [Export]
-    public Array<BallVariant> BallTiers { get; set; }
+    public Array<BallVariant>? BallTiers { get; set; }
 
     [Export]
-    public Array<CardArchetype> CardArchetypes { get; set; }
+    public Array<CardArchetype>? CardArchetypes { get; set; }
 
     public Random Rng { get; set; } = new Random();
 
