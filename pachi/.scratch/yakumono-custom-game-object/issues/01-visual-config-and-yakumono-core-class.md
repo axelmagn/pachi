@@ -4,11 +4,11 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `VisualConfig` includes `[ExportGroup("Yakumono")]` settings for face textures, jackpot face texture, base color, frame texture, and foreground texture.
-- [ ] `GlobalEvents` includes `YakumonoStateChanged` and `YakumonoPaidOut` signal delegates and notification methods.
-- [ ] `Yakumono` C# class (`[Tool]`, `[GlobalClass]`) created in `src/yakumono/Yakumono.cs` inheriting from `Pocket`.
-- [ ] `Yakumono` supports multi-layer dual rendering (Frame, Face, Foreground) displaying texture assets when present and falling back to procedural shape tinting when textures are null.
-- [ ] `Yakumono` subscribes to `VisualConfig.Changed` via `VisualConfigBinding`, updating rendering live in the Godot editor viewport.
-- [ ] C# headless unit tests in `src/art/tests/VisualConfigTests.cs` verify property propagation, dual rendering fallbacks, and null handling.
+- [x] `VisualConfig` includes `[ExportGroup("Yakumono")]` settings for face textures, jackpot face texture, base color, frame texture, and foreground texture.
+- [x] `GlobalEvents` includes `YakumonoStateChanged` and `YakumonoPaidOut` signal delegates and notification methods.
+- [x] `Yakumono` C# class (`[Tool]`, `[GlobalClass]`) created in `src/yakumono/Yakumono.cs` inheriting from `Pocket`.
+- [x] `Yakumono` supports multi-layer dual rendering (Frame, Face, Foreground) displaying texture assets when present and falling back to procedural shape tinting when textures are null.
+- [x] `Yakumono` subscribes to `VisualConfig.Changed` via `VisualConfigBinding`, updating rendering live in the Godot editor viewport.
+- [x] C# headless unit tests in `src/art/tests/VisualConfigTests.cs` verify property propagation, dual rendering fallbacks, and null handling.

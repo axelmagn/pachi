@@ -1,6 +1,6 @@
 # Yakumono Custom Game Object Specification
 
-**Status:** ready-for-agent  
+**Status:** completed  
 **Feature Slug:** `yakumono-custom-game-object`
 
 ---

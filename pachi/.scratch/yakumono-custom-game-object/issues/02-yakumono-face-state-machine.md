@@ -4,9 +4,9 @@
 
 **Blocked by:** 01: VisualConfig Settings, GlobalEvents & Yakumono Core Visual Class
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `Yakumono` maintains an internal face state machine indexing available face graphics.
-- [ ] Catching a ball (`OnBallCatch`) transitions `Yakumono` to a random face state index from `FaceTextures` (excluding current index) and fires `GlobalEvents.NotifyYakumonoStateChanged`.
-- [ ] Completing a payout (`NotifyCentralPocketPaidOut`) transitions `Yakumono` to the reserved Jackpot face state and fires `GlobalEvents.NotifyYakumonoPaidOut`.
-- [ ] C# headless unit tests verify state transitions, random selection bounds, and signal dispatches.
+- [x] `Yakumono` maintains an internal face state machine indexing available face graphics.
+- [x] Catching a ball (`OnBallCatch`) transitions `Yakumono` to a random face state index from `FaceTextures` (excluding current index) and fires `GlobalEvents.NotifyYakumonoStateChanged`.
+- [x] Completing a payout (`NotifyCentralPocketPaidOut`) transitions `Yakumono` to the reserved Jackpot face state and fires `GlobalEvents.NotifyYakumonoPaidOut`.
+- [x] C# headless unit tests verify state transitions, random selection bounds, and signal dispatches.

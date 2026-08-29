@@ -4,10 +4,10 @@
 
 **Blocked by:** 02: Yakumono Face State Machine & Ball Interaction
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `res://src/yakumono/yakumono.tscn` scene created with frame, face, and overlay visual nodes attached to `Yakumono` root.
-- [ ] Staging instance added to [visual_showcase.tscn](file:///C:/Users/Axel/workspace/axelmagn/pachi/pachi/src/art/visual_showcase.tscn) for live editor theme previews.
-- [ ] Generic `CenterPocket` in [level.tscn](file:///C:/Users/Axel/workspace/axelmagn/pachi/pachi/src/levels/level.tscn) replaced with `Yakumono` instance.
-- [ ] Headless build (`dotnet build Pachi.sln`) completes with 0 errors and 0 warnings.
-- [ ] Headless editor (`godot-mono --headless --editor --quit`) and runtime (`godot-mono --headless --quit`) verify stability without errors.
+- [x] `res://src/yakumono/yakumono.tscn` scene created with frame, face, and overlay visual nodes attached to `Yakumono` root.
+- [x] Staging instance added to [visual_showcase.tscn](file:///C:/Users/Axel/workspace/axelmagn/pachi/pachi/src/art/visual_showcase.tscn) for live editor theme previews.
+- [x] Generic `CenterPocket` in [level.tscn](file:///C:/Users/Axel/workspace/axelmagn/pachi/pachi/src/levels/level.tscn) replaced with `Yakumono` instance.
+- [x] Headless build (`dotnet build Pachi.sln`) completes with 0 errors and 0 warnings.
+- [x] Headless editor (`godot-mono --headless --editor --quit`) and runtime (`godot-mono --headless --quit`) verify stability without errors.
