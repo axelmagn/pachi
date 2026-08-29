@@ -55,8 +55,8 @@ if ($GodotBin) {
     & $GodotBin --headless --editor --quit
     if ($LASTEXITCODE -ne 0) { throw "Headless editor test failed with exit code $LASTEXITCODE" }
 
-    Write-Host "  Running: $GodotBin --headless -s src/art/tests/TestRunner.cs"
-    & $GodotBin --headless -s src/art/tests/TestRunner.cs
+    Write-Host "  Running: $GodotBin --headless -s src/tests/TestRunner.cs"
+    & $GodotBin --headless -s src/tests/TestRunner.cs
     if ($LASTEXITCODE -ne 0) { throw "TestRunner failed with exit code $LASTEXITCODE" }
     Write-Host "✓ Headless tests completed successfully!" -ForegroundColor Green
 } else {

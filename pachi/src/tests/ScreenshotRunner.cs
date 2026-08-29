@@ -10,13 +10,15 @@ public partial class ScreenshotRunner : SceneTree
         GD.Print("Starting ScreenshotRunner...");
         try
         {
-            string artifactDir = "/home/axel/.gemini/antigravity-cli/brain/8a074248-9eb8-47d7-a104-1df2dfcfddd5";
+            string outputDir = System.Environment.GetEnvironmentVariable("SCREENSHOT_OUTPUT_DIR") ?? "user://screenshots";
+            string globalOutputDir = ProjectSettings.GlobalizePath(outputDir);
+            DirAccess.MakeDirRecursiveAbsolute(globalOutputDir);
 
             // 1. Capture Main Game
-            await CaptureScene("res://src/main_game/main_game.tscn", $"{artifactDir}/main_game.png");
+            await CaptureScene("res://src/main_game/main_game.tscn", $"{globalOutputDir}/main_game.png");
 
             // 2. Capture Visual Showcase
-            await CaptureScene("res://src/art/visual_showcase.tscn", $"{artifactDir}/visual_showcase.png");
+            await CaptureScene("res://src/art/visual_showcase.tscn", $"{globalOutputDir}/visual_showcase.png");
 
             GD.Print("Screenshots captured successfully!");
             Quit(0);

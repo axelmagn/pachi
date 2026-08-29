@@ -1,15 +1,9 @@
 using Godot;
 using System;
+using static TestAssert;
 
 public static class BallStuckTests
 {
-    private static void Assert(bool condition, string message)
-    {
-        if (!condition)
-        {
-            throw new InvalidOperationException($"Assertion failed: {message}");
-        }
-    }
 
     public static void RunAllTests()
     {

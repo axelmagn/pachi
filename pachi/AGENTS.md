@@ -17,7 +17,7 @@
   - Runs 3 verification stages:
     1. C# formatting & style check (`dotnet format Pachi.sln --verify-no-changes`)
     2. Compiler & Roslyn analyzer verification (`dotnet build Pachi.sln` with `TreatWarningsAsErrors=true` and `AnalysisLevel=latest-recommended`)
-    3. Headless Godot editor and test suite validation (`godot-mono --headless -s src/art/tests/TestRunner.cs`)
+    3. Headless Godot editor and test suite validation (`godot-mono --headless -s src/tests/TestRunner.cs`)
   - **Auto-Fix Formatting**: Run `./scripts/verify.sh --fix` or `.\scripts\verify.ps1 -Fix` (or `dotnet format Pachi.sln`) to automatically resolve formatting discrepancies.
 - **Rules**:
   - Run `./scripts/verify.sh` (or `.\scripts\verify.ps1` on Windows) after any C# or scene edit before completing tasks.
