@@ -3,6 +3,7 @@
 /android/
 /build/
 ~*.dll
+~*.TMP
 
 # Environment and Secrets
 .env
