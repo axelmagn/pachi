@@ -39,3 +39,40 @@ _Avoid_: Dot, Ball Marker, Chip, Bead
 **Yakumono**:
 A specialized centerpiece feature on the board with dynamic mechanics, dedicated graphics/animations, and enhanced payout or state-altering behaviors.
 _Avoid_: Center Pocket, Gimmick, Central Feature
+
+**Beetle Pocket**:
+The thematic visual and mechanical representation of a scoring pocket on the board, equipped with animated tulip wings and distinct behavioral archetypes.
+_Avoid_: Goal, Target, Scoring Hole, Cup
+
+**Socket**:
+A designated, fixed mounting position on the board that accepts specific modular component cards.
+_Avoid_: Slot, Tile, Grid Cell, Attachment Point
+
+**Pin Block**:
+A modular cluster of deflection pins occupying a designated board socket that players can swap or upgrade to alter ball trajectories.
+_Avoid_: Pin Group, Peg Array, Peg Cluster
+
+**Fever**:
+A heightened reward state triggered by entering the Yakumono, opening all tulip wings, paying bonus balls, and drafting fresh shop cards.
+_Avoid_: Jackpot Phase, Bonus Round, Super Mode
+
+**Prize Meter**:
+A persistent UI progress meter at the top of the play area that accumulates progress from ball payouts, awarding Prize Tokens upon filling.
+_Avoid_: XP Bar, Level Bar, Score Gauge
+
+**Prize Token**:
+The primary prestige currency awarded by filling the Prize Meter, spent between runs in the Prestige Shop to unlock and level progression tree nodes.
+_Avoid_: Prestige Point, Meta Coin, Gem, Star
+
+**Prestige Reset**:
+The voluntary meta-reset action that clears the in-run board state, sockets, and active hopper balls in exchange for spending earned Prize Tokens in the Prestige Shop.
+_Avoid_: Soft Reset, Cash Out, Wipe, Rebirth
+
+**Progression Node**:
+An unlockable element on the meta progression tree representing a card or upgrade, whose level dictates Master Deck copies, stat boosts, or higher-tier variant availability.
+_Avoid_: Tech Tree Node, Skill, Talent
+
+**Prestige Frontier**:
+The subset of progression nodes currently eligible to appear in the Prestige Shop drafts based on prerequisite unlocks.
+_Avoid_: Available Pool, Unlocked Upgrades
+

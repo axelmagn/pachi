@@ -2,6 +2,10 @@
 
 A rolling log of todo items.
 
+## 2026-08-29
+
+- [ ] wayfinder design pass
+
 ## 2026-08-28
 
 - [x] type up Jacob's playtest notes
@@ -15,7 +19,7 @@ A rolling log of todo items.
     - [ ] tiered cards
 - [x] fix stuck bug
 - [ ] fix text appearance
-- [ ] fix indicator appearance
+- [x] fix indicator appearance
 - [ ] pocket "or" inputs
 - [ ] ponder code architecture
 - [ ] color scheme
