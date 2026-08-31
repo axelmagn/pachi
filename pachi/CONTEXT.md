@@ -29,7 +29,7 @@ An automatic upward and lateral impulse applied to a stuck ball to dislodge it f
 _Avoid_: Shake, Tilt, Jolt
 
 **Ball Refund**:
-The recovery process that despawns a persistently stuck ball after failed nudges and re-queues an equivalent ball variant in the hopper.
+The recovery process that despawns a persistently stuck ball (after failed nudges) or recovers held balls during a socket component flush, re-queuing equivalent ball variants in the hopper queue.
 _Avoid_: Despawn Penalty, Void Ball, Ball Recycle
 
 **Pip**:
@@ -47,6 +47,10 @@ _Avoid_: Goal, Target, Scoring Hole, Cup
 **Socket**:
 A designated, fixed mounting position on the board that accepts specific modular component cards.
 _Avoid_: Slot, Tile, Grid Cell, Attachment Point
+
+**Package-Deal Card**:
+A self-contained component card that completely replaces the existing node instance inside a designated socket with a fresh `PackedScene` component, rather than mutating individual sub-properties.
+_Avoid_: Upgrade Card, Modifier Card, Mutation Card, Component Patch
 
 **Pin Block**:
 A modular cluster of deflection pins occupying a designated board socket that players can swap or upgrade to alter ball trajectories.
@@ -75,4 +79,38 @@ _Avoid_: Tech Tree Node, Skill, Talent
 **Prestige Frontier**:
 The subset of progression nodes currently eligible to appear in the Prestige Shop drafts based on prerequisite unlocks.
 _Avoid_: Available Pool, Unlocked Upgrades
+
+**Deal Meter**:
+The in-run timer and progress meter that accumulates passively over time and accelerates from Pocket and Yakumono scores, triggering a fresh 3-card row deal in the Card Shop upon reaching 100%.
+_Avoid_: Shop Gauge, Card Timer, Deal Bar, Shop Progress
+
+**Deal Cursor**:
+The visual indicator in the Card Shop UI marking the next row index scheduled to receive newly dealt cards and have its previous contents discarded upon meter completion.
+_Avoid_: Shop Pointer, Target Marker, Deal Index
+
+**Master Deck**:
+The finite collection of Package-Deal Cards configured for the current run, drawn into the Card Shop until exhausted with no mid-run reshuffling.
+_Avoid_: Draw Pile, Run Deck, Card Pool
+
+**Discard Pile**:
+The inactive collection where unpurchased cards are sent when another card in their row is bought or when their row is overwritten by the Deal Cursor.
+_Avoid_: Burn Pile, Scrap, Graveyard
+
+**Hopper Queue**:
+The strict First-In-First-Out sequential collection of Ball Variants awaiting launch, where payouts and refunds append to the tail, and launching draws from the head.
+_Avoid_: Ball Bin, Ammo Pool, Ball Inventory, Magazine
+
+**Discrete Ball Cost**:
+The exact quantity ($1\text{--}4$) and specific tier ($1\text{--}4$) of Ball Variants required to purchase a Package-Deal Card from the Card Shop without substitution.
+_Avoid_: Card Price, Currency Cost, Tier Cost
+
+**Emergency Drip**:
+The automatic low-rate trickle of Tier 1 Ball Variants granted into the hopper queue when both hopper inventory and active balls in flight reach zero, preventing softlocks.
+_Avoid_: Bankruptcy Bailout, Free Balls, Pity Drip
+
+**Board Eruption**:
+The dynamic multi-ball ejection mechanic performed by specialized Yakumono cards that dispenses physical bonus balls directly into active board play during Fever mode.
+_Avoid_: Ball Fountain, Multi-Spawn, Ball Explosion, Bonus Drop
+
+
 

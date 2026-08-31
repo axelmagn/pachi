@@ -99,79 +99,57 @@ Scoring components reward ball entries with hopper payouts and progress toward m
   - High-Multiplier Pocket: Base Payout $= 15\text{ balls}$, Capacity $= 3\text{ balls/cycle}$.
 
 ### 4.2 Yakumono Centerpiece & Fever Mode
-The Yakumono occupies the center of the board as the primary visual attraction and jackpot mechanism.
+The Yakumono occupies the center socket of the board as the primary visual attraction and jackpot mechanism ([`docs/design/card-system.md`](file:///home/axel/workspace/axelmagn/pachi/pachi/docs/design/card-system.md)).
 - **Entry Condition**: Challenging central gateway flanked by deflection pins and kinetic spinners.
-- **Fever Activation**:
-  - Balls entering the Yakumono trigger **Fever Mode** for 10 seconds.
-  - All Beetle Pocket tulip wings snap open immediately.
-  - The Yakumono pays an instant bonus of 25 Tier-1 balls directly into the hopper.
-  - The in-run shop draws 3 fresh cards immediately without charging a reroll cost.
+- **Physical Catch Flow**: Entering balls enter the mouth/funnel with a 0.5s chewing/celebration animation before clean despawn.
+- **Fever Activation & Mechanics**:
+  - Balls entering the Yakumono trigger or refresh **Fever Mode** (10.0 seconds).
+  - All Beetle Pocket tulip wings lock wide open for the full 10 seconds, catching balls without closing.
+  - Grants designated archetype rewards (e.g. Board Eruptions or high-tier payouts).
+  - Accelerates the Card Shop **Deal Meter** with an instant $+35\%$ fill boost (hard clamped at 100%) and a temporary $2.0\times$ speed multiplier for 5.0 seconds.
   - Audio and visual chimes, flashing lights, and particle sparks signal the jackpot state.
 
 ---
 
 ## 5. In-Run Card Shop & Drafting Loop
 
-During a run, players adapt their board strategy by drafting cards from a persistent in-run shop.
+During a run, players adapt their board strategy by purchasing package-deal cards from a persistent 3x3 in-run Card Shop ([`docs/design/card-system.md`](file:///home/axel/workspace/axelmagn/pachi/pachi/docs/design/card-system.md), [ADR 0005](file:///home/axel/workspace/axelmagn/pachi/pachi/docs/adr/0005-package-deal-cards-and-deal-meter-shop.md)).
 
 ```
-+-------------------+------------------------------------------+
-|   IN-RUN SHOP     |              GAMEPLAY BOARD              |
-| [Reroll: 10 Balls]|                                          |
-| +---------------+ |                                          |
-| | Card 1: Bumper| |                                          |
-| | Cost: 25 Balls| |                                          |
-| +---------------+ |                                          |
-| +---------------+ |                                          |
-| | Card 2: Pocket| |                                          |
-| | Cost: 40 Balls| |                                          |
-| +---------------+ |                                          |
-| +---------------+ |                                          |
-| | Card 3: Tier 2| |                                          |
-| | Cost: 60 Balls| |                                          |
-| +---------------+ |                                          |
-+-------------------+------------------------------------------+
++-------------------------------------------------------+
+|                       CARD SHOP                       |
+|   Deal Meter: [===========>        ] 65% (+0.5x)      |
+|                                                       |
+| > ROW 0 [CURSOR]                                      |
+|   +----------------+ +----------------+ +-----------+ |
+|   | Basic Pocket   | | Funnel Pins    | | Brass (T2)| |
+|   | Cost: 2x T1    | | Cost: 3x T1    | | Cost: 1xT1| |
+|   +----------------+ +----------------+ +-----------+ |
+|                                                       |
+|   ROW 1                                               |
+|   +----------------+ +----------------+ +-----------+ |
+|   | Splitting Tulip| | Kinetic Spinner| | Gold (T3) | |
+|   | Cost: 1x T2    | | Cost: 2x T1    | | Cost: 2xT2| |
+|   +----------------+ +----------------+ +-----------+ |
+|                                                       |
+|   ROW 2                                               |
+|   +----------------+ +----------------+ +-----------+ |
+|   | [ EMPTY ]      | | [ EMPTY ]      | | [ EMPTY ] | |
+|   +----------------+ +----------------+ +-----------+ |
++-------------------------------------------------------+
 ```
 
-### 5.1 Shop Structure & Rules
-- **Display**: A non-intrusive vertical sidebar displays 3 face-up cards drawn from the player's Master Deck.
-- **Currency**: Cards are purchased directly with balls from the active hopper.
-- **Application**: Purchased socket cards prompt the player to choose a matching eligible socket on the board. The card installs immediately, replacing or upgrading any existing component.
-- **Shop Refreshes**:
-  - Automatic refresh occurs whenever Yakumono Fever activates.
-  - Manual reroll costs 10 balls, increasing by 5 balls per manual reroll within the same run.
+### 5.1 Shop Grid, Deal Meter & Deal Cursor Cycle
+- **Display**: A 3x3 grid presenting up to 3 rows of 3 face-up cards drawn from the finite Master Deck.
+- **Deal Meter**: A 20.0-second passive meter ($5.0\%/\text{s}$) that accelerates from pocket hits ($+10\%$ flat, $+0.5\times$ speed for 5s) and Yakumono hits ($+35\%$ flat, $+2.0\times$ speed for 5s).
+- **Deal Cursor**: Cycles sequentially top-down (Row 0 &rarr; Row 1 &rarr; Row 2 &rarr; Row 0). When the Deal Meter hits 100%, any cards remaining in the targeted row are sent to the Discard Pile and up to 3 new cards are dealt into that row.
+- **Row Discard on Purchase**: Buying any card from a row immediately sends the other 2 cards in that row to the Discard Pile.
+- **Master Deck Exhaustion**: When the Master Deck reaches 0 cards, dealing halts permanently with no mid-run reshuffling.
 
-### 5.2 Card Taxonomy
-
-```mermaid
-classDiagram
-    class Card {
-        +String title
-        +int ballCost
-        +CardCategory category
-        +CardRarity rarity
-    }
-    class PocketCard {
-        +int basePayout
-        +PocketBehavior behavior
-    }
-    class PinBlockCard {
-        +PinPattern pattern
-        +float restitution
-    }
-    class SpinnerCard {
-        +float angularVelocity
-        +float impulseStrength
-    }
-    class PassiveCard {
-        +PassiveEffect effectType
-        +float magnitude
-    }
-    Card <|-- PocketCard
-    Card <|-- PinBlockCard
-    Card <|-- SpinnerCard
-    Card <|-- PassiveCard
-```
+### 5.2 Discrete Tier Economy & Application
+- **Discrete Ball Costs**: Each card costs a specific quantity ($1\text{--}4$) of a discrete Ball Variant tier ($1\text{--}4$), e.g. 2 Tier-2 (Amber) balls.
+- **Validation**: Deducted strictly from the FIFO **Hopper Queue** (airborne balls cannot be spent; no automatic downward substitution).
+- **Package-Deal Installation**: Purchased cards completely replace the node instance in the selected matching socket, flushing and refunding any trapped balls.
 
 ---
 
@@ -225,21 +203,21 @@ The following balance tables establish the baseline numbers for initial MVP game
 - **Starting Hopper Balls**: 50 (Tier 1)
 - **Base Launch Rate**: 1.5 balls/second (Manual flipper rhythm)
 - **Base Pocket Payout**: 5 balls
-- **Base Yakumono Jackpot**: 25 balls + 10-second Fever
+- **Base Yakumono Jackpot**: 10-second Fever + $+35\%$ Deal Boost
 - **Initial Prize Meter Capacity**: 100 points
-- **Manual Shop Reroll Base Cost**: 10 balls
+- **Deal Meter Baseline Period**: 20.0 seconds
 
 ### 7.2 Initial Card Catalog
 
 | Card Title | Category | Ball Cost | Effect Summary |
 | :--- | :--- | :--- | :--- |
-| **Standard Tulip Pocket** | Pocket | 20 | Installs basic pocket ($5\text{ ball}$ base payout, 3-ball tulip capacity). |
-| **Golden Beetle Pocket** | Pocket | 50 | Installs high-yield pocket ($12\text{ ball}$ base payout). |
-| **Funnel Pin Cluster** | Pin Block | 30 | Dense V-shape pin arrangement funneling balls toward center. |
-| **Scatter Pin Grid** | Pin Block | 25 | Staggered offset pins spreading ball streams across outer pockets. |
-| **Kinetic Spinner** | Spinner | 35 | Spinning paddle applying lateral velocity impulses on contact. |
-| **Brass Ball Batch** | Ball Upgrade | 40 | Adds 10 Tier-2 ($3\times$ value) balls directly to hopper. |
-| **Hopper Magnet** | Passive | 60 | $15\%$ chance scored balls refund an extra Tier-1 ball. |
+| **Standard Tulip Pocket** | Pocket | 2 Tier-1 | Installs basic pocket ($5\text{ ball}$ base payout, 3-ball tulip capacity). |
+| **Golden Beetle Pocket** | Pocket | 1 Tier-2 | Installs high-yield pocket ($12\text{ ball}$ base payout). |
+| **Funnel Pin Cluster** | Pin Block | 3 Tier-1 | Dense V-shape pin arrangement funneling balls toward center. |
+| **Scatter Pin Grid** | Pin Block | 2 Tier-1 | Staggered offset pins spreading ball streams across outer pockets. |
+| **Kinetic Spinner** | Spinner | 2 Tier-1 | Spinning paddle applying lateral velocity impulses on contact. |
+| **Brass Ball Batch** | Ball Upgrade | 1 Tier-1 | Adds 10 Tier-2 ($3\times$ value) balls directly to hopper queue. |
+| **Hopper Magnet** | Passive | 2 Tier-2 | $15\%$ chance scored balls refund an extra Tier-1 ball. |
 
 ---
 

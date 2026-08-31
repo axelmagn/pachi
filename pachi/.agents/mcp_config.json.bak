@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "godot-mcp": {
+      "command": "pnpm",
+      "args": [
+        "dlx",
+        "@tugcantopaloglu/godot-mcp"
+      ]
+    },
+    "trello": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-trello"],
+      "env": {
+        "TRELLO_BOARD_ID": "RJcc5ZJK",
+        "TRELLO_API_KEY": "a8a3f1349582af206ee1c85f0b5c5fc5",
+        "TRELLO_TOKEN": "05f6c7dcf9bdde34f40cbc37303fb04b76274bf4f1ccaa51127f87054f4f3956"
+      }
+    }
+  }
+}

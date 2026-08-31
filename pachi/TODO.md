@@ -4,7 +4,7 @@ A rolling log of todo items.
 
 ## 2026-08-29
 
-- [ ] wayfinder design pass
+- [x] wayfinder design pass
 
 ## 2026-08-28
 
