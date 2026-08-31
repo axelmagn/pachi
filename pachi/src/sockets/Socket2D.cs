@@ -120,16 +120,13 @@ public partial class Socket2D : Node2D
             if (outgoing is ISocketComponent outgoingComp)
             {
                 outgoingComp.OnUnmounting(this);
-                if (hopper != null)
+                outgoingComp.FlushActiveBalls(variant =>
                 {
-                    outgoingComp.FlushActiveBalls(variant =>
+                    if (variant != null && hopper != null)
                     {
-                        if (variant != null)
-                        {
-                            hopper.AddQueuedBalls(new[] { variant });
-                        }
-                    });
-                }
+                        hopper.AddQueuedBalls(new[] { variant });
+                    }
+                });
             }
 
             outgoing.ProcessMode = ProcessModeEnum.Disabled;
@@ -143,6 +140,7 @@ public partial class Socket2D : Node2D
         Node2D incoming = card.ComponentScene.Instantiate<Node2D>();
         incoming.Position = Vector2.Zero;
         incoming.Rotation = 0.0f;
+        CurrentComponent = incoming;
         AddChild(incoming);
 
         EmitSignal(SignalName.ComponentMounting, this, incoming);
@@ -151,8 +149,6 @@ public partial class Socket2D : Node2D
         {
             incomingComp.OnMounted(this);
         }
-
-        CurrentComponent = incoming;
 
         EmitSignal(SignalName.ComponentMounted, this, incoming);
         TriggerMountFeedback();
@@ -168,7 +164,7 @@ public partial class Socket2D : Node2D
     private void TriggerMountFeedback()
     {
         if (Engine.IsEditorHint() || !IsInsideTree()) return;
-        // Audiovisual latch feedback hook
+        // Hook for future audiovisual latch feedback
     }
 
     private static void DisableDescendantColliders(Node node)

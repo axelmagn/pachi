@@ -39,7 +39,7 @@ public partial class PackageDealCard : Resource
     }
 
     [Export]
-    public Texture2D? IconTexture { get; set; }
+    public Texture2D? Icon { get; set; }
 
     [Export]
     public Color AccentColor { get; set; } = Colors.White;

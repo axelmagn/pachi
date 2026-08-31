@@ -139,11 +139,9 @@ public partial class Hopper : Node2D
 
     private void OnBallAwarded(BallVariant variant)
     {
-        Debug.Assert(GameConfig.Instance != null, "GameConfig.Instance must not be null");
-        Debug.Assert(GameConfig.Instance.BallScene != null, "GameConfig.Instance.BallScene must not be null");
-
-        Ball ball = GameConfig.Instance.BallScene.Instantiate<Ball>();
-        ball.Variant = variant;
-        _queuedBalls.AddLast(ball);
+        if (variant != null)
+        {
+            AddQueuedBalls(new[] { variant });
+        }
     }
 }

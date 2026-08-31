@@ -137,7 +137,13 @@ public static class SocketLifecycleTests
 
         socket.ComponentUnmounting += (s, node) => signalsEmitted.Add("ComponentUnmounting");
         socket.ComponentUnmounted += (s, node) => signalsEmitted.Add("ComponentUnmounted");
-        socket.ComponentMounting += (s, node) => signalsEmitted.Add("ComponentMounting");
+        Node2D? inspectedDuringMounting = null;
+        socket.ComponentMounting += (s, node) =>
+        {
+            signalsEmitted.Add("ComponentMounting");
+            // Test that querying CurrentComponent during ComponentMounting returns the incoming component without duplicate OnMounted triggers
+            inspectedDuringMounting = s.CurrentComponent;
+        };
         socket.ComponentMounted += (s, node) => signalsEmitted.Add("ComponentMounted");
 
         var scene = new PackedScene();
@@ -152,6 +158,7 @@ public static class SocketLifecycleTests
 
         socket.MountPackageDeal(card);
 
+        Assert(inspectedDuringMounting != null, "CurrentComponent should be valid when queried during ComponentMounting.");
         Assert(signalsEmitted.Count == 4, $"Expected 4 signals, got {signalsEmitted.Count}.");
         Assert(signalsEmitted[0] == "ComponentUnmounting", $"Signal 0 should be ComponentUnmounting, got {signalsEmitted[0]}.");
         Assert(signalsEmitted[1] == "ComponentUnmounted", $"Signal 1 should be ComponentUnmounted, got {signalsEmitted[1]}.");

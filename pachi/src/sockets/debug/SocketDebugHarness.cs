@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 [GlobalClass]
 public partial class SocketDebugHarness : CanvasLayer
@@ -36,6 +37,11 @@ public partial class SocketDebugHarness : CanvasLayer
         CardSelector ??= GetNodeOrNull<OptionButton>("Panel/VBox/CardSelector");
         HotSwapButton ??= GetNodeOrNull<Button>("Panel/VBox/HotSwapButton");
         StatusLabel ??= GetNodeOrNull<Label>("Panel/VBox/StatusLabel");
+
+        Debug.Assert(SocketSelector != null, "SocketSelector must not be null");
+        Debug.Assert(CardSelector != null, "CardSelector must not be null");
+        Debug.Assert(HotSwapButton != null, "HotSwapButton must not be null");
+        Debug.Assert(StatusLabel != null, "StatusLabel must not be null");
 
         if (AvailableCards.Count == 0)
         {
