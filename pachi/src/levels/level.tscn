@@ -1,20 +1,18 @@
 [gd_scene format=3 uid="uid://b4aaqhmywy8m1"]
 
 [ext_resource type="Script" uid="uid://dipa2bdiwa5lt" path="res://src/levels/Level.cs" id="1_2tyx5"]
-[ext_resource type="PackedScene" uid="uid://c6cgra7w5psvw" path="res://src/levels/boundary_rect.tscn" id="1_g8rii"]
-[ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_ub47v"]
-[ext_resource type="PackedScene" uid="uid://4wtihlnetfmr" path="res://src/pins/pin_wall.tscn" id="4_deqfd"]
-[ext_resource type="PackedScene" uid="uid://bmmgwhohdsx2d" path="res://src/drain/drain.tscn" id="5_8tcek"]
-[ext_resource type="PackedScene" uid="uid://b41dwgsigjsei" path="res://src/holes/launch_hole.tscn" id="6_54iga"]
-[ext_resource type="PackedScene" uid="uid://dlgnkc1h1cvtf" path="res://src/spinner/spinner.tscn" id="8_2tyx5"]
-[ext_resource type="PackedScene" uid="uid://camastfknnaxx" path="res://src/pockets/pocket.tscn" id="8_idw2h"]
-[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="8_m3sl2"]
-[ext_resource type="Resource" uid="uid://cgc7p5ki85b0n" path="res://src/balls/tiers/tier_2.tres" id="9_mhwal"]
-[ext_resource type="PackedScene" uid="uid://bi1s03fy653fj" path="res://src/pins/pin_funnel.tscn" id="10_idw2h"]
-[ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/pin.tscn" id="10_m3sl2"]
-[ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="11_du6bw"]
-[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="12_rgvsn"]
-[ext_resource type="PackedScene" uid="uid://p44mc7erkedo" path="res://src/yakumono/yakumono.tscn" id="13_yakumono"]
+[ext_resource type="PackedScene" uid="uid://c6cgra7w5psvw" path="res://src/levels/boundary_rect.tscn" id="2_bound"]
+[ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="3_ellipse"]
+[ext_resource type="PackedScene" uid="uid://4wtihlnetfmr" path="res://src/pins/pin_wall.tscn" id="4_pinwall"]
+[ext_resource type="PackedScene" uid="uid://bmmgwhohdsx2d" path="res://src/drain/drain.tscn" id="5_drain"]
+[ext_resource type="PackedScene" uid="uid://b41dwgsigjsei" path="res://src/holes/launch_hole.tscn" id="6_launch"]
+[ext_resource type="Script" path="res://src/sockets/Socket2D.cs" id="7_socket"]
+[ext_resource type="PackedScene" uid="uid://bvyakumono01" path="res://src/yakumono/starter_yakumono.tscn" id="8_yakumono"]
+[ext_resource type="PackedScene" uid="uid://bvspinleft01" path="res://src/spinner/starter_spinner_left.tscn" id="9_spin_l"]
+[ext_resource type="PackedScene" uid="uid://bvspinright01" path="res://src/spinner/starter_spinner_right.tscn" id="10_spin_r"]
+[ext_resource type="PackedScene" uid="uid://bvpockleft01" path="res://src/pockets/starter_pocket_left.tscn" id="11_pock_l"]
+[ext_resource type="PackedScene" uid="uid://bvpockcenter01" path="res://src/pockets/starter_pocket_center.tscn" id="12_pock_c"]
+[ext_resource type="PackedScene" uid="uid://bvpockright01" path="res://src/pockets/starter_pocket_right.tscn" id="13_pock_r"]
 
 [node name="Level" type="Node2D" unique_id=756612389 node_paths=PackedStringArray("BallsRoot", "BallLaunchPoint")]
 script = ExtResource("1_2tyx5")
@@ -23,260 +21,96 @@ BallLaunchPoint = NodePath("LaunchHole")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1646304660]
 
-[node name="Drain" parent="." unique_id=1795231198 instance=ExtResource("5_8tcek")]
+[node name="Drain" parent="." unique_id=1795231198 instance=ExtResource("5_drain")]
 position = Vector2(0, 241)
 
 [node name="Boundary" type="Node2D" parent="." unique_id=2101518844]
 
-[node name="BoundaryRect" parent="Boundary" unique_id=1819436732 instance=ExtResource("1_g8rii")]
+[node name="BoundaryRect" parent="Boundary" unique_id=1819436732 instance=ExtResource("2_bound")]
 Width = 388.0
 Height = 508.0
 
-[node name="BottomEllipse" parent="Boundary" unique_id=345411889 instance=ExtResource("2_ub47v")]
+[node name="BottomEllipse" parent="Boundary" unique_id=345411889 instance=ExtResource("3_ellipse")]
 position = Vector2(0, 99)
 RadiusX = 196.0
 RadiusY = 150.0
 AverageSpacing = 8.0
 EndAngle = 180.0
-PinScene = ExtResource("4_deqfd")
+PinScene = ExtResource("4_pinwall")
 
-[node name="TopEllipse" parent="Boundary" unique_id=61049413 instance=ExtResource("2_ub47v")]
+[node name="TopEllipse" parent="Boundary" unique_id=61049413 instance=ExtResource("3_ellipse")]
 position = Vector2(0, -78)
 RadiusX = 196.0
 RadiusY = 175.0
 AverageSpacing = 8.0
 StartAngle = 180.0
 EndAngle = 360.0
-PinScene = ExtResource("4_deqfd")
+PinScene = ExtResource("4_pinwall")
 
-[node name="LaunchHole" parent="." unique_id=428848470 instance=ExtResource("6_54iga")]
+[node name="LaunchHole" parent="." unique_id=428848470 instance=ExtResource("6_launch")]
 position = Vector2(-159, -145)
 rotation = 0.6417135
 
 [node name="BallsRoot" type="Node2D" parent="." unique_id=479261600]
 
-[node name="CenterYakumono" parent="." unique_id=1383612129 instance=ExtResource("13_yakumono")]
-position = Vector2(0, -13)
-InputBalls = [ExtResource("8_m3sl2")]
-OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("9_mhwal")]
-AcceptAudioStreams = Array[AudioStream]([])
-IsCentralPocket = true
-HasArms = false
+[node name="Sockets" type="Node2D" parent="." unique_id=1200000000]
 
-[node name="PinFunnel3" parent="CenterYakumono" unique_id=785708144 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -125)
-InnerWidth = 40.0
-OuterWidth = 80.0
-Height = 40.0
-AverageSpacing = 8.0
-MirrorX = true
+[node name="Yakumono" type="Node2D" parent="Sockets" unique_id=1200000001]
 
-[node name="Pin" parent="CenterYakumono" unique_id=849448400 instance=ExtResource("10_m3sl2")]
-position = Vector2(-13, -36)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+[node name="SocketYakumonoCenter" type="Node2D" parent="Sockets/Yakumono" unique_id=1200000002]
+position = Vector2(0, -40)
+script = ExtResource("7_socket")
+Category = 2
+SocketId = "yakumono_center"
+BoundsSize = Vector2(110, 160)
 
-[node name="Pin2" parent="CenterYakumono" unique_id=568121454 instance=ExtResource("10_m3sl2")]
-position = Vector2(13, -36)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+[node name="StarterYakumono" parent="Sockets/Yakumono/SocketYakumonoCenter" unique_id=1383612129 instance=ExtResource("8_yakumono")]
 
-[node name="Pin4" parent="CenterYakumono" unique_id=216096641 instance=ExtResource("10_m3sl2")]
-position = Vector2(-11, -139)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+[node name="Spinners" type="Node2D" parent="Sockets" unique_id=1200000003]
 
-[node name="Pin5" parent="CenterYakumono" unique_id=1036266824 instance=ExtResource("10_m3sl2")]
-position = Vector2(11, -139)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+[node name="SocketSpinnerLeft" type="Node2D" parent="Sockets/Spinners" unique_id=1200000004]
+position = Vector2(-110, -40)
+script = ExtResource("7_socket")
+Category = 1
+SocketId = "spinner_left"
+BoundsSize = Vector2(100, 160)
 
-[node name="Pin3" parent="CenterYakumono" unique_id=1489455543 instance=ExtResource("10_m3sl2")]
-position = Vector2(0, -166)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+[node name="StarterSpinnerLeft" parent="Sockets/Spinners/SocketSpinnerLeft" unique_id=1200000005 instance=ExtResource("9_spin_l")]
 
-[node name="PinGrid" parent="CenterYakumono" unique_id=389836355 instance=ExtResource("11_du6bw")]
-position = Vector2(-40, -114)
-Rows = 4
-SpacingX = 20.0
-SpacingY = 20.0
+[node name="SocketSpinnerRight" type="Node2D" parent="Sockets/Spinners" unique_id=1200000006]
+position = Vector2(110, -40)
+script = ExtResource("7_socket")
+Category = 1
+SocketId = "spinner_right"
+BoundsSize = Vector2(100, 160)
 
-[node name="PinFunnel" parent="CenterYakumono" unique_id=313265733 instance=ExtResource("10_idw2h")]
-InnerWidth = 20.0
-OuterWidth = 40.0
-Height = 30.0
-AverageSpacing = 4.0
+[node name="StarterSpinnerRight" parent="Sockets/Spinners/SocketSpinnerRight" unique_id=1200000007 instance=ExtResource("10_spin_r")]
 
-[node name="Pocket2" parent="." unique_id=99851573 instance=ExtResource("8_idw2h")]
-position = Vector2(0, 173)
-InputBalls = [ExtResource("8_m3sl2")]
-OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
-AcceptAudioStreams = Array[AudioStream]([])
+[node name="Pockets" type="Node2D" parent="Sockets" unique_id=1200000008]
 
-[node name="PinGrid" parent="Pocket2" unique_id=594424742 instance=ExtResource("11_du6bw")]
-position = Vector2(-50, -134)
-Columns = 6
-SpacingX = 20.0
-SpacingY = 20.0
+[node name="SocketPocketLeft" type="Node2D" parent="Sockets/Pockets" unique_id=1200000009]
+position = Vector2(-115, 130)
+script = ExtResource("7_socket")
+Category = 0
+SocketId = "pocket_left"
+BoundsSize = Vector2(105, 150)
 
-[node name="Pocket4" parent="." unique_id=1965552333 instance=ExtResource("8_idw2h")]
-position = Vector2(-105, 165)
-InputBalls = [ExtResource("8_m3sl2")]
-OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
-AcceptAudioStreams = Array[AudioStream]([])
+[node name="StarterPocketLeft" parent="Sockets/Pockets/SocketPocketLeft" unique_id=1200000010 instance=ExtResource("11_pock_l")]
 
-[node name="PinFunnel" parent="Pocket4" unique_id=1919490897 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -34)
-InnerWidth = 20.0
-OuterWidth = 40.0
-Height = 40.0
-AverageSpacing = 6.0
-MirrorY = true
+[node name="SocketPocketCenter" type="Node2D" parent="Sockets/Pockets" unique_id=1200000011]
+position = Vector2(0, 130)
+script = ExtResource("7_socket")
+Category = 0
+SocketId = "pocket_center"
+BoundsSize = Vector2(105, 150)
 
-[node name="PinFunnel2" parent="Pocket4" unique_id=1799266497 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -51)
-InnerWidth = 60.0
-OuterWidth = 80.0
-Height = 40.0
-AverageSpacing = 6.0
-MirrorY = true
+[node name="StarterPocketCenter" parent="Sockets/Pockets/SocketPocketCenter" unique_id=1200000012 instance=ExtResource("12_pock_c")]
 
-[node name="Pin" parent="Pocket4" unique_id=2043838577 instance=ExtResource("10_m3sl2")]
-position = Vector2(-10, -100)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+[node name="SocketPocketRight" type="Node2D" parent="Sockets/Pockets" unique_id=1200000013]
+position = Vector2(115, 130)
+script = ExtResource("7_socket")
+Category = 0
+SocketId = "pocket_right"
+BoundsSize = Vector2(105, 150)
 
-[node name="Pin2" parent="Pocket4" unique_id=1528072019 instance=ExtResource("10_m3sl2")]
-position = Vector2(10, -100)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
-
-[node name="PinGrid2" parent="Pocket4" unique_id=501212060 instance=ExtResource("11_du6bw")]
-position = Vector2(-72, -139)
-Rows = 2
-Columns = 6
-SpacingX = 20.0
-SpacingY = 20.0
-
-[node name="Pocket5" parent="." unique_id=308209589 instance=ExtResource("8_idw2h")]
-position = Vector2(105, 165)
-InputBalls = [ExtResource("8_m3sl2")]
-OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
-AcceptAudioStreams = Array[AudioStream]([])
-
-[node name="PinFunnel" parent="Pocket5" unique_id=1499990178 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -34)
-InnerWidth = 20.0
-OuterWidth = 40.0
-Height = 40.0
-AverageSpacing = 6.0
-MirrorY = true
-
-[node name="PinFunnel2" parent="Pocket5" unique_id=530598274 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -51)
-InnerWidth = 60.0
-OuterWidth = 80.0
-Height = 40.0
-AverageSpacing = 6.0
-MirrorY = true
-
-[node name="Pin" parent="Pocket5" unique_id=2099461821 instance=ExtResource("10_m3sl2")]
-position = Vector2(-10, -100)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
-
-[node name="Pin2" parent="Pocket5" unique_id=182119281 instance=ExtResource("10_m3sl2")]
-position = Vector2(10, -100)
-script = ExtResource("12_rgvsn")
-body_skin = 0.0
-metadata/_custom_type_script = "uid://busd3yfk5p1mx"
-
-[node name="PinGrid" parent="Pocket5" unique_id=1706393072 instance=ExtResource("11_du6bw")]
-position = Vector2(-28, -140)
-Rows = 2
-Columns = 6
-SpacingX = 20.0
-SpacingY = 20.0
-
-[node name="Spinner" parent="." unique_id=1816530947 instance=ExtResource("8_2tyx5")]
-position = Vector2(-50, 18)
-
-[node name="PinFunnel2" parent="Spinner" unique_id=1550671865 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -25)
-InnerWidth = 20.0
-OuterWidth = 60.0
-Height = 40.0
-AverageSpacing = 8.0
-
-[node name="Spinner4" parent="." unique_id=907226347 instance=ExtResource("8_2tyx5")]
-position = Vector2(50, 18)
-
-[node name="PinFunnel2" parent="Spinner4" unique_id=1675791235 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -25)
-InnerWidth = 20.0
-OuterWidth = 60.0
-Height = 40.0
-AverageSpacing = 8.0
-
-[node name="Spinner2" parent="." unique_id=797711148 instance=ExtResource("8_2tyx5")]
-position = Vector2(-148, 6)
-
-[node name="PinFunnel3" parent="Spinner2" unique_id=1124843296 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -25)
-InnerWidth = 20.0
-OuterWidth = 80.0
-Height = 40.0
-AverageSpacing = 8.0
-
-[node name="PinGrid" parent="Spinner2" unique_id=1005526133 instance=ExtResource("11_du6bw")]
-position = Vector2(-20, -135)
-Rows = 4
-Columns = 3
-SpacingX = 20.0
-SpacingY = 20.0
-
-[node name="Spinner5" parent="." unique_id=1362514920 instance=ExtResource("8_2tyx5")]
-position = Vector2(148, 6)
-
-[node name="PinFunnel3" parent="Spinner5" unique_id=373786879 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -25)
-InnerWidth = 20.0
-OuterWidth = 80.0
-Height = 40.0
-AverageSpacing = 8.0
-
-[node name="PinGrid" parent="Spinner5" unique_id=1636655832 instance=ExtResource("11_du6bw")]
-position = Vector2(-21, -137)
-Rows = 4
-Columns = 3
-SpacingX = 20.0
-SpacingY = 20.0
-
-[node name="Spinner3" parent="." unique_id=1489706659 instance=ExtResource("8_2tyx5")]
-position = Vector2(-87, -91)
-
-[node name="PinFunnel" parent="Spinner3" unique_id=409545682 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -24)
-InnerWidth = 20.0
-OuterWidth = 50.0
-Height = 40.0
-AverageSpacing = 8.0
-
-[node name="Spinner6" parent="." unique_id=1037498190 instance=ExtResource("8_2tyx5")]
-position = Vector2(87, -91)
-
-[node name="PinFunnel2" parent="Spinner6" unique_id=838241989 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -24)
-InnerWidth = 20.0
-OuterWidth = 50.0
-Height = 40.0
-AverageSpacing = 8.0
+[node name="StarterPocketRight" parent="Sockets/Pockets/SocketPocketRight" unique_id=1200000014 instance=ExtResource("13_pock_r")]

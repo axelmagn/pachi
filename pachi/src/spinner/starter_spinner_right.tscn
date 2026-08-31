@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bvspinright01"]
+
+[ext_resource type="PackedScene" uid="uid://dlgnkc1h1cvtf" path="res://src/spinner/spinner.tscn" id="1_spinner"]
+[ext_resource type="PackedScene" uid="uid://bi1s03fy653fj" path="res://src/pins/pin_funnel.tscn" id="2_funnel"]
+
+[node name="StarterSpinnerRight" instance=ExtResource("1_spinner")]
+
+[node name="PinFunnel" parent="." instance=ExtResource("2_funnel")]
+position = Vector2(0, -25)
+InnerWidth = 20.0
+OuterWidth = 60.0
+Height = 40.0
+AverageSpacing = 8.0

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bvpockcenter01"]
+
+[ext_resource type="PackedScene" uid="uid://camastfknnaxx" path="res://src/pockets/pocket.tscn" id="1_pocket"]
+[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="2_t1"]
+[ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="3_grid"]
+
+[node name="StarterPocketCenter" instance=ExtResource("1_pocket")]
+InputBalls = [ExtResource("2_t1")]
+OutputBalls = [ExtResource("2_t1"), ExtResource("2_t1"), ExtResource("2_t1")]
+AcceptAudioStreams = Array[AudioStream]([])
+
+[node name="PinGrid" parent="." instance=ExtResource("3_grid")]
+position = Vector2(-50, -134)
+Columns = 6
+SpacingX = 20.0
+SpacingY = 20.0

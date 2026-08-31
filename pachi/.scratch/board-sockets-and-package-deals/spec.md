@@ -1,6 +1,6 @@
 # Specification: Board Sockets & Package-Deal Cards
 
-Status: ready-for-agent
+Status: resolved
 
 ## Problem Statement
 

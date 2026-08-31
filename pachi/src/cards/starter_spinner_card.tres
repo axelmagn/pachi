@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PackageDealCard" load_steps=3 format=3 uid="uid://crdspin01"]
+
+[ext_resource type="Script" path="res://src/cards/PackageDealCard.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bvspinleft01" path="res://src/spinner/starter_spinner_left.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+CardId = "starter_spinner"
+Title = "Deflector Spinner"
+Description = "Kinetic obstacle applying lateral and rotational impulses."
+Category = 1
+ComponentScene = ExtResource("2_scene")
+BallCostCount = 1
+BallCostTier = 1
+AccentColor = Color(0.7, 0.3, 1, 1)
+DraftWeight = 100
+BaseWeight = 100

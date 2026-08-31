@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://bvskthrnss01"]
+
+[ext_resource type="Script" path="res://src/sockets/debug/SocketDebugHarness.cs" id="1_harness"]
+
+[node name="SocketDebugHarness" type="CanvasLayer"]
+layer = 50
+script = ExtResource("1_harness")
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 200.0
+grow_horizontal = 0
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Socket Debug Harness"
+horizontal_alignment = 1
+
+[node name="SocketLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Target Socket:"
+
+[node name="SocketSelector" type="OptionButton" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="CardLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Package-Deal Card:"
+
+[node name="CardSelector" type="OptionButton" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="HotSwapButton" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Hot-Swap Card"
+
+[node name="FlushButton" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Flush Trapped Balls"
+
+[node name="StatusLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Ready"
+autowrap_mode = 2

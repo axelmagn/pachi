@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PackageDealCard" load_steps=3 format=3 uid="uid://crdpock01"]
+
+[ext_resource type="Script" path="res://src/cards/PackageDealCard.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bvpockcenter01" path="res://src/pockets/starter_pocket_center.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+CardId = "starter_pocket"
+Title = "Beetle Pocket"
+Description = "Classic beetle scoring pocket with tulip wings."
+Category = 0
+ComponentScene = ExtResource("2_scene")
+BallCostCount = 1
+BallCostTier = 1
+AccentColor = Color(1, 0.75, 0.2, 1)
+DraftWeight = 100
+BaseWeight = 100

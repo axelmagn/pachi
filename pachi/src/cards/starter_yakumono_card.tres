@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PackageDealCard" load_steps=3 format=3 uid="uid://crdyaku01"]
+
+[ext_resource type="Script" path="res://src/cards/PackageDealCard.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bvyakumono01" path="res://src/yakumono/starter_yakumono.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_script")
+CardId = "starter_yakumono"
+Title = "Yakumono Moon"
+Description = "Centerpiece jackpot feature activating Fever reward states."
+Category = 2
+ComponentScene = ExtResource("2_scene")
+BallCostCount = 2
+BallCostTier = 2
+AccentColor = Color(1, 0.2, 0.6, 1)
+DraftWeight = 50
+BaseWeight = 50

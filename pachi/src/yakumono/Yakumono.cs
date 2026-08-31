@@ -8,6 +8,9 @@ public partial class Yakumono : Pocket
 {
     public const int JackpotFaceIndex = -1;
 
+    public override SocketCategory Category => SocketCategory.Yakumono;
+    public override Vector2 ComponentBounds => new Vector2(110, 160);
+
     [Export]
     public Sprite2D? FrameSprite { get; set; }
 

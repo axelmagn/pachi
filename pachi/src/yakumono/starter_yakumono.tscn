@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bvyakumono01"]
+
+[ext_resource type="PackedScene" uid="uid://p44mc7erkedo" path="res://src/yakumono/yakumono.tscn" id="1_yakumono"]
+[ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="2_t1"]
+[ext_resource type="Resource" uid="uid://cgc7p5ki85b0n" path="res://src/balls/tiers/tier_2.tres" id="3_t2"]
+[ext_resource type="PackedScene" uid="uid://bi1s03fy653fj" path="res://src/pins/pin_funnel.tscn" id="4_funnel"]
+[ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/pin.tscn" id="5_pin"]
+[ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="6_grid"]
+[ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="7_rapierstatic"]
+
+[node name="StarterYakumono" instance=ExtResource("1_yakumono")]
+InputBalls = [ExtResource("2_t1")]
+OutputBalls = [ExtResource("2_t1"), ExtResource("2_t1"), ExtResource("2_t1"), ExtResource("3_t2")]
+AcceptAudioStreams = Array[AudioStream]([])
+IsCentralPocket = true
+HasArms = false
+
+[node name="PinFunnel3" parent="." instance=ExtResource("4_funnel")]
+position = Vector2(0, -125)
+InnerWidth = 40.0
+OuterWidth = 80.0
+Height = 40.0
+AverageSpacing = 8.0
+MirrorX = true
+
+[node name="Pin" parent="." instance=ExtResource("5_pin")]
+position = Vector2(-13, -36)
+script = ExtResource("7_rapierstatic")
+body_skin = 0.0
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="Pin2" parent="." instance=ExtResource("5_pin")]
+position = Vector2(13, -36)
+script = ExtResource("7_rapierstatic")
+body_skin = 0.0
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="Pin4" parent="." instance=ExtResource("5_pin")]
+position = Vector2(-11, -139)
+script = ExtResource("7_rapierstatic")
+body_skin = 0.0
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="Pin5" parent="." instance=ExtResource("5_pin")]
+position = Vector2(11, -139)
+script = ExtResource("7_rapierstatic")
+body_skin = 0.0
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="Pin3" parent="." instance=ExtResource("5_pin")]
+position = Vector2(0, -166)
+script = ExtResource("7_rapierstatic")
+body_skin = 0.0
+metadata/_custom_type_script = "uid://busd3yfk5p1mx"
+
+[node name="PinGrid" parent="." instance=ExtResource("6_grid")]
+position = Vector2(-40, -114)
+Rows = 4
+SpacingX = 20.0
+SpacingY = 20.0
+
+[node name="PinFunnel" parent="." instance=ExtResource("4_funnel")]
+InnerWidth = 20.0
+OuterWidth = 40.0
+Height = 30.0
+AverageSpacing = 4.0

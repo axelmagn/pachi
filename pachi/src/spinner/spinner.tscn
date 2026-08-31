@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dlgnkc1h1cvtf"]
 
+[ext_resource type="Script" path="res://src/spinner/Spinner.cs" id="1_spinner"]
 [ext_resource type="Script" uid="uid://unwhnooi7g2c" path="res://addons/godot-rapier2d/custom_nodes/rapier_rigid_body_2d.gd" id="1_nk5l8"]
 [ext_resource type="Texture2D" uid="uid://dt3d0fh0fs76g" path="res://assets/sprites/ellis/Spinner sprite v1.png" id="2_k7r40"]
 [ext_resource type="Script" uid="uid://bv2bc4lt5v7hu" path="res://addons/godot-rapier2d/custom_nodes/rapier_pin_joint_2d.gd" id="3_tqdng"]
@@ -10,6 +11,7 @@ radius = 1.0
 height = 24.0
 
 [node name="Spinner" type="Node2D" unique_id=1816530947]
+script = ExtResource("1_spinner")
 
 [node name="RapierRigidBody2D" type="RigidBody2D" parent="." unique_id=940863260]
 script = ExtResource("1_nk5l8")

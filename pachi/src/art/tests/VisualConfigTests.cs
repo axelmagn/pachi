@@ -15,7 +15,6 @@ public static class VisualConfigTests
         TestPocketDualRenderingFallback();
         TestPocketTexturePriority();
         TestPocketBallsIndicatorPropagation();
-        TestCardUIStylingPropagation();
         TestYakumonoVisualConfigDefaults();
         TestYakumonoVisualConfigPropertyChangesEmitChanged();
         TestYakumonoDualRenderingFallback();
@@ -509,22 +508,6 @@ public static class VisualConfigTests
         Assert(darkened.R < variant.PlaceholderColor.R && darkened.G < variant.PlaceholderColor.G && darkened.B < variant.PlaceholderColor.B, "Dynamic contrast outline should be darkened from placeholder color.");
     }
 
-    public static void TestCardUIStylingPropagation()
-    {
-        var cardUI = new CardUI();
-        var config = new VisualConfig
-        {
-            CardBackgroundColor = new Color(0.7f, 0.1f, 0.2f, 1.0f),
-            CardBorderColor = Colors.Gold
-        };
-
-        cardUI.ApplyVisualConfig(config);
-        var style = cardUI.GetThemeStylebox(new StringName("panel")) as StyleBoxFlat;
-        Assert(style != null, "CardUI should have a StyleBoxFlat panel override.");
-        Assert(style!.BgColor == config.CardBackgroundColor, "Card panel BgColor should match CardBackgroundColor.");
-        Assert(style!.BorderColor == config.CardBorderColor, "Card panel BorderColor should match CardBorderColor.");
-    }
-
     public static void TestYakumonoVisualConfigDefaults()
     {
         var config = new VisualConfig();
@@ -712,9 +695,6 @@ public static class VisualConfigTests
 
         var indicator = new PocketBallsIndicator();
         indicator.ApplyVisualConfig(null);
-
-        var cardUI = new CardUI();
-        cardUI.ApplyVisualConfig(null);
 
         var env = new EnvironmentBackground();
         env.ApplyVisualConfig(null);

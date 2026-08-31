@@ -4,11 +4,11 @@
 
 **Blocked by:** 01: Socket2D Node Contract, Category Validation & Lifecycle Signals
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] `Pocket` implements `ISocketComponent`, reporting category `BeetlePocket`, local spatial bounds, and `FlushActiveBalls` callback that extracts held/in-transit balls.
-- [ ] `Spinner` implements `ISocketComponent`, reporting category `Spinner`, local spatial bounds, and `FlushActiveBalls` callback.
-- [ ] `Yakumono` implements `ISocketComponent`, reporting category `Yakumono`, local spatial bounds, and `FlushActiveBalls` callback that extracts any queued or held balls.
-- [ ] Modular component scenes bundle integrated deflection pins and funnels within their own scene hierarchies rather than relying on external board pins.
-- [ ] `BallAwardIndicator` and `PocketBallsIndicator` display discrete pip clusters accurately on modular component instances.
-- [ ] Headless unit tests verify component category reporting, bounds queries, and exact ball variant recovery during flush callbacks.
+- [x] `Pocket` implements `ISocketComponent`, reporting category `BeetlePocket`, local spatial bounds, and `FlushActiveBalls` callback that extracts held/in-transit balls.
+- [x] `Spinner` implements `ISocketComponent`, reporting category `Spinner`, local spatial bounds, and `FlushActiveBalls` callback.
+- [x] `Yakumono` implements `ISocketComponent`, reporting category `Yakumono`, local spatial bounds, and `FlushActiveBalls` callback that extracts any queued or held balls.
+- [x] Modular component scenes bundle integrated deflection pins and funnels within their own scene hierarchies rather than relying on external board pins.
+- [x] `BallAwardIndicator` and `PocketBallsIndicator` display discrete pip clusters accurately on modular component instances.
+- [x] Headless unit tests verify component category reporting, bounds queries, and exact ball variant recovery during flush callbacks.

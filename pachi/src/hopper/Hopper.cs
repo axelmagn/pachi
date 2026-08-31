@@ -58,8 +58,6 @@ public partial class Hopper : Node2D
         GlobalEvents.Instance.BallAwarded += OnBallAwarded;
 
         AddToGroup("hoppers");
-        Debug.Assert(CardDragController.Instance != null, "CardDragController.Instance must not be null");
-        CardDragController.Instance.RegisterTarget(this, 100.0f);
     }
 
     public int GetTotalBallCount()
@@ -73,8 +71,6 @@ public partial class Hopper : Node2D
         {
             GlobalEvents.Instance.BallAwarded -= OnBallAwarded;
         }
-
-        CardDragController.Instance?.UnregisterTarget(this);
     }
 
     public void AddQueuedBalls(IEnumerable<BallVariant> variants)

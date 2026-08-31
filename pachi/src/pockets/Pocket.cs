@@ -5,11 +5,37 @@ using System.Diagnostics;
 
 [Tool]
 [GlobalClass]
-public partial class Pocket : Node2D
+public partial class Pocket : Node2D, ISocketComponent
 {
     public static readonly StringName GroupPockets = new("pockets");
     public const int MaxInputCapacity = 4;
     public const int MaxOutputCapacity = 8;
+
+    public virtual SocketCategory Category => SocketCategory.BeetlePocket;
+    public virtual Vector2 ComponentBounds => new Vector2(105, 150);
+
+    public virtual void OnMounted(Socket2D parentSocket)
+    {
+    }
+
+    public virtual void OnUnmounting(Socket2D parentSocket)
+    {
+    }
+
+    public virtual void FlushActiveBalls(Action<BallVariant> refundCallback)
+    {
+        if (InputBalls != null && InputBallSlotAvailable != null)
+        {
+            for (int i = 0; i < InputBalls.Count && i < InputBallSlotAvailable.Count; i++)
+            {
+                if (!InputBallSlotAvailable[i])
+                {
+                    refundCallback(InputBalls[i]);
+                    InputBallSlotAvailable[i] = true;
+                }
+            }
+        }
+    }
 
     public enum ArmBehavior
     {
@@ -210,8 +236,6 @@ public partial class Pocket : Node2D
         {
             GlobalEvents.Instance.CentralPocketPaidOut -= OnCentralPocketPaidOut;
         }
-
-        CardDragController.Instance?.UnregisterTarget(this);
     }
 
     public override void _Ready()
@@ -303,7 +327,6 @@ public partial class Pocket : Node2D
         }
 
         AddToGroup(GroupPockets);
-        CardDragController.Instance?.RegisterTarget(this, 40.0f);
     }
 
     public virtual void ApplyVisualConfig(VisualConfig? config)

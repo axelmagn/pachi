@@ -9,18 +9,16 @@
 [ext_resource type="PackedScene" uid="uid://dlgnkc1h1cvtf" path="res://src/spinner/spinner.tscn" id="7_spinner"]
 [ext_resource type="PackedScene" uid="uid://camastfknnaxx" path="res://src/pockets/pocket.tscn" id="8_pocket"]
 [ext_resource type="PackedScene" uid="uid://bmmgwhohdsx2d" path="res://src/drain/drain.tscn" id="9_drain"]
-[ext_resource type="PackedScene" uid="uid://c3q4r8m7a1k0n" path="res://src/cards/card_ui.tscn" id="10_cardui"]
 [ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="11_t1"]
 [ext_resource type="Resource" uid="uid://cgc7p5ki85b0n" path="res://src/balls/tiers/tier_2.tres" id="12_t2"]
 [ext_resource type="Resource" uid="uid://d0xlprysuxrgu" path="res://src/balls/tiers/tier_3.tres" id="13_t3"]
 [ext_resource type="Resource" uid="uid://dw62p3bhrmxyb" path="res://src/balls/tiers/tier_4.tres" id="14_t4"]
-[ext_resource type="Script" path="res://src/cards/CardData.cs" id="15_carddata"]
 [ext_resource type="Script" path="res://src/art/VisualConfig.cs" id="16_vcfg"]
 [ext_resource type="Texture2D" uid="uid://dcxgv7fnskjmj" path="res://assets/sprites/ellis/Tulip sprite v 1.png" id="17_tulip"]
 [ext_resource type="PackedScene" uid="uid://biu6ucbfgptk2" path="res://src/pins/pin_wall_ellipse.tscn" id="18_hopper_pins"]
 [ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="19_capsule"]
 [ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="20_grid"]
-[ext_resource type="PackedScene" uid="uid://yakumonoscene01" path="res://src/yakumono/yakumono.tscn" id="21_yakumono"]
+[ext_resource type="PackedScene" uid="uid://p44mc7erkedo" path="res://src/yakumono/yakumono.tscn" id="21_yakumono"]
 [ext_resource type="Texture2D" uid="uid://blcgh7copmpg5" path="res://assets/sprites/ellis/Neutralmoonv1.png" id="22_neutral"]
 [ext_resource type="Texture2D" uid="uid://txosouesl7op" path="res://assets/sprites/ellis/Sadmoonv2.png" id="23_sad"]
 [ext_resource type="Texture2D" uid="uid://dte8gwbpq2acy" path="res://assets/sprites/ellis/Madmoonv1.png" id="24_mad"]
@@ -28,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://c7wu72flkwycq" path="res://assets/sprites/ellis/Happymoonv1.png" id="26_happy"]
 [ext_resource type="Texture2D" uid="uid://jibe3yckulyo" path="res://assets/sprites/ellis/Pocketv2.png" id="27_frame"]
 [ext_resource type="Texture2D" uid="uid://dmxnrwbrg6uub" path="res://assets/sprites/ellis/Tulipv3.png" id="28_tulipv3"]
+[ext_resource type="Script" uid="uid://drd1epu2i03mm" path="res://src/cards/BallAwardIndicator.cs" id="29_award"]
 
 [sub_resource type="Resource" id="Config_Procedural"]
 script = ExtResource("16_vcfg")
@@ -63,38 +62,6 @@ CardBorderColor = Color(0.8235294, 0.5058824, 0.2901961, 1)
 CardIndicatorBackgroundColor = Color(0.10980392, 0.14901961, 0.11372549, 1)
 FaceTextures = Array[Texture2D]([ExtResource("22_neutral"), ExtResource("23_sad"), ExtResource("24_mad"), ExtResource("25_plain")])
 JackpotFaceTexture = ExtResource("26_happy")
-
-[sub_resource type="Resource" id="Card_Pack"]
-script = ExtResource("15_carddata")
-Title = "Ball Pack"
-Description = "Adds 3 tier-1 balls to hopper."
-CardColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
-PackBalls = Array[Object]([ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1")])
-
-[sub_resource type="Resource" id="Card_Upgrade_In"]
-script = ExtResource("15_carddata")
-Title = "In: T1 -> T2"
-Description = "Upgrade 1 Tier 1 input requirement to Tier 2."
-CardColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
-TargetTier = ExtResource("11_t1")
-ResultTier = ExtResource("12_t2")
-
-[sub_resource type="Resource" id="Card_Upgrade_Out"]
-script = ExtResource("15_carddata")
-Title = "Out: T2 -> T3"
-Description = "Upgrade 1 Tier 2 output payout to Tier 3."
-CardColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
-TargetTier = ExtResource("12_t2")
-ResultTier = ExtResource("13_t3")
-
-[sub_resource type="Resource" id="Card_Downgrade_Pack"]
-script = ExtResource("15_carddata")
-Title = "Out: T2 -> T1"
-Description = "Downgrade 1 Tier 2 output to Tier 1. Gives a Ball Pack!"
-CardColor = Color(0.27058825, 0.16470589, 0.12941177, 1)
-TargetTier = ExtResource("12_t2")
-ResultTier = ExtResource("11_t1")
-BonusBalls = Array[Object]([ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1"), ExtResource("11_t1")])
 
 [node name="VisualShowcase" type="Node2D"]
 
@@ -302,22 +269,10 @@ columns = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 
-[node name="CardUI1" parent="SidebarSection/CardsGrid" instance=ExtResource("10_cardui")]
-custom_minimum_size = Vector2(110, 110)
-layout_mode = 2
-CardData = SubResource("Card_Upgrade_In")
+[node name="Award1" type="Node2D" parent="SidebarSection/CardsGrid"]
+position = Vector2(50, 40)
+script = ExtResource("29_award")
 
-[node name="CardUI2" parent="SidebarSection/CardsGrid" instance=ExtResource("10_cardui")]
-custom_minimum_size = Vector2(110, 110)
-layout_mode = 2
-CardData = SubResource("Card_Upgrade_Out")
-
-[node name="CardUI3" parent="SidebarSection/CardsGrid" instance=ExtResource("10_cardui")]
-custom_minimum_size = Vector2(110, 110)
-layout_mode = 2
-CardData = SubResource("Card_Pack")
-
-[node name="CardUI4" parent="SidebarSection/CardsGrid" instance=ExtResource("10_cardui")]
-custom_minimum_size = Vector2(110, 110)
-layout_mode = 2
-CardData = SubResource("Card_Downgrade_Pack")
+[node name="Award2" type="Node2D" parent="SidebarSection/CardsGrid"]
+position = Vector2(150, 40)
+script = ExtResource("29_award")
