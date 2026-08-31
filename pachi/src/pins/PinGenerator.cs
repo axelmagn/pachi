@@ -12,20 +12,24 @@ public abstract partial class PinGenerator : Node2D
     public PackedScene? PinScene
     {
         get => _pinScene;
-        set { _pinScene = value; Rebuild(); }
+        set
+        {
+            if (_pinScene == value) return;
+            _pinScene = value;
+            Rebuild();
+        }
     }
 
     public override void _Ready()
     {
-        // if (GetChildCount() == 0)
-        // {
-        Rebuild();
-        // }
+        if (GetChildCount() == 0)
+        {
+            Rebuild();
+        }
     }
 
-    protected void Rebuild()
+    public void Rebuild()
     {
-        if (!IsInsideTree()) return;
         ClearPins();
         if (PinScene == null) return;
         GeneratePins();

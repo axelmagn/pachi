@@ -10,55 +10,99 @@ public partial class PinFunnel : Node2D
     public float InnerWidth
     {
         get => _innerWidth;
-        set { _innerWidth = Math.Max(0.1f, value); Rebuild(); }
+        set
+        {
+            float clamped = Math.Max(0.1f, value);
+            if (Mathf.IsEqualApprox(_innerWidth, clamped)) return;
+            _innerWidth = clamped;
+            Rebuild();
+        }
     }
 
     [Export]
     public float OuterWidth
     {
         get => _outerWidth;
-        set { _outerWidth = Math.Max(0.1f, value); Rebuild(); }
+        set
+        {
+            float clamped = Math.Max(0.1f, value);
+            if (Mathf.IsEqualApprox(_outerWidth, clamped)) return;
+            _outerWidth = clamped;
+            Rebuild();
+        }
     }
 
     [Export]
     public float Height
     {
         get => _height;
-        set { _height = Math.Max(0.1f, value); Rebuild(); }
+        set
+        {
+            float clamped = Math.Max(0.1f, value);
+            if (Mathf.IsEqualApprox(_height, clamped)) return;
+            _height = clamped;
+            Rebuild();
+        }
     }
 
     [Export]
     public float AverageSpacing
     {
         get => _averageSpacing;
-        set { _averageSpacing = Math.Max(0.1f, value); Rebuild(); }
+        set
+        {
+            float clamped = Math.Max(0.1f, value);
+            if (Mathf.IsEqualApprox(_averageSpacing, clamped)) return;
+            _averageSpacing = clamped;
+            Rebuild();
+        }
     }
 
     [Export]
     public bool MirrorX
     {
         get => _mirrorX;
-        set { _mirrorX = value; Rebuild(); }
+        set
+        {
+            if (_mirrorX == value) return;
+            _mirrorX = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public bool MirrorY
     {
         get => _mirrorY;
-        set { _mirrorY = value; Rebuild(); }
+        set
+        {
+            if (_mirrorY == value) return;
+            _mirrorY = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public PinEllipse? LeftEllipse
     {
         get => _leftEllipse;
-        set { _leftEllipse = value; Rebuild(); }
+        set
+        {
+            if (_leftEllipse == value) return;
+            _leftEllipse = value;
+            Rebuild();
+        }
     }
     [Export]
     public PinEllipse? RightEllipse
     {
         get => _rightEllipse;
-        set { _rightEllipse = value; Rebuild(); }
+        set
+        {
+            if (_rightEllipse == value) return;
+            _rightEllipse = value;
+            Rebuild();
+        }
     }
 
     private float _innerWidth = 50.0f;
@@ -75,27 +119,32 @@ public partial class PinFunnel : Node2D
     {
         float x = (MirrorX ? InnerWidth : OuterWidth) / 2;
         float y = MirrorY ? -Height : 0;
+        float radiusX = Math.Max(0, (OuterWidth - InnerWidth) / 2);
         if (LeftEllipse != null)
         {
             LeftEllipse.Position = new(-x, y);
-            LeftEllipse.StartAngle = -90;
-            LeftEllipse.EndAngle = 0;
-            LeftEllipse.RadiusX = Math.Max(0, (OuterWidth - InnerWidth) / 2);
-            LeftEllipse.RadiusY = Height;
-            LeftEllipse.MirrorX = MirrorX;
-            LeftEllipse.MirrorY = MirrorY;
-            LeftEllipse.AverageSpacing = AverageSpacing;
+            LeftEllipse.Configure(
+                radiusX: radiusX,
+                radiusY: Height,
+                startAngle: -90,
+                endAngle: 0,
+                averageSpacing: AverageSpacing,
+                mirrorX: MirrorX,
+                mirrorY: MirrorY
+            );
         }
         if (RightEllipse != null)
         {
             RightEllipse.Position = new(x, y);
-            RightEllipse.StartAngle = -180;
-            RightEllipse.EndAngle = -90;
-            RightEllipse.RadiusX = Math.Max(0, (OuterWidth - InnerWidth) / 2);
-            RightEllipse.RadiusY = Height;
-            RightEllipse.MirrorX = MirrorX;
-            RightEllipse.MirrorY = MirrorY;
-            RightEllipse.AverageSpacing = AverageSpacing;
+            RightEllipse.Configure(
+                radiusX: radiusX,
+                radiusY: Height,
+                startAngle: -180,
+                endAngle: -90,
+                averageSpacing: AverageSpacing,
+                mirrorX: MirrorX,
+                mirrorY: MirrorY
+            );
         }
     }
 }

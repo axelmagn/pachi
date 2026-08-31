@@ -168,21 +168,36 @@ public partial class Pocket : Node2D
     public bool HasArms
     {
         get => _hasArms;
-        set { _hasArms = value; Rebuild(); }
+        set
+        {
+            if (_hasArms == value) return;
+            _hasArms = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public float ArmLength
     {
         get => _armLength;
-        set { _armLength = value; Rebuild(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_armLength, value)) return;
+            _armLength = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public float ArmRadius
     {
         get => _armRadius;
-        set { _armRadius = value; Rebuild(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_armRadius, value)) return;
+            _armRadius = value;
+            Rebuild();
+        }
     }
 
     public ArmState CurrentArmState { get; private set; } = ArmState.Closed;

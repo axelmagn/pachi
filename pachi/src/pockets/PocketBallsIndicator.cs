@@ -34,6 +34,7 @@ public partial class PocketBallsIndicator : Node2D
         get => _isInputIndicator;
         set
         {
+            if (_isInputIndicator == value) return;
             _isInputIndicator = value;
             if (_binding.ActiveConfig != null)
             {
@@ -48,7 +49,12 @@ public partial class PocketBallsIndicator : Node2D
     public Color BackgroundColor
     {
         get => _backgroundColor;
-        set { _backgroundColor = value; QueueRedraw(); }
+        set
+        {
+            if (_backgroundColor == value) return;
+            _backgroundColor = value;
+            QueueRedraw();
+        }
     }
     private Color _backgroundColor = new(0.14f, 0.14f, 0.14f);
 
@@ -56,7 +62,12 @@ public partial class PocketBallsIndicator : Node2D
     public bool ShowQuestionMark
     {
         get => _showQuestionMark;
-        set { _showQuestionMark = value; QueueRedraw(); }
+        set
+        {
+            if (_showQuestionMark == value) return;
+            _showQuestionMark = value;
+            QueueRedraw();
+        }
     }
     private bool _showQuestionMark = false;
 
@@ -64,7 +75,12 @@ public partial class PocketBallsIndicator : Node2D
     public Vector2 Size
     {
         get => _size;
-        set { _size = value; QueueRedraw(); }
+        set
+        {
+            if (_size == value) return;
+            _size = value;
+            QueueRedraw();
+        }
     }
     private Vector2 _size = new(34, 10);
 
@@ -72,7 +88,12 @@ public partial class PocketBallsIndicator : Node2D
     public float DotRadius
     {
         get => _dotRadius;
-        set { _dotRadius = value; QueueRedraw(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_dotRadius, value)) return;
+            _dotRadius = value;
+            QueueRedraw();
+        }
     }
     private float _dotRadius = 1.5f;
 
@@ -80,7 +101,12 @@ public partial class PocketBallsIndicator : Node2D
     public Color BorderColor
     {
         get => _borderColor;
-        set { _borderColor = value; QueueRedraw(); }
+        set
+        {
+            if (_borderColor == value) return;
+            _borderColor = value;
+            QueueRedraw();
+        }
     }
     private Color _borderColor = Colors.Black;
 
@@ -88,7 +114,12 @@ public partial class PocketBallsIndicator : Node2D
     public float BorderThickness
     {
         get => _borderThickness;
-        set { _borderThickness = value; QueueRedraw(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_borderThickness, value)) return;
+            _borderThickness = value;
+            QueueRedraw();
+        }
     }
     private float _borderThickness = 1.0f;
 

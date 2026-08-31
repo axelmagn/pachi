@@ -19,6 +19,7 @@ public partial class VisualConfig : Resource
         get => _backgroundColor;
         set
         {
+            if (_backgroundColor == value) return;
             _backgroundColor = value;
             EmitChanged();
         }
@@ -40,6 +41,7 @@ public partial class VisualConfig : Resource
         get => _pinBaseColor;
         set
         {
+            if (_pinBaseColor == value) return;
             _pinBaseColor = value;
             EmitChanged();
         }
@@ -51,6 +53,7 @@ public partial class VisualConfig : Resource
         get => _pinTexture;
         set
         {
+            if (_pinTexture == value) return;
             _pinTexture = value;
             EmitChanged();
         }
@@ -62,6 +65,7 @@ public partial class VisualConfig : Resource
         get => _pinTextureScale;
         set
         {
+            if (Mathf.IsEqualApprox(_pinTextureScale, value)) return;
             _pinTextureScale = value;
             EmitChanged();
         }
@@ -73,6 +77,7 @@ public partial class VisualConfig : Resource
         get => _pinTextureOffset;
         set
         {
+            if (_pinTextureOffset == value) return;
             _pinTextureOffset = value;
             EmitChanged();
         }
@@ -84,6 +89,7 @@ public partial class VisualConfig : Resource
         get => _flashColor;
         set
         {
+            if (_flashColor == value) return;
             _flashColor = value;
             EmitChanged();
         }
@@ -107,6 +113,7 @@ public partial class VisualConfig : Resource
         get => _inputIndicatorBackgroundColor;
         set
         {
+            if (_inputIndicatorBackgroundColor == value) return;
             _inputIndicatorBackgroundColor = value;
             EmitChanged();
         }
@@ -118,6 +125,7 @@ public partial class VisualConfig : Resource
         get => _outputIndicatorBackgroundColor;
         set
         {
+            if (_outputIndicatorBackgroundColor == value) return;
             _outputIndicatorBackgroundColor = value;
             EmitChanged();
         }
@@ -128,6 +136,7 @@ public partial class VisualConfig : Resource
         get => _inputIndicatorBackgroundColor;
         set
         {
+            if (_inputIndicatorBackgroundColor == value) return;
             _inputIndicatorBackgroundColor = value;
             EmitChanged();
         }
@@ -139,6 +148,7 @@ public partial class VisualConfig : Resource
         get => _indicatorBorderColor;
         set
         {
+            if (_indicatorBorderColor == value) return;
             _indicatorBorderColor = value;
             EmitChanged();
         }
@@ -150,6 +160,7 @@ public partial class VisualConfig : Resource
         get => _armColor;
         set
         {
+            if (_armColor == value) return;
             _armColor = value;
             EmitChanged();
         }
@@ -161,6 +172,7 @@ public partial class VisualConfig : Resource
         get => _armTexture;
         set
         {
+            if (_armTexture == value) return;
             _armTexture = value;
             EmitChanged();
         }
@@ -172,6 +184,7 @@ public partial class VisualConfig : Resource
         get => _armTextureScale;
         set
         {
+            if (Mathf.IsEqualApprox(_armTextureScale, value)) return;
             _armTextureScale = value;
             EmitChanged();
         }
@@ -183,6 +196,7 @@ public partial class VisualConfig : Resource
         get => _armTextureOffset;
         set
         {
+            if (_armTextureOffset == value) return;
             _armTextureOffset = value;
             EmitChanged();
         }
@@ -198,6 +212,7 @@ public partial class VisualConfig : Resource
         get => _pocketTexture;
         set
         {
+            if (_pocketTexture == value) return;
             _pocketTexture = value;
             EmitChanged();
         }
@@ -209,6 +224,7 @@ public partial class VisualConfig : Resource
         get => _pocketTextureScale;
         set
         {
+            if (Mathf.IsEqualApprox(_pocketTextureScale, value)) return;
             _pocketTextureScale = value;
             EmitChanged();
         }
@@ -220,6 +236,7 @@ public partial class VisualConfig : Resource
         get => _pocketTextureOffset;
         set
         {
+            if (_pocketTextureOffset == value) return;
             _pocketTextureOffset = value;
             EmitChanged();
         }
@@ -239,6 +256,7 @@ public partial class VisualConfig : Resource
         get => _cardBackgroundColor;
         set
         {
+            if (_cardBackgroundColor == value) return;
             _cardBackgroundColor = value;
             EmitChanged();
         }
@@ -250,6 +268,7 @@ public partial class VisualConfig : Resource
         get => _cardBorderColor;
         set
         {
+            if (_cardBorderColor == value) return;
             _cardBorderColor = value;
             EmitChanged();
         }
@@ -261,6 +280,7 @@ public partial class VisualConfig : Resource
         get => _cardIndicatorBackgroundColor;
         set
         {
+            if (_cardIndicatorBackgroundColor == value) return;
             _cardIndicatorBackgroundColor = value;
             EmitChanged();
         }
@@ -283,6 +303,7 @@ public partial class VisualConfig : Resource
         get => _yakumonoScale;
         set
         {
+            if (Mathf.IsEqualApprox(_yakumonoScale, value)) return;
             _yakumonoScale = value;
             EmitChanged();
         }
@@ -293,6 +314,7 @@ public partial class VisualConfig : Resource
         get => _faceTextures;
         set
         {
+            if (_faceTextures == value) return;
             _faceTextures = value ?? new Godot.Collections.Array<Texture2D>();
             EmitChanged();
         }
@@ -304,6 +326,7 @@ public partial class VisualConfig : Resource
         get => _jackpotFaceTexture;
         set
         {
+            if (_jackpotFaceTexture == value) return;
             _jackpotFaceTexture = value;
             EmitChanged();
         }
@@ -315,6 +338,7 @@ public partial class VisualConfig : Resource
         get => _yakumonoBaseColor;
         set
         {
+            if (_yakumonoBaseColor == value) return;
             _yakumonoBaseColor = value;
             EmitChanged();
         }
@@ -326,6 +350,7 @@ public partial class VisualConfig : Resource
         get => _frameTexture;
         set
         {
+            if (_frameTexture == value) return;
             _frameTexture = value;
             EmitChanged();
         }
@@ -337,6 +362,7 @@ public partial class VisualConfig : Resource
         get => _foregroundTexture;
         set
         {
+            if (_foregroundTexture == value) return;
             _foregroundTexture = value;
             EmitChanged();
         }
@@ -358,6 +384,7 @@ public partial class VisualConfig : Resource
         get => _ballTier1Color;
         set
         {
+            if (_ballTier1Color == value) return;
             _ballTier1Color = value;
             EmitChanged();
         }
@@ -369,6 +396,7 @@ public partial class VisualConfig : Resource
         get => _ballTier2Color;
         set
         {
+            if (_ballTier2Color == value) return;
             _ballTier2Color = value;
             EmitChanged();
         }
@@ -380,6 +408,7 @@ public partial class VisualConfig : Resource
         get => _ballTier3Color;
         set
         {
+            if (_ballTier3Color == value) return;
             _ballTier3Color = value;
             EmitChanged();
         }
@@ -391,6 +420,7 @@ public partial class VisualConfig : Resource
         get => _ballTier4Color;
         set
         {
+            if (_ballTier4Color == value) return;
             _ballTier4Color = value;
             EmitChanged();
         }
@@ -402,6 +432,7 @@ public partial class VisualConfig : Resource
         get => _ballTier5Color;
         set
         {
+            if (_ballTier5Color == value) return;
             _ballTier5Color = value;
             EmitChanged();
         }
@@ -410,11 +441,19 @@ public partial class VisualConfig : Resource
     // -------------------------------------------------------------------------
     // Helper Loader
     // -------------------------------------------------------------------------
+    private static VisualConfig? _cachedDefault;
+
     public static VisualConfig? LoadDefault()
     {
+        if (_cachedDefault != null && GodotObject.IsInstanceValid(_cachedDefault))
+        {
+            return _cachedDefault;
+        }
+
         if (ResourceLoader.Exists(DefaultPath))
         {
-            return ResourceLoader.Load<VisualConfig>(DefaultPath);
+            _cachedDefault = ResourceLoader.Load<VisualConfig>(DefaultPath);
+            return _cachedDefault;
         }
         return null;
     }

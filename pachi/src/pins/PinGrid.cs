@@ -15,35 +15,62 @@ public partial class PinGrid : PinGenerator
     public int Rows
     {
         get => _rows;
-        set { _rows = Math.Max(1, value); Rebuild(); }
+        set
+        {
+            int clamped = Math.Max(1, value);
+            if (_rows == clamped) return;
+            _rows = clamped;
+            Rebuild();
+        }
     }
 
     [Export]
     public int Columns
     {
         get => _columns;
-        set { _columns = Math.Max(1, value); Rebuild(); }
+        set
+        {
+            int clamped = Math.Max(1, value);
+            if (_columns == clamped) return;
+            _columns = clamped;
+            Rebuild();
+        }
     }
 
     [Export]
     public float SpacingX
     {
         get => _spacingX;
-        set { _spacingX = value; Rebuild(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_spacingX, value)) return;
+            _spacingX = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public float SpacingY
     {
         get => _spacingY;
-        set { _spacingY = value; Rebuild(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_spacingY, value)) return;
+            _spacingY = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public float RowOffset
     {
         get => _rowOffset;
-        set { _rowOffset = value; Rebuild(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_rowOffset, value)) return;
+            _rowOffset = value;
+            Rebuild();
+        }
     }
 
     protected override void GeneratePins()

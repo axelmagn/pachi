@@ -44,6 +44,7 @@ public partial class BoundaryRect : StaticBody2D
         get => _backgroundColor;
         set
         {
+            if (_backgroundColor == value) return;
             _backgroundColor = value;
             QueueRedraw();
         }
@@ -53,14 +54,26 @@ public partial class BoundaryRect : StaticBody2D
     public float Width
     {
         get => _width;
-        set { _width = value; Rebuild(); QueueRedraw(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_width, value)) return;
+            _width = value;
+            Rebuild();
+            QueueRedraw();
+        }
     }
 
     [Export]
     public float Height
     {
         get => _height;
-        set { _height = value; Rebuild(); QueueRedraw(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_height, value)) return;
+            _height = value;
+            Rebuild();
+            QueueRedraw();
+        }
     }
 
     [Export]

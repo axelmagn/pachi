@@ -10,49 +10,115 @@ public partial class PinEllipse : PinGenerator
     public float RadiusX
     {
         get => _radiusX;
-        set { _radiusX = Math.Max(0.1f, value); Rebuild(); }
+        set
+        {
+            float clamped = Math.Max(0.1f, value);
+            if (Mathf.IsEqualApprox(_radiusX, clamped)) return;
+            _radiusX = clamped;
+            Rebuild();
+        }
     }
 
     [Export]
     public float RadiusY
     {
         get => _radiusY;
-        set { _radiusY = Math.Max(0.1f, value); Rebuild(); }
+        set
+        {
+            float clamped = Math.Max(0.1f, value);
+            if (Mathf.IsEqualApprox(_radiusY, clamped)) return;
+            _radiusY = clamped;
+            Rebuild();
+        }
     }
 
     [Export]
     public float AverageSpacing
     {
         get => _averageSpacing;
-        set { _averageSpacing = Math.Max(0.1f, value); Rebuild(); }
+        set
+        {
+            float clamped = Math.Max(0.1f, value);
+            if (Mathf.IsEqualApprox(_averageSpacing, clamped)) return;
+            _averageSpacing = clamped;
+            Rebuild();
+        }
     }
 
     [Export(PropertyHint.Range, "-360,360")]
     public float StartAngle
     {
         get => _startAngle;
-        set { _startAngle = value; Rebuild(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_startAngle, value)) return;
+            _startAngle = value;
+            Rebuild();
+        }
     }
 
     [Export(PropertyHint.Range, "-360,360")]
     public float EndAngle
     {
         get => _endAngle;
-        set { _endAngle = value; Rebuild(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_endAngle, value)) return;
+            _endAngle = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public bool MirrorX
     {
         get => _mirrorX;
-        set { _mirrorX = value; Rebuild(); }
+        set
+        {
+            if (_mirrorX == value) return;
+            _mirrorX = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public bool MirrorY
     {
         get => _mirrorY;
-        set { _mirrorY = value; Rebuild(); }
+        set
+        {
+            if (_mirrorY == value) return;
+            _mirrorY = value;
+            Rebuild();
+        }
+    }
+
+    public void Configure(float radiusX, float radiusY, float startAngle, float endAngle, float averageSpacing, bool mirrorX, bool mirrorY)
+    {
+        float clampedRadiusX = Math.Max(0.1f, radiusX);
+        float clampedRadiusY = Math.Max(0.1f, radiusY);
+        float clampedSpacing = Math.Max(0.1f, averageSpacing);
+
+        bool changed = !Mathf.IsEqualApprox(_radiusX, clampedRadiusX) ||
+                       !Mathf.IsEqualApprox(_radiusY, clampedRadiusY) ||
+                       !Mathf.IsEqualApprox(_startAngle, startAngle) ||
+                       !Mathf.IsEqualApprox(_endAngle, endAngle) ||
+                       !Mathf.IsEqualApprox(_averageSpacing, clampedSpacing) ||
+                       _mirrorX != mirrorX ||
+                       _mirrorY != mirrorY;
+
+        _radiusX = clampedRadiusX;
+        _radiusY = clampedRadiusY;
+        _startAngle = startAngle;
+        _endAngle = endAngle;
+        _averageSpacing = clampedSpacing;
+        _mirrorX = mirrorX;
+        _mirrorY = mirrorY;
+
+        if (changed)
+        {
+            Rebuild();
+        }
     }
 
     private float _radiusX = 100.0f;

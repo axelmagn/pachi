@@ -34,7 +34,9 @@ public partial class BallAwardIndicator : Node2D
         get => _maxColumns;
         set
         {
-            _maxColumns = Math.Max(1, value);
+            int clamped = Math.Max(1, value);
+            if (_maxColumns == clamped) return;
+            _maxColumns = clamped;
             UpdateIndicatorSize();
             QueueRedraw();
         }
@@ -45,7 +47,12 @@ public partial class BallAwardIndicator : Node2D
     public Color BackgroundColor
     {
         get => _backgroundColor;
-        set { _backgroundColor = value; QueueRedraw(); }
+        set
+        {
+            if (_backgroundColor == value) return;
+            _backgroundColor = value;
+            QueueRedraw();
+        }
     }
     private Color _backgroundColor = new(0.14f, 0.14f, 0.14f);
 
@@ -53,7 +60,12 @@ public partial class BallAwardIndicator : Node2D
     public Vector2 Size
     {
         get => _size;
-        set { _size = value; QueueRedraw(); }
+        set
+        {
+            if (_size == value) return;
+            _size = value;
+            QueueRedraw();
+        }
     }
     private Vector2 _size = new(10, 10);
 
@@ -61,7 +73,12 @@ public partial class BallAwardIndicator : Node2D
     public Color BorderColor
     {
         get => _borderColor;
-        set { _borderColor = value; QueueRedraw(); }
+        set
+        {
+            if (_borderColor == value) return;
+            _borderColor = value;
+            QueueRedraw();
+        }
     }
     private Color _borderColor = Colors.Black;
 
@@ -69,7 +86,12 @@ public partial class BallAwardIndicator : Node2D
     public float BorderThickness
     {
         get => _borderThickness;
-        set { _borderThickness = value; QueueRedraw(); }
+        set
+        {
+            if (Mathf.IsEqualApprox(_borderThickness, value)) return;
+            _borderThickness = value;
+            QueueRedraw();
+        }
     }
     private float _borderThickness = 1.0f;
 

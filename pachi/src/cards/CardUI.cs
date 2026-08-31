@@ -35,8 +35,9 @@ public partial class CardUI : PanelContainer
         get => _cardData;
         set
         {
+            if (_cardData == value) return;
             _cardData = value;
-            UpdateDisplay();
+            UpdateDisplay(repopulateIndicators: true);
         }
     }
 
@@ -70,14 +71,14 @@ public partial class CardUI : PanelContainer
         }
         else
         {
-            UpdateDisplay();
+            UpdateDisplay(repopulateIndicators: true);
         }
     }
 
     public void ApplyVisualConfig(VisualConfig? config)
     {
         if (config == null) return;
-        UpdateDisplay(config);
+        UpdateDisplay(config, repopulateIndicators: false);
     }
 
     public override void _GuiInput(InputEvent @event)
@@ -108,7 +109,7 @@ public partial class CardUI : PanelContainer
         }
     }
 
-    private void UpdateDisplay(VisualConfig? explicitConfig = null)
+    private void UpdateDisplay(VisualConfig? explicitConfig = null, bool repopulateIndicators = false)
     {
         if (_titleLabel == null) _titleLabel = GetNodeOrNull<Label>("%TitleLabel");
         if (_descriptionLabel == null) _descriptionLabel = GetNodeOrNull<Label>("%DescriptionLabel");
@@ -116,16 +117,16 @@ public partial class CardUI : PanelContainer
 
         if (_cardData != null)
         {
-            if (_titleLabel != null)
+            if (_titleLabel != null && _titleLabel.Text != _cardData.Title)
             {
                 _titleLabel.Text = _cardData.Title;
             }
-            if (_descriptionLabel != null)
+            if (_descriptionLabel != null && _descriptionLabel.Text != _cardData.Description)
             {
                 _descriptionLabel.Text = _cardData.Description;
             }
 
-            if (_indicatorContainer != null)
+            if (_indicatorContainer != null && (repopulateIndicators || _indicatorContainer.GetChildCount() == 0))
             {
                 foreach (Node child in _indicatorContainer.GetChildren())
                 {

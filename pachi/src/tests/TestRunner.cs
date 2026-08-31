@@ -13,6 +13,7 @@ public partial class TestRunner : SceneTree
             BallStuckTests.RunAllTests();
             PocketIndicatorTests.RunAllTests();
             CardGuardrailTests.RunAllTests();
+            PinToolPerformanceTests.RunAllTests();
             GD.Print("All tests passed successfully!");
             Quit(0);
         }
