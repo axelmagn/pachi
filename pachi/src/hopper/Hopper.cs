@@ -9,6 +9,9 @@ public partial class Hopper : Node2D
 {
     public static readonly StringName GroupHoppers = new("hoppers");
 
+    [Signal]
+    public delegate void InventoryChangedEventHandler();
+
     [Export]
     public Node2D? BallsRoot { get; set; }
 
@@ -60,11 +63,109 @@ public partial class Hopper : Node2D
         GlobalEvents.Instance.BallAwarded += OnBallAwarded;
 
         AddToGroup(GroupHoppers);
+        EmitSignal(SignalName.InventoryChanged);
+    }
+
+    private void EnsureContainedBallsSynced()
+    {
+        if (BallsRoot != null && _containedBalls.Count == 0 && BallsRoot.GetChildCount() > 0)
+        {
+            foreach (Node child in BallsRoot.GetChildren())
+            {
+                if (child is Ball ball && !_containedBalls.Contains(ball))
+                {
+                    ball.IsInPlay = false;
+                    _containedBalls.AddLast(ball);
+                }
+            }
+        }
     }
 
     public int GetTotalBallCount()
     {
+        EnsureContainedBallsSynced();
         return _containedBalls.Count + _queuedBalls.Count;
+    }
+
+    public int GetTierCount(int tier)
+    {
+        EnsureContainedBallsSynced();
+        int count = 0;
+        foreach (Ball ball in _containedBalls)
+        {
+            int ballTier = ball.Variant?.Tier ?? 1;
+            if (ballTier == tier)
+            {
+                count++;
+            }
+        }
+        foreach (Ball ball in _queuedBalls)
+        {
+            int ballTier = ball.Variant?.Tier ?? 1;
+            if (ballTier == tier)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public bool HasBallCost(int tier, int count)
+    {
+        if (count <= 0)
+        {
+            return true;
+        }
+        return GetTierCount(tier) >= count;
+    }
+
+    public bool DeductBallCost(int tier, int count)
+    {
+        if (count <= 0)
+        {
+            return true;
+        }
+        if (!HasBallCost(tier, count))
+        {
+            return false;
+        }
+
+        int remainingToDeduct = count;
+
+        // Front-to-back scan of contained balls
+        var currentContained = _containedBalls.First;
+        while (currentContained != null && remainingToDeduct > 0)
+        {
+            var next = currentContained.Next;
+            Ball ball = currentContained.Value;
+            int ballTier = ball.Variant?.Tier ?? 1;
+            if (ballTier == tier)
+            {
+                _containedBalls.Remove(currentContained);
+                ball.QueueFree();
+                remainingToDeduct--;
+            }
+            currentContained = next;
+        }
+
+        // Front-to-back scan of queued balls if still needed
+        var currentQueued = _queuedBalls.First;
+        while (currentQueued != null && remainingToDeduct > 0)
+        {
+            var next = currentQueued.Next;
+            Ball ball = currentQueued.Value;
+            int ballTier = ball.Variant?.Tier ?? 1;
+            if (ballTier == tier)
+            {
+                _queuedBalls.Remove(currentQueued);
+                ball.QueueFree();
+                remainingToDeduct--;
+            }
+            currentQueued = next;
+        }
+
+        EmitSignal(SignalName.InventoryChanged);
+        return true;
     }
 
     public override void _ExitTree()
@@ -81,28 +182,38 @@ public partial class Hopper : Node2D
         Debug.Assert(GameConfig.Instance != null, "GameConfig.Instance must not be null");
         Debug.Assert(GameConfig.Instance.BallScene != null, "GameConfig.Instance.BallScene must not be null");
 
+        bool added = false;
         foreach (BallVariant variant in variants)
         {
             if (variant == null) continue;
             Ball ball = GameConfig.Instance.BallScene.Instantiate<Ball>();
             ball.Variant = variant;
             _queuedBalls.AddLast(ball);
+            added = true;
+        }
+
+        if (added)
+        {
+            EmitSignal(SignalName.InventoryChanged);
         }
     }
 
     public int BallCount()
     {
+        EnsureContainedBallsSynced();
         return _containedBalls.Count;
     }
 
     public Ball? PopFirstContainedBall()
     {
+        EnsureContainedBallsSynced();
         if (_containedBalls.Count == 0)
         {
             return null;
         }
         Ball first = _containedBalls.First();
         _containedBalls.RemoveFirst();
+        EmitSignal(SignalName.InventoryChanged);
         return first;
     }
 
@@ -127,6 +238,7 @@ public partial class Hopper : Node2D
         _nextDispenseHoleIndex += 1;
         _nextDispenseHoleIndex %= numHoles;
         ball.FadeIn(initFadedOut: true);
+        EmitSignal(SignalName.InventoryChanged);
     }
 
     private void OnDispenseTimeout()

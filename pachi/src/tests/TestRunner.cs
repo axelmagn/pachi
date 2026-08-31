@@ -14,6 +14,11 @@ public partial class TestRunner : SceneTree
             PocketIndicatorTests.RunAllTests();
             SocketLifecycleTests.RunAllTests();
             PackageDealCardTests.RunAllTests();
+            DealMeterTests.RunAllTests();
+            HopperCostDeductionTests.RunAllTests();
+            CardShopTests.RunAllTests();
+            CardShopUITests.RunAllTests();
+            CardShopIntegrationTests.RunAllTests();
             GD.Print("All tests passed successfully!");
             Quit(0);
         }

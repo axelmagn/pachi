@@ -18,6 +18,9 @@ public partial class Socket2D : Node2D
     [Signal]
     public delegate void ComponentUnmountedEventHandler(Socket2D socket, Node2D unmountedComponent);
 
+    [Signal]
+    public delegate void SocketClickedEventHandler(Socket2D socket);
+
     public static readonly StringName GroupSockets = new("sockets");
 
     private SocketCategory _category = SocketCategory.BeetlePocket;
@@ -55,6 +58,15 @@ public partial class Socket2D : Node2D
             _boundsSize = value;
             QueueRedraw();
         }
+    }
+
+    public bool IsTargetHighlighted { get; private set; } = false;
+
+    public void SetTargetHighlighted(bool highlighted)
+    {
+        if (IsTargetHighlighted == highlighted) return;
+        IsTargetHighlighted = highlighted;
+        QueueRedraw();
     }
 
     private Node2D? _currentComponent;
@@ -186,9 +198,25 @@ public partial class Socket2D : Node2D
         }
     }
 
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (!IsTargetHighlighted) return;
+
+        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+        {
+            Vector2 localPos = ToLocal(GetGlobalMousePosition());
+            Vector2 half = BoundsSize / 2.0f;
+            if (Mathf.Abs(localPos.X) <= half.X && Mathf.Abs(localPos.Y) <= half.Y)
+            {
+                EmitSignal(SignalName.SocketClicked, this);
+                GetViewport().SetInputAsHandled();
+            }
+        }
+    }
+
     public override void _Draw()
     {
-        if (!Engine.IsEditorHint()) return;
+        if (!Engine.IsEditorHint() && !IsTargetHighlighted) return;
 
         Color catColor = Category switch
         {
@@ -198,7 +226,11 @@ public partial class Socket2D : Node2D
             _ => Colors.White
         };
 
-        if (CurrentComponent != null || GetChildCount() > 0)
+        if (IsTargetHighlighted)
+        {
+            catColor = Colors.Yellow;
+        }
+        else if (CurrentComponent != null || GetChildCount() > 0)
         {
             catColor.A *= 0.4f;
         }
@@ -209,10 +241,18 @@ public partial class Socket2D : Node2D
         Vector2 bottomRight = new(half.X, half.Y);
         Vector2 bottomLeft = new(-half.X, half.Y);
 
-        DrawDashedLine(topLeft, topRight, catColor, 2.0f, 6.0f);
-        DrawDashedLine(topRight, bottomRight, catColor, 2.0f, 6.0f);
-        DrawDashedLine(bottomRight, bottomLeft, catColor, 2.0f, 6.0f);
-        DrawDashedLine(bottomLeft, topLeft, catColor, 2.0f, 6.0f);
+        if (IsTargetHighlighted)
+        {
+            DrawRect(new Rect2(-half, BoundsSize), new Color(1.0f, 0.9f, 0.2f, 0.15f), filled: true);
+            DrawRect(new Rect2(-half, BoundsSize), Colors.Yellow, filled: false, width: 3.0f);
+        }
+        else
+        {
+            DrawDashedLine(topLeft, topRight, catColor, 2.0f, 6.0f);
+            DrawDashedLine(topRight, bottomRight, catColor, 2.0f, 6.0f);
+            DrawDashedLine(bottomRight, bottomLeft, catColor, 2.0f, 6.0f);
+            DrawDashedLine(bottomLeft, topLeft, catColor, 2.0f, 6.0f);
+        }
 
         string label = string.IsNullOrEmpty(SocketId) ? Category.ToString() : $"{Category}\n({SocketId})";
         DrawString(

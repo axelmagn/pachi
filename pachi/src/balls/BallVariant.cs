@@ -10,6 +10,10 @@ public partial class BallVariant : Resource
     [Export]
     public Color PlaceholderColor = Colors.White;
 
+    /// The tier rank of the ball variant (1 to 6).
+    [Export]
+    public int Tier { get; set; } = 1;
+
     /// A hidden price associated with the ball, used to track the exchange rate of different balls
     /// as well as certain background point calculations.
     [Export]

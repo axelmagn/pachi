@@ -5,5 +5,6 @@
 [resource]
 script = ExtResource("1_6hp2e")
 PlaceholderColor = Color(0.81960785, 0.5058824, 0.29803923, 1)
+Tier = 3
 BasePrice = 4
 metadata/_custom_type_script = "uid://cr0t46tii2w3s"

@@ -13,9 +13,18 @@
 [ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="10_cq107"]
 [ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="11_00jtp"]
 [ext_resource type="Script" uid="uid://dhchimq8w8vbc" path="res://src/art/EnvironmentBackground.cs" id="12_envbg"]
-[ext_resource type="PackedScene" uid="uid://bvskthrnss01" path="res://src/sockets/debug/socket_debug_harness.tscn" id="13_harness"]
+[ext_resource type="Script" path="res://src/main_game/MainGameController.cs" id="13_controller"]
+[ext_resource type="Script" path="res://src/cards/shop/DealMeter.cs" id="14_dealmeter"]
+[ext_resource type="Script" path="res://src/cards/shop/CardShop.cs" id="15_cardshop"]
+[ext_resource type="Script" path="res://src/cards/shop/ui/CardShopUI.cs" id="16_cardshopui"]
 
-[node name="Game" type="Node" unique_id=727896907]
+[node name="Game" type="Node" node_paths=PackedStringArray("ShopUI", "Shop", "Meter", "Hopper", "Level") unique_id=727896907]
+script = ExtResource("13_controller")
+ShopUI = NodePath("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/RightColumn/CardShopUI")
+Shop = NodePath("Systems/CardShop")
+Meter = NodePath("Systems/DealMeter")
+Hopper = NodePath("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper")
+Level = NodePath("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer/SubViewport/Level")
 
 [node name="Systems" type="Node" parent="." unique_id=44827371]
 
@@ -26,6 +35,12 @@ script = ExtResource("1_n5cg8")
 script = ExtResource("2_ju3mb")
 BallScene = ExtResource("3_4kfrx")
 BallTiers = Array[Object]([ExtResource("4_00jtp"), ExtResource("5_22jfb"), ExtResource("6_2auq4"), ExtResource("7_q845l"), ExtResource("8_jbje6"), ExtResource("9_n8mq4")])
+
+[node name="DealMeter" type="Node" parent="Systems" unique_id=514418529]
+script = ExtResource("14_dealmeter")
+
+[node name="CardShop" type="Node" parent="Systems" unique_id=514418530]
+script = ExtResource("15_cardshop")
 
 [node name="LayersRoot" type="Node" parent="." unique_id=1519063191]
 
@@ -112,4 +127,9 @@ custom_minimum_size = Vector2(284, 508)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SocketDebugHarness" parent="LayersRoot" unique_id=1600000001 instance=ExtResource("13_harness")]
+[node name="CardShopUI" type="VBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/RightColumn" unique_id=1829471921]
+custom_minimum_size = Vector2(284, 508)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("16_cardshopui")
