@@ -16,9 +16,6 @@ public partial class SocketDebugHarness : CanvasLayer
     public Button? HotSwapButton { get; set; }
 
     [Export]
-    public Button? FlushButton { get; set; }
-
-    [Export]
     public Label? StatusLabel { get; set; }
 
     [Export]
@@ -38,7 +35,6 @@ public partial class SocketDebugHarness : CanvasLayer
         SocketSelector ??= GetNodeOrNull<OptionButton>("Panel/VBox/SocketSelector");
         CardSelector ??= GetNodeOrNull<OptionButton>("Panel/VBox/CardSelector");
         HotSwapButton ??= GetNodeOrNull<Button>("Panel/VBox/HotSwapButton");
-        FlushButton ??= GetNodeOrNull<Button>("Panel/VBox/FlushButton");
         StatusLabel ??= GetNodeOrNull<Label>("Panel/VBox/StatusLabel");
 
         if (AvailableCards.Count == 0)
@@ -50,7 +46,6 @@ public partial class SocketDebugHarness : CanvasLayer
         PopulateCards();
 
         if (HotSwapButton != null) HotSwapButton.Pressed += OnHotSwapPressed;
-        if (FlushButton != null) FlushButton.Pressed += OnFlushPressed;
     }
 
     private void LoadDefaultCards()
@@ -80,7 +75,7 @@ public partial class SocketDebugHarness : CanvasLayer
         _sockets.Clear();
         if (SocketSelector != null) SocketSelector.Clear();
 
-        var nodes = GetTree().GetNodesInGroup("sockets");
+        var nodes = GetTree().GetNodesInGroup(Socket2D.GroupSockets);
         int index = 0;
         foreach (Node node in nodes)
         {
@@ -120,7 +115,7 @@ public partial class SocketDebugHarness : CanvasLayer
 
         Socket2D socket = _sockets[socketIdx];
         PackageDealCard card = AvailableCards[cardIdx];
-        Hopper? hopper = GetTree().GetFirstNodeInGroup("hoppers") as Hopper;
+        Hopper? hopper = GetTree().GetFirstNodeInGroup(Hopper.GroupHoppers) as Hopper;
 
         bool success = socket.MountPackageDeal(card, hopper);
         if (success)
@@ -131,26 +126,6 @@ public partial class SocketDebugHarness : CanvasLayer
         {
             SetStatus($"Failed to mount: category mismatch ({card.Category} vs {socket.Category})", Colors.Salmon);
         }
-    }
-
-    private void OnFlushPressed()
-    {
-        Hopper? hopper = GetTree().GetFirstNodeInGroup("hoppers") as Hopper;
-        int refundedCount = 0;
-
-        foreach (Socket2D socket in _sockets)
-        {
-            if (socket.CurrentComponent is ISocketComponent comp)
-            {
-                comp.FlushActiveBalls(variant =>
-                {
-                    refundedCount++;
-                    hopper?.AddQueuedBalls(new[] { variant });
-                });
-            }
-        }
-
-        SetStatus($"Flushed {refundedCount} balls into Hopper.", Colors.LightBlue);
     }
 
     private void SetStatus(string message, Color color)

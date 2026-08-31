@@ -7,6 +7,8 @@ using System.Linq;
 
 public partial class Hopper : Node2D
 {
+    public static readonly StringName GroupHoppers = new("hoppers");
+
     [Export]
     public Node2D? BallsRoot { get; set; }
 
@@ -57,7 +59,7 @@ public partial class Hopper : Node2D
         Debug.Assert(GlobalEvents.Instance != null, "GlobalEvents.Instance must not be null");
         GlobalEvents.Instance.BallAwarded += OnBallAwarded;
 
-        AddToGroup("hoppers");
+        AddToGroup(GroupHoppers);
     }
 
     public int GetTotalBallCount()

@@ -43,10 +43,6 @@ layout_mode = 2
 layout_mode = 2
 text = "Hot-Swap Card"
 
-[node name="FlushButton" type="Button" parent="Panel/VBox"]
-layout_mode = 2
-text = "Flush Trapped Balls"
-
 [node name="StatusLabel" type="Label" parent="Panel/VBox"]
 layout_mode = 2
 text = "Ready"

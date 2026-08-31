@@ -14,4 +14,3 @@ BallCostCount = 1
 BallCostTier = 1
 AccentColor = Color(1, 0.75, 0.2, 1)
 DraftWeight = 100
-BaseWeight = 100

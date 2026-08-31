@@ -18,6 +18,8 @@ public partial class Socket2D : Node2D
     [Signal]
     public delegate void ComponentUnmountedEventHandler(Socket2D socket, Node2D unmountedComponent);
 
+    public static readonly StringName GroupSockets = new("sockets");
+
     private SocketCategory _category = SocketCategory.BeetlePocket;
     private string _socketId = string.Empty;
     private Vector2 _boundsSize = new(100, 140);
@@ -80,7 +82,7 @@ public partial class Socket2D : Node2D
             return;
         }
 
-        AddToGroup("sockets");
+        AddToGroup(GroupSockets);
     }
 
     public void AdoptChildComponent()
@@ -101,11 +103,6 @@ public partial class Socket2D : Node2D
     public bool CanMount(PackageDealCard? card)
     {
         return card != null && card.Category == Category && card.ComponentScene != null;
-    }
-
-    public bool MountFromCard(PackageDealCard card, Hopper? hopper = null)
-    {
-        return MountPackageDeal(card, hopper);
     }
 
     public bool MountPackageDeal(PackageDealCard card, Hopper? hopper = null)
@@ -147,7 +144,6 @@ public partial class Socket2D : Node2D
         incoming.Position = Vector2.Zero;
         incoming.Rotation = 0.0f;
         AddChild(incoming);
-        CurrentComponent = incoming;
 
         EmitSignal(SignalName.ComponentMounting, this, incoming);
 
@@ -155,6 +151,8 @@ public partial class Socket2D : Node2D
         {
             incomingComp.OnMounted(this);
         }
+
+        CurrentComponent = incoming;
 
         EmitSignal(SignalName.ComponentMounted, this, incoming);
         TriggerMountFeedback();
@@ -170,7 +168,7 @@ public partial class Socket2D : Node2D
     private void TriggerMountFeedback()
     {
         if (Engine.IsEditorHint() || !IsInsideTree()) return;
-        // Audiovisual latch feedback
+        // Audiovisual latch feedback hook
     }
 
     private static void DisableDescendantColliders(Node node)
@@ -209,8 +207,16 @@ public partial class Socket2D : Node2D
             catColor.A *= 0.4f;
         }
 
-        Rect2 rect = new(-BoundsSize / 2.0f, BoundsSize);
-        DrawRect(rect, catColor, filled: false, width: 2.0f);
+        Vector2 half = BoundsSize / 2.0f;
+        Vector2 topLeft = new(-half.X, -half.Y);
+        Vector2 topRight = new(half.X, -half.Y);
+        Vector2 bottomRight = new(half.X, half.Y);
+        Vector2 bottomLeft = new(-half.X, half.Y);
+
+        DrawDashedLine(topLeft, topRight, catColor, 2.0f, 6.0f);
+        DrawDashedLine(topRight, bottomRight, catColor, 2.0f, 6.0f);
+        DrawDashedLine(bottomRight, bottomLeft, catColor, 2.0f, 6.0f);
+        DrawDashedLine(bottomLeft, topLeft, catColor, 2.0f, 6.0f);
 
         string label = string.IsNullOrEmpty(SocketId) ? Category.ToString() : $"{Category}\n({SocketId})";
         DrawString(

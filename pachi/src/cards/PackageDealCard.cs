@@ -50,11 +50,4 @@ public partial class PackageDealCard : Resource
         get => _draftWeight;
         set => _draftWeight = value;
     }
-
-    [Export]
-    public int BaseWeight
-    {
-        get => _draftWeight;
-        set => _draftWeight = value;
-    }
 }
