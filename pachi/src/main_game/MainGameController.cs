@@ -23,6 +23,12 @@ public partial class MainGameController : Node
     public Level? Level { get; set; }
 
     [Export]
+    public PrizeMeter? PrizeMeter { get; set; }
+
+    [Export]
+    public PrizeMeterUI? PrizeMeterUI { get; set; }
+
+    [Export]
     public Array<PackageDealCard>? MasterDeckCards { get; set; }
 
     private int _selectedRow = -1;
@@ -42,6 +48,12 @@ public partial class MainGameController : Node
         {
             Meter = new DealMeter { Name = "DealMeter" };
             AddChild(Meter);
+        }
+
+        if (PrizeMeter == null)
+        {
+            PrizeMeter = new PrizeMeter { Name = "PrizeMeter" };
+            AddChild(PrizeMeter);
         }
 
         // Connect DealMeter to CardShop
@@ -67,6 +79,12 @@ public partial class MainGameController : Node
             ShopUI.SelectionCancelled += OnSelectionCancelled;
         }
 
+        if (PrizeMeter != null && PrizeMeterUI != null)
+        {
+            PrizeMeterUI.Bind(PrizeMeter);
+            PrizeMeterUI.ResetRequested += OnResetRequested;
+        }
+
         // Discover and connect sockets
         DiscoverSockets();
     }
@@ -82,6 +100,11 @@ public partial class MainGameController : Node
         {
             ShopUI.CardSlotSelected -= OnCardSlotSelected;
             ShopUI.SelectionCancelled -= OnSelectionCancelled;
+        }
+
+        if (PrizeMeterUI != null)
+        {
+            PrizeMeterUI.ResetRequested -= OnResetRequested;
         }
 
         foreach (Socket2D socket in _sockets)
@@ -105,13 +128,34 @@ public partial class MainGameController : Node
     {
         if (Level == null) return;
 
-        foreach (Node node in Level.GetTree().GetNodesInGroup(Socket2D.GroupSockets))
+        if (Level.IsInsideTree() && Level.GetTree() != null)
         {
-            if (node is Socket2D socket && !_sockets.Contains(socket))
+            foreach (Node node in Level.GetTree().GetNodesInGroup(Socket2D.GroupSockets))
             {
-                _sockets.Add(socket);
-                socket.SocketClicked += OnSocketClicked;
+                if (node is Socket2D socket && !_sockets.Contains(socket))
+                {
+                    _sockets.Add(socket);
+                    socket.SocketClicked += OnSocketClicked;
+                }
             }
+        }
+        else
+        {
+            FindSocketsRecursive(Level);
+        }
+    }
+
+    private void FindSocketsRecursive(Node parent)
+    {
+        if (parent is Socket2D socket && !_sockets.Contains(socket))
+        {
+            _sockets.Add(socket);
+            socket.SocketClicked += OnSocketClicked;
+        }
+
+        foreach (Node child in parent.GetChildren())
+        {
+            FindSocketsRecursive(child);
         }
     }
 
@@ -189,5 +233,48 @@ public partial class MainGameController : Node
         }
 
         return list;
+    }
+
+    public bool ExecutePrestigeReset()
+    {
+        if (PrizeMeter == null || !PrizeMeter.CanPrestigeReset)
+        {
+            return false;
+        }
+
+        // 1. Clear active airborne balls
+        Level?.ClearActiveBalls();
+
+        // 2. Reset all sockets to starter components
+        Level?.ResetAllSockets(Hopper);
+
+        // 3. Reset Hopper to starter balls
+        Hopper?.ResetToStarterBalls(50);
+
+        // 4. Reset DealMeter & CardShop
+        Meter?.ResetProgress();
+        var deck = new List<PackageDealCard>();
+        if (MasterDeckCards != null && MasterDeckCards.Count > 0)
+        {
+            deck.AddRange(MasterDeckCards);
+        }
+        else
+        {
+            deck.AddRange(CreateDefaultMasterDeck());
+        }
+        Shop?.Initialize(deck);
+
+        // 5. Reset PrizeMeter run state
+        PrizeMeter.ResetRunState();
+
+        ShopUI?.ClearSelection();
+        OnSelectionCancelled();
+
+        return true;
+    }
+
+    private void OnResetRequested()
+    {
+        ExecutePrestigeReset();
     }
 }

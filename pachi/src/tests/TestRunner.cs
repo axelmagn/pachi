@@ -19,6 +19,10 @@ public partial class TestRunner : SceneTree
             CardShopTests.RunAllTests();
             CardShopUITests.RunAllTests();
             CardShopIntegrationTests.RunAllTests();
+            PrizeMeterTests.RunAllTests();
+            PrizeMeterUITests.RunAllTests();
+            PrestigeResetTests.RunAllTests();
+            PrizeMeterIntegrationTests.RunAllTests();
             GD.Print("All tests passed successfully!");
             Quit(0);
         }

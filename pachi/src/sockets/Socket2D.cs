@@ -60,6 +60,9 @@ public partial class Socket2D : Node2D
         }
     }
 
+    [Export]
+    public PackedScene? DefaultStarterScene { get; set; }
+
     public bool IsTargetHighlighted { get; private set; } = false;
 
     public void SetTargetHighlighted(bool highlighted)
@@ -149,7 +152,11 @@ public partial class Socket2D : Node2D
             EmitSignal(SignalName.ComponentUnmounted, this, outgoing);
         }
 
-        Node2D incoming = card.ComponentScene.Instantiate<Node2D>();
+        Node2D? incoming = card.ComponentScene.Instantiate<Node2D>();
+        if (incoming == null)
+        {
+            return false;
+        }
         incoming.Position = Vector2.Zero;
         incoming.Rotation = 0.0f;
         CurrentComponent = incoming;
@@ -171,6 +178,39 @@ public partial class Socket2D : Node2D
         }
 
         return true;
+    }
+
+    public bool ResetToStarter(Hopper? hopper = null)
+    {
+        if (DefaultStarterScene == null)
+        {
+            string defaultPath = Category switch
+            {
+                SocketCategory.BeetlePocket => "res://src/pockets/starter_pocket_center.tscn",
+                SocketCategory.Spinner => "res://src/spinner/starter_spinner_left.tscn",
+                SocketCategory.Yakumono => "res://src/yakumono/starter_yakumono.tscn",
+                _ => string.Empty
+            };
+            if (!string.IsNullOrEmpty(defaultPath) && ResourceLoader.Exists(defaultPath))
+            {
+                DefaultStarterScene = ResourceLoader.Load<PackedScene>(defaultPath);
+            }
+        }
+
+        if (DefaultStarterScene == null)
+        {
+            return false;
+        }
+
+        var starterCard = new PackageDealCard
+        {
+            Category = Category,
+            ComponentScene = DefaultStarterScene,
+            BallCostTier = 1,
+            BallCostCount = 0
+        };
+
+        return MountPackageDeal(starterCard, hopper);
     }
 
     private void TriggerMountFeedback()

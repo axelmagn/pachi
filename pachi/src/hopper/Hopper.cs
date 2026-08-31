@@ -249,6 +249,56 @@ public partial class Hopper : Node2D
         DispenseBall(ball);
     }
 
+    public void ResetToStarterBalls(int count = 50, BallVariant? starterVariant = null)
+    {
+        // Free and clear contained balls
+        foreach (Ball ball in _containedBalls)
+        {
+            ball.QueueFree();
+        }
+        _containedBalls.Clear();
+
+        // Free and clear queued balls
+        foreach (Ball ball in _queuedBalls)
+        {
+            ball.QueueFree();
+        }
+        _queuedBalls.Clear();
+
+        // Clear any orphan balls under BallsRoot
+        if (BallsRoot != null)
+        {
+            foreach (Node child in BallsRoot.GetChildren())
+            {
+                if (child is Ball orphanBall)
+                {
+                    orphanBall.QueueFree();
+                }
+            }
+        }
+
+        starterVariant ??= GameConfig.Instance?.BallTiers?[0]
+            ?? ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_1.tres")
+            ?? new BallVariant { Tier = 1, BasePrice = 2 };
+
+        PackedScene? ballScene = GameConfig.Instance?.BallScene
+            ?? ResourceLoader.Load<PackedScene>("res://src/balls/ball.tscn");
+
+        for (int i = 0; i < count; i++)
+        {
+            Ball ball = ballScene != null ? ballScene.Instantiate<Ball>() : new Ball();
+            ball.Variant = starterVariant;
+            ball.IsInPlay = false;
+            if (BallsRoot != null)
+            {
+                BallsRoot.AddChild(ball);
+            }
+            _containedBalls.AddLast(ball);
+        }
+
+        EmitSignal(SignalName.InventoryChanged);
+    }
+
     private void OnBallAwarded(BallVariant variant)
     {
         if (variant != null)

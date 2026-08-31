@@ -17,12 +17,16 @@
 [ext_resource type="Script" path="res://src/cards/shop/DealMeter.cs" id="14_dealmeter"]
 [ext_resource type="Script" path="res://src/cards/shop/CardShop.cs" id="15_cardshop"]
 [ext_resource type="Script" path="res://src/cards/shop/ui/CardShopUI.cs" id="16_cardshopui"]
+[ext_resource type="Script" path="res://src/prestige/PrizeMeter.cs" id="17_prizemeter"]
+[ext_resource type="Script" path="res://src/prestige/ui/PrizeMeterUI.cs" id="18_prizemeterui"]
 
-[node name="Game" type="Node" node_paths=PackedStringArray("ShopUI", "Shop", "Meter", "Hopper", "Level") unique_id=727896907]
+[node name="Game" type="Node" node_paths=PackedStringArray("ShopUI", "Shop", "Meter", "PrizeMeter", "PrizeMeterUI", "Hopper", "Level") unique_id=727896907]
 script = ExtResource("13_controller")
 ShopUI = NodePath("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/RightColumn/CardShopUI")
 Shop = NodePath("Systems/CardShop")
 Meter = NodePath("Systems/DealMeter")
+PrizeMeter = NodePath("Systems/PrizeMeter")
+PrizeMeterUI = NodePath("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/PrizeMeterUI")
 Hopper = NodePath("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport/Hopper")
 Level = NodePath("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer/SubViewport/Level")
 
@@ -41,6 +45,9 @@ script = ExtResource("14_dealmeter")
 
 [node name="CardShop" type="Node" parent="Systems" unique_id=514418530]
 script = ExtResource("15_cardshop")
+
+[node name="PrizeMeter" type="Node" parent="Systems" unique_id=514418531]
+script = ExtResource("17_prizemeter")
 
 [node name="LayersRoot" type="Node" parent="." unique_id=1519063191]
 
@@ -73,9 +80,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer" unique_id=21955957]
+[node name="PrizeMeterUI" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer" unique_id=21955957]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
+script = ExtResource("18_prizemeterui")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer" unique_id=1518397088]
 layout_mode = 2
