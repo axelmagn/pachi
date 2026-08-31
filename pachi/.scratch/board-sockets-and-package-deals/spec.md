@@ -89,6 +89,13 @@ We introduce **Board Sockets** and **Package-Deal Cards**:
 - An interim debug overlay (`SocketDebugHarness`) is included in development builds (`#if DEBUG` / `OS.IsDebugBuild()`).
 - It presents a floating UI with mock package-deal cards and a socket selector, allowing developers and testers to hot-swap cards and test ball evacuations interactively during live gameplay.
 
+### 7. Viewport & 3-Column Screen Architecture (`main_game.tscn`)
+- The 960 × 540 viewport is organized into a balanced 3-column horizontal layout:
+  1. **Left Column** (`276px` width): Houses the `Hopper` (276 × 338) and `Launcher` (276 × 170) SubViewports.
+  2. **Center Column** (`400px` width): Houses the `Level` SubViewport (400 × 508) containing the pachinko playfield and the 6 designated board sockets.
+  3. **Right Column** (`284px` width): Dedicated vertical pane reserved for the in-run **Card Shop** UI (`284 × 508px`), housing the Deal Meter header and 3-row deal card slots (and interim `SocketDebugHarness` during development).
+- This spatial layout locks the right vertical pane for card acquisition while keeping the vertical pachinko board and launch physics centered and unobstructed.
+
 ## Testing Decisions
 
 ### What Makes a Good Test
@@ -112,7 +119,7 @@ Tests follow the established headless C# test runner pattern in `src/tests/TestR
 
 ## Out of Scope
 
-- **Card Shop 3x3 UI & Deal Meter Integration**: The full 3-card row shop UI, Deal Meter timer accumulation, score boost acceleration (+10% for pockets, +35% for Yakumono), Deal Cursor row cycling, and Master Deck drafting are specified in ADR 0005 and will be implemented in a subsequent feature ticket.
+- **Card Shop 3x3 UI & Deal Meter Integration**: The full 3-card row shop UI, Deal Meter timer accumulation, score boost acceleration (+10% for pockets, +35% for Yakumono), Deal Cursor row cycling, and Master Deck drafting are specified in ADR 0005 and will be implemented in a subsequent feature ticket (occupying the 284px right vertical pane defined in this specification).
 - **Dynamic Yakumono FX & Fever Animations**: Advanced particle cascades, animated Board Eruption multi-ball ejections, and Yakumono transformation spectacles during Fever mode.
 - **Mid-Run Discard Pile Reshuffling**: Master Decks remain finite per run without reshuffling or recycling.
 - **Freeform Drag-and-Drop Card Placement**: Permanently deprecated in favor of designated socket package deals.

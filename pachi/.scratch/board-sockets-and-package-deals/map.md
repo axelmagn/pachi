@@ -18,10 +18,11 @@ A complete, implementation-ready Technical Feature Specification ([`.scratch/boa
 - [Starter Board Layout & Socket Hierarchy](file:///home/axel/workspace/axelmagn/pachi/pachi/.scratch/board-sockets-and-package-deals/issues/04-starter-board-layout-and-socket-hierarchy.md): Defined 2x3 6-socket grid (1 Yakumono center, 2 Spinners with pins, 3 Beetle Pockets with pins) with embedded WYSIWYG starter scenes and consolidated 3-category enum.
 - [Legacy Card System Migration & Test Harness](file:///home/axel/workspace/axelmagn/pachi/pachi/.scratch/board-sockets-and-package-deals/issues/05-legacy-card-migration-and-test-harness.md): Defined complete legacy card drag-and-drop deletion plan, new automated SocketLifecycleTests and PackageDealCardTests suite, and interim SocketDebugHarness overlay.
 - [Specification Synthesis & ADR Alignment](file:///home/axel/workspace/axelmagn/pachi/pachi/.scratch/board-sockets-and-package-deals/issues/06-spec-synthesis-and-adr-alignment.md): Synthesized findings from tickets 01–05 into the comprehensive technical specification at `.scratch/board-sockets-and-package-deals/spec.md`, reconciling with CONTEXT.md, ADR 0003, ADR 0005, and the Card System Spec.
+- [Viewport & 3-Column Screen Architecture](file:///home/axel/workspace/axelmagn/pachi/pachi/.scratch/board-sockets-and-package-deals/spec.md#7-viewport--3-column-screen-architecture-main_gametscn): Formally locked the 3-column screen layout in `main_game.tscn` (Left: Hopper/Launcher [276px], Center: Pachinko Level [400px], Right: Vertical Card Shop Pane [284px]), reserving the right vertical pane for the upcoming Card Shop feature.
 
 ## Not yet specified
 
-- **Card Shop UI & Deal Meter Integration**: Full 3x3 shop display and Deal Cursor purchasing integration (handled in subsequent shop feature effort).
+- **Card Shop UI & Deal Meter Integration**: Full 3x3 shop display and Deal Cursor purchasing integration inside the 284px right vertical pane (handled in subsequent shop feature effort).
 - **Dynamic Yakumono FX & Fever Particle Systems**: Audiovisual spectacle hooks during active component state transitions.
 
 ## Out of scope

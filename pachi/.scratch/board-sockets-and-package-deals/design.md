@@ -216,6 +216,28 @@ Level (Node2D)
             └── StarterPocketRight (Pocket: ISocketComponent)
 ```
 
+### 6.3 Screen Viewport & 3-Column Layout Architecture (`main_game.tscn`)
+The primary game screen is structured across a 960 × 540 viewport into 3 dedicated columns:
+
+```
++-----------------------------------------------------------------------------+
+|                                [ TOP BAR ]                                  |
++----------------------+------------------------------+-----------------------+
+| LEFT COLUMN (276px)  | CENTER COLUMN (400px)        | RIGHT COLUMN (284px)  |
+|                      |                              |                       |
+| [ Hopper SubViewport]| [ Level SubViewport (400x508)| [ CARD SHOP PANE ]    |
+|   (276 x 338)        |   Pachinko Board Playfield   |   Deal Meter Header   |
+|                      |   6 Board Sockets            |   Row 0 [Cursor]      |
+| [ Launcher SubVp]    |   Pin Deflectors             |   Row 1               |
+|   (276 x 170)        |   Drain Boundary             |   Row 2               |
+|                      |                              |   (or Debug Harness)  |
++----------------------+------------------------------+-----------------------+
+```
+
+1. **Left Column** (`276px`): Stacked `Hopper` (276 × 338) and `Launcher` (276 × 170) SubViewports.
+2. **Center Column** (`400px`): `Level` SubViewport (400 × 508) containing the physical board, pins, and sockets.
+3. **Right Column** (`284px`): Reserved vertical pane for the in-run **Card Shop** (`284 × 508px`), housing the Deal Meter header, Deal Cursor indicator, and 3-row card shop layout (and hosting `SocketDebugHarness` during development).
+
 ---
 
 ## 7. Legacy Card System Migration & Deprecation Matrix
