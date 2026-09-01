@@ -14,42 +14,6 @@ public partial class BoundaryRect : StaticBody2D
     private CollisionShape2D? _leftBoundary;
     private CollisionShape2D? _rightBoundary;
 
-    private readonly VisualConfigBinding _binding;
-    private VisualConfig? _configOverride;
-
-    private Color _backgroundColor = new Color("#1C261D");
-
-    public BoundaryRect()
-    {
-        _binding = new VisualConfigBinding(ApplyVisualConfig);
-    }
-
-    [Export]
-    public VisualConfig? ConfigOverride
-    {
-        get => _configOverride;
-        set
-        {
-            _configOverride = value;
-            if (IsInsideTree())
-            {
-                _binding.Bind(_configOverride);
-            }
-        }
-    }
-
-    [Export]
-    public Color BackgroundColor
-    {
-        get => _backgroundColor;
-        set
-        {
-            if (_backgroundColor == value) return;
-            _backgroundColor = value;
-            QueueRedraw();
-        }
-    }
-
     [Export]
     public float Width
     {
@@ -59,7 +23,6 @@ public partial class BoundaryRect : StaticBody2D
             if (Mathf.IsEqualApprox(_width, value)) return;
             _width = value;
             Rebuild();
-            QueueRedraw();
         }
     }
 
@@ -72,7 +35,6 @@ public partial class BoundaryRect : StaticBody2D
             if (Mathf.IsEqualApprox(_height, value)) return;
             _height = value;
             Rebuild();
-            QueueRedraw();
         }
     }
 
@@ -104,23 +66,9 @@ public partial class BoundaryRect : StaticBody2D
         set { _rightBoundary = value; Rebuild(); }
     }
 
-    public override void _EnterTree()
-    {
-        _binding.Bind(_configOverride);
-    }
-
-    public override void _ExitTree()
-    {
-        _binding.Unbind();
-    }
-
     public override void _Ready()
     {
         Rebuild();
-        if (_binding.ActiveConfig != null)
-        {
-            ApplyVisualConfig(_binding.ActiveConfig);
-        }
 
         if (!Engine.IsEditorHint())
         {
@@ -128,24 +76,6 @@ public partial class BoundaryRect : StaticBody2D
             Debug.Assert(BottomBoundary != null, "BoundaryRect requires BottomBoundary CollisionShape2D.");
             Debug.Assert(LeftBoundary != null, "BoundaryRect requires LeftBoundary CollisionShape2D.");
             Debug.Assert(RightBoundary != null, "BoundaryRect requires RightBoundary CollisionShape2D.");
-        }
-    }
-
-    public void ApplyVisualConfig(VisualConfig? config)
-    {
-        if (config == null) return;
-        BackgroundColor = config.BackgroundColor;
-        QueueRedraw();
-    }
-
-
-
-    public override void _Draw()
-    {
-        if (BackgroundColor.A > 0.0f)
-        {
-            Rect2 rect = new Rect2(-_width / 2.0f, -_height / 2.0f, _width, _height);
-            DrawRect(rect, BackgroundColor, filled: true);
         }
     }
 

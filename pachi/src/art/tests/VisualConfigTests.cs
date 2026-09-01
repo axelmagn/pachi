@@ -9,7 +9,6 @@ public static class VisualConfigTests
     {
         TestVisualConfigDefaults();
         TestVisualConfigPropertyChangesEmitChanged();
-        TestBoundaryRectPropertyPropagation();
         TestPinDualRenderingFallback();
         TestPinTexturePriority();
         TestPocketDualRenderingFallback();
@@ -57,7 +56,6 @@ public static class VisualConfigTests
 
         var boundaryRect = mainGameNode.GetNodeOrNull<BoundaryRect>("LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer/SubViewport/Level/Boundary/BoundaryRect");
         Assert(boundaryRect != null, "BoundaryRect should exist inside main_game Level subviewport.");
-        Assert(boundaryRect!.BackgroundColor == defaultConfig.BackgroundColor, $"main_game level BoundaryRect BackgroundColor ({boundaryRect.BackgroundColor}) should match VisualConfig.BackgroundColor ({defaultConfig.BackgroundColor}).");
 
         tree.Root.RemoveChild(viewport);
         viewport.QueueFree();
@@ -346,19 +344,6 @@ public static class VisualConfigTests
         changedFired = false;
         config.BallTier5Color = Colors.White;
         Assert(changedFired, "Setting BallTier5Color should emit Changed.");
-    }
-
-    public static void TestBoundaryRectPropertyPropagation()
-    {
-        var boundary = new BoundaryRect();
-        var config = new VisualConfig
-        {
-            BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 1.0f)
-        };
-
-        boundary.ApplyVisualConfig(config);
-
-        Assert(boundary.BackgroundColor == config.BackgroundColor, "BackgroundColor should match VisualConfig.");
     }
 
     public static void TestPinDualRenderingFallback()
@@ -701,9 +686,6 @@ public static class VisualConfigTests
 
     public static void TestNullConfigGracefulHandling()
     {
-        var boundary = new BoundaryRect();
-        boundary.ApplyVisualConfig(null);
-
         var pin = new Pin();
         pin.ApplyVisualConfig(null);
 

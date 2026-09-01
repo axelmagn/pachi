@@ -22,8 +22,12 @@
 [ext_resource type="Script" uid="uid://7dj4gjfeovtu" path="res://src/cards/archetypes/AddInputBallArchetype.cs" id="19_add_in_script"]
 [ext_resource type="Script" uid="uid://utdeug40a1vy" path="res://src/cards/archetypes/RemoveInputBallArchetype.cs" id="20_rem_in_script"]
 [ext_resource type="Script" uid="uid://dtks2imexvdig" path="res://src/cards/archetypes/AddOutputBallArchetype.cs" id="21_add_out_script"]
+[ext_resource type="Texture2D" uid="uid://bijn4vmqw0qq5" path="res://assets/sprites/ellis/BG trees.PNG" id="21_o35kt"]
+[ext_resource type="Texture2D" uid="uid://cfagr4jey5vk0" path="res://assets/sprites/ellis/MG trees.PNG" id="22_gekfo"]
 [ext_resource type="Script" uid="uid://vxwn2yjh2ce6" path="res://src/cards/archetypes/RemoveOutputBallArchetype.cs" id="22_rem_out_script"]
 [ext_resource type="Script" uid="uid://dhchimq8w8vbc" path="res://src/art/EnvironmentBackground.cs" id="23_envbg"]
+[ext_resource type="Texture2D" uid="uid://45n3fywo513" path="res://assets/sprites/ellis/Water.PNG" id="23_noerx"]
+[ext_resource type="Texture2D" uid="uid://d1ckw4j15lual" path="res://assets/sprites/ellis/Hoppertree .PNG" id="24_a4vkl"]
 
 [sub_resource type="Resource" id="Resource_pack"]
 script = ExtResource("14_pack_script")
@@ -85,6 +89,38 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.10980392, 0.14901961, 0.11372549, 1)
 script = ExtResource("23_envbg")
+
+[node name="BGTrees" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=1098668844]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("21_o35kt")
+
+[node name="MGTrees" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=250834560]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("22_gekfo")
+
+[node name="Water" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=594494716]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_noerx")
+
+[node name="HopperTree" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=465641928]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("24_a4vkl")
 
 [node name="PlayScreenLayer" type="CanvasLayer" parent="LayersRoot" unique_id=1085927762]
 
