@@ -21,7 +21,7 @@ Enforced as errors via Roslyn analyzer rules:
 
 | Symbol Kind | Convention | Example |
 | :--- | :--- | :--- |
-| **Interfaces** | `IPascalCase` | `IVisualConfigurable`, `IPoolable` |
+| **Interfaces** | `IPascalCase` | `IPocketTarget`, `IPoolable` |
 | **Classes, Structs, Enums, Delegates** | `PascalCase` | `PocketController`, `BallVariant` |
 | **Methods & Properties** | `PascalCase` | `CalculateTrajectory()`, `MaxCapacity` |
 | **Signal Delegates** | `[Signal]` `PascalCaseEventHandler` | `BallAwardedEventHandler` |

@@ -6,38 +6,9 @@ public static class PinToolPerformanceTests
 {
     public static void RunAllTests()
     {
-        TestVisualConfigPropertyChangeNoop();
         TestPinEllipsePropertyChangeNoop();
         TestPinGridPropertyChangeNoop();
         TestPinFunnelRebuildEfficiency();
-    }
-
-    public static void TestVisualConfigPropertyChangeNoop()
-    {
-        var config = new VisualConfig();
-        int changedCount = 0;
-        config.Changed += () => changedCount++;
-
-        // Setting to current default value should not fire Changed
-        config.BackgroundColor = config.BackgroundColor;
-        config.PinBaseColor = config.PinBaseColor;
-        config.PinTextureScale = config.PinTextureScale;
-        config.PinTextureOffset = config.PinTextureOffset;
-        config.FlashColor = config.FlashColor;
-        config.InputIndicatorBackgroundColor = config.InputIndicatorBackgroundColor;
-        config.OutputIndicatorBackgroundColor = config.OutputIndicatorBackgroundColor;
-        config.IndicatorBorderColor = config.IndicatorBorderColor;
-        config.ArmColor = config.ArmColor;
-        config.ArmTextureScale = config.ArmTextureScale;
-        config.ArmTextureOffset = config.ArmTextureOffset;
-        config.CardBackgroundColor = config.CardBackgroundColor;
-        config.CardBorderColor = config.CardBorderColor;
-        config.CardIndicatorBackgroundColor = config.CardIndicatorBackgroundColor;
-        config.YakumonoBaseColor = config.YakumonoBaseColor;
-        config.YakumonoScale = config.YakumonoScale;
-        config.BallTier1Color = config.BallTier1Color;
-
-        Assert(changedCount == 0, $"Setting VisualConfig properties to existing values should not emit Changed. Fired {changedCount} times.");
     }
 
     public static void TestPinEllipsePropertyChangeNoop()

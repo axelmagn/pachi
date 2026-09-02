@@ -6,11 +6,10 @@ using System;
 [GlobalClass]
 public partial class PocketBallsIndicator : Node2D
 {
-    private readonly VisualConfigBinding _binding;
-    private VisualConfig? _configOverride;
     private bool _isInputIndicator = true;
     private Color _backgroundColor = new(0.14f, 0.14f, 0.14f);
     private bool _showQuestionMark = false;
+    private Color _questionMarkColor = Colors.White;
     private Vector2 _size = new(34, 10);
     private float _dotRadius = 1.5f;
     private Color _borderColor = Colors.Black;
@@ -26,27 +25,7 @@ public partial class PocketBallsIndicator : Node2D
         CornerRadiusTopRight = 2,
         CornerRadiusBottomRight = 2,
         CornerRadiusBottomLeft = 2,
-        AntiAliasing = false,
     };
-
-    public PocketBallsIndicator()
-    {
-        _binding = new VisualConfigBinding(ApplyVisualConfig);
-    }
-
-    [Export]
-    public VisualConfig? ConfigOverride
-    {
-        get => _configOverride;
-        set
-        {
-            _configOverride = value;
-            if (IsInsideTree())
-            {
-                _binding.Bind(_configOverride);
-            }
-        }
-    }
 
     [Export]
     public bool IsInputIndicator
@@ -56,10 +35,6 @@ public partial class PocketBallsIndicator : Node2D
         {
             if (_isInputIndicator == value) return;
             _isInputIndicator = value;
-            if (_binding.ActiveConfig != null)
-            {
-                ApplyVisualConfig(_binding.ActiveConfig);
-            }
             QueueRedraw();
         }
     }
@@ -89,6 +64,18 @@ public partial class PocketBallsIndicator : Node2D
     }
 
     [Export]
+    public Color QuestionMarkColor
+    {
+        get => _questionMarkColor;
+        set
+        {
+            if (_questionMarkColor == value) return;
+            _questionMarkColor = value;
+            QueueRedraw();
+        }
+    }
+
+    [Export]
     public Vector2 Size
     {
         get => _size;
@@ -101,16 +88,7 @@ public partial class PocketBallsIndicator : Node2D
     }
 
     [Export]
-    public float DotRadius
-    {
-        get => _dotRadius;
-        set
-        {
-            if (Mathf.IsEqualApprox(_dotRadius, value)) return;
-            _dotRadius = value;
-            QueueRedraw();
-        }
-    }
+    public float PipSize { get; set; } = 8.0f;
 
     [Export]
     public Color BorderColor
@@ -136,6 +114,7 @@ public partial class PocketBallsIndicator : Node2D
         }
     }
 
+    [Export]
     public Array<BallVariant>? Balls
     {
         get => _balls;
@@ -150,39 +129,6 @@ public partial class PocketBallsIndicator : Node2D
     private void UpdateIndicatorSize()
     {
         _size = (_balls == null || _balls.Count <= 4) ? new Vector2(34, 10) : new Vector2(34, 18);
-    }
-
-    public override void _EnterTree()
-    {
-        _binding.Bind(_configOverride);
-    }
-
-    public override void _ExitTree()
-    {
-        _binding.Unbind();
-    }
-
-    public override void _Ready()
-    {
-        if (_binding.ActiveConfig != null)
-        {
-            ApplyVisualConfig(_binding.ActiveConfig);
-        }
-    }
-
-    public void ApplyVisualConfig(VisualConfig? config)
-    {
-        if (config == null) return;
-        if (IsInputIndicator)
-        {
-            BackgroundColor = config.InputIndicatorBackgroundColor;
-        }
-        else
-        {
-            BackgroundColor = config.OutputIndicatorBackgroundColor;
-        }
-        BorderColor = config.IndicatorBorderColor;
-        QueueRedraw();
     }
 
     /// <summary>
@@ -203,7 +149,7 @@ public partial class PocketBallsIndicator : Node2D
         if (ShowQuestionMark)
         {
             Font font = ThemeDB.FallbackFont;
-            DrawString(font, new Vector2(-3, 4), "?", HorizontalAlignment.Center, -1, 11, Colors.White);
+            DrawString(font, new Vector2(-3, 4), "?", HorizontalAlignment.Center, -1, 11, QuestionMarkColor);
             return;
         }
 
@@ -212,7 +158,7 @@ public partial class PocketBallsIndicator : Node2D
         int numDots = Math.Min(Balls.Count, 8);
         if (numDots <= 0) return;
 
-        const float pipSize = 8.0f;
+        float pipSize = PipSize;
         int numRows = numDots > 4 ? 2 : 1;
 
         for (int r = 0; r < numRows; r++)

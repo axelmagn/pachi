@@ -9,7 +9,6 @@ public partial class TestRunner : SceneTree
         GD.Print("Running tests...");
         try
         {
-            VisualConfigTests.RunAllTests();
             BallStuckTests.RunAllTests();
             BallVisualsTests.RunAllTests();
             PocketIndicatorTests.RunAllTests();

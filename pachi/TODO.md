@@ -2,6 +2,10 @@
 
 A rolling log of todo items.
 
+## 2026-09-02
+
+- [ ] expose necessary props as exports
+
 ## 2026-08-29
 
 - [x] wayfinder design pass

@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Diagnostics;
 
@@ -32,6 +33,12 @@ public partial class Yakumono : Pocket
     [Export]
     public int VisualZIndex { get; set; } = 2;
 
+    [Export]
+    public Array<Texture2D>? FaceTextures { get; set; }
+
+    [Export]
+    public Texture2D? JackpotFaceTexture { get; set; }
+
     public int CurrentFaceIndex { get; private set; } = 0;
 
     public bool IsJackpotState => CurrentFaceIndex == JackpotFaceIndex;
@@ -41,135 +48,35 @@ public partial class Yakumono : Pocket
     public override void _Ready()
     {
         base._Ready();
-    }
-
-    public override void ApplyVisualConfig(VisualConfig? config)
-    {
-        base.ApplyVisualConfig(config);
-        if (config == null) return;
 
         if (VisualLayersContainer != null)
         {
             VisualLayersContainer.ZIndex = VisualZIndex;
         }
 
-        Vector2 scaleVector = Vector2.One * config.YakumonoScale;
-        if (FrameSprite != null) FrameSprite.Scale = scaleVector;
-        if (FaceSprite != null) FaceSprite.Scale = scaleVector;
-        if (ForegroundSprite != null) ForegroundSprite.Scale = scaleVector;
-
-        // Frame Layer
-        if (config.FrameTexture != null)
-        {
-            if (FrameSprite != null)
-            {
-                FrameSprite.Texture = config.FrameTexture;
-                FrameSprite.Visible = true;
-            }
-            if (FrameProcedural != null)
-            {
-                FrameProcedural.Visible = false;
-            }
-        }
-        else
-        {
-            if (FrameSprite != null)
-            {
-                FrameSprite.Visible = false;
-            }
-            if (FrameProcedural != null)
-            {
-                FrameProcedural.Visible = true;
-                FrameProcedural.Modulate = config.YakumonoBaseColor;
-            }
-        }
-
-        // Face Layer
-        Texture2D? activeFaceTexture = null;
-        if (CurrentFaceIndex == JackpotFaceIndex)
-        {
-            activeFaceTexture = config.JackpotFaceTexture;
-        }
-        else if (config.FaceTextures != null && config.FaceTextures.Count > 0)
-        {
-            int idx = Mathf.Clamp(CurrentFaceIndex, 0, config.FaceTextures.Count - 1);
-            activeFaceTexture = config.FaceTextures[idx];
-        }
-
-        if (activeFaceTexture != null)
-        {
-            if (FaceSprite != null)
-            {
-                FaceSprite.Texture = activeFaceTexture;
-                FaceSprite.Visible = true;
-            }
-            if (FaceProcedural != null)
-            {
-                FaceProcedural.Visible = false;
-            }
-        }
-        else
-        {
-            if (FaceSprite != null)
-            {
-                FaceSprite.Visible = false;
-            }
-            if (FaceProcedural != null)
-            {
-                FaceProcedural.Visible = true;
-                FaceProcedural.Modulate = config.YakumonoBaseColor;
-            }
-        }
-
-        // Foreground Layer
-        if (config.ForegroundTexture != null)
-        {
-            if (ForegroundSprite != null)
-            {
-                ForegroundSprite.Texture = config.ForegroundTexture;
-                ForegroundSprite.Visible = true;
-            }
-            if (ForegroundProcedural != null)
-            {
-                ForegroundProcedural.Visible = false;
-            }
-        }
-        else
-        {
-            if (ForegroundSprite != null)
-            {
-                ForegroundSprite.Visible = false;
-            }
-            if (ForegroundProcedural != null)
-            {
-                ForegroundProcedural.Visible = true;
-                ForegroundProcedural.Modulate = config.YakumonoBaseColor;
-            }
-        }
+        TransitionToFaceState(0);
     }
 
     public void TransitionToFaceState(int faceIndex)
     {
         CurrentFaceIndex = faceIndex;
-        var activeConfig = ConfigOverride ?? VisualConfig.LoadDefault();
-        if (activeConfig != null)
+        if (FaceTextures != null && FaceTextures.Count > 0)
         {
-            ApplyVisualConfig(activeConfig);
+            int idx = Mathf.Clamp(CurrentFaceIndex, 0, FaceTextures.Count - 1);
+            SetFaceTexture(FaceTextures[idx]);
         }
         GlobalEvents.Instance?.NotifyYakumonoStateChanged(this, CurrentFaceIndex);
     }
 
     public void TransitionToRandomFaceState()
     {
-        var activeConfig = ConfigOverride ?? VisualConfig.LoadDefault();
-        var faceTextures = activeConfig?.FaceTextures;
-        if (faceTextures == null || faceTextures.Count == 0)
+        if (FaceTextures == null || FaceTextures.Count == 0)
         {
             TransitionToFaceState(0);
             return;
         }
 
-        if (faceTextures.Count == 1)
+        if (FaceTextures.Count == 1)
         {
             TransitionToFaceState(0);
             return;
@@ -178,7 +85,7 @@ public partial class Yakumono : Pocket
         int nextIndex = CurrentFaceIndex;
         while (nextIndex == CurrentFaceIndex)
         {
-            nextIndex = _random.Next(0, faceTextures.Count);
+            nextIndex = _random.Next(0, FaceTextures.Count);
         }
 
         TransitionToFaceState(nextIndex);
@@ -187,12 +94,15 @@ public partial class Yakumono : Pocket
     public void TransitionToJackpotState()
     {
         CurrentFaceIndex = JackpotFaceIndex;
-        var activeConfig = ConfigOverride ?? VisualConfig.LoadDefault();
-        if (activeConfig != null)
-        {
-            ApplyVisualConfig(activeConfig);
-        }
+        SetFaceTexture(JackpotFaceTexture);
         GlobalEvents.Instance?.NotifyYakumonoPaidOut(this);
+    }
+
+    private void SetFaceTexture(Texture2D? texture)
+    {
+        if (FaceSprite == null) return;
+        FaceSprite.Texture = texture;
+        FaceSprite.Visible = texture != null;
     }
 
     protected override void OnBallCatch(Ball ball)
@@ -207,3 +117,4 @@ public partial class Yakumono : Pocket
         TransitionToJackpotState();
     }
 }
+

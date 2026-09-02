@@ -6,28 +6,6 @@ using System.Diagnostics;
 [GlobalClass]
 public partial class Pin : StaticBody2D
 {
-    private readonly VisualConfigBinding _binding;
-    private VisualConfig? _configOverride;
-
-    public Pin()
-    {
-        _binding = new VisualConfigBinding(ApplyVisualConfig);
-    }
-
-    [Export]
-    public VisualConfig? ConfigOverride
-    {
-        get => _configOverride;
-        set
-        {
-            _configOverride = value;
-            if (IsInsideTree())
-            {
-                _binding.Bind(_configOverride);
-            }
-        }
-    }
-
     [Export]
     public Node2D? ProceduralSprite { get; set; }
 
@@ -98,23 +76,8 @@ public partial class Pin : StaticBody2D
     private float _baseScaleAmountMin = 1.5f;
     private float _baseScaleAmountMax = 2.5f;
 
-    public override void _EnterTree()
-    {
-        _binding.Bind(_configOverride);
-    }
-
-    public override void _ExitTree()
-    {
-        _binding.Unbind();
-    }
-
     public override void _Ready()
     {
-        if (_binding.ActiveConfig != null)
-        {
-            ApplyVisualConfig(_binding.ActiveConfig);
-        }
-
         if (Engine.IsEditorHint()) return;
 
         Debug.Assert(ProceduralSprite != null || TextureSprite != null, "Pin requires either a ProceduralSprite or TextureSprite reference.");
@@ -133,54 +96,6 @@ public partial class Pin : StaticBody2D
             _baseInitialVelocityMax = SparkParticles.InitialVelocityMax;
             _baseScaleAmountMin = SparkParticles.ScaleAmountMin;
             _baseScaleAmountMax = SparkParticles.ScaleAmountMax;
-        }
-    }
-
-    public void ApplyVisualConfig(VisualConfig? config)
-    {
-        if (config == null) return;
-
-        FlashColor = config.FlashColor;
-
-        if (config.PinTexture != null)
-        {
-            if (TextureSprite != null)
-            {
-                TextureSprite.Texture = config.PinTexture;
-                TextureSprite.Scale = Vector2.One * config.PinTextureScale;
-                TextureSprite.Position = config.PinTextureOffset;
-                TextureSprite.Visible = true;
-                TextureSprite.Modulate = Colors.White;
-            }
-            if (ProceduralSprite != null)
-            {
-                ProceduralSprite.Visible = false;
-            }
-        }
-        else
-        {
-            if (TextureSprite != null)
-            {
-                TextureSprite.Visible = false;
-            }
-
-            if (ProceduralSprite != null)
-            {
-                ProceduralSprite.Visible = true;
-                if (ProceduralSprite is CircleSprite circleSprite)
-                {
-                    circleSprite.Color = Colors.White;
-                }
-                ProceduralSprite.Modulate = config.PinBaseColor;
-            }
-        }
-
-        var active = ActiveVisual;
-        if (active != null)
-        {
-            _baseScale = active.Scale;
-            _basePosition = active.Position;
-            _baseModulate = active.Modulate;
         }
     }
 

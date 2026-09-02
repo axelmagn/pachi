@@ -9,6 +9,10 @@
 [ext_resource type="AudioStream" uid="uid://bwwacb0po7wab" path="res://assets/audio/chiptone/pocket_accept.E4.01.wav" id="8_e4"]
 [ext_resource type="AudioStream" uid="uid://b8qkohof6hhkn" path="res://assets/audio/chiptone/pocket_accept.G4.01.wav" id="9_g4"]
 [ext_resource type="Texture2D" uid="uid://blcgh7copmpg5" path="res://assets/sprites/ellis/Neutralmoonv1.png" id="9_gd0wc"]
+[ext_resource type="Texture2D" uid="uid://txosouesl7op" path="res://assets/sprites/ellis/Sadmoonv2.png" id="10_sad"]
+[ext_resource type="Texture2D" uid="uid://dte8gwbpq2acy" path="res://assets/sprites/ellis/Madmoonv1.png" id="11_mad"]
+[ext_resource type="Texture2D" uid="uid://bxcmrqaqgca7j" path="res://assets/sprites/ellis/Plainmoonv1.png" id="12_plain"]
+[ext_resource type="Texture2D" uid="uid://c7wu72flkwycq" path="res://assets/sprites/ellis/Happymoonv1.png" id="13_happy"]
 [ext_resource type="AudioStream" uid="uid://cx84sq7u73y4q" path="res://assets/audio/chiptone/pocket_accept.B5.01.wav" id="10_b5"]
 [ext_resource type="AudioStream" uid="uid://p134pnv1q6gq" path="res://assets/audio/chiptone/pocket_reject.01.wav" id="11_rej"]
 [ext_resource type="AudioStream" uid="uid://bnd6e8jlb4r1o" path="res://assets/audio/chiptone/pocket_payout.01.wav" id="12_pay"]
@@ -22,6 +26,8 @@ FrameProcedural = NodePath("VisualLayers/FrameProcedural")
 FaceProcedural = NodePath("VisualLayers/FaceProcedural")
 ForegroundProcedural = NodePath("VisualLayers/ForegroundProcedural")
 VisualLayersContainer = NodePath("VisualLayers")
+FaceTextures = Array[Texture2D]([ExtResource("9_gd0wc"), ExtResource("10_sad"), ExtResource("11_mad"), ExtResource("12_plain")])
+JackpotFaceTexture = ExtResource("13_happy")
 CatchHole = NodePath("CatchHole")
 RejectHole = NodePath("RejectHole")
 LeftArm = NodePath("")

@@ -6,8 +6,6 @@ using System;
 [GlobalClass]
 public partial class BallAwardIndicator : Node2D
 {
-    private readonly VisualConfigBinding _binding;
-    private VisualConfig? _configOverride;
     private int _maxColumns = 6;
     private Color _backgroundColor = new(0.14f, 0.14f, 0.14f);
     private Vector2 _size = new(10, 10);
@@ -24,27 +22,7 @@ public partial class BallAwardIndicator : Node2D
         CornerRadiusTopRight = 2,
         CornerRadiusBottomRight = 2,
         CornerRadiusBottomLeft = 2,
-        AntiAliasing = false,
     };
-
-    public BallAwardIndicator()
-    {
-        _binding = new VisualConfigBinding(ApplyVisualConfig);
-    }
-
-    [Export]
-    public VisualConfig? ConfigOverride
-    {
-        get => _configOverride;
-        set
-        {
-            _configOverride = value;
-            if (IsInsideTree())
-            {
-                _binding.Bind(_configOverride);
-            }
-        }
-    }
 
     [Export]
     public int MaxColumns
@@ -108,6 +86,10 @@ public partial class BallAwardIndicator : Node2D
         }
     }
 
+    [Export]
+    public float PipSize { get; set; } = 8.0f;
+
+    [Export]
     public Array<BallVariant>? Balls
     {
         get => _balls;
@@ -125,35 +107,9 @@ public partial class BallAwardIndicator : Node2D
         int cols = Math.Clamp(totalBalls, 1, MaxColumns);
         int rows = totalBalls > 0 ? (int)Math.Ceiling((float)totalBalls / MaxColumns) : 1;
 
-        float width = cols * 8.0f + 2.0f;
-        float height = rows * 8.0f + 2.0f;
+        float width = cols * PipSize + 2.0f;
+        float height = rows * PipSize + 2.0f;
         _size = new Vector2(width, height);
-    }
-
-    public override void _EnterTree()
-    {
-        _binding.Bind(_configOverride);
-    }
-
-    public override void _ExitTree()
-    {
-        _binding.Unbind();
-    }
-
-    public override void _Ready()
-    {
-        if (_binding.ActiveConfig != null)
-        {
-            ApplyVisualConfig(_binding.ActiveConfig);
-        }
-    }
-
-    public void ApplyVisualConfig(VisualConfig? config)
-    {
-        if (config == null) return;
-        BackgroundColor = config.CardIndicatorBackgroundColor;
-        BorderColor = config.IndicatorBorderColor;
-        QueueRedraw();
     }
 
     public override void _Draw()
@@ -168,7 +124,7 @@ public partial class BallAwardIndicator : Node2D
 
         if (Balls == null || Balls.Count == 0) return;
 
-        const float pipSize = 8.0f;
+        float pipSize = PipSize;
 
         int totalBalls = Balls.Count;
         int numRows = (int)Math.Ceiling((float)totalBalls / MaxColumns);

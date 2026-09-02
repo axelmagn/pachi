@@ -27,30 +27,6 @@ public partial class Pocket : Node2D
         Closing,
     }
 
-    private readonly VisualConfigBinding _binding;
-    private VisualConfig? _configOverride;
-
-    public Pocket()
-    {
-        _binding = new VisualConfigBinding(ApplyVisualConfig);
-    }
-
-    [Export]
-    public VisualConfig? ConfigOverride
-    {
-        get => _configOverride;
-        set
-        {
-            _configOverride = value;
-            if (InputsIndicator != null) InputsIndicator.ConfigOverride = value;
-            if (OutputsIndicator != null) OutputsIndicator.ConfigOverride = value;
-            if (IsInsideTree())
-            {
-                _binding.Bind(_configOverride);
-            }
-        }
-    }
-
     [Export]
     public Hole? CatchHole { get; set; }
 
@@ -210,15 +186,8 @@ public partial class Pocket : Node2D
     private float _armLength = 24;
     private float _armRadius = 2;
 
-    public override void _EnterTree()
-    {
-        _binding.Bind(_configOverride);
-    }
-
     public override void _ExitTree()
     {
-        _binding.Unbind();
-
         if (Engine.IsEditorHint()) return;
 
         if (GlobalEvents.Instance != null)
@@ -251,11 +220,6 @@ public partial class Pocket : Node2D
             }
         }
         UpdateIndicatorLayout();
-
-        if (_binding.ActiveConfig != null)
-        {
-            ApplyVisualConfig(_binding.ActiveConfig);
-        }
 
         if (Engine.IsEditorHint()) return;
 
@@ -319,83 +283,6 @@ public partial class Pocket : Node2D
 
         AddToGroup(GroupPockets);
         CardDragController.Instance?.RegisterTarget(this, 40.0f);
-    }
-
-    public virtual void ApplyVisualConfig(VisualConfig? config)
-    {
-        if (config == null) return;
-
-        if (config.PocketTexture != null)
-        {
-            if (PocketSprite != null)
-            {
-                PocketSprite.Texture = config.PocketTexture;
-                PocketSprite.Scale = Vector2.One * config.PocketTextureScale;
-                PocketSprite.Position = config.PocketTextureOffset;
-                PocketSprite.Visible = true;
-            }
-            if (PocketProcedural != null)
-            {
-                PocketProcedural.Visible = false;
-            }
-        }
-        else
-        {
-            if (PocketSprite != null)
-            {
-                PocketSprite.Visible = false;
-            }
-            if (PocketProcedural != null)
-            {
-                PocketProcedural.Visible = true;
-            }
-        }
-
-        ApplyArmVisual(LeftArmSprite, LeftArmProcedural, config, isLeft: true);
-        ApplyArmVisual(RightArmSprite, RightArmProcedural, config, isLeft: false);
-
-        InputsIndicator?.ApplyVisualConfig(config);
-        OutputsIndicator?.ApplyVisualConfig(config);
-    }
-
-    private static void ApplyArmVisual(Sprite2D? sprite, Node2D? procedural, VisualConfig config, bool isLeft)
-    {
-        if (config.ArmTexture != null)
-        {
-            if (sprite != null)
-            {
-                sprite.Texture = config.ArmTexture;
-                sprite.Scale = Vector2.One * config.ArmTextureScale;
-                sprite.Position = isLeft
-                    ? new Vector2(-config.ArmTextureOffset.X, config.ArmTextureOffset.Y)
-                    : config.ArmTextureOffset;
-                sprite.FlipH = isLeft;
-                sprite.Visible = true;
-            }
-            if (procedural != null)
-            {
-                procedural.Visible = false;
-            }
-        }
-        else
-        {
-            if (sprite != null)
-            {
-                sprite.Visible = false;
-            }
-            if (procedural != null)
-            {
-                procedural.Visible = true;
-                if (procedural is CapsuleSprite cs)
-                {
-                    cs.Color = config.ArmColor;
-                }
-                else
-                {
-                    procedural.Modulate = config.ArmColor;
-                }
-            }
-        }
     }
 
     public void ClampBallCapacities()

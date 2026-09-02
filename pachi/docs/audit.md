@@ -18,7 +18,7 @@ Guidance for agents and contributors refactoring the Pachi codebase toward **arc
 ### Phase 1: Teardown & Dead Code Removal
 *Eliminate obsolete abstraction layers, procedural shape draw hooks, and conflicting documentation.*
 
-#### [ ] TICKET-01: Remove VisualConfig Pipeline
+#### [x] TICKET-01: Remove VisualConfig Pipeline
 - **Problem**: `VisualConfig`, `VisualConfigBinding`, and `visual_showcase.tscn` introduce a parallel procedural rendering pipeline, runtime `[Tool]` crashes, and test bloat.
 - **Actions**:
   1. Delete `src/art/VisualConfig.cs`, `src/art/VisualConfigBinding.cs`, `src/art/visual_config.tres`, `src/art/visual_showcase.tscn`, and `src/art/tests/VisualConfigTests.cs`.
