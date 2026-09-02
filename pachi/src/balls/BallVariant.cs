@@ -10,10 +10,13 @@ public partial class BallVariant : Resource
     [Export]
     public Color PlaceholderColor = Colors.White;
 
+    /// The sprite texture rendered for this ball variant. If null, ball falls back to PlaceholderColor.
+    [Export]
+    public Texture2D? Sprite { get; set; }
+
     /// A hidden price associated with the ball, used to track the exchange rate of different balls
     /// as well as certain background point calculations.
     [Export]
     public int BasePrice = 10;
-
-    // TODO: add sprite attribute when art is ready
 }
+

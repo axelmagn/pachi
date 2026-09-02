@@ -162,15 +162,15 @@ public partial class CardUI : PanelContainer
 			? activeConfig.CardBorderColor
 			: new Color(1.0f, 1.0f, 1.0f, 0.4f);
 
-		// StyleBoxFlat style = new StyleBoxFlat();
-		// style.BgColor = bgColor;
-		// style.SetCornerRadiusAll(6);
-		// style.SetBorderWidthAll(1);
-		// style.BorderColor = borderColor;
-		// style.ContentMarginLeft = 4;
-		// style.ContentMarginRight = 4;
-		// style.ContentMarginTop = 4;
-		// style.ContentMarginBottom = 4;
-		// AddThemeStyleboxOverride(PanelStyleName, style);
+		StyleBoxFlat style = new StyleBoxFlat();
+		style.BgColor = bgColor;
+		style.SetCornerRadiusAll(6);
+		style.SetBorderWidthAll(1);
+		style.BorderColor = borderColor;
+		style.ContentMarginLeft = 4;
+		style.ContentMarginRight = 4;
+		style.ContentMarginTop = 4;
+		style.ContentMarginBottom = 4;
+		AddThemeStyleboxOverride(PanelStyleName, style);
 	}
 }

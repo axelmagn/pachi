@@ -19,7 +19,7 @@ point_count = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
 radius = 6.0
 
-[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "WallBounceAudioPlayer", "PlaceholderSprite", "MotionTrail", "Collider", "FadeTimer") groups=["ball", "ball_material"]]
+[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "WallBounceAudioPlayer", "PlaceholderSprite", "Sprite", "MotionTrail", "Collider", "FadeTimer") groups=["ball", "ball_material"]]
 collision_layer = 2
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_tsi0e")
@@ -32,6 +32,7 @@ PinBounceAudioPlayer = NodePath("PinBounceAudioPlayer")
 BallBounceAudioPlayer = NodePath("BallBounceAudioPlayer")
 WallBounceAudioPlayer = NodePath("WallBounceAudioPlayer")
 PlaceholderSprite = NodePath("CollisionShape2D/ColliderCircleSprite")
+Sprite = NodePath("CollisionShape2D/Sprite2D")
 MotionTrail = NodePath("MotionTrail2D")
 FadeModulate = Color(0.5019608, 0.5019608, 0.5019608, 0.7529412)
 Collider = NodePath("CollisionShape2D")
@@ -40,8 +41,10 @@ WallFollowAngleThresholdDeg = 30.0
 metadata/_custom_type_script = "uid://unwhnooi7g2c"
 
 [node name="MotionTrail2D" type="Line2D" parent="." unique_id=314159265]
+z_index = -1
 show_behind_parent = true
 top_level = true
+
 width_curve = SubResource("Curve_ykekq")
 joint_mode = 2
 end_cap_mode = 2
@@ -56,6 +59,10 @@ script = ExtResource("3_r56ug")
 Radius = 6.0
 Color = Color(0.8158153, 0.81581545, 0.8158154, 1)
 metadata/_custom_type_script = "uid://vnclow3lkur1"
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D" unique_id=1849203842]
+visible = false
+
 
 [node name="PinBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1111486999]
 stream = ExtResource("4_ykjch")

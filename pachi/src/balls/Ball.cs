@@ -14,8 +14,21 @@ public partial class Ball : RigidBody2D
     [Signal]
     public delegate void NudgedEventHandler(Vector2 impulse);
 
+    private BallVariant? _variant;
+
     [Export]
-    public BallVariant? Variant { get; set; }
+    public BallVariant? Variant
+    {
+        get => _variant;
+        set
+        {
+            _variant = value;
+            UpdateVisuals();
+            MotionTrail?.SyncWithBall();
+        }
+    }
+
+
 
     [Export]
     public AudioStreamPlayer2D? PinBounceAudioPlayer { get; set; }
@@ -28,6 +41,10 @@ public partial class Ball : RigidBody2D
 
     [Export]
     public ColliderCircleSprite? PlaceholderSprite { get; set; }
+
+    [Export]
+    public Sprite2D? Sprite { get; set; }
+
 
     [Export]
     public MotionTrail2D? MotionTrail { get; set; }
@@ -150,8 +167,39 @@ public partial class Ball : RigidBody2D
             _originalModulate = Modulate;
         }
 
-        PlaceholderSprite.Color = Variant.PlaceholderColor;
+        UpdateVisuals();
         MotionTrail.SyncWithBall();
+    }
+
+    public void UpdateVisuals()
+    {
+        if (Variant?.Sprite != null && Sprite != null)
+        {
+            Sprite.Texture = Variant.Sprite;
+
+            Vector2 texSize = Sprite.Texture.GetSize();
+            if (texSize.X > 0 && texSize.Y > 0)
+            {
+                float targetDiameter = GetRadius() * 2.0f;
+                float maxDim = Math.Max(texSize.X, texSize.Y);
+                float s = targetDiameter / maxDim;
+                Sprite.Scale = new Vector2(s, s);
+            }
+            Sprite.Visible = true;
+            if (PlaceholderSprite != null)
+            {
+                PlaceholderSprite.Visible = false;
+            }
+        }
+        else if (PlaceholderSprite != null)
+        {
+            if (Sprite != null)
+            {
+                Sprite.Visible = false;
+            }
+            PlaceholderSprite.Visible = true;
+            PlaceholderSprite.Color = Variant?.PlaceholderColor ?? Colors.White;
+        }
     }
 
     public override void _PhysicsProcess(double delta)

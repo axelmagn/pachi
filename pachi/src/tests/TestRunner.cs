@@ -11,9 +11,11 @@ public partial class TestRunner : SceneTree
         {
             VisualConfigTests.RunAllTests();
             BallStuckTests.RunAllTests();
+            BallVisualsTests.RunAllTests();
             PocketIndicatorTests.RunAllTests();
             CardGuardrailTests.RunAllTests();
             PinToolPerformanceTests.RunAllTests();
+
             GD.Print("All tests passed successfully!");
             Quit(0);
         }

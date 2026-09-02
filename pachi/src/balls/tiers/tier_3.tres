@@ -1,9 +1,12 @@
 [gd_resource type="Resource" script_class="BallVariant" format=3 uid="uid://d0xlprysuxrgu"]
 
 [ext_resource type="Script" uid="uid://cr0t46tii2w3s" path="res://src/balls/BallVariant.cs" id="1_6hp2e"]
+[ext_resource type="Texture2D" uid="uid://mtijg36cryrk" path="res://assets/sprites/balls/gem_orange.png" id="2_orange"]
 
 [resource]
 script = ExtResource("1_6hp2e")
+Sprite = ExtResource("2_orange")
 PlaceholderColor = Color(0.7921569, 0.4, 0.25882354, 1)
 BasePrice = 4
 metadata/_custom_type_script = "uid://cr0t46tii2w3s"
+

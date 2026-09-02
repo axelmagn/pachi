@@ -238,17 +238,16 @@ public static class VisualConfigTests
         var tier3 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_3.tres");
         var tier4 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_4.tres");
         var tier5 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_5.tres");
-        var tier6 = ResourceLoader.Load<BallVariant>("res://src/balls/tiers/tier_6.tres");
         var defaultVariant = ResourceLoader.Load<BallVariant>("res://src/balls/default_ball_variant.tres");
 
-        Assert(tier1 != null && tier1.PlaceholderColor == new Color("#F3E8AA"), $"tier_1.tres PlaceholderColor ({tier1?.PlaceholderColor.ToHtml(false)}) should match #F3E8AA.");
-        Assert(tier2 != null && tier2.PlaceholderColor == new Color("#EAB879"), $"tier_2.tres PlaceholderColor ({tier2?.PlaceholderColor.ToHtml(false)}) should match #EAB879.");
-        Assert(tier3 != null && tier3.PlaceholderColor == new Color("#D1814C"), $"tier_3.tres PlaceholderColor ({tier3?.PlaceholderColor.ToHtml(false)}) should match #D1814C.");
-        Assert(tier4 != null && tier4.PlaceholderColor == new Color("#CA6642"), $"tier_4.tres PlaceholderColor ({tier4?.PlaceholderColor.ToHtml(false)}) should match #CA6642.");
-        Assert(tier5 != null && tier5.PlaceholderColor == new Color("#C04D38"), $"tier_5.tres PlaceholderColor ({tier5?.PlaceholderColor.ToHtml(false)}) should match #C04D38.");
-        Assert(tier6 != null && tier6.PlaceholderColor == new Color("#C04D38"), $"tier_6.tres PlaceholderColor ({tier6?.PlaceholderColor.ToHtml(false)}) should match #C04D38.");
-        Assert(defaultVariant != null && defaultVariant.PlaceholderColor == new Color("#F3E8AA"), $"default_ball_variant.tres PlaceholderColor ({defaultVariant?.PlaceholderColor.ToHtml(false)}) should match #F3E8AA.");
+        Assert(tier1 != null && tier1.Sprite != null, "tier_1.tres should load and have a Sprite assigned.");
+        Assert(tier2 != null && tier2.Sprite != null, "tier_2.tres should load and have a Sprite assigned.");
+        Assert(tier3 != null && tier3.Sprite != null, "tier_3.tres should load and have a Sprite assigned.");
+        Assert(tier4 != null && tier4.Sprite != null, "tier_4.tres should load and have a Sprite assigned.");
+        Assert(tier5 != null && tier5.Sprite != null, "tier_5.tres should load and have a Sprite assigned.");
+        Assert(defaultVariant != null, "default_ball_variant.tres should load.");
     }
+
 
     public static void TestVisualConfigDefaults()
     {

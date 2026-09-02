@@ -45,11 +45,14 @@ public partial class MotionTrail2D : Line2D
     public override void _Ready()
     {
         TopLevel = true;
+        ZIndex = -1;
+        ZAsRelative = true;
         ShowBehindParent = true;
         GlobalPosition = Vector2.Zero;
         JointMode = LineJointMode.Round;
         EndCapMode = LineCapMode.Round;
         Antialiased = true;
+
 
         if (TargetBall == null && GetParent() is Ball ball)
         {
