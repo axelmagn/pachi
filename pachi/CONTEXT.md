@@ -2,6 +2,13 @@
 
 Pachi is a physics-based pachinko / roguelike deckbuilder game developed in Godot 4.7 with C#.
 
+## Core Vision
+
+1. **It's Pachinko**: Physical balls serve as both play resource and currency. Tactile deflection off pins, pocket entries, and jackpot triggers drive the core sensory experience.
+2. **It's Incremental**: Layered progression curves scale ball values, pocket payouts, and board capabilities.
+3. **It's a Deckbuilder**: Upgrades are purchased from a shop drawn from a deck of cards. Prestige resets allow players to shape and expand their deck.
+4. **It's Simple**: Simple and legible systems designed for a relaxing, low-cognitive-load experience without micromanagement friction.
+
 ## Language
 
 

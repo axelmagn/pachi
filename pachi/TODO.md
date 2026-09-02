@@ -14,10 +14,10 @@ A rolling log of todo items.
 - [x] TICKET-02: Unwire Procedural Shape Sprites
     - [x] Keep `src/shape_sprites/` in the codebase for prototyping.
     - [x] Replace scene references in `pocket.tscn`, `yakumono.tscn`, and other scenes with native Godot `Sprite2D`, `Polygon2D`, or `CollisionShape2D` (retaining circle shape sprites for pegs).
-- [ ] TICKET-03: Prune Stale Documentation
-    - [ ] Retain `docs/notes/20260827_jacob_playtest.md`, `CONTEXT.md`, `CODE_STYLE.md`, and `AGENTS.md`.
-    - [ ] Archive or delete obsolete design specs in `docs/design/`, stale ADRs (e.g. `0001-visual-config-and-sandbox.md`), and unused scratch notes.
-    - [ ] Ensure `CONTEXT.md` serves as the sole domain reference for terminology and game mechanics.
+- [x] TICKET-03: Prune Stale Documentation
+    - [x] Retain `docs/notes/20260827_jacob_playtest.md`, `CONTEXT.md`, `CODE_STYLE.md`, and `AGENTS.md`.
+    - [x] Archive or delete obsolete design specs in `docs/design/`, stale ADRs (e.g. `0001-visual-config-and-sandbox.md`), and unused scratch notes.
+    - [x] Ensure `CONTEXT.md` serves as the sole domain reference for terminology and game mechanics.
 - [ ] TICKET-04: Structured Godot C# Test Framework
     - [ ] Adopt a standard Godot 4 C# test framework (e.g. `GoDotTest` + `Shouldly` or `GdUnit4Net`).
     - [ ] Migrate existing test suites (`BallStuckTests`, `BallVisualsTests`, `CardGuardrailTests`, `PocketIndicatorTests`, `PinToolPerformanceTests`) to discrete test classes using `[Test]` / `[TestCase]` with `[Setup]` / `[Cleanup]` lifecycles.

@@ -48,7 +48,7 @@
 ## Context Pointers
 
 - **Coding Style Guide**: Comprehensive C# and Godot best practices, engine idioms, and linter mappings in [`CODE_STYLE.md`](file:///home/axel/workspace/axelmagn/pachi/pachi/CODE_STYLE.md).
-- **Issue tracking**: Local tickets live in `.scratch/`. Read [`docs/agents/issue-tracker.md`](file:///home/axel/workspace/axelmagn/pachi/pachi/docs/agents/issue-tracker.md) when creating, claiming, or resolving issues.
-- **Triage labels**: Role-to-label mapping (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). Read [`docs/agents/triage-labels.md`](file:///home/axel/workspace/axelmagn/pachi/pachi/docs/agents/triage-labels.md) when updating issue triage state.
-- **Domain docs & ADRs**: Root glossary at [`CONTEXT.md`](file:///home/axel/workspace/axelmagn/pachi/pachi/CONTEXT.md) and architectural decisions in `docs/adr/`. Read [`docs/agents/domain.md`](file:///home/axel/workspace/axelmagn/pachi/pachi/docs/agents/domain.md) before codebase exploration or when evaluating ADR conflicts.
+- **Domain Context**: Game vision, core terminology, and vocabulary in [`CONTEXT.md`](file:///home/axel/workspace/axelmagn/pachi/pachi/CONTEXT.md).
 - **Godot Documentation**: Godot documentation root at `../ref/godot-docs/index.html`.
+
+
