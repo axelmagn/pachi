@@ -6,23 +6,6 @@ A rolling log of todo items.
 
 - [x] wayfinder design pass
 
-## 2026-08-28
-
-- [x] type up Jacob's playtest notes
-- [ ] cards overhaul
-    - [ ] assist on pickup
-    - [ ] juice
-    - [ ] cards move too quickly
-    - [ ] instead of operations -> overwrites
-        - [ ] swap out whole pocket
-    - [ ] separate yakumono cards from pocket cards
-    - [ ] tiered cards
-- [x] fix stuck bug
-- [ ] fix text appearance
-- [x] fix indicator appearance
-- [ ] pocket "or" inputs
-- [ ] ponder code architecture
-- [ ] color scheme
 
 ### Priority
 
