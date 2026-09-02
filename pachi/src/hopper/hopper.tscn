@@ -15,20 +15,21 @@ QueuedBallDispenseTimer = NodePath("QueuedBallsDispenseTimer")
 QueuedBallDispenseHoles = [NodePath("DispenseHoles/Hole"), NodePath("DispenseHoles/Hole2"), NodePath("DispenseHoles/Hole3"), NodePath("DispenseHoles/Hole4"), NodePath("DispenseHoles/Hole5"), NodePath("DispenseHoles/Hole6")]
 
 [node name="BoundaryRect" parent="." unique_id=1819436732 instance=ExtResource("1_3h226")]
-Width = 276.0
-Height = 338.0
+position = Vector2(2, 84)
+Width = 200.0
+Height = 200.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1714356661]
 
 [node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_gmkmf")]
-position = Vector2(0, 66)
-RadiusX = 135.0
-RadiusY = 100.0
+position = Vector2(1, 108)
+RadiusX = 90.0
+RadiusY = 60.0
 AverageSpacing = 6.0
 EndAngle = 180.0
 
 [node name="DispenseHoles" type="Node2D" parent="." unique_id=156763745]
-position = Vector2(0, -149)
+position = Vector2(-2, 10)
 
 [node name="Hole" parent="DispenseHoles" unique_id=428848470 instance=ExtResource("5_myq0o")]
 position = Vector2(-45, 0)

@@ -16,6 +16,8 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_7ivt2")
 
 [node name="CircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=331653442]
+visible = false
 script = ExtResource("2_at6jp")
 Radius = 2.0
+Color = Color(1, 1, 1, 0.56078434)
 metadata/_custom_type_script = "uid://cnsllcl4xmgqy"

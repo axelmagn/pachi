@@ -24,6 +24,7 @@ BallLaunchPoint = NodePath("LaunchHole")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1646304660]
 
 [node name="Drain" parent="." unique_id=1795231198 instance=ExtResource("5_8tcek")]
+visible = false
 position = Vector2(0, 241)
 
 [node name="Boundary" type="Node2D" parent="." unique_id=2101518844]

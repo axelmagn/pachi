@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://d0xlprysuxrgu" path="res://src/balls/tiers/tier_3.tres" id="6_2auq4"]
 [ext_resource type="Resource" uid="uid://dw62p3bhrmxyb" path="res://src/balls/tiers/tier_4.tres" id="7_q845l"]
 [ext_resource type="Resource" uid="uid://dr1147xep24y" path="res://src/balls/tiers/tier_5.tres" id="8_jbje6"]
-[ext_resource type="Resource" uid="uid://dhobpxp8e5msm" path="res://src/balls/tiers/tier_6.tres" id="9_n8mq4"]
+[ext_resource type="Script" uid="uid://cr0t46tii2w3s" path="res://src/balls/BallVariant.cs" id="9_gekfo"]
 [ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="10_cq107"]
 [ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="11_00jtp"]
 [ext_resource type="Script" uid="uid://bqswtjn4hqcjx" path="res://src/cards/CardDragController.cs" id="12_dragcontroller"]
@@ -23,11 +23,27 @@
 [ext_resource type="Script" uid="uid://utdeug40a1vy" path="res://src/cards/archetypes/RemoveInputBallArchetype.cs" id="20_rem_in_script"]
 [ext_resource type="Script" uid="uid://dtks2imexvdig" path="res://src/cards/archetypes/AddOutputBallArchetype.cs" id="21_add_out_script"]
 [ext_resource type="Texture2D" uid="uid://bijn4vmqw0qq5" path="res://assets/sprites/ellis/BG trees.PNG" id="21_o35kt"]
+[ext_resource type="Texture2D" uid="uid://w4p8mpgga2ei" path="res://assets/sprites/ellis/Bg leaves.png" id="22_80ys8"]
 [ext_resource type="Texture2D" uid="uid://cfagr4jey5vk0" path="res://assets/sprites/ellis/MG trees.PNG" id="22_gekfo"]
 [ext_resource type="Script" uid="uid://vxwn2yjh2ce6" path="res://src/cards/archetypes/RemoveOutputBallArchetype.cs" id="22_rem_out_script"]
+[ext_resource type="Texture2D" uid="uid://cl55h4671h3ir" path="res://assets/sprites/ellis/Bg reeds.png" id="22_td4mu"]
+[ext_resource type="Texture2D" uid="uid://2rqnem2jakjc" path="res://assets/sprites/ellis/Bg vines.png" id="22_ulfjs"]
+[ext_resource type="Texture2D" uid="uid://bioh12tklvjuy" path="res://assets/sprites/ellis/HallowBG.PNG" id="23_a4vkl"]
 [ext_resource type="Script" uid="uid://dhchimq8w8vbc" path="res://src/art/EnvironmentBackground.cs" id="23_envbg"]
 [ext_resource type="Texture2D" uid="uid://45n3fywo513" path="res://assets/sprites/ellis/Water.PNG" id="23_noerx"]
 [ext_resource type="Texture2D" uid="uid://d1ckw4j15lual" path="res://assets/sprites/ellis/Hoppertree .PNG" id="24_a4vkl"]
+[ext_resource type="Texture2D" uid="uid://djl7418xov4ia" path="res://assets/sprites/ellis/Mg vines.png" id="25_hu7fe"]
+[ext_resource type="Texture2D" uid="uid://bjsi3wym2gr3q" path="res://assets/sprites/ellis/Mg leaves.png" id="26_hu7fe"]
+[ext_resource type="Texture2D" uid="uid://do67eh71ng1vy" path="res://assets/sprites/ellis/Mg grass.png" id="26_td4mu"]
+[ext_resource type="Texture2D" uid="uid://cripj564u66lv" path="res://assets/sprites/ellis/Fg grass.png" id="30_a4vkl"]
+[ext_resource type="Texture2D" uid="uid://mfv6u3dqilw3" path="res://assets/sprites/ellis/FG leaves.png" id="31_02pjk"]
+[ext_resource type="Texture2D" uid="uid://b56qd0q1rsqd2" path="res://assets/sprites/ellis/FG vines.png" id="32_utm8u"]
+
+[sub_resource type="Resource" id="Resource_noerx"]
+script = ExtResource("9_gekfo")
+PlaceholderColor = Color(0.7529412, 0.3019608, 0.21960784, 1)
+BasePrice = 32
+metadata/_custom_type_script = "uid://cr0t46tii2w3s"
 
 [sub_resource type="Resource" id="Resource_pack"]
 script = ExtResource("14_pack_script")
@@ -70,7 +86,7 @@ script = ExtResource("1_n5cg8")
 [node name="GameConfig" type="Node" parent="Systems" unique_id=514418528]
 script = ExtResource("2_ju3mb")
 BallScene = ExtResource("3_4kfrx")
-BallTiers = Array[Object]([ExtResource("4_00jtp"), ExtResource("5_22jfb"), ExtResource("6_2auq4"), ExtResource("7_q845l"), ExtResource("8_jbje6"), ExtResource("9_n8mq4")])
+BallTiers = Array[Object]([ExtResource("4_00jtp"), ExtResource("5_22jfb"), ExtResource("6_2auq4"), ExtResource("7_q845l"), ExtResource("8_jbje6"), SubResource("Resource_noerx")])
 CardArchetypes = Array[Object]([SubResource("Resource_pack"), SubResource("Resource_inc_in"), SubResource("Resource_dec_in"), SubResource("Resource_inc_out"), SubResource("Resource_dec_out"), SubResource("Resource_add_in"), SubResource("Resource_rem_in"), SubResource("Resource_add_out"), SubResource("Resource_rem_out")])
 
 [node name="LayersRoot" type="Node" parent="." unique_id=1519063191]
@@ -87,7 +103,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.10980392, 0.14901961, 0.11372549, 1)
+color = Color(0.105882354, 0.11372549, 0.16470589, 1)
 script = ExtResource("23_envbg")
 
 [node name="BGTrees" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=1098668844]
@@ -98,7 +114,41 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("21_o35kt")
 
-[node name="MGTrees" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=250834560]
+[node name="BGVines" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=1425835739]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("22_ulfjs")
+
+[node name="BGReeds" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=303383171]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("22_td4mu")
+
+[node name="BGLeaves" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=181819847]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("22_80ys8")
+
+[node name="BGHallow" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=837401775]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_a4vkl")
+
+[node name="MidgroundLayer" type="CanvasLayer" parent="LayersRoot" unique_id=11387856]
+
+[node name="MGTrees" type="TextureRect" parent="LayersRoot/MidgroundLayer" unique_id=250834560]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -106,7 +156,31 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("22_gekfo")
 
-[node name="Water" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=594494716]
+[node name="MGVines" type="TextureRect" parent="LayersRoot/MidgroundLayer" unique_id=1806753891]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("25_hu7fe")
+
+[node name="MGLeaves" type="TextureRect" parent="LayersRoot/MidgroundLayer" unique_id=457498006]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("26_hu7fe")
+
+[node name="MGGrass" type="TextureRect" parent="LayersRoot/MidgroundLayer" unique_id=2017843947]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("26_td4mu")
+
+[node name="MGWater" type="TextureRect" parent="LayersRoot/MidgroundLayer" unique_id=594494716]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -114,15 +188,24 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("23_noerx")
 
-[node name="HopperTree" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=465641928]
+[node name="BGHallow2" type="TextureRect" parent="LayersRoot" unique_id=1741137398]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_a4vkl")
+
+[node name="PlayScreenLayer" type="CanvasLayer" parent="LayersRoot" unique_id=1085927762]
+
+[node name="HopperTree" type="TextureRect" parent="LayersRoot/PlayScreenLayer" unique_id=465641928]
+z_index = -5
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("24_a4vkl")
-
-[node name="PlayScreenLayer" type="CanvasLayer" parent="LayersRoot" unique_id=1085927762]
 
 [node name="PlayScreen" type="Control" parent="LayersRoot/PlayScreenLayer" unique_id=509584043]
 layout_mode = 3
@@ -152,6 +235,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="HopperViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn" unique_id=2103993086]
+z_index = -10
 layout_mode = 2
 
 [node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer" unique_id=814168454]
@@ -162,6 +246,7 @@ size = Vector2i(276, 338)
 render_target_update_mode = 4
 
 [node name="Hopper" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport" unique_id=1019095757 instance=ExtResource("10_cq107")]
+z_index = 4
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn" unique_id=292800038]
 layout_mode = 2
@@ -191,3 +276,33 @@ render_target_update_mode = 4
 
 [node name="CardSidebar" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1220220990 instance=ExtResource("13_sidebar")]
 layout_mode = 2
+
+[node name="ForegroundLayer" type="CanvasLayer" parent="LayersRoot" unique_id=1666202558]
+process_mode = 4
+
+[node name="FGVines" type="TextureRect" parent="LayersRoot/ForegroundLayer" unique_id=78352384]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("32_utm8u")
+
+[node name="FGGrass" type="TextureRect" parent="LayersRoot/ForegroundLayer" unique_id=1000655605]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("30_a4vkl")
+
+[node name="FGLeaves" type="TextureRect" parent="LayersRoot/ForegroundLayer" unique_id=1904268707]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("31_02pjk")

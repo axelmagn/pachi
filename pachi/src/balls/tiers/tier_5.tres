@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_65pqb")
-PlaceholderColor = Color(0.7529412, 0.3019608, 0.21960784, 1)
+PlaceholderColor = Color(0.72156864, 0.7921569, 0.8392157, 1)
 BasePrice = 16
 metadata/_custom_type_script = "uid://cr0t46tii2w3s"
