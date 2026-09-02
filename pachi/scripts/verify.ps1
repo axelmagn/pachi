@@ -53,8 +53,8 @@ Write-Host "✓ Build succeeded with 0 warnings and 0 errors!" -ForegroundColor 
 Write-Host ""
 Write-Host "[3/3] Running Headless Godot Test Suites..." -ForegroundColor Yellow
 if ($GodotBin) {
-    Write-Host "  Running: $GodotBin --headless -s src/tests/TestRunner.cs"
-    & $GodotBin --headless -s src/tests/TestRunner.cs
+    Write-Host "  Running: $GodotBin --headless -s tests/TestRunner.cs"
+    & $GodotBin --headless -s tests/TestRunner.cs
     if ($LASTEXITCODE -ne 0) { throw "TestRunner failed with exit code $LASTEXITCODE" }
     Write-Host "✓ Headless tests completed successfully!" -ForegroundColor Green
 } else {

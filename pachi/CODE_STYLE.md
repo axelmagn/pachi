@@ -207,3 +207,14 @@ Configured in `.editorconfig` to align Roslyn with Godot runtime lifecycles:
 | `CA1707` (*Underscores*) | `none` | Godot virtual callbacks use leading underscores (`_Ready`, `_Process`, `_Draw`). |
 | `CA1822` (*Static members*) | `suggestion` | Engine invokes lifecycle callbacks on node instances. |
 | `CA1001` / `CA2000` (*Disposables*) | `suggestion` | Node lifecycle is managed by Scene Tree and `QueueFree()`, not .NET `IDisposable`. |
+
+---
+
+## 6. Testing Conventions
+
+Testing is powered by **Chickensoft.GoDotTest** and **Shouldly**, executed headlessly via `./scripts/verify.sh`.
+
+- **Framework & Assertions**: Use `[TestClass]` / inherit `TestClass` and decorate test methods with `[Test]`. Use Shouldly fluent assertions (`actual.ShouldBe(expected)`, `node.ShouldNotBeNull()`).
+- **Domain Unit Tests**: Co-located with their domain feature in `src/<domain>/tests/` (e.g. `src/balls/tests/`). Test pure state machines and domain logic without SceneTree dependencies.
+- **Scene Integration Tests**: Placed under `tests/integration/<domain>/` inheriting `IntegrationTestClass`. Use `InstantiateAndTrack<T>(path)` or `TrackNode(node)` to ensure dynamic nodes are automatically cleaned up in `[Cleanup]`.
+- **Test Runner**: Maintained at `tests/TestRunner.cs`. Execute via `godot-mono --headless -s tests/TestRunner.cs`.

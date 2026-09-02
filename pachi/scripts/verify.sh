@@ -54,8 +54,8 @@ echo "✓ Build succeeded with 0 warnings and 0 errors!"
 echo ""
 echo "[3/3] Running Headless Godot Test Suites..."
 if [ -n "$GODOT_BIN" ]; then
-    echo "  Running: ${GODOT_BIN} --headless -s src/tests/TestRunner.cs"
-    "${GODOT_BIN}" --headless -s src/tests/TestRunner.cs
+    echo "  Running: ${GODOT_BIN} --headless -s tests/TestRunner.cs"
+    "${GODOT_BIN}" --headless -s tests/TestRunner.cs
     echo "✓ Headless tests completed successfully!"
 else
     echo "⚠ Warning: godot-mono/godot executable not found in PATH; skipping headless Godot checks."

@@ -7,6 +7,8 @@ A rolling log of todo items.
 - [ ] expose necessary props as exports
 - [ ] documentation pass
 
+Audit Tickets (see: `ctx/audit.md`)
+
 - [x] TICKET-01: Remove VisualConfig Pipeline
     - [x] Delete `src/art/VisualConfig.cs`, `src/art/VisualConfigBinding.cs`, `src/art/visual_config.tres`, `src/art/visual_showcase.tscn`, and `src/art/tests/VisualConfigTests.cs`.
     - [x] Remove all `VisualConfigBinding` fields and `ApplyVisualConfig()` calls from `Pin.cs`, `Pocket.cs`, `CardUI.cs`, `BallAwardIndicator.cs`, `PocketBallsIndicator.cs`, `Yakumono.cs`, and `EnvironmentBackground.cs`.
@@ -18,12 +20,12 @@ A rolling log of todo items.
     - [x] Retain `docs/notes/20260827_jacob_playtest.md`, `CONTEXT.md`, `CODE_STYLE.md`, and `AGENTS.md`.
     - [x] Archive or delete obsolete design specs in `docs/design/`, stale ADRs (e.g. `0001-visual-config-and-sandbox.md`), and unused scratch notes.
     - [x] Ensure `CONTEXT.md` serves as the sole domain reference for terminology and game mechanics.
-- [ ] TICKET-04: Structured Godot C# Test Framework
-    - [ ] Adopt a standard Godot 4 C# test framework (e.g. `GoDotTest` + `Shouldly` or `GdUnit4Net`).
-    - [ ] Migrate existing test suites (`BallStuckTests`, `BallVisualsTests`, `CardGuardrailTests`, `PocketIndicatorTests`, `PinToolPerformanceTests`) to discrete test classes using `[Test]` / `[TestCase]` with `[Setup]` / `[Cleanup]` lifecycles.
-    - [ ] Split test suites into pure domain tests and scene integration tests.
-    - [ ] Remove screenshot capture assertions from headless CI runs.
-    - [ ] Update `./scripts/verify.sh` to run the structured test suite headlessly.
+- [x] TICKET-04: Structured Godot C# Test Framework
+    - [x] Adopt a standard Godot 4 C# test framework (`GoDotTest` + `Shouldly`).
+    - [x] Establish discrete test classes using `[TestClass]`, `[Test]`, and `[Cleanup]` lifecycles.
+    - [x] Split test structure into pure domain tests (`src/<domain>/tests/`) and scene integration tests (`tests/integration/`).
+    - [x] Remove obsolete screenshot capture assertions and legacy test runners.
+    - [x] Update `./scripts/verify.sh` and `./scripts/verify.ps1` to run the structured test suite headlessly.
 - [ ] TICKET-05: Headless Node & RID Leak Cleanup
     - [ ] Audit test teardown hooks to ensure all dynamically instantiated nodes call `QueueFree()` and drain the scene tree.
     - [ ] Ensure custom `RefCounted` or `Resource` handles and active tweens are cleanly terminated before test completion.
