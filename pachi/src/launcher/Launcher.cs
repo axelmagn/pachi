@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
+[GlobalClass]
 public partial class Launcher : Node2D
 {
     [Export]
@@ -187,15 +188,9 @@ public partial class Launcher : Node2D
         }
     }
 
-    private float MinRotation()
-    {
-        return _startRotation < _endRotation ? _startRotation : _endRotation;
-    }
+    private float MinRotation() => _startRotation < _endRotation ? _startRotation : _endRotation;
 
-    private float MaxRotation()
-    {
-        return _startRotation > _endRotation ? _startRotation : _endRotation;
-    }
+    private float MaxRotation() => _startRotation > _endRotation ? _startRotation : _endRotation;
 
     private float RotationRatio()
     {

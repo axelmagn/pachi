@@ -136,7 +136,7 @@ public static class CardGenerator
         var firstPocket = pockets.FirstOrDefault();
         if (firstPocket != null && firstPocket.IsInsideTree())
         {
-            var hoppers = firstPocket.GetTree().GetNodesInGroup("hoppers");
+            var hoppers = firstPocket.GetTree().GetNodesInGroup(Hopper.GroupHoppers);
             int total = 0;
             foreach (Node node in hoppers)
             {

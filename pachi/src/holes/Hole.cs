@@ -13,7 +13,7 @@ public partial class Hole : Area2D
     public CollisionShape2D? Collider { get; set; }
 
     [Export]
-    public bool MonitorBallOverlap = false;
+    public bool MonitorBallOverlap { get; set; } = false;
 
     public override void _Ready()
     {

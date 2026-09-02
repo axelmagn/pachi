@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 [GlobalClass]
 public partial class ScreenshotRunner : SceneTree
 {
-    public override async void _Initialize()
+    public override void _Initialize()
+    {
+        _ = RunScreenshotsAsync();
+    }
+
+    private async Task RunScreenshotsAsync()
     {
         GD.Print("Starting ScreenshotRunner...");
         try

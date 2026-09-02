@@ -1,8 +1,8 @@
 using Godot;
-using System;
 using System.Diagnostics;
 
 /// Event bus for global events
+[GlobalClass]
 public partial class GlobalEvents : Node
 {
     public static GlobalEvents? Instance { get; private set; }
@@ -28,28 +28,26 @@ public partial class GlobalEvents : Node
         Instance = this;
     }
 
-    public void NotifyBallAwarded(BallVariant ballVariant)
+    public override void _ExitTree()
     {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
+    public void NotifyBallAwarded(BallVariant ballVariant) =>
         EmitSignal(SignalName.BallAwarded, ballVariant);
-    }
 
-    public void NotifyCentralPocketPaidOut()
-    {
+    public void NotifyCentralPocketPaidOut() =>
         EmitSignal(SignalName.CentralPocketPaidOut);
-    }
 
-    public void NotifyBallEnteredPocket(Node pocket, Node ball)
-    {
+    public void NotifyBallEnteredPocket(Node pocket, Node ball) =>
         EmitSignal(SignalName.BallEnteredPocket, pocket, ball);
-    }
 
-    public void NotifyYakumonoStateChanged(Node yakumono, int faceIndex)
-    {
+    public void NotifyYakumonoStateChanged(Node yakumono, int faceIndex) =>
         EmitSignal(SignalName.YakumonoStateChanged, yakumono, faceIndex);
-    }
 
-    public void NotifyYakumonoPaidOut(Node yakumono)
-    {
+    public void NotifyYakumonoPaidOut(Node yakumono) =>
         EmitSignal(SignalName.YakumonoPaidOut, yakumono);
-    }
 }

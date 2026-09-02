@@ -64,10 +64,10 @@ public partial class Pocket : Node2D
     public CharacterBody2D? RightArm { get; set; }
 
     [Export]
-    public CollisionShape2D? LeftArmCollider;
+    public CollisionShape2D? LeftArmCollider { get; set; }
 
     [Export]
-    public CollisionShape2D? RightArmCollider;
+    public CollisionShape2D? RightArmCollider { get; set; }
 
     [Export]
     public Sprite2D? LeftArmSprite { get; set; }
@@ -82,7 +82,7 @@ public partial class Pocket : Node2D
     public Node2D? RightArmProcedural { get; set; }
 
     [Export]
-    public Array<BallVariant>? InputBalls;
+    public Array<BallVariant>? InputBalls { get; set; }
 
     [Export]
     public Sprite2D? PocketSprite { get; set; }
@@ -93,13 +93,13 @@ public partial class Pocket : Node2D
     public Array<bool>? InputBallSlotAvailable;
 
     [Export]
-    public Array<BallVariant>? OutputBalls;
+    public Array<BallVariant>? OutputBalls { get; set; }
 
     [Export]
-    public PocketBallsIndicator? InputsIndicator;
+    public PocketBallsIndicator? InputsIndicator { get; set; }
 
     [Export]
-    public PocketBallsIndicator? OutputsIndicator;
+    public PocketBallsIndicator? OutputsIndicator { get; set; }
 
     [Export]
     public AudioStreamPlayer2D? AcceptAudioPlayer { get; set; }

@@ -1,8 +1,7 @@
 using Godot;
-using System;
 using System.Diagnostics;
-using System.Linq;
 
+[GlobalClass]
 public partial class Drain : Node2D
 {
     [Signal]
@@ -16,6 +15,14 @@ public partial class Drain : Node2D
         Debug.Assert(Hole != null);
 
         Hole!.BallOverlapped += OnBallOverlap;
+    }
+
+    public override void _ExitTree()
+    {
+        if (Hole != null)
+        {
+            Hole.BallOverlapped -= OnBallOverlap;
+        }
     }
 
     private void OnBallOverlap(Ball ball)

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+[GlobalClass]
 public partial class CardDragController : CanvasLayer
 {
     public static CardDragController? Instance { get; private set; }

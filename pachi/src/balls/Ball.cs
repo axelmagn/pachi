@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
+[GlobalClass]
 public partial class Ball : RigidBody2D
 {
     [Signal]
@@ -63,7 +64,7 @@ public partial class Ball : RigidBody2D
     public float FadeDuration { get; set; } = 0.5f;
 
     [Export]
-    public float MaxExpectedVelocity = 800.0f;
+    public float MaxExpectedVelocity { get; set; } = 800.0f;
 
     [Export]
     public CollisionShape2D? Collider { get; set; }
@@ -169,6 +170,15 @@ public partial class Ball : RigidBody2D
 
         UpdateVisuals();
         MotionTrail.SyncWithBall();
+    }
+
+    public override void _ExitTree()
+    {
+        BodyEntered -= OnBodyEntered;
+        if (FadeTimer != null)
+        {
+            FadeTimer.Timeout -= OnFadeTimeout;
+        }
     }
 
     public void UpdateVisuals()

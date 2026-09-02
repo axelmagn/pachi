@@ -3,8 +3,16 @@ using System;
 using System.Diagnostics;
 
 [Tool]
+[GlobalClass]
 public partial class PinEllipse : PinGenerator
 {
+    private float _radiusX = 100.0f;
+    private float _radiusY = 80.0f;
+    private float _averageSpacing = 16.0f;
+    private float _startAngle = 0.0f;
+    private float _endAngle = 180.0f; // Defaulting to a half-pipe shape
+    private bool _mirrorX = false;
+    private bool _mirrorY = false;
 
     [Export]
     public float RadiusX
@@ -121,14 +129,6 @@ public partial class PinEllipse : PinGenerator
         }
     }
 
-    private float _radiusX = 100.0f;
-    private float _radiusY = 80.0f;
-    private float _averageSpacing = 16.0f;
-    private float _startAngle = 0.0f;
-    private float _endAngle = 180.0f; // Defaulting to a half-pipe shape
-    private bool _mirrorX = false;
-    private bool _mirrorY = false;
-
     protected override void GeneratePins()
     {
         // Convert degrees to radians for math functions
@@ -180,8 +180,5 @@ public partial class PinEllipse : PinGenerator
 
             SpawnPin(position, pinRotation);
         }
-
-
-
     }
 }

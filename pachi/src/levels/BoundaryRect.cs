@@ -42,28 +42,44 @@ public partial class BoundaryRect : StaticBody2D
     public CollisionShape2D? TopBoundary
     {
         get => _topBoundary;
-        set { _topBoundary = value; Rebuild(); }
+        set
+        {
+            _topBoundary = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public CollisionShape2D? BottomBoundary
     {
         get => _bottomBoundary;
-        set { _bottomBoundary = value; Rebuild(); }
+        set
+        {
+            _bottomBoundary = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public CollisionShape2D? LeftBoundary
     {
         get => _leftBoundary;
-        set { _leftBoundary = value; Rebuild(); }
+        set
+        {
+            _leftBoundary = value;
+            Rebuild();
+        }
     }
 
     [Export]
     public CollisionShape2D? RightBoundary
     {
         get => _rightBoundary;
-        set { _rightBoundary = value; Rebuild(); }
+        set
+        {
+            _rightBoundary = value;
+            Rebuild();
+        }
     }
 
     public override void _Ready()

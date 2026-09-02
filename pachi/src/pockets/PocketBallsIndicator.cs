@@ -8,6 +8,26 @@ public partial class PocketBallsIndicator : Node2D
 {
     private readonly VisualConfigBinding _binding;
     private VisualConfig? _configOverride;
+    private bool _isInputIndicator = true;
+    private Color _backgroundColor = new(0.14f, 0.14f, 0.14f);
+    private bool _showQuestionMark = false;
+    private Vector2 _size = new(34, 10);
+    private float _dotRadius = 1.5f;
+    private Color _borderColor = Colors.Black;
+    private float _borderThickness = 1.0f;
+    private Array<BallVariant>? _balls;
+    private readonly StyleBoxFlat _pipStyleBox = new()
+    {
+        BorderWidthLeft = 1,
+        BorderWidthTop = 1,
+        BorderWidthRight = 1,
+        BorderWidthBottom = 1,
+        CornerRadiusTopLeft = 2,
+        CornerRadiusTopRight = 2,
+        CornerRadiusBottomRight = 2,
+        CornerRadiusBottomLeft = 2,
+        AntiAliasing = false,
+    };
 
     public PocketBallsIndicator()
     {
@@ -43,7 +63,6 @@ public partial class PocketBallsIndicator : Node2D
             QueueRedraw();
         }
     }
-    private bool _isInputIndicator = true;
 
     [Export]
     public Color BackgroundColor
@@ -56,7 +75,6 @@ public partial class PocketBallsIndicator : Node2D
             QueueRedraw();
         }
     }
-    private Color _backgroundColor = new(0.14f, 0.14f, 0.14f);
 
     [Export]
     public bool ShowQuestionMark
@@ -69,7 +87,6 @@ public partial class PocketBallsIndicator : Node2D
             QueueRedraw();
         }
     }
-    private bool _showQuestionMark = false;
 
     [Export]
     public Vector2 Size
@@ -82,7 +99,6 @@ public partial class PocketBallsIndicator : Node2D
             QueueRedraw();
         }
     }
-    private Vector2 _size = new(34, 10);
 
     [Export]
     public float DotRadius
@@ -95,7 +111,6 @@ public partial class PocketBallsIndicator : Node2D
             QueueRedraw();
         }
     }
-    private float _dotRadius = 1.5f;
 
     [Export]
     public Color BorderColor
@@ -108,7 +123,6 @@ public partial class PocketBallsIndicator : Node2D
             QueueRedraw();
         }
     }
-    private Color _borderColor = Colors.Black;
 
     [Export]
     public float BorderThickness
@@ -121,7 +135,6 @@ public partial class PocketBallsIndicator : Node2D
             QueueRedraw();
         }
     }
-    private float _borderThickness = 1.0f;
 
     public Array<BallVariant>? Balls
     {
@@ -133,7 +146,6 @@ public partial class PocketBallsIndicator : Node2D
             QueueRedraw();
         }
     }
-    private Array<BallVariant>? _balls;
 
     private void UpdateIndicatorSize()
     {
@@ -201,7 +213,6 @@ public partial class PocketBallsIndicator : Node2D
         if (numDots <= 0) return;
 
         const float pipSize = 8.0f;
-        const int cornerRadius = 2;
         int numRows = numDots > 4 ? 2 : 1;
 
         for (int r = 0; r < numRows; r++)
@@ -222,21 +233,9 @@ public partial class PocketBallsIndicator : Node2D
                     ? pipColor.Lightened(0.25f)
                     : pipColor.Darkened(0.35f);
 
-                var styleBox = new StyleBoxFlat
-                {
-                    BgColor = pipColor,
-                    BorderColor = strokeColor,
-                    BorderWidthLeft = 1,
-                    BorderWidthTop = 1,
-                    BorderWidthRight = 1,
-                    BorderWidthBottom = 1,
-                    CornerRadiusTopLeft = cornerRadius,
-                    CornerRadiusTopRight = cornerRadius,
-                    CornerRadiusBottomRight = cornerRadius,
-                    CornerRadiusBottomLeft = cornerRadius,
-                    AntiAliasing = false,
-                };
-                DrawStyleBox(styleBox, pipRect);
+                _pipStyleBox.BgColor = pipColor;
+                _pipStyleBox.BorderColor = strokeColor;
+                DrawStyleBox(_pipStyleBox, pipRect);
             }
         }
     }

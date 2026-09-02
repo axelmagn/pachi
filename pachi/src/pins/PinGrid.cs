@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 
 [Tool]
+[GlobalClass]
 public partial class PinGrid : PinGenerator
 {
     private int _rows = 5;

@@ -3,8 +3,18 @@ using System;
 using System.Diagnostics;
 
 [Tool]
+[GlobalClass]
 public partial class PinFunnel : Node2D
 {
+    private float _innerWidth = 50.0f;
+    private float _outerWidth = 100.0f;
+    private float _height = 100.0f;
+    private float _averageSpacing = 16.0f;
+    private bool _mirrorX = false;
+    private bool _mirrorY = false;
+    private PinEllipse? _leftEllipse;
+    private PinEllipse? _rightEllipse;
+
     // TODO: exports and updates
     [Export]
     public float InnerWidth
@@ -93,6 +103,7 @@ public partial class PinFunnel : Node2D
             Rebuild();
         }
     }
+
     [Export]
     public PinEllipse? RightEllipse
     {
@@ -104,16 +115,6 @@ public partial class PinFunnel : Node2D
             Rebuild();
         }
     }
-
-    private float _innerWidth = 50.0f;
-    private float _outerWidth = 100.0f;
-    private float _height = 100.0f;
-    private float _averageSpacing = 16.0f;
-    private bool _mirrorX = false;
-    private bool _mirrorY = false;
-
-    private PinEllipse? _leftEllipse;
-    private PinEllipse? _rightEllipse;
 
     private void Rebuild()
     {

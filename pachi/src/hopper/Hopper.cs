@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+[GlobalClass]
 public partial class Hopper : Node2D
 {
+    public static readonly StringName GroupHoppers = new("hoppers");
+
     [Export]
     public Node2D? BallsRoot { get; set; }
 
@@ -57,18 +60,20 @@ public partial class Hopper : Node2D
         Debug.Assert(GlobalEvents.Instance != null, "GlobalEvents.Instance must not be null");
         GlobalEvents.Instance.BallAwarded += OnBallAwarded;
 
-        AddToGroup("hoppers");
+        AddToGroup(GroupHoppers);
         Debug.Assert(CardDragController.Instance != null, "CardDragController.Instance must not be null");
         CardDragController.Instance.RegisterTarget(this, 100.0f);
     }
 
-    public int GetTotalBallCount()
-    {
-        return _containedBalls.Count + _queuedBalls.Count;
-    }
+    public int GetTotalBallCount() => _containedBalls.Count + _queuedBalls.Count;
 
     public override void _ExitTree()
     {
+        if (QueuedBallDispenseTimer != null)
+        {
+            QueuedBallDispenseTimer.Timeout -= OnDispenseTimeout;
+        }
+
         if (GlobalEvents.Instance != null)
         {
             GlobalEvents.Instance.BallAwarded -= OnBallAwarded;
@@ -92,10 +97,7 @@ public partial class Hopper : Node2D
         }
     }
 
-    public int BallCount()
-    {
-        return _containedBalls.Count;
-    }
+    public int BallCount() => _containedBalls.Count;
 
     public Ball? PopFirstContainedBall()
     {

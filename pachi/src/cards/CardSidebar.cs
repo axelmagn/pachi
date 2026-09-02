@@ -3,6 +3,7 @@ using Godot.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+[GlobalClass]
 public partial class CardSidebar : Control
 {
     public static CardSidebar? Instance { get; private set; }
@@ -82,7 +83,7 @@ public partial class CardSidebar : Control
     private List<Pocket> GetActivePockets()
     {
         var pockets = new List<Pocket>();
-        var nodes = GetTree().GetNodesInGroup("pockets");
+        var nodes = GetTree().GetNodesInGroup(Pocket.GroupPockets);
         foreach (Node node in nodes)
         {
             if (node is Pocket pocket && pocket.IsInsideTree())
