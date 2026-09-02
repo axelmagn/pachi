@@ -19,15 +19,6 @@ public partial class Yakumono : Pocket
     public Sprite2D? ForegroundSprite { get; set; }
 
     [Export]
-    public Node2D? FrameProcedural { get; set; }
-
-    [Export]
-    public Node2D? FaceProcedural { get; set; }
-
-    [Export]
-    public Node2D? ForegroundProcedural { get; set; }
-
-    [Export]
     public Node2D? VisualLayersContainer { get; set; }
 
     [Export]

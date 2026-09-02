@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bhmpp70vo2l44"]
 
 [ext_resource type="Script" uid="uid://dnslcmv1udepo" path="res://src/launcher/Launcher.cs" id="1_ob4jl"]
-[ext_resource type="Script" uid="uid://dpia4wmu8fg3i" path="res://src/shape_sprites/CapsuleSprite.cs" id="2_h1ipi"]
 [ext_resource type="Script" uid="uid://biyglyxa47gj2" path="res://src/launcher/LauncherModeIndicator.cs" id="3_modeind"]
 
 [sub_resource type="Curve" id="Curve_ra4up"]
@@ -23,22 +22,21 @@ ModeIndicator = NodePath("LauncherModeIndicator")
 [node name="LauncherGhostSprite" type="Node2D" parent="." unique_id=1563860130]
 rotation = -0.61086524
 
-[node name="CapsuleSprite" type="Node2D" parent="LauncherGhostSprite" unique_id=284985626]
-position = Vector2(-64, 0)
-rotation = 1.5707964
-script = ExtResource("2_h1ipi")
-Radius = 10.0
-Height = 150.0
-Color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+[node name="Line2D" type="Line2D" parent="LauncherGhostSprite" unique_id=284985626]
+points = PackedVector2Array(-130, 0, 0, 0)
+width = 20.0
+default_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
 
 [node name="LauncherSprite" type="Node2D" parent="." unique_id=1680024580]
 
-[node name="CapsuleSprite" type="Node2D" parent="LauncherSprite" unique_id=1280229580]
-position = Vector2(-64, 0)
-rotation = 1.5707964
-script = ExtResource("2_h1ipi")
-Radius = 10.0
-Height = 150.0
+[node name="Line2D" type="Line2D" parent="LauncherSprite" unique_id=1280229580]
+points = PackedVector2Array(-130, 0, 0, 0)
+width = 20.0
+default_color = Color(1, 1, 1, 1)
+begin_cap_mode = 2
+end_cap_mode = 2
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=264779633]
 position = Vector2(-59, 25)

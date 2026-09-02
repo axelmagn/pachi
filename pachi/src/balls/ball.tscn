@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://ts8cecg1g12g" path="res://src/balls/Ball.cs" id="1_sv7c3"]
 [ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="2_pjjxd"]
-[ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="3_r56ug"]
 [ext_resource type="AudioStream" uid="uid://gcg8a2s0a2ay" path="res://assets/audio/chiptone/pin_hit.01.wav" id="4_ykjch"]
 [ext_resource type="AudioStream" uid="uid://c7amups2w4yn3" path="res://assets/audio/chiptone/ball_hit.01.wav" id="5_ys5hv"]
 [ext_resource type="AudioStream" uid="uid://xm3iphstpd88" path="res://assets/audio/chiptone/wall_hit.01.wav" id="6_pjjxd"]
@@ -19,7 +18,7 @@ point_count = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubxs6"]
 radius = 6.0
 
-[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "WallBounceAudioPlayer", "PlaceholderSprite", "Sprite", "MotionTrail", "Collider", "FadeTimer") groups=["ball", "ball_material"]]
+[node name="Ball" type="RigidBody2D" unique_id=1444217061 node_paths=PackedStringArray("PinBounceAudioPlayer", "BallBounceAudioPlayer", "WallBounceAudioPlayer", "Sprite", "MotionTrail", "Collider", "FadeTimer") groups=["ball", "ball_material"]]
 collision_layer = 2
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_tsi0e")
@@ -31,7 +30,6 @@ Variant = ExtResource("2_pjjxd")
 PinBounceAudioPlayer = NodePath("PinBounceAudioPlayer")
 BallBounceAudioPlayer = NodePath("BallBounceAudioPlayer")
 WallBounceAudioPlayer = NodePath("WallBounceAudioPlayer")
-PlaceholderSprite = NodePath("CollisionShape2D/ColliderCircleSprite")
 Sprite = NodePath("CollisionShape2D/Sprite2D")
 MotionTrail = NodePath("MotionTrail2D")
 FadeModulate = Color(0.5019608, 0.5019608, 0.5019608, 0.7529412)
@@ -54,14 +52,7 @@ script = ExtResource("7_trail")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1206895688]
 shape = SubResource("CircleShape2D_ubxs6")
 
-[node name="ColliderCircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=2040255732]
-script = ExtResource("3_r56ug")
-Radius = 6.0
-Color = Color(0.8158153, 0.81581545, 0.8158154, 1)
-metadata/_custom_type_script = "uid://vnclow3lkur1"
-
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D" unique_id=1849203842]
-visible = false
 
 
 [node name="PinBounceAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1111486999]

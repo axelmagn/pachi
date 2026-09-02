@@ -20,11 +20,9 @@ public static class BallVisualsTests
         ball.UpdateVisuals();
 
         Assert(ball.Sprite != null, "Ball Sprite2D node should not be null.");
-        Assert(ball.PlaceholderSprite != null, "Ball PlaceholderSprite node should not be null.");
         Assert(ball.Variant != null, "Ball default variant should not be null.");
         Assert(ball.Variant!.Sprite != null, "Tier 1 variant should have a Sprite texture.");
         Assert(ball.Sprite!.Visible, "Ball Sprite2D should be visible when Variant has a sprite.");
-        Assert(!ball.PlaceholderSprite!.Visible, "Ball PlaceholderSprite should be hidden when Variant has a sprite.");
         Assert(ball.Sprite.Texture == ball.Variant.Sprite, "Sprite2D texture should match Variant.Sprite.");
 
         // Check scaling: radius is 6.0, diameter 12.0
@@ -51,8 +49,8 @@ public static class BallVisualsTests
         ball.Variant = fallbackVariant;
 
         Assert(!ball.Sprite!.Visible, "Sprite2D should be hidden when Variant has no sprite.");
-        Assert(ball.PlaceholderSprite!.Visible, "PlaceholderSprite should be visible when Variant has no sprite.");
-        Assert(ball.PlaceholderSprite.Color == Colors.Red, "PlaceholderSprite color should match Variant.PlaceholderColor.");
+        Assert(ball.Sprite.Texture == null, "Sprite2D texture should be null when Variant has no sprite.");
+        Assert(ball.Sprite.SelfModulate == Colors.Red, "Sprite2D SelfModulate should match Variant.PlaceholderColor.");
 
         ball.QueueFree();
     }
@@ -66,7 +64,6 @@ public static class BallVisualsTests
         ball.Variant = tier5;
 
         Assert(ball.Sprite!.Visible, "Sprite2D should be visible for Tier 5.");
-        Assert(!ball.PlaceholderSprite!.Visible, "PlaceholderSprite should be hidden for Tier 5.");
         Assert(ball.Sprite.Texture == tier5.Sprite, "Sprite texture should update to Tier 5 blue gem.");
 
         ball.QueueFree();

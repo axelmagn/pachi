@@ -41,9 +41,6 @@ public partial class Ball : RigidBody2D
     public AudioStreamPlayer2D? WallBounceAudioPlayer { get; set; }
 
     [Export]
-    public ColliderCircleSprite? PlaceholderSprite { get; set; }
-
-    [Export]
     public Sprite2D? Sprite { get; set; }
 
 
@@ -151,7 +148,7 @@ public partial class Ball : RigidBody2D
     public override void _Ready()
     {
         Debug.Assert(Variant != null);
-        Debug.Assert(PlaceholderSprite != null);
+        Debug.Assert(Sprite != null);
         Debug.Assert(PinBounceAudioPlayer != null);
         Debug.Assert(BallBounceAudioPlayer != null);
         Debug.Assert(WallBounceAudioPlayer != null);
@@ -183,7 +180,9 @@ public partial class Ball : RigidBody2D
 
     public void UpdateVisuals()
     {
-        if (Variant?.Sprite != null && Sprite != null)
+        if (Sprite == null) return;
+
+        if (Variant?.Sprite != null)
         {
             Sprite.Texture = Variant.Sprite;
 
@@ -195,20 +194,14 @@ public partial class Ball : RigidBody2D
                 float s = targetDiameter / maxDim;
                 Sprite.Scale = new Vector2(s, s);
             }
+            Sprite.SelfModulate = Colors.White;
             Sprite.Visible = true;
-            if (PlaceholderSprite != null)
-            {
-                PlaceholderSprite.Visible = false;
-            }
         }
-        else if (PlaceholderSprite != null)
+        else
         {
-            if (Sprite != null)
-            {
-                Sprite.Visible = false;
-            }
-            PlaceholderSprite.Visible = true;
-            PlaceholderSprite.Color = Variant?.PlaceholderColor ?? Colors.White;
+            Sprite.Texture = null;
+            Sprite.SelfModulate = Variant?.PlaceholderColor ?? Colors.White;
+            Sprite.Visible = false;
         }
     }
 

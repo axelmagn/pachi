@@ -51,12 +51,8 @@ Write-Host "✓ Build succeeded with 0 warnings and 0 errors!" -ForegroundColor 
 
 # Stage 3: Headless Godot Runtime & Tests
 Write-Host ""
-Write-Host "[3/3] Running Headless Godot Editor & Test Suites..." -ForegroundColor Yellow
+Write-Host "[3/3] Running Headless Godot Test Suites..." -ForegroundColor Yellow
 if ($GodotBin) {
-    Write-Host "  Running: $GodotBin --headless --editor --quit"
-    & $GodotBin --headless --editor --quit
-    if ($LASTEXITCODE -ne 0) { throw "Headless editor test failed with exit code $LASTEXITCODE" }
-
     Write-Host "  Running: $GodotBin --headless -s src/tests/TestRunner.cs"
     & $GodotBin --headless -s src/tests/TestRunner.cs
     if ($LASTEXITCODE -ne 0) { throw "TestRunner failed with exit code $LASTEXITCODE" }

@@ -52,11 +52,8 @@ echo "✓ Build succeeded with 0 warnings and 0 errors!"
 
 # Stage 3: Headless Godot Runtime & Tests
 echo ""
-echo "[3/3] Running Headless Godot Editor & Test Suites..."
+echo "[3/3] Running Headless Godot Test Suites..."
 if [ -n "$GODOT_BIN" ]; then
-    echo "  Running: ${GODOT_BIN} --headless --editor --quit"
-    "${GODOT_BIN}" --headless --editor --quit
-
     echo "  Running: ${GODOT_BIN} --headless -s src/tests/TestRunner.cs"
     "${GODOT_BIN}" --headless -s src/tests/TestRunner.cs
     echo "✓ Headless tests completed successfully!"

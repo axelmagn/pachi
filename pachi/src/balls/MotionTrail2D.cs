@@ -153,14 +153,10 @@ public partial class MotionTrail2D : Line2D
 
         if (AutoSyncColor)
         {
-            Color baseColor = Colors.White;
-            if (TargetBall.PlaceholderSprite != null)
+            Color baseColor = TargetBall.Variant?.PlaceholderColor ?? Colors.White;
+            if (TargetBall.Sprite != null && TargetBall.Sprite.SelfModulate != Colors.White)
             {
-                baseColor = TargetBall.PlaceholderSprite.Color;
-            }
-            else if (TargetBall.Variant != null)
-            {
-                baseColor = TargetBall.Variant.PlaceholderColor;
+                baseColor = TargetBall.Sprite.SelfModulate;
             }
 
             if (baseColor != _lastSyncedColor || Gradient == null)

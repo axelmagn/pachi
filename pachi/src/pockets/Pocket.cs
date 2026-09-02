@@ -52,19 +52,10 @@ public partial class Pocket : Node2D
     public Sprite2D? RightArmSprite { get; set; }
 
     [Export]
-    public Node2D? LeftArmProcedural { get; set; }
-
-    [Export]
-    public Node2D? RightArmProcedural { get; set; }
-
-    [Export]
     public Array<BallVariant>? InputBalls { get; set; }
 
     [Export]
     public Sprite2D? PocketSprite { get; set; }
-
-    [Export]
-    public Node2D? PocketProcedural { get; set; }
 
     public Array<bool>? InputBallSlotAvailable;
 
@@ -446,12 +437,6 @@ public partial class Pocket : Node2D
                 leftArmShape.Radius = ArmRadius;
                 leftArmShape.Height = ArmLength;
             }
-
-            if (LeftArmProcedural is CapsuleSprite csLeft)
-            {
-                csLeft.Radius = ArmRadius;
-                csLeft.Height = ArmLength;
-            }
         }
         if (RightArm != null)
         {
@@ -465,12 +450,6 @@ public partial class Pocket : Node2D
                 CapsuleShape2D rightArmShape = (CapsuleShape2D)RightArmCollider.Shape;
                 rightArmShape.Radius = ArmRadius;
                 rightArmShape.Height = ArmLength;
-            }
-
-            if (RightArmProcedural is CapsuleSprite csRight)
-            {
-                csRight.Radius = ArmRadius;
-                csRight.Height = ArmLength;
             }
         }
     }

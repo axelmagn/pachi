@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://b41dwgsigjsei"]
 
 [ext_resource type="Script" uid="uid://pgm5k2h61opr" path="res://src/holes/Hole.cs" id="1_2fft8"]
-[ext_resource type="Script" uid="uid://vnclow3lkur1" path="res://src/shape_sprites/ColliderCircleSprite.cs" id="2_xhyvo"]
-[ext_resource type="Script" uid="uid://cnsllcl4xmgqy" path="res://src/shape_sprites/CircleSprite.cs" id="3_xhyvo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ivt2"]
 radius = 8.0
@@ -15,23 +13,3 @@ Collider = NodePath("CollisionShape2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=485556860]
 shape = SubResource("CircleShape2D_7ivt2")
-
-[node name="HoleSprite" type="Node2D" parent="CollisionShape2D" unique_id=1442140950]
-script = ExtResource("2_xhyvo")
-Radius = 8.0
-Color = Color(0.20332184, 0.20332184, 0.20332184, 1)
-metadata/_custom_type_script = "uid://vnclow3lkur1"
-
-[node name="CircleSprite" type="Node2D" parent="CollisionShape2D" unique_id=1338692195]
-position = Vector2(0, -14)
-script = ExtResource("3_xhyvo")
-Radius = 4.0
-Color = Color(0.20392157, 0.20392157, 0.20392157, 1)
-metadata/_custom_type_script = "uid://cnsllcl4xmgqy"
-
-[node name="CircleSprite2" type="Node2D" parent="CollisionShape2D" unique_id=1635879670]
-position = Vector2(0, -22)
-script = ExtResource("3_xhyvo")
-Radius = 3.0
-Color = Color(0.20392157, 0.20392157, 0.20392157, 1)
-metadata/_custom_type_script = "uid://cnsllcl4xmgqy"
