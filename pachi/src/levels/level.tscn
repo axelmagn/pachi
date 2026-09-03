@@ -60,9 +60,7 @@ rotation = 0.6417135
 position = Vector2(0, -13)
 InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("9_mhwal")]
-AcceptAudioStreams = Array[AudioStream]([])
 IsCentralPocket = true
-HasArms = false
 
 [node name="PinFunnel3" parent="CenterYakumono" unique_id=785708144 instance=ExtResource("10_idw2h")]
 position = Vector2(0, -125)
@@ -118,7 +116,6 @@ AverageSpacing = 4.0
 position = Vector2(0, 173)
 InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
-AcceptAudioStreams = Array[AudioStream]([])
 
 [node name="PinGrid" parent="Pocket2" unique_id=594424742 instance=ExtResource("11_du6bw")]
 position = Vector2(-50, -134)
@@ -130,7 +127,6 @@ SpacingY = 20.0
 position = Vector2(-105, 165)
 InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
-AcceptAudioStreams = Array[AudioStream]([])
 
 [node name="PinFunnel" parent="Pocket4" unique_id=1919490897 instance=ExtResource("10_idw2h")]
 position = Vector2(0, -34)
@@ -171,7 +167,6 @@ SpacingY = 20.0
 position = Vector2(105, 165)
 InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
-AcceptAudioStreams = Array[AudioStream]([])
 
 [node name="PinFunnel" parent="Pocket5" unique_id=1499990178 instance=ExtResource("10_idw2h")]
 position = Vector2(0, -34)

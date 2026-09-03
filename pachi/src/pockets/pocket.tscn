@@ -1,43 +1,52 @@
 [gd_scene format=3 uid="uid://camastfknnaxx"]
 
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_2u1n5"]
+[ext_resource type="Resource" path="res://src/pockets/default_pocket_config.tres" id="1_cfg"]
 [ext_resource type="Script" uid="uid://i6t2n8takshu" path="res://src/pockets/Pocket.cs" id="1_mtvat"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_241cg"]
 [ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="3_r7ej6"]
+[ext_resource type="Script" path="res://src/pockets/PocketArmsController.cs" id="4_arms"]
+[ext_resource type="Script" path="res://src/pockets/PocketAudioPlayer.cs" id="5_audio"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_8lcgt"]
-[ext_resource type="AudioStream" uid="uid://dx7gog5ngagtj" path="res://assets/audio/chiptone/pocket_accept.C4.wav" id="7_c4"]
-[ext_resource type="AudioStream" uid="uid://bwwacb0po7wab" path="res://assets/audio/chiptone/pocket_accept.E4.01.wav" id="8_e4"]
-[ext_resource type="AudioStream" uid="uid://b8qkohof6hhkn" path="res://assets/audio/chiptone/pocket_accept.G4.01.wav" id="9_g4"]
-[ext_resource type="AudioStream" uid="uid://cx84sq7u73y4q" path="res://assets/audio/chiptone/pocket_accept.B5.01.wav" id="10_b5"]
 [ext_resource type="Texture2D" uid="uid://jibe3yckulyo" path="res://assets/sprites/ellis/Pocketv2.png" id="10_t03fv"]
-[ext_resource type="AudioStream" uid="uid://p134pnv1q6gq" path="res://assets/audio/chiptone/pocket_reject.01.wav" id="11_rej"]
-[ext_resource type="AudioStream" uid="uid://bnd6e8jlb4r1o" path="res://assets/audio/chiptone/pocket_payout.01.wav" id="12_pay"]
 [ext_resource type="Texture2D" uid="uid://dmxnrwbrg6uub" path="res://assets/sprites/ellis/Tulipv3.png" id="12_ulcdp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
 radius = 2.0
 height = 24.0
 
-[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "LeftArmSprite", "RightArmSprite", "InputsIndicator", "OutputsIndicator", "AcceptAudioPlayer", "RejectAudioPlayer", "PayoutAudioPlayer")]
+[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "InputsIndicator", "OutputsIndicator", "ArmsController", "AudioPlayer")]
 script = ExtResource("1_mtvat")
+Config = ExtResource("1_cfg")
 CatchHole = NodePath("CatchHole")
 RejectHole = NodePath("RejectHole")
-LeftArm = NodePath("LeftArm")
-RightArm = NodePath("RightArm")
-LeftArmCollider = NodePath("LeftArm/CollisionShape2D")
-RightArmCollider = NodePath("RightArm/CollisionShape2D")
-LeftArmSprite = NodePath("LeftArm/CollisionShape2D/Sprite2D")
-RightArmSprite = NodePath("RightArm/CollisionShape2D/Sprite2D")
 InputBalls = []
 OutputBalls = []
 InputsIndicator = NodePath("InputsIndicator")
 OutputsIndicator = NodePath("OutputsIndicator")
+ArmsController = NodePath("ArmsController")
+AudioPlayer = NodePath("AudioPlayer")
+
+[node name="ArmsController" type="Node2D" parent="." unique_id=1122334455 node_paths=PackedStringArray("LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "LeftArmSprite", "RightArmSprite")]
+script = ExtResource("4_arms")
+LeftArm = NodePath("../LeftArm")
+RightArm = NodePath("../RightArm")
+LeftArmCollider = NodePath("../LeftArm/CollisionShape2D")
+RightArmCollider = NodePath("../RightArm/CollisionShape2D")
+LeftArmSprite = NodePath("../LeftArm/CollisionShape2D/Sprite2D")
+RightArmSprite = NodePath("../RightArm/CollisionShape2D/Sprite2D")
+
+[node name="AudioPlayer" type="Node2D" parent="." unique_id=1122334456 node_paths=PackedStringArray("AcceptAudioPlayer", "RejectAudioPlayer", "PayoutAudioPlayer")]
+script = ExtResource("5_audio")
 AcceptAudioPlayer = NodePath("AcceptAudioPlayer")
 RejectAudioPlayer = NodePath("RejectAudioPlayer")
 PayoutAudioPlayer = NodePath("PayoutAudioPlayer")
-AcceptAudioStreams = Array[AudioStream]([ExtResource("7_c4"), ExtResource("8_e4"), ExtResource("9_g4"), ExtResource("10_b5")])
-RejectAudioStream = ExtResource("11_rej")
-PayoutAudioStream = ExtResource("12_pay")
+
+[node name="AcceptAudioPlayer" type="AudioStreamPlayer2D" parent="AudioPlayer" unique_id=987123451]
+
+[node name="RejectAudioPlayer" type="AudioStreamPlayer2D" parent="AudioPlayer" unique_id=987123452]
+
+[node name="PayoutAudioPlayer" type="AudioStreamPlayer2D" parent="AudioPlayer" unique_id=987123453]
 
 [node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("2_241cg")]
 RadiusX = 10.0
@@ -112,9 +121,3 @@ IsInputIndicator = false
 BackgroundColor = Color(0.2, 0.13333334, 0.101960786, 1)
 Size = Vector2(34, 10)
 metadata/_custom_type_script = "uid://c47f7kdkaj58n"
-
-[node name="AcceptAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123451]
-
-[node name="RejectAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123452]
-
-[node name="PayoutAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=987123453]

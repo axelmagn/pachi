@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="PocketConfig" load_steps=8 format=3 uid="uid://dp6m5k4l3j2n1"]
+
+[ext_resource type="Script" path="res://src/pockets/PocketConfig.cs" id="1_config"]
+[ext_resource type="AudioStream" uid="uid://dx7gog5ngagtj" path="res://assets/audio/chiptone/pocket_accept.C4.wav" id="2_c4"]
+[ext_resource type="AudioStream" uid="uid://bwwacb0po7wab" path="res://assets/audio/chiptone/pocket_accept.E4.01.wav" id="3_e4"]
+[ext_resource type="AudioStream" uid="uid://b8qkohof6hhkn" path="res://assets/audio/chiptone/pocket_accept.G4.01.wav" id="4_g4"]
+[ext_resource type="AudioStream" uid="uid://cx84sq7u73y4q" path="res://assets/audio/chiptone/pocket_accept.B5.01.wav" id="5_b5"]
+[ext_resource type="AudioStream" uid="uid://p134pnv1q6gq" path="res://assets/audio/chiptone/pocket_reject.01.wav" id="6_rej"]
+[ext_resource type="AudioStream" uid="uid://bnd6e8jlb4r1o" path="res://assets/audio/chiptone/pocket_payout.01.wav" id="7_pay"]
+
+[resource]
+script = ExtResource("1_config")
+HasArms = false
+ArmOpenRotation = 60.0
+ArmRotationSpeed = 3.14159
+ArmOpenDuration = 5.0
+ArmTweenDuration = 0.3
+ArmTweenTransition = 2
+ArmTweenEase = 1
+AcceptAudioStreams = Array[AudioStream]([ExtResource("2_c4"), ExtResource("3_e4"), ExtResource("4_g4"), ExtResource("5_b5")])
+RejectAudioStream = ExtResource("6_rej")
+PayoutAudioStream = ExtResource("7_pay")
+UsePitchScaleFallback = true
+SemitonesPerStep = 2.0

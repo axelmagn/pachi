@@ -29,10 +29,10 @@ Audit Tickets (see: `ctx/audit.md`)
 - [x] TICKET-05: Headless Node & RID Leak Cleanup
     - [x] Audit test teardown hooks to ensure all dynamically instantiated nodes call `QueueFree()` and drain the scene tree.
     - [x] Ensure custom `RefCounted` or `Resource` handles and active tweens are cleanly terminated before test completion.
-- [ ] TICKET-06: Deconstruct Pocket.cs
-    - [ ] Extract arm physics and animation into a dedicated child node/helper (`PocketArmsController`).
-    - [ ] Extract audio playback, pitch escalation, and stream selection into a dedicated audio component (`PocketAudioPlayer`).
-    - [ ] Restrict `Pocket.cs` to ball acceptance, capacity checking, and payout event dispatching.
+- [x] TICKET-06: Deconstruct Pocket.cs
+    - [x] Extract arm physics and animation into a dedicated child node/helper (`PocketArmsController`).
+    - [x] Extract audio playback, pitch escalation, and stream selection into a dedicated audio component (`PocketAudioPlayer`).
+    - [x] Restrict `Pocket.cs` to ball acceptance, capacity checking, and payout event dispatching.
 - [ ] TICKET-07: Streamline Launcher & Ball Dynamics
     - [ ] Replace async duplicate ball instantiation in `Launcher.cs` with direct, synchronous queue pops from Hopper.
     - [ ] Replace CDF distribution sampler with standard Godot `Curve.Sample(GD.Randf())` or explicit min/max ranges.

@@ -68,7 +68,7 @@ Guidance for agents and contributors refactoring the Pachi codebase toward **arc
 ### Phase 3: Core Entity Deconstruction & Physics Simplification
 *Decompose oversized monolithic classes into single-responsibility nodes.*
 
-#### [ ] TICKET-06: Deconstruct Pocket.cs
+#### [x] TICKET-06: Deconstruct Pocket.cs
 - **Problem**: `Pocket.cs` acts as a god object managing tulip arm tweening, audio pitch math, visual indicator layouts, drag targets, and ball physics reception.
 - **Actions**:
   1. Extract arm physics and animation into a dedicated child node/helper (`PocketArmsController`).

@@ -1,8 +1,9 @@
 using Godot;
 using Godot.Collections;
-using System;
-using System.Diagnostics;
 
+/// <summary>
+/// Specialized central pocket featuring animated reactive facial states and jackpot payout behavior.
+/// </summary>
 [Tool]
 [GlobalClass]
 public partial class Yakumono : Pocket
@@ -34,12 +35,11 @@ public partial class Yakumono : Pocket
 
     public bool IsJackpotState => CurrentFaceIndex == JackpotFaceIndex;
 
-    private readonly Random _random = new();
-
     public override void _Ready()
     {
         base._Ready();
 
+        // Keep character face layers visible above background board components.
         if (VisualLayersContainer != null)
         {
             VisualLayersContainer.ZIndex = VisualZIndex;
@@ -48,6 +48,9 @@ public partial class Yakumono : Pocket
         TransitionToFaceState(0);
     }
 
+    /// <summary>
+    /// Updates sprite texture and notifies listeners of character emotion state changes.
+    /// </summary>
     public void TransitionToFaceState(int faceIndex)
     {
         CurrentFaceIndex = faceIndex;
@@ -59,6 +62,9 @@ public partial class Yakumono : Pocket
         GlobalEvents.Instance?.NotifyYakumonoStateChanged(this, CurrentFaceIndex);
     }
 
+    /// <summary>
+    /// Selects a distinct new random face expression upon ball impact.
+    /// </summary>
     public void TransitionToRandomFaceState()
     {
         if (FaceTextures == null || FaceTextures.Count == 0)
@@ -73,15 +79,21 @@ public partial class Yakumono : Pocket
             return;
         }
 
+        // Guarantee a noticeable expression change on every ball catch.
         int nextIndex = CurrentFaceIndex;
         while (nextIndex == CurrentFaceIndex)
         {
-            nextIndex = _random.Next(0, FaceTextures.Count);
+            nextIndex = GameConfig.Instance?.Rng != null
+                ? GameConfig.Instance.Rng.Next(0, FaceTextures.Count)
+                : (int)(GD.Randi() % (uint)FaceTextures.Count);
         }
 
         TransitionToFaceState(nextIndex);
     }
 
+    /// <summary>
+    /// Displays the celebratory jackpot texture and announces payout completion.
+    /// </summary>
     public void TransitionToJackpotState()
     {
         CurrentFaceIndex = JackpotFaceIndex;
@@ -98,6 +110,7 @@ public partial class Yakumono : Pocket
 
     protected override void OnBallCatch(Ball ball)
     {
+        // Animate expression reaction before triggering base pocket ball accumulation logic.
         TransitionToRandomFaceState();
         base.OnBallCatch(ball);
     }
@@ -108,4 +121,3 @@ public partial class Yakumono : Pocket
         TransitionToJackpotState();
     }
 }
-
