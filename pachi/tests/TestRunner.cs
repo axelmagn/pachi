@@ -51,6 +51,13 @@ public partial class TestRunner : SceneTree
 
             await GoTest.RunTests(Assembly.GetExecutingAssembly(), Root, environment, log);
 
+            // Yield frames before quitting to allow Godot's SceneTree deferred deletion queue
+            // to process all QueueFree() requests, freeing nodes and their underlying CanvasItem/Physics RIDs.
+            for (var i = 0; i < 2; i++)
+            {
+                await ToSignal(this, SignalName.ProcessFrame);
+            }
+
             if (logWriter.HasErrors)
             {
                 GD.PrintErr("Test suite failed.");

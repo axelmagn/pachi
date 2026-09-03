@@ -26,9 +26,9 @@ Audit Tickets (see: `ctx/audit.md`)
     - [x] Split test structure into pure domain tests (`src/<domain>/tests/`) and scene integration tests (`tests/integration/`).
     - [x] Remove obsolete screenshot capture assertions and legacy test runners.
     - [x] Update `./scripts/verify.sh` and `./scripts/verify.ps1` to run the structured test suite headlessly.
-- [ ] TICKET-05: Headless Node & RID Leak Cleanup
-    - [ ] Audit test teardown hooks to ensure all dynamically instantiated nodes call `QueueFree()` and drain the scene tree.
-    - [ ] Ensure custom `RefCounted` or `Resource` handles and active tweens are cleanly terminated before test completion.
+- [x] TICKET-05: Headless Node & RID Leak Cleanup
+    - [x] Audit test teardown hooks to ensure all dynamically instantiated nodes call `QueueFree()` and drain the scene tree.
+    - [x] Ensure custom `RefCounted` or `Resource` handles and active tweens are cleanly terminated before test completion.
 - [ ] TICKET-06: Deconstruct Pocket.cs
     - [ ] Extract arm physics and animation into a dedicated child node/helper (`PocketArmsController`).
     - [ ] Extract audio playback, pitch escalation, and stream selection into a dedicated audio component (`PocketAudioPlayer`).

@@ -11,16 +11,26 @@ public partial class BallSmokeTests : TestClass
     [Test]
     public void Ball_InitializesWithDefaultProperties()
     {
+        // Unparented Godot nodes allocated in unit tests must be explicitly freed via Free(),
+        // otherwise their underlying C++ peers in ObjectDB leak on headless engine exit.
         var ball = new Ball();
-        ball.DetectStuck.ShouldBeTrue();
-        ball.IsInPlay.ShouldBeFalse();
-        ball.CurrentTransitionState.ShouldBe(Ball.TransitionState.None);
+        try
+        {
+            ball.DetectStuck.ShouldBeTrue();
+            ball.IsInPlay.ShouldBeFalse();
+            ball.CurrentTransitionState.ShouldBe(Ball.TransitionState.None);
+        }
+        finally
+        {
+            ball.Free();
+        }
     }
 
     [Test]
     public void BallVariant_SetsPlaceholderColorCorrectly()
     {
-        var variant = new BallVariant
+        // Explicitly dispose custom Resource/RefCounted instances to prevent lingering ObjectDB references.
+        using var variant = new BallVariant
         {
             BasePrice = 5,
             PlaceholderColor = Colors.Green

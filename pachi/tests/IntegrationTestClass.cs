@@ -28,14 +28,14 @@ public abstract partial class IntegrationTestClass : TestClass
     [Cleanup]
     public void CleanupTrackedNodes()
     {
+        // Calling QueueFree() while nodes remain in the scene tree allows Godot's SceneTree
+        // deletion queue to properly free child hierarchies and release CanvasItem RIDs.
+        // We avoid calling RemoveChild() before QueueFree() because orphaned nodes are not
+        // processed by the SceneTree's frame cleanup.
         foreach (var node in _trackedNodes)
         {
             if (GodotObject.IsInstanceValid(node))
             {
-                if (node.GetParent() is not null)
-                {
-                    node.GetParent().RemoveChild(node);
-                }
                 node.QueueFree();
             }
         }

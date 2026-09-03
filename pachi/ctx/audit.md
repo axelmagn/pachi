@@ -56,7 +56,7 @@ Guidance for agents and contributors refactoring the Pachi codebase toward **arc
   5. Update `./scripts/verify.sh` and `./scripts/verify.ps1` to run the structured test suite headlessly.
 - **Completion Criteria**: Individual test failures do not block subsequent tests; test results output clear pass/fail/skip summaries; `./scripts/verify.sh` executes the suite and exits `0`.
 
-#### [ ] TICKET-05: Headless Node & RID Leak Cleanup
+#### [x] TICKET-05: Headless Node & RID Leak Cleanup
 - **Problem**: Headless test runs leak `CanvasItem` RIDs and `ObjectDB` instances on exit.
 - **Actions**:
   1. Audit test teardown hooks to ensure all dynamically instantiated nodes call `QueueFree()` and drain the scene tree.
