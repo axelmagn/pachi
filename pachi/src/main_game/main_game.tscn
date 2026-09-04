@@ -205,6 +205,26 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("24_a4vkl")
 
+[node name="FGVines" type="TextureRect" parent="LayersRoot/PlayScreenLayer/HopperTree" unique_id=78352384]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("32_utm8u")
+
+[node name="FGLeaves" type="TextureRect" parent="LayersRoot/PlayScreenLayer/HopperTree/FGVines" unique_id=1904268707]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("31_02pjk")
+
 [node name="PlayScreen" type="Control" parent="LayersRoot/PlayScreenLayer" unique_id=509584043]
 layout_mode = 3
 anchors_preset = 15
@@ -278,15 +298,6 @@ layout_mode = 2
 [node name="ForegroundLayer" type="CanvasLayer" parent="LayersRoot" unique_id=1666202558]
 process_mode = 4
 
-[node name="FGVines" type="TextureRect" parent="LayersRoot/ForegroundLayer" unique_id=78352384]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("32_utm8u")
-
 [node name="FGGrass" type="TextureRect" parent="LayersRoot/ForegroundLayer" unique_id=1000655605]
 anchors_preset = 15
 anchor_right = 1.0
@@ -295,12 +306,3 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("30_a4vkl")
-
-[node name="FGLeaves" type="TextureRect" parent="LayersRoot/ForegroundLayer" unique_id=1904268707]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("31_02pjk")
