@@ -1,11 +1,26 @@
 # Pachi TODO
 
-## Card Overhaul (Doing)
+## 0.2609.02
 
-- [ ] 
+- [ ] devlog
+- [ ] context engineering refactor
+- [x] viz config refactor
+- [ ] save games (epic)
+- [ ] menus (epic)
+- [ ] name
 
-## Prestige
+### cards overhaul
 
-## Menus
+- [ ] picto-cards
+- [ ] board slots
+- [ ] card effect interface
+- [ ] card cost
+- [ ] beetle cards
+- [ ] fix hopper drag collider
+- [ ] hex grid prototype
 
-## Save Games
+### art
+
+- [ ] beetles
+- [ ] lever
+- [ ] capsule art
