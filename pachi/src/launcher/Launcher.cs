@@ -51,6 +51,16 @@ public partial class Launcher : Node2D
     [Export]
     public LauncherModeIndicator? ModeIndicator { get; set; }
 
+    [Export]
+    public Node2D? Bird { get; set; }
+
+    [Export]
+    public Node2D? BeakPoint { get; set; }
+
+    [Export]
+    public Node2D? BeakTouchPoint { get; set; }
+
+
 
     private float _startRotation;
     private float _endRotation;
@@ -68,6 +78,9 @@ public partial class Launcher : Node2D
     {
         Debug.Assert(LauncherSprite != null);
         Debug.Assert(LauncherGhostSprite != null);
+        Debug.Assert(Bird != null);
+        Debug.Assert(BeakPoint != null);
+        Debug.Assert(BeakTouchPoint != null);
 
         _startRotation = LauncherSprite.Rotation;
         _endRotation = LauncherGhostSprite.Rotation;
@@ -209,6 +222,7 @@ public partial class Launcher : Node2D
         if (LauncherSprite == null) return;
         float rotation = LauncherSprite.Rotation + delta;
         LauncherSprite.Rotation = Mathf.Clamp(rotation, MinRotation(), MaxRotation());
+        RotateBirdToTouchLever();
     }
 
     private void ChargeStart()
@@ -352,5 +366,21 @@ public partial class Launcher : Node2D
         }
 
         _autoFireBagIndex = 0;
+    }
+
+    /// rotate bird to keep contact between beak and lever
+    ///
+    /// approximates this by pointing the bird at the lever
+    private void RotateBirdToTouchLever() {
+        Debug.Assert(Bird != null);
+        Debug.Assert(BeakPoint != null);
+        Debug.Assert(BeakTouchPoint != null);
+
+        Vector2 birdToBeak = BeakPoint.GlobalPosition - Bird.GlobalPosition;
+        Vector2 birdToTouch = BeakTouchPoint.GlobalPosition - Bird.GlobalPosition;
+
+        float rotDelta = birdToTouch.Angle() - birdToBeak.Angle();
+        // float rotDelta = birdToBeak.Angle() - birdToTouch.Angle();
+        Bird.Rotate(rotDelta);
     }
 }

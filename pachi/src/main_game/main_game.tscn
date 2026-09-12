@@ -12,8 +12,6 @@
 [ext_resource type="Script" uid="uid://cr0t46tii2w3s" path="res://src/balls/BallVariant.cs" id="9_gekfo"]
 [ext_resource type="PackedScene" uid="uid://u6rfdg6awo6u" path="res://src/hopper/hopper.tscn" id="10_cq107"]
 [ext_resource type="PackedScene" uid="uid://bhmpp70vo2l44" path="res://src/launcher/launcher.tscn" id="11_00jtp"]
-[ext_resource type="Script" uid="uid://bqswtjn4hqcjx" path="res://src/cards.old/CardDragController.cs" id="12_dragcontroller"]
-[ext_resource type="PackedScene" uid="uid://b5m6c7d8faf0a" path="res://src/cards.old/card_sidebar.tscn" id="13_sidebar"]
 [ext_resource type="Script" uid="uid://cieu86dcpj8qk" path="res://src/cards.old/archetypes/BallPackArchetype.cs" id="14_pack_script"]
 [ext_resource type="Script" uid="uid://doehcjn5r5b6" path="res://src/cards.old/archetypes/IncrementInputTierArchetype.cs" id="15_inc_in_script"]
 [ext_resource type="Script" uid="uid://dyyxs4588jj0k" path="res://src/cards.old/archetypes/DecrementInputTierArchetype.cs" id="16_dec_in_script"]
@@ -35,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://bjsi3wym2gr3q" path="res://assets/sprites/ellis/Mg leaves.png" id="26_hu7fe"]
 [ext_resource type="Texture2D" uid="uid://do67eh71ng1vy" path="res://assets/sprites/ellis/Mg grass.png" id="26_td4mu"]
 [ext_resource type="Texture2D" uid="uid://cripj564u66lv" path="res://assets/sprites/ellis/Fg grass.png" id="30_a4vkl"]
+[ext_resource type="Texture2D" uid="uid://bjwabhudhbq1d" path="res://assets/sprites/ellis/Lever tree knot+Shading.png" id="30_hu7fe"]
 [ext_resource type="Texture2D" uid="uid://mfv6u3dqilw3" path="res://assets/sprites/ellis/FG leaves.png" id="31_02pjk"]
 [ext_resource type="Texture2D" uid="uid://b56qd0q1rsqd2" path="res://assets/sprites/ellis/FG vines.png" id="32_utm8u"]
 
@@ -89,10 +88,6 @@ BallTiers = Array[Object]([ExtResource("4_00jtp"), ExtResource("5_22jfb"), ExtRe
 CardArchetypes = Array[Object]([SubResource("Resource_pack"), SubResource("Resource_inc_in"), SubResource("Resource_dec_in"), SubResource("Resource_inc_out"), SubResource("Resource_dec_out"), SubResource("Resource_add_in"), SubResource("Resource_rem_in"), SubResource("Resource_add_out"), SubResource("Resource_rem_out")])
 
 [node name="LayersRoot" type="Node" parent="." unique_id=1519063191]
-
-[node name="CardDragLayer" type="CanvasLayer" parent="LayersRoot" unique_id=314159265]
-layer = 10
-script = ExtResource("12_dragcontroller")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="LayersRoot" unique_id=2013472659]
 
@@ -205,6 +200,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("24_a4vkl")
 
+[node name="FGKnot" type="TextureRect" parent="LayersRoot/PlayScreenLayer/HopperTree" unique_id=2040981737]
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 540.0
+texture = ExtResource("30_hu7fe")
+
 [node name="FGVines" type="TextureRect" parent="LayersRoot/PlayScreenLayer/HopperTree" unique_id=78352384]
 layout_mode = 1
 anchors_preset = 15
@@ -252,48 +253,56 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HopperViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn" unique_id=2103993086]
-z_index = -10
+[node name="CenterLevelContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1201145242]
 layout_mode = 2
 
-[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer" unique_id=814168454]
-transparent_bg = true
-handle_input_locally = false
-audio_listener_enable_2d = true
-size = Vector2i(276, 338)
-render_target_update_mode = 4
-
-[node name="Hopper" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/HopperViewportContainer/SubViewport" unique_id=1019095757 instance=ExtResource("10_cq107")]
-z_index = 4
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn" unique_id=292800038]
-layout_mode = 2
-
-[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer" unique_id=1261388088]
-transparent_bg = true
-handle_input_locally = false
-audio_listener_enable_2d = true
-size = Vector2i(276, 170)
-render_target_update_mode = 4
-
-[node name="Launcher" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LeftColumn/SubViewportContainer/SubViewport" unique_id=2132420869 node_paths=PackedStringArray("Hopper", "Level") instance=ExtResource("11_00jtp")]
-Hopper = NodePath("../../../HopperViewportContainer/SubViewport/Hopper")
-Level = NodePath("../../../../LevelViewportContainer/SubViewport/Level")
-
-[node name="LevelViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1201145242]
-layout_mode = 2
-
-[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer" unique_id=908849300]
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/CenterLevelContainer" unique_id=908849300]
 transparent_bg = true
 handle_input_locally = false
 audio_listener_enable_2d = true
 size = Vector2i(400, 508)
 render_target_update_mode = 4
 
-[node name="Level" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/LevelViewportContainer/SubViewport" unique_id=756612389 instance=ExtResource("4_2laqp")]
+[node name="Level" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer/CenterLevelContainer/SubViewport" unique_id=756612389 instance=ExtResource("4_2laqp")]
 
-[node name="CardSidebar" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1220220990 instance=ExtResource("13_sidebar")]
+[node name="RightColumn" type="Control" parent="LayersRoot/PlayScreenLayer/PlayScreen/VBoxContainer/HBoxContainer" unique_id=1420554039]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HopperViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=2103993086]
+z_index = -10
+layout_mode = 0
+offset_top = 32.0
+offset_right = 276.0
+offset_bottom = 370.0
+
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/HopperViewportContainer" unique_id=814168454]
+transparent_bg = true
+handle_input_locally = false
+audio_listener_enable_2d = true
+size = Vector2i(276, 338)
+render_target_update_mode = 4
+
+[node name="Hopper" parent="LayersRoot/PlayScreenLayer/PlayScreen/HopperViewportContainer/SubViewport" unique_id=1019095757 instance=ExtResource("10_cq107")]
+z_index = 4
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="LayersRoot/PlayScreenLayer/PlayScreen" unique_id=292800038]
+layout_mode = 0
+offset_left = -67.0
+offset_top = 337.0
+offset_right = 293.0
+offset_bottom = 527.0
+
+[node name="SubViewport" type="SubViewport" parent="LayersRoot/PlayScreenLayer/PlayScreen/SubViewportContainer" unique_id=1261388088]
+transparent_bg = true
+handle_input_locally = false
+audio_listener_enable_2d = true
+size = Vector2i(360, 300)
+render_target_update_mode = 4
+
+[node name="Launcher" parent="LayersRoot/PlayScreenLayer/PlayScreen/SubViewportContainer/SubViewport" unique_id=2132420869 node_paths=PackedStringArray("Hopper", "Level") instance=ExtResource("11_00jtp")]
+Hopper = NodePath("../../../HopperViewportContainer/SubViewport/Hopper")
+Level = NodePath("../../../VBoxContainer/HBoxContainer/CenterLevelContainer/SubViewport/Level")
 
 [node name="ForegroundLayer" type="CanvasLayer" parent="LayersRoot" unique_id=1666202558]
 process_mode = 4
