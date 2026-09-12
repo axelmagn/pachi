@@ -1,11 +1,18 @@
 # Pachi TODO
 
-## Card Overhaul (Doing)
 
-- [ ] 
+## [-] Card Overhaul
 
-## Prestige
+- [ ] cards replace pockets
 
-## Menus
+## [ ] Prestige
 
-## Save Games
+## [ ] Menus
+
+## [ ] Save Games
+
+## [ ] Visuals
+
+- [-] add lever visuals
+- [ ] add bird visuals
+- [ ] lighting / fireflies

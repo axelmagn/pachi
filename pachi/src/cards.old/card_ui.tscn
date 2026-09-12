@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c3q4r8m7a1k0n"]
 
-[ext_resource type="Script" uid="uid://bqph1bs65bjl6" path="res://src/cards/CardUI.cs" id="1_cardui"]
+[ext_resource type="Script" uid="uid://bqph1bs65bjl6" path="res://src/cards.old/CardUI.cs" id="1_cardui"]
 [ext_resource type="Texture2D" uid="uid://crhbskgimwykf" path="res://assets/sprites/ellis/Card bg.png" id="2_jnoiq"]
 
 [node name="CardUI" type="PanelContainer" unique_id=762045439]
