@@ -8,6 +8,7 @@ using Godot.Collections;
 [GlobalClass]
 public partial class PocketConfig : Resource
 {
+
     // --- Arms Settings ---
     [Export]
     public bool HasArms { get; set; } = true;

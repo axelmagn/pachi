@@ -13,6 +13,8 @@
 - [x] create legacy tag
 - [x] strip out old card stuff
 - [ ] cards replace pockets
+    - [ ] separate scenes for each beetle pocket
+    - [ ] deck of pocket configs
 - [ ] cards add balls
 
 ## [ ] Prestige
@@ -24,9 +26,10 @@
 ## [ ] Visuals
 
 - [x] add lever visuals
-- [-] replace grid layout with free-floating
+- [x] replace grid layout with free-floating
 - [x] add bird visuals
 - [x] replace spinners
+- [ ] diegetic beetle input / output indicators
 
 ## [ ] Juice
 - [ ] lighting / fireflies
