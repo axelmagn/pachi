@@ -52,6 +52,7 @@ script = ExtResource("3_modeind")
 AutoFireInterval = 1.0
 
 [node name="Bird" type="Node2D" parent="." unique_id=1140813821]
+texture_filter = 3
 position = Vector2(27, 192)
 
 [node name="BirdFeet" type="Node2D" parent="Bird" unique_id=1663945921]

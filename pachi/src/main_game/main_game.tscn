@@ -108,6 +108,7 @@ grow_vertical = 2
 texture = ExtResource("21_o35kt")
 
 [node name="BGVines" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=1425835739]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -116,6 +117,7 @@ grow_vertical = 2
 texture = ExtResource("22_ulfjs")
 
 [node name="BGReeds" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=303383171]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -124,6 +126,7 @@ grow_vertical = 2
 texture = ExtResource("22_td4mu")
 
 [node name="BGLeaves" type="TextureRect" parent="LayersRoot/BackgroundLayer" unique_id=181819847]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -150,6 +153,7 @@ grow_vertical = 2
 texture = ExtResource("22_gekfo")
 
 [node name="MGVines" type="TextureRect" parent="LayersRoot/MidgroundLayer" unique_id=1806753891]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -158,6 +162,7 @@ grow_vertical = 2
 texture = ExtResource("25_hu7fe")
 
 [node name="MGLeaves" type="TextureRect" parent="LayersRoot/MidgroundLayer" unique_id=457498006]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -166,6 +171,7 @@ grow_vertical = 2
 texture = ExtResource("26_hu7fe")
 
 [node name="MGGrass" type="TextureRect" parent="LayersRoot/MidgroundLayer" unique_id=2017843947]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -207,6 +213,7 @@ offset_bottom = 540.0
 texture = ExtResource("30_hu7fe")
 
 [node name="FGVines" type="TextureRect" parent="LayersRoot/PlayScreenLayer/HopperTree" unique_id=78352384]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -217,6 +224,7 @@ mouse_filter = 2
 texture = ExtResource("32_utm8u")
 
 [node name="FGLeaves" type="TextureRect" parent="LayersRoot/PlayScreenLayer/HopperTree/FGVines" unique_id=1904268707]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -308,6 +316,7 @@ Level = NodePath("../../../VBoxContainer/HBoxContainer/CenterLevelContainer/SubV
 process_mode = 4
 
 [node name="FGGrass" type="TextureRect" parent="LayersRoot/ForegroundLayer" unique_id=1000655605]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
