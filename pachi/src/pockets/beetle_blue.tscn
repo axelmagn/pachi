@@ -1,0 +1,190 @@
+[gd_scene format=3 uid="uid://dn3w722r3w2ca"]
+
+[ext_resource type="Script" uid="uid://i6t2n8takshu" path="res://src/pockets/Pocket.cs" id="1_0r0am"]
+[ext_resource type="AudioStream" uid="uid://dx7gog5ngagtj" path="res://assets/audio/chiptone/pocket_accept.C4.wav" id="2_y3kkf"]
+[ext_resource type="Script" uid="uid://cmf6o2c5k5bqb" path="res://src/pockets/PocketArmsController.cs" id="3_6wnjh"]
+[ext_resource type="AudioStream" uid="uid://bwwacb0po7wab" path="res://assets/audio/chiptone/pocket_accept.E4.01.wav" id="3_go1gs"]
+[ext_resource type="Script" uid="uid://0t80jlkcv82d" path="res://src/pockets/PocketAudioPlayer.cs" id="4_hqflc"]
+[ext_resource type="AudioStream" uid="uid://b8qkohof6hhkn" path="res://assets/audio/chiptone/pocket_accept.G4.01.wav" id="4_xj14g"]
+[ext_resource type="AudioStream" uid="uid://cx84sq7u73y4q" path="res://assets/audio/chiptone/pocket_accept.B5.01.wav" id="5_1t7es"]
+[ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="5_2v76q"]
+[ext_resource type="AudioStream" uid="uid://bnd6e8jlb4r1o" path="res://assets/audio/chiptone/pocket_payout.01.wav" id="6_hjqmh"]
+[ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="6_s0awe"]
+[ext_resource type="AudioStream" uid="uid://p134pnv1q6gq" path="res://assets/audio/chiptone/pocket_reject.01.wav" id="7_xqh84"]
+[ext_resource type="Script" uid="uid://bkhx412ceqxnw" path="res://src/pockets/PocketConfig.cs" id="8_3jcny"]
+[ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="8_go1gs"]
+[ext_resource type="Texture2D" uid="uid://d1ybthodgivl3" path="res://assets/sprites/ellis/pocket/Blue beetle arm.png" id="9_ljqt6"]
+[ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="10_1t7es"]
+[ext_resource type="Texture2D" uid="uid://cq1klq2po71e6" path="res://assets/sprites/ellis/pocket/Blue-beetle-bg.png" id="16_y3kkf"]
+[ext_resource type="Texture2D" uid="uid://bvma77kaa66oy" path="res://assets/sprites/ellis/pocket/Blue-beetle-fg.png" id="17_go1gs"]
+[ext_resource type="Texture2D" uid="uid://dbt3qxt1gtja" path="res://assets/sprites/ellis/pocket/Blue-beetle-wings.png" id="18_xj14g"]
+[ext_resource type="Texture2D" uid="uid://df87blou76gnr" path="res://assets/sprites/balls/gem_purple.png" id="19_1t7es"]
+[ext_resource type="Texture2D" uid="uid://mtijg36cryrk" path="res://assets/sprites/balls/gem_orange.png" id="20_hjqmh"]
+
+[sub_resource type="Resource" id="Resource_b3hi8"]
+script = ExtResource("8_3jcny")
+ArmRotationSpeed = 3.14159
+ArmTweenTransition = 2
+AcceptAudioStreams = Array[AudioStream]([ExtResource("2_y3kkf"), ExtResource("3_go1gs"), ExtResource("4_xj14g"), ExtResource("5_1t7es")])
+RejectAudioStream = ExtResource("7_xqh84")
+PayoutAudioStream = ExtResource("6_hjqmh")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
+radius = 2.0
+height = 24.0
+
+[node name="BlueBeetle" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "InputsIndicator", "OutputsIndicator", "ArmsController", "AudioPlayer")]
+script = ExtResource("1_0r0am")
+Config = SubResource("Resource_b3hi8")
+CatchHole = NodePath("CatchHole")
+RejectHole = NodePath("RejectHole")
+InputBalls = []
+OutputBalls = []
+InputsIndicator = NodePath("InputsIndicator")
+OutputsIndicator = NodePath("OutputsIndicator")
+ArmsController = NodePath("ArmsController")
+AudioPlayer = NodePath("AudioPlayer")
+
+[node name="ArmsController" type="Node2D" parent="." unique_id=1122334455 node_paths=PackedStringArray("LeftArm", "RightArm", "LeftArmCollider", "RightArmCollider", "LeftArmSprite", "RightArmSprite")]
+script = ExtResource("3_6wnjh")
+LeftArm = NodePath("../LeftArm")
+RightArm = NodePath("../RightArm")
+LeftArmCollider = NodePath("../LeftArm/CollisionShape2D")
+RightArmCollider = NodePath("../RightArm/CollisionShape2D")
+LeftArmSprite = NodePath("../LeftArm/CollisionShape2D/Sprite2D")
+RightArmSprite = NodePath("../RightArm/CollisionShape2D/Sprite2D")
+
+[node name="AudioPlayer" type="Node2D" parent="." unique_id=1122334456 node_paths=PackedStringArray("AcceptAudioPlayer", "RejectAudioPlayer", "PayoutAudioPlayer")]
+script = ExtResource("4_hqflc")
+AcceptAudioPlayer = NodePath("AcceptAudioPlayer")
+RejectAudioPlayer = NodePath("RejectAudioPlayer")
+PayoutAudioPlayer = NodePath("PayoutAudioPlayer")
+
+[node name="AcceptAudioPlayer" type="AudioStreamPlayer2D" parent="AudioPlayer" unique_id=987123451]
+
+[node name="RejectAudioPlayer" type="AudioStreamPlayer2D" parent="AudioPlayer" unique_id=987123452]
+
+[node name="PayoutAudioPlayer" type="AudioStreamPlayer2D" parent="AudioPlayer" unique_id=987123453]
+
+[node name="PinEllipse" parent="." unique_id=345411889 instance=ExtResource("5_2v76q")]
+RadiusX = 10.0
+RadiusY = 10.0
+AverageSpacing = 5.0
+EndAngle = 180.0
+
+[node name="PinEllipse2" parent="." unique_id=1537409262 instance=ExtResource("5_2v76q")]
+position = Vector2(0, 24)
+RadiusX = 10.0
+RadiusY = 10.0
+AverageSpacing = 5.0
+StartAngle = 180.0
+EndAngle = 360.0
+
+[node name="CatchHole" parent="." unique_id=428848470 instance=ExtResource("6_s0awe")]
+MonitorBallOverlap = true
+
+[node name="RejectHole" parent="." unique_id=207641503 instance=ExtResource("6_s0awe")]
+position = Vector2(0, 24)
+
+[node name="RightArm" type="CharacterBody2D" parent="." unique_id=634194663]
+position = Vector2(9, 0)
+script = ExtResource("8_go1gs")
+metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightArm" unique_id=1277358654]
+position = Vector2(3, -9)
+rotation = 0.20943952
+shape = SubResource("CapsuleShape2D_7ivt2")
+
+[node name="Sprite2D" type="Sprite2D" parent="RightArm/CollisionShape2D" unique_id=1901193732]
+position = Vector2(-1.0000001, 17.000002)
+rotation = -1.1173855
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("9_ljqt6")
+
+[node name="LeftArm" type="CharacterBody2D" parent="." unique_id=1693192151]
+position = Vector2(-10, 0)
+script = ExtResource("8_go1gs")
+metadata/_custom_type_script = "uid://c5qpdmvd63ugb"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArm" unique_id=560707818]
+position = Vector2(-2, -9)
+rotation = -0.20943952
+shape = SubResource("CapsuleShape2D_7ivt2")
+
+[node name="Sprite2D" type="Sprite2D" parent="LeftArm/CollisionShape2D" unique_id=1861880180]
+position = Vector2(0.99999964, 17)
+rotation = 1.0622844
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("9_ljqt6")
+flip_h = true
+
+[node name="InputsIndicator" type="Node2D" parent="." unique_id=1399337656]
+visible = false
+z_index = 3
+position = Vector2(0, 30)
+script = ExtResource("10_1t7es")
+BackgroundColor = Color(0.101960786, 0.14117648, 0.2, 1)
+Balls = []
+metadata/_custom_type_script = "uid://c47f7kdkaj58n"
+
+[node name="OutputsIndicator" type="Node2D" parent="." unique_id=188350990]
+visible = false
+z_index = 3
+position = Vector2(0, 42)
+script = ExtResource("10_1t7es")
+IsInputIndicator = false
+BackgroundColor = Color(0.2, 0.13333334, 0.101960786, 1)
+Balls = []
+metadata/_custom_type_script = "uid://c47f7kdkaj58n"
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1734696195]
+position = Vector2(0, 5.9999995)
+scale = Vector2(0.8, 0.8)
+
+[node name="BodyBG" type="Sprite2D" parent="Node2D" unique_id=1943806773]
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("16_y3kkf")
+
+[node name="GemOut1" type="Sprite2D" parent="Node2D/BodyBG" unique_id=363752774]
+position = Vector2(-41.666664, 55.555557)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("19_1t7es")
+
+[node name="GemOut2" type="Sprite2D" parent="Node2D/BodyBG" unique_id=1994985244]
+position = Vector2(41.666664, 55.555557)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("19_1t7es")
+
+[node name="GemOut3" type="Sprite2D" parent="Node2D/BodyBG" unique_id=422353863]
+position = Vector2(-36.899998, 122.82221)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("19_1t7es")
+
+[node name="GemOut4" type="Sprite2D" parent="Node2D/BodyBG" unique_id=1905095609]
+position = Vector2(46.43333, 122.82221)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("19_1t7es")
+
+[node name="BodyFG" type="Sprite2D" parent="Node2D" unique_id=122447326]
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("17_go1gs")
+
+[node name="BodyWingLSprite" type="Sprite2D" parent="Node2D" unique_id=1849497738]
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("18_xj14g")
+flip_h = true
+
+[node name="GemIn1" type="Sprite2D" parent="Node2D/BodyWingLSprite" unique_id=1257735540]
+position = Vector2(-43.299995, 95.5889)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("19_1t7es")
+
+[node name="BodyWingRSprite" type="Sprite2D" parent="Node2D" unique_id=124590564]
+scale = Vector2(0.17999999, 0.17999999)
+texture = ExtResource("18_xj14g")
+
+[node name="GemIn2" type="Sprite2D" parent="Node2D/BodyWingRSprite" unique_id=890509348]
+position = Vector2(41.666668, 97.22222)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("20_hjqmh")

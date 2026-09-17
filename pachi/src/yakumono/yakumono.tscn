@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://p44mc7erkedo"]
 
 [ext_resource type="PackedScene" uid="uid://c6at54iwe1jw6" path="res://src/holes/hole.tscn" id="1_hole"]
-[ext_resource type="Resource" path="res://src/yakumono/default_yakumono_config.tres" id="1_yakucfg"]
+[ext_resource type="Resource" uid="uid://dp6m5k4l3j2n1" path="res://src/yakumono/default_yakumono_config.tres" id="1_yakucfg"]
 [ext_resource type="Script" uid="uid://bolm5e1llrvi4" path="res://src/yakumono/Yakumono.cs" id="1_yakumono"]
 [ext_resource type="PackedScene" uid="uid://bsj5vdxi6uapw" path="res://src/pins/pin_ellipse.tscn" id="2_pinellipse"]
-[ext_resource type="Script" path="res://src/pockets/PocketAudioPlayer.cs" id="5_audio"]
+[ext_resource type="Script" uid="uid://0t80jlkcv82d" path="res://src/pockets/PocketAudioPlayer.cs" id="5_audio"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_indicator"]
-[ext_resource type="Texture2D" uid="uid://blcgh7copmpg5" path="res://assets/sprites/ellis/Neutralmoonv1.png" id="9_gd0wc"]
-[ext_resource type="Texture2D" uid="uid://txosouesl7op" path="res://assets/sprites/ellis/Sadmoonv2.png" id="10_sad"]
-[ext_resource type="Texture2D" uid="uid://dte8gwbpq2acy" path="res://assets/sprites/ellis/Madmoonv1.png" id="11_mad"]
-[ext_resource type="Texture2D" uid="uid://bxcmrqaqgca7j" path="res://assets/sprites/ellis/Plainmoonv1.png" id="12_plain"]
-[ext_resource type="Texture2D" uid="uid://c7wu72flkwycq" path="res://assets/sprites/ellis/Happymoonv1.png" id="13_happy"]
+[ext_resource type="Texture2D" uid="uid://blcgh7copmpg5" path="res://assets/sprites/ellis/yakumono/Neutralmoonv1.png" id="9_gd0wc"]
+[ext_resource type="Texture2D" uid="uid://txosouesl7op" path="res://assets/sprites/ellis/yakumono/Sadmoonv2.png" id="10_sad"]
+[ext_resource type="Texture2D" uid="uid://dte8gwbpq2acy" path="res://assets/sprites/ellis/yakumono/Madmoonv1.png" id="11_mad"]
+[ext_resource type="Texture2D" uid="uid://bxcmrqaqgca7j" path="res://assets/sprites/ellis/yakumono/Plainmoonv1.png" id="12_plain"]
+[ext_resource type="Texture2D" uid="uid://c7wu72flkwycq" path="res://assets/sprites/ellis/yakumono/Happymoonv1.png" id="13_happy"]
 
 [node name="Yakumono" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("FrameSprite", "FaceSprite", "ForegroundSprite", "VisualLayersContainer", "CatchHole", "RejectHole", "InputsIndicator", "OutputsIndicator", "AudioPlayer")]
 script = ExtResource("1_yakumono")

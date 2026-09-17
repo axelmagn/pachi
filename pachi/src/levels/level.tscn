@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://d2wjbx07a8ng4" path="res://src/pins/pin_grid.tscn" id="11_du6bw"]
 [ext_resource type="Script" uid="uid://busd3yfk5p1mx" path="res://addons/godot-rapier2d/custom_nodes/rapier_static_body_2d.gd" id="12_rgvsn"]
 [ext_resource type="PackedScene" uid="uid://p44mc7erkedo" path="res://src/yakumono/yakumono.tscn" id="13_yakumono"]
+[ext_resource type="PackedScene" uid="uid://dn3w722r3w2ca" path="res://src/pockets/beetle_blue.tscn" id="15_nrsx4"]
 
 [node name="Level" type="Node2D" unique_id=756612389 node_paths=PackedStringArray("BallsRoot", "BallLaunchPoint")]
 script = ExtResource("1_2tyx5")
@@ -123,41 +124,41 @@ Columns = 6
 SpacingX = 20.0
 SpacingY = 20.0
 
-[node name="Pocket4" parent="." unique_id=1965552333 instance=ExtResource("8_idw2h")]
-position = Vector2(-105, 165)
+[node name="BlueBeetle" parent="." unique_id=787958902 instance=ExtResource("15_nrsx4")]
+position = Vector2(-105, 162)
 InputBalls = [ExtResource("8_m3sl2")]
 OutputBalls = [ExtResource("8_m3sl2"), ExtResource("8_m3sl2"), ExtResource("8_m3sl2")]
 
-[node name="PinFunnel" parent="Pocket4" unique_id=1919490897 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -34)
+[node name="PinFunnel" parent="BlueBeetle" unique_id=1919490897 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -31)
 InnerWidth = 20.0
 OuterWidth = 40.0
 Height = 40.0
 AverageSpacing = 6.0
 MirrorY = true
 
-[node name="PinFunnel2" parent="Pocket4" unique_id=1799266497 instance=ExtResource("10_idw2h")]
-position = Vector2(0, -51)
+[node name="PinFunnel2" parent="BlueBeetle" unique_id=1799266497 instance=ExtResource("10_idw2h")]
+position = Vector2(0, -48)
 InnerWidth = 60.0
 OuterWidth = 80.0
 Height = 40.0
 AverageSpacing = 6.0
 MirrorY = true
 
-[node name="Pin" parent="Pocket4" unique_id=2043838577 instance=ExtResource("10_m3sl2")]
-position = Vector2(-10, -100)
+[node name="Pin" parent="BlueBeetle" unique_id=2043838577 instance=ExtResource("10_m3sl2")]
+position = Vector2(-10, -97)
 script = ExtResource("12_rgvsn")
 body_skin = 0.0
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
-[node name="Pin2" parent="Pocket4" unique_id=1528072019 instance=ExtResource("10_m3sl2")]
-position = Vector2(10, -100)
+[node name="Pin2" parent="BlueBeetle" unique_id=1528072019 instance=ExtResource("10_m3sl2")]
+position = Vector2(10, -97)
 script = ExtResource("12_rgvsn")
 body_skin = 0.0
 metadata/_custom_type_script = "uid://busd3yfk5p1mx"
 
-[node name="PinGrid2" parent="Pocket4" unique_id=501212060 instance=ExtResource("11_du6bw")]
-position = Vector2(-72, -139)
+[node name="PinGrid2" parent="BlueBeetle" unique_id=501212060 instance=ExtResource("11_du6bw")]
+position = Vector2(-72, -136)
 Rows = 2
 Columns = 6
 SpacingX = 20.0

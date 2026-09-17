@@ -8,14 +8,14 @@
 [ext_resource type="Script" uid="uid://cmf6o2c5k5bqb" path="res://src/pockets/PocketArmsController.cs" id="4_arms"]
 [ext_resource type="Script" uid="uid://0t80jlkcv82d" path="res://src/pockets/PocketAudioPlayer.cs" id="5_audio"]
 [ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="6_8lcgt"]
-[ext_resource type="Texture2D" uid="uid://jibe3yckulyo" path="res://assets/sprites/ellis/Pocketv2.png" id="10_t03fv"]
-[ext_resource type="Texture2D" uid="uid://dmxnrwbrg6uub" path="res://assets/sprites/ellis/Tulipv3.png" id="12_ulcdp"]
+[ext_resource type="Texture2D" uid="uid://jibe3yckulyo" path="res://assets/sprites/ellis/concept/Pocketv2.png" id="10_t03fv"]
+[ext_resource type="Texture2D" uid="uid://dmxnrwbrg6uub" path="res://assets/sprites/ellis/concept/Tulipv3.png" id="12_ulcdp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7ivt2"]
 radius = 2.0
 height = 24.0
 
-[node name="Pocket" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "PocketSprite", "InputsIndicator", "OutputsIndicator", "ArmsController", "AudioPlayer")]
+[node name="Pocket2" type="Node2D" unique_id=1383612129 node_paths=PackedStringArray("CatchHole", "RejectHole", "PocketSprite", "InputsIndicator", "OutputsIndicator", "ArmsController", "AudioPlayer")]
 script = ExtResource("1_mtvat")
 Config = ExtResource("1_cfg")
 CatchHole = NodePath("CatchHole")

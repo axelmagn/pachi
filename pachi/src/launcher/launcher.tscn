@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bhmpp70vo2l44"]
 
 [ext_resource type="Script" uid="uid://dnslcmv1udepo" path="res://src/launcher/Launcher.cs" id="1_ob4jl"]
-[ext_resource type="Texture2D" uid="uid://cmgrj83m60wnf" path="res://assets/sprites/ellis/Lever.png" id="3_h1ipi"]
+[ext_resource type="Texture2D" uid="uid://cmgrj83m60wnf" path="res://assets/sprites/ellis/launcher/Lever.png" id="3_h1ipi"]
 [ext_resource type="Script" uid="uid://biyglyxa47gj2" path="res://src/launcher/LauncherModeIndicator.cs" id="3_modeind"]
-[ext_resource type="Texture2D" uid="uid://bn25c7seg524o" path="res://assets/sprites/ellis/Bird feet.png" id="4_ka13r"]
-[ext_resource type="Texture2D" uid="uid://cuesdu5tderif" path="res://assets/sprites/ellis/Wood pecker.png" id="5_esref"]
+[ext_resource type="Texture2D" uid="uid://bn25c7seg524o" path="res://assets/sprites/ellis/launcher/Bird feet.png" id="4_ka13r"]
+[ext_resource type="Texture2D" uid="uid://cuesdu5tderif" path="res://assets/sprites/ellis/launcher/Wood pecker.png" id="5_esref"]
 
 [sub_resource type="Curve" id="Curve_ra4up"]
 _data = [Vector2(0, 0.13407826), 0.0, 0.3075909, 0, 0, Vector2(1, 0.6648045), 0.36481753, 0.0, 0, 0]

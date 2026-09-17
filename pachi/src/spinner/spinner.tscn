@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dlgnkc1h1cvtf"]
 
 [ext_resource type="Script" uid="uid://unwhnooi7g2c" path="res://addons/godot-rapier2d/custom_nodes/rapier_rigid_body_2d.gd" id="1_nk5l8"]
-[ext_resource type="Texture2D" uid="uid://cl2fl44xtv0fx" path="res://assets/sprites/ellis/Spinnerv2.PNG" id="2_k7r40"]
+[ext_resource type="Texture2D" uid="uid://cl2fl44xtv0fx" path="res://assets/sprites/ellis/spinner/Spinnerv2.PNG" id="2_k7r40"]
 [ext_resource type="Script" uid="uid://bv2bc4lt5v7hu" path="res://addons/godot-rapier2d/custom_nodes/rapier_pin_joint_2d.gd" id="3_tqdng"]
 [ext_resource type="PackedScene" uid="uid://prxlg5i85m5h" path="res://src/pins/pin.tscn" id="4_k7r40"]
 
