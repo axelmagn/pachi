@@ -1,5 +1,7 @@
 # Hex Grid System Design Brief
 
+(AGY generated fluff)
+
 ## 1. Overview & Goals
 
 The Hex Grid system provides a discrete spatial substrate for the Pachinko board in Pachi. It enables level designers to define valid placement regions for board elements (such as peg assemblies and pockets) and lets players place multi-cell stamps during gameplay.
