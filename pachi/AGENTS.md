@@ -1,10 +1,35 @@
 # Pachi Guidelines
 
+An incremental pachinko game.
+
 ## 1. Tech Stack & Environment
 - **Engine**: Godot 4.7 (C# / Mobile target)
 - **SDK & Runtime**: .NET 8.0 (`Godot.NET.Sdk/4.7.0`), Android build target `.NET 9.0`
 - **Physics**: Rapier2D (`addons/godot-rapier2d`)
 - **Solution**: `Pachi.sln` / `Pachi.csproj`
+
+## 2. Directory Structure
+
+```
+addons/         godot addons
+assets/         art assets
+docs/           general documentation (disorganized)
+scripts/        useful scripts (e.g. `verify.sh`)
+src/            source code, organized by domain
+tests/          game tests (nascent)
+```
+
+## 3. Context Files
+
+```
+README.md       game overview and vision
+AGENTS.md       agent rules
+STYLE.md        coding conventions
+ART_STYLE.md    notes on art style
+TODO.md         loose jumble of tasks
+```
+
+
 
 ## 2. Structure & Conventions
 - **Code Directory**: Source code organized by domain in `src/`
