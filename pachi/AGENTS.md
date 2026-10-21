@@ -46,6 +46,14 @@
 - **Input Action**: `launcher_charge` (mapped to Spacebar).
 - **Language**: C# exclusively (use GDScript only when explicitly requested).
 
+## 6. Godot Editor Integration (Godot AI MCP)
+- **Addon**: [Godot AI](https://github.com/hi-godot/godot-ai) lives in `addons/godot_ai/` and exposes the live editor to agents as the `godot-ai` MCP server (configured in `.mcp.json`, project scope).
+- **Prerequisites**: The Godot editor must be open on this project with the **Godot AI** plugin enabled, and `uvx` must be on `PATH`. The server must be approved once by running `claude` in the project.
+- **Prefer MCP tools for scene and resource work**: Use the `godot-ai` scene, node, and resource tools (e.g. `scene_get_hierarchy`, `node_get_properties`, `node_set_property`) instead of hand-editing `.tscn` / `.tres` files. Hand edits easily break UIDs and `ext_resource` IDs.
+- **Node paths**: Node names repeat across pockets (e.g. `PinEllipse`, `CatchHole`), so always target nodes by full path.
+- **Verification is unchanged**: The editor connection does not replace `./scripts/verify.sh`, which runs headless without the editor.
+- **Do not edit `addons/godot_ai/`**: Update it only via the **Update** button in the Godot AI dock.
+
 ## Context Pointers
 - **Coding Standards**: [`CODE_STYLE.md`](CODE_STYLE.md) — Consult when creating classes, defining signals/events, handling node lifecycle/cleanup, or resolving analyzer warnings.
 - **Engine Reference**: `../ref/godot-docs/index.html` — Consult when verifying Godot 4.7 API contracts, node lifecycle behavior, or mobile export settings.

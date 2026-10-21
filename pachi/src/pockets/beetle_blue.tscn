@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://c5qpdmvd63ugb" path="res://addons/godot-rapier2d/custom_nodes/rapier_character_body_2d.gd" id="8_go1gs"]
 [ext_resource type="Texture2D" uid="uid://d1ybthodgivl3" path="res://assets/sprites/ellis/pocket/Blue beetle arm.png" id="9_ljqt6"]
 [ext_resource type="Resource" uid="uid://cv127icc77rio" path="res://src/balls/tiers/tier_1.tres" id="9_xqh84"]
-[ext_resource type="Script" uid="uid://c47f7kdkaj58n" path="res://src/pockets/PocketBallsIndicator.cs" id="10_1t7es"]
 [ext_resource type="Texture2D" uid="uid://cq1klq2po71e6" path="res://assets/sprites/ellis/pocket/Blue-beetle-bg.png" id="16_y3kkf"]
 [ext_resource type="Texture2D" uid="uid://bvma77kaa66oy" path="res://assets/sprites/ellis/pocket/Blue-beetle-fg.png" id="17_go1gs"]
 [ext_resource type="Texture2D" uid="uid://dbt3qxt1gtja" path="res://assets/sprites/ellis/pocket/Blue-beetle-wings.png" id="18_xj14g"]
@@ -53,8 +52,8 @@ CatchHole = NodePath("CatchHole")
 RejectHole = NodePath("RejectHole")
 InputBalls = [ExtResource("9_xqh84")]
 OutputBalls = []
-InputsIndicator = NodePath("InputsIndicator")
-OutputsIndicator = NodePath("OutputsIndicator")
+InputsIndicator = NodePath("")
+OutputsIndicator = NodePath("")
 ArmsController = NodePath("ArmsController")
 AudioPlayer = NodePath("AudioPlayer")
 
@@ -131,25 +130,6 @@ rotation = 1.0622844
 scale = Vector2(0.12, 0.12)
 texture = ExtResource("9_ljqt6")
 flip_h = true
-
-[node name="InputsIndicator" type="Node2D" parent="." unique_id=1399337656]
-visible = false
-z_index = 3
-position = Vector2(0, 30)
-script = ExtResource("10_1t7es")
-BackgroundColor = Color(0.101960786, 0.14117648, 0.2, 1)
-Balls = [ExtResource("9_xqh84")]
-metadata/_custom_type_script = "uid://c47f7kdkaj58n"
-
-[node name="OutputsIndicator" type="Node2D" parent="." unique_id=188350990]
-visible = false
-z_index = 3
-position = Vector2(0, 42)
-script = ExtResource("10_1t7es")
-IsInputIndicator = false
-BackgroundColor = Color(0.2, 0.13333334, 0.101960786, 1)
-Balls = []
-metadata/_custom_type_script = "uid://c47f7kdkaj58n"
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1734696195]
 position = Vector2(0, 5.9999995)

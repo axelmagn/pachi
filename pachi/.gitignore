@@ -9,4 +9,8 @@
 .env
 .env.*
 
+# MCP config (transient)
 .mcp.json
+
+# used to prompt LLMs long-form
+/brief.md
