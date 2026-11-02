@@ -269,8 +269,7 @@ public partial class Launcher : Node2D
         }
 
         // animate out popped ball
-        poppedBall.FadeOut();
-        poppedBall.Connect(Ball.SignalName.FadeOutFinished, Callable.From(poppedBall.QueueFree), (uint)GodotObject.ConnectFlags.OneShot);
+        poppedBall.FadeOutAndFree();
 
         // animate in charged ball
         _chargedBall.FadeIn(initFadedOut: true);

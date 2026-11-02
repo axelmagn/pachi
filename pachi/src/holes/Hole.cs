@@ -31,13 +31,7 @@ public partial class Hole : Area2D
         CheckBallOverlaps();
     }
 
-    public float GetRadius()
-    {
-        Debug.Assert(Collider?.Shape is CircleShape2D);
-        CircleShape2D circle = (CircleShape2D)Collider!.Shape;
-        Debug.Assert(Mathf.IsEqualApprox(Scale.X, Scale.Y));
-        return circle.Radius * Scale.X;
-    }
+    public float GetRadius() => ShapeUtil.GetCircleRadius(Collider, this);
 
     private void CheckBallOverlaps()
     {

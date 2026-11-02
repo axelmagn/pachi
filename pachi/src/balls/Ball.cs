@@ -334,13 +334,7 @@ public partial class Ball : RigidBody2D
         }
     }
 
-    public float GetRadius()
-    {
-        Debug.Assert(Collider?.Shape is CircleShape2D);
-        CircleShape2D circle = (CircleShape2D)Collider!.Shape;
-        Debug.Assert(Mathf.IsEqualApprox(Scale.X, Scale.Y));
-        return circle.Radius * Scale.X;
-    }
+    public float GetRadius() => ShapeUtil.GetCircleRadius(Collider, this);
 
     public void FadeIn(Vector2? globalDestination = null, bool initFadedOut = false)
     {
@@ -386,6 +380,13 @@ public partial class Ball : RigidBody2D
             _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), fadeModulate, FadeDuration);
         }
         FadeTimer?.Start(FadeDuration);
+    }
+
+    /// Fades the ball out (optionally toward a destination) and frees it when done.
+    public void FadeOutAndFree(Vector2? globalDestination = null)
+    {
+        FadeOut(globalDestination);
+        Connect(SignalName.FadeOutFinished, Callable.From(QueueFree), (uint)ConnectFlags.OneShot);
     }
 
     private void OnBodyEntered(Node body)

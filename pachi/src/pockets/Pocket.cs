@@ -237,16 +237,12 @@ public partial class Pocket : Node2D
         bool reject = true;
         Debug.Assert(InputBalls != null && CatchHole != null && RejectHole != null);
         Debug.Assert(InputBalls!.Count == _inputBallSlotAvailable.Count);
-        ball.FadeOut(CatchHole!.GlobalPosition);
         for (int i = 0; i < InputBalls.Count; i++)
         {
             if (InputBalls[i] == ball.Variant && _inputBallSlotAvailable[i])
             {
                 _inputBallSlotAvailable[i] = false;
                 reject = false;
-                // Delay node disposal until the fade-out tween completes smoothly.
-                ball.Connect(Ball.SignalName.FadeOutFinished, Callable.From(ball.QueueFree),
-                        (uint)ConnectFlags.OneShot);
                 break;
             }
         }
@@ -255,11 +251,14 @@ public partial class Pocket : Node2D
         if (reject)
         {
             AudioPlayer?.PlayReject();
+            ball.FadeOut(CatchHole!.GlobalPosition);
             ball.Connect(Ball.SignalName.FadeOutFinished,
                     Callable.From(() => { ball.FadeIn(RejectHole!.GlobalPosition, true); }),
                     (uint)ConnectFlags.OneShot);
             return;
         }
+
+        ball.FadeOutAndFree(CatchHole!.GlobalPosition);
 
         // Evaluate whether all input slots have been satisfied to trigger payout.
         bool accumulationFilled = true;
