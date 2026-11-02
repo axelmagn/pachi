@@ -371,7 +371,8 @@ public partial class Launcher : Node2D
     /// rotate bird to keep contact between beak and lever
     ///
     /// approximates this by pointing the bird at the lever
-    private void RotateBirdToTouchLever() {
+    private void RotateBirdToTouchLever()
+    {
         Debug.Assert(Bird != null);
         Debug.Assert(BeakPoint != null);
         Debug.Assert(BeakTouchPoint != null);
