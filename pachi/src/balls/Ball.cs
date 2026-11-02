@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 [GlobalClass]
 public partial class Ball : RigidBody2D
@@ -135,13 +134,7 @@ public partial class Ball : RigidBody2D
 
     private bool _hasStuckAnchor = false;
     private Tween? _transitionTween = null;
-    private Color _originalModulate = Colors.White;
-
-    public Color OriginalModulate
-    {
-        get => _originalModulate;
-        set => _originalModulate = value;
-    }
+    public Color OriginalModulate { get; set; } = Colors.White;
 
     private Vector2 _previousVelocity = Vector2.Zero;
 
@@ -160,9 +153,9 @@ public partial class Ball : RigidBody2D
         BodyEntered += OnBodyEntered;
         FadeTimer.Timeout += OnFadeTimeout;
 
-        if (_originalModulate == Colors.White && CurrentTransitionState == TransitionState.None)
+        if (OriginalModulate == Colors.White && CurrentTransitionState == TransitionState.None)
         {
-            _originalModulate = Modulate;
+            OriginalModulate = Modulate;
         }
 
         UpdateVisuals();
@@ -370,7 +363,7 @@ public partial class Ball : RigidBody2D
                 // TODO: lerp shaping
                 _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
             }
-            _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), _originalModulate, FadeDuration);
+            _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), OriginalModulate, FadeDuration);
         }
         FadeTimer?.Start(FadeDuration);
     }
@@ -384,14 +377,12 @@ public partial class Ball : RigidBody2D
         {
             _transitionTween = GetTree().CreateTween().SetParallel(true);
             _transitionTween.TweenProperty(this, (NodePath)PropertyName.Scale.ToString(), new Vector2(FadeScale, FadeScale), FadeDuration);
-
-            // _fadeTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), Vector2.Zero, FadeDuration); // DEBUG
             if (globalDestination != null)
             {
                 // TODO: lerp shaping
                 _transitionTween.TweenProperty(this, (NodePath)PropertyName.GlobalPosition.ToString(), globalDestination.Value, FadeDuration);
             }
-            Color fadeModulate = _originalModulate * (fadeModulateOverride ?? FadeModulate);
+            Color fadeModulate = OriginalModulate * (fadeModulateOverride ?? FadeModulate);
             _transitionTween.TweenProperty(this, (NodePath)PropertyName.Modulate.ToString(), fadeModulate, FadeDuration);
         }
         FadeTimer?.Start(FadeDuration);
@@ -466,16 +457,6 @@ public partial class Ball : RigidBody2D
         _transitionTween?.Stop();
         _transitionTween = null;
         CurrentTransitionState = TransitionState.None;
-    }
-
-    private async Task TestFadeInFadeOut()
-    {
-        SceneTreeTimer testTimer = GetTree().CreateTimer(1.0);
-        await ToSignal(testTimer, SceneTreeTimer.SignalName.Timeout);
-        FadeOut();
-        testTimer = GetTree().CreateTimer(2.0);
-        await ToSignal(testTimer, SceneTreeTimer.SignalName.Timeout);
-        FadeIn();
     }
 }
 

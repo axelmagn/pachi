@@ -48,7 +48,6 @@ public partial class Hopper : Node2D
         if (InitQueuedBalls > 0)
         {
             Debug.Assert(InitQueuedBallsScene != null);
-            Random random = new();
             for (int i = 0; i < InitQueuedBalls; i++)
             {
                 Ball ball = InitQueuedBallsScene!.Instantiate<Ball>();

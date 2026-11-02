@@ -381,7 +381,6 @@ public partial class Launcher : Node2D
         Vector2 birdToTouch = BeakTouchPoint.GlobalPosition - Bird.GlobalPosition;
 
         float rotDelta = birdToTouch.Angle() - birdToBeak.Angle();
-        // float rotDelta = birdToBeak.Angle() - birdToTouch.Angle();
         Bird.Rotate(rotDelta);
     }
 }
