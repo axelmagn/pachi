@@ -88,10 +88,10 @@ public partial class BoundaryRect : StaticBody2D
 
         if (!Engine.IsEditorHint())
         {
-            Debug.Assert(TopBoundary != null, "BoundaryRect requires TopBoundary CollisionShape2D.");
-            Debug.Assert(BottomBoundary != null, "BoundaryRect requires BottomBoundary CollisionShape2D.");
-            Debug.Assert(LeftBoundary != null, "BoundaryRect requires LeftBoundary CollisionShape2D.");
-            Debug.Assert(RightBoundary != null, "BoundaryRect requires RightBoundary CollisionShape2D.");
+            this.Require(TopBoundary, nameof(TopBoundary));
+            this.Require(BottomBoundary, nameof(BottomBoundary));
+            this.Require(LeftBoundary, nameof(LeftBoundary));
+            this.Require(RightBoundary, nameof(RightBoundary));
         }
     }
 

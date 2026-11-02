@@ -128,9 +128,9 @@ public partial class Ball : RigidBody2D
         FadeOut
     };
 
-    public Vector2 StuckAnchorPosition { get; set; } = Vector2.Zero;
-    public double AccumulatedStuckTime { get; set; } = 0.0;
-    public int NudgeCount { get; set; } = 0;
+    public Vector2 StuckAnchorPosition { get; private set; } = Vector2.Zero;
+    public double AccumulatedStuckTime { get; private set; } = 0.0;
+    public int NudgeCount { get; private set; } = 0;
 
     private bool _hasStuckAnchor = false;
     private Tween? _transitionTween = null;
@@ -140,18 +140,18 @@ public partial class Ball : RigidBody2D
 
     public override void _Ready()
     {
-        Debug.Assert(Variant != null);
-        Debug.Assert(Sprite != null);
-        Debug.Assert(PinBounceAudioPlayer != null);
-        Debug.Assert(BallBounceAudioPlayer != null);
-        Debug.Assert(WallBounceAudioPlayer != null);
-        Debug.Assert(Collider != null);
-        Debug.Assert(Collider.Shape is CircleShape2D);
-        Debug.Assert(FadeTimer != null);
-        Debug.Assert(MotionTrail != null);
+        this.Require(Variant, nameof(Variant));
+        this.Require(Sprite, nameof(Sprite));
+        this.Require(PinBounceAudioPlayer, nameof(PinBounceAudioPlayer));
+        this.Require(BallBounceAudioPlayer, nameof(BallBounceAudioPlayer));
+        this.Require(WallBounceAudioPlayer, nameof(WallBounceAudioPlayer));
+        this.Require(Collider, nameof(Collider));
+        Debug.Assert(Collider!.Shape is CircleShape2D);
+        this.Require(FadeTimer, nameof(FadeTimer));
+        this.Require(MotionTrail, nameof(MotionTrail));
 
         BodyEntered += OnBodyEntered;
-        FadeTimer.Timeout += OnFadeTimeout;
+        FadeTimer!.Timeout += OnFadeTimeout;
 
         if (OriginalModulate == Colors.White && CurrentTransitionState == TransitionState.None)
         {
@@ -159,7 +159,7 @@ public partial class Ball : RigidBody2D
         }
 
         UpdateVisuals();
-        MotionTrail.SyncWithBall();
+        MotionTrail!.SyncWithBall();
     }
 
     public override void _ExitTree()
@@ -391,25 +391,21 @@ public partial class Ball : RigidBody2D
 
     private void OnBodyEntered(Node body)
     {
-        Debug.Assert(BallBounceAudioPlayer != null);
-        Debug.Assert(PinBounceAudioPlayer != null);
-        Debug.Assert(WallBounceAudioPlayer != null);
-
         float impactStrength = (_previousVelocity - LinearVelocity).Length();
 
         if (impactStrength < BounceAudioThreshold) return;
 
         if (body.IsInGroup(WallMaterialGroup))
         {
-            PlayImpactAudio(WallBounceAudioPlayer, impactStrength);
+            PlayImpactAudio(WallBounceAudioPlayer!, impactStrength);
         }
         else if (body.IsInGroup(BallMaterialGroup))
         {
-            PlayImpactAudio(BallBounceAudioPlayer, impactStrength);
+            PlayImpactAudio(BallBounceAudioPlayer!, impactStrength);
         }
         else if (body.IsInGroup(PinMaterialGroup))
         {
-            PlayImpactAudio(PinBounceAudioPlayer, impactStrength);
+            PlayImpactAudio(PinBounceAudioPlayer!, impactStrength);
             if (body is Pin pin)
             {
                 Vector2 impactNormal = (GlobalPosition - pin.GlobalPosition).Normalized();

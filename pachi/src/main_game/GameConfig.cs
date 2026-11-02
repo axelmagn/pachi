@@ -32,7 +32,7 @@ public partial class GameConfig : Node
 
     public override void _Ready()
     {
-        Debug.Assert(BallScene != null, "BallScene must be configured on GameConfig");
+        this.Require(BallScene, nameof(BallScene));
         Debug.Assert(BallTiers != null && BallTiers.Count > 0, "BallTiers must be configured on GameConfig");
     }
 }

@@ -73,14 +73,16 @@ public partial class Pocket : Node2D
 
     public override void _Ready()
     {
-        RefreshIndicatorAndSlots();
+        if (Engine.IsEditorHint())
+        {
+            RefreshIndicatorAndSlots();
+            return;
+        }
 
-        if (Engine.IsEditorHint()) return;
-
-        Debug.Assert(CatchHole != null, "Pocket requires CatchHole reference.");
-        Debug.Assert(RejectHole != null, "Pocket requires RejectHole reference.");
-        Debug.Assert(InputsIndicator != null, "Pocket requires InputsIndicator reference.");
-        Debug.Assert(OutputsIndicator != null, "Pocket requires OutputsIndicator reference.");
+        this.Require(CatchHole, nameof(CatchHole));
+        this.Require(RejectHole, nameof(RejectHole));
+        this.Require(InputsIndicator, nameof(InputsIndicator));
+        this.Require(OutputsIndicator, nameof(OutputsIndicator));
 
         // Duplicate exported arrays so modifications to one pocket instance do not mutate the shared PackedScene resource.
         InputBalls = InputBalls == null ? [] : InputBalls.Duplicate();
@@ -107,12 +109,6 @@ public partial class Pocket : Node2D
 
         RefreshIndicatorAndSlots();
         CatchHole!.BallOverlapped += OnBallCatch;
-
-        // Auto-resolve child components when scenes instantiate without explicit node path exports.
-        ArmsController ??= GetNodeOrNull<PocketArmsController>(nameof(ArmsController))
-            ?? GetNodeOrNull<PocketArmsController>("PocketArmsController");
-        AudioPlayer ??= GetNodeOrNull<PocketAudioPlayer>(nameof(AudioPlayer))
-            ?? GetNodeOrNull<PocketAudioPlayer>("PocketAudioPlayer");
 
         // Propagate consolidated config to child controllers if not already assigned.
         if (ArmsController != null && ArmsController.Config == null && Config != null)

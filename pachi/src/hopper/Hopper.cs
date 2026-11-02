@@ -31,10 +31,10 @@ public partial class Hopper : Node2D
 
     public override void _Ready()
     {
-        Debug.Assert(BallsRoot != null);
-        Debug.Assert(QueuedBallDispenseTimer != null);
-        Debug.Assert(QueuedBallDispenseHoles != null);
-        Debug.Assert(QueuedBallDispenseHoles.Count > 0);
+        this.Require(BallsRoot, nameof(BallsRoot));
+        this.Require(QueuedBallDispenseTimer, nameof(QueuedBallDispenseTimer));
+        this.Require(QueuedBallDispenseHoles, nameof(QueuedBallDispenseHoles));
+        Debug.Assert(QueuedBallDispenseHoles!.Count > 0);
 
         foreach (Node child in BallsRoot!.GetChildren())
         {
@@ -47,7 +47,7 @@ public partial class Hopper : Node2D
 
         if (InitQueuedBalls > 0)
         {
-            Debug.Assert(InitQueuedBallsScene != null);
+            this.Require(InitQueuedBallsScene, nameof(InitQueuedBallsScene));
             for (int i = 0; i < InitQueuedBalls; i++)
             {
                 Ball ball = InitQueuedBallsScene!.Instantiate<Ball>();

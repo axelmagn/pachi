@@ -19,7 +19,7 @@ public partial class Hole : Area2D
     {
         if (Engine.IsEditorHint()) return;
 
-        Debug.Assert(Collider != null);
+        this.Require(Collider, nameof(Collider));
 
         // we only need to tick physics if we are monitoring for ball overlaps
         SetPhysicsProcess(MonitorBallOverlap);

@@ -13,7 +13,7 @@ public partial class Level : Node2D
 
     public override void _Ready()
     {
-        Debug.Assert(BallsRoot != null);
-        Debug.Assert(BallLaunchPoint != null);
+        this.Require(BallsRoot, nameof(BallsRoot));
+        this.Require(BallLaunchPoint, nameof(BallLaunchPoint));
     }
 }

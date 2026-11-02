@@ -83,9 +83,7 @@ public partial class Yakumono : Pocket
         int nextIndex = CurrentFaceIndex;
         while (nextIndex == CurrentFaceIndex)
         {
-            nextIndex = GameConfig.Instance?.Rng != null
-                ? GameConfig.Instance.Rng.Next(0, FaceTextures.Count)
-                : (int)(GD.Randi() % (uint)FaceTextures.Count);
+            nextIndex = GameConfig.Instance!.Rng.Next(0, FaceTextures.Count);
         }
 
         TransitionToFaceState(nextIndex);

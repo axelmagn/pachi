@@ -12,7 +12,7 @@ public partial class Drain : Node2D
 
     public override void _Ready()
     {
-        Debug.Assert(Hole != null);
+        this.Require(Hole, nameof(Hole));
 
         Hole!.BallOverlapped += OnBallOverlap;
     }

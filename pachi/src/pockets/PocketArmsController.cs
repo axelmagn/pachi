@@ -38,12 +38,16 @@ public partial class PocketArmsController : Node2D
     [Export]
     public Sprite2D? RightArmSprite { get; set; }
 
-    public bool HasArms => Config?.HasArms ?? true;
-    public float ArmOpenRotation => Config?.ArmOpenRotation ?? 60.0f;
-    public float ArmOpenDuration => Config?.ArmOpenDuration ?? 5.0f;
-    public float ArmTweenDuration => Config?.ArmTweenDuration ?? 0.3f;
-    public Tween.TransitionType ArmTweenTransition => Config?.ArmTweenTransition ?? Tween.TransitionType.Cubic;
-    public Tween.EaseType ArmTweenEase => Config?.ArmTweenEase ?? Tween.EaseType.Out;
+    // Fallback used when no Config is assigned, so defaults live only in PocketConfig.
+    private static readonly PocketConfig DefaultConfig = new();
+    private PocketConfig EffectiveConfig => Config ?? DefaultConfig;
+
+    public bool HasArms => EffectiveConfig.HasArms;
+    public float ArmOpenRotation => EffectiveConfig.ArmOpenRotation;
+    public float ArmOpenDuration => EffectiveConfig.ArmOpenDuration;
+    public float ArmTweenDuration => EffectiveConfig.ArmTweenDuration;
+    public Tween.TransitionType ArmTweenTransition => EffectiveConfig.ArmTweenTransition;
+    public Tween.EaseType ArmTweenEase => EffectiveConfig.ArmTweenEase;
 
     public ArmState CurrentArmState { get; private set; } = ArmState.Closed;
 
@@ -70,8 +74,8 @@ public partial class PocketArmsController : Node2D
 
         if (HasArms)
         {
-            Debug.Assert(LeftArm != null, "PocketArmsController requires LeftArm reference when HasArms is true.");
-            Debug.Assert(RightArm != null, "PocketArmsController requires RightArm reference when HasArms is true.");
+            this.Require(LeftArm, nameof(LeftArm));
+            this.Require(RightArm, nameof(RightArm));
         }
     }
 

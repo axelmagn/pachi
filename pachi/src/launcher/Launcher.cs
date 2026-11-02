@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 [GlobalClass]
 public partial class Launcher : Node2D
@@ -60,6 +59,10 @@ public partial class Launcher : Node2D
     [Export]
     public Node2D? BeakTouchPoint { get; set; }
 
+    /// Radius around the launch point that must be free of in-play balls before loading the next ball.
+    [Export]
+    public float LaunchClearanceRadius { get; set; } = 24.0f;
+
 
 
     private float _startRotation;
@@ -76,14 +79,16 @@ public partial class Launcher : Node2D
 
     public override void _Ready()
     {
-        Debug.Assert(LauncherSprite != null);
-        Debug.Assert(LauncherGhostSprite != null);
-        Debug.Assert(Bird != null);
-        Debug.Assert(BeakPoint != null);
-        Debug.Assert(BeakTouchPoint != null);
+        this.Require(LauncherSprite, nameof(LauncherSprite));
+        this.Require(LauncherGhostSprite, nameof(LauncherGhostSprite));
+        this.Require(Bird, nameof(Bird));
+        this.Require(BeakPoint, nameof(BeakPoint));
+        this.Require(BeakTouchPoint, nameof(BeakTouchPoint));
+        this.Require(Hopper, nameof(Hopper));
+        this.Require(Level, nameof(Level));
 
-        _startRotation = LauncherSprite.Rotation;
-        _endRotation = LauncherGhostSprite.Rotation;
+        _startRotation = LauncherSprite!.Rotation;
+        _endRotation = LauncherGhostSprite!.Rotation;
 
         ModeIndicator ??= GetNodeOrNull<LauncherModeIndicator>("LauncherModeIndicator");
         if (ModeIndicator != null)
@@ -93,7 +98,7 @@ public partial class Launcher : Node2D
             ModeIndicator.ModeChanged += OnLauncherModeChanged;
         }
 
-        _ = TryLoadBallFromHopper();
+        TryLoadBallFromHopper();
     }
 
     public override void _ExitTree()
@@ -116,8 +121,7 @@ public partial class Launcher : Node2D
     {
         if (Level == null || Level.BallLaunchPoint == null || Level.BallsRoot == null) return false;
 
-        float clearanceRadius = 24.0f;
-        float clearanceRadiusSq = clearanceRadius * clearanceRadius;
+        float clearanceRadiusSq = LaunchClearanceRadius * LaunchClearanceRadius;
         Vector2 launchPos = Level.BallLaunchPoint.GlobalPosition;
 
         foreach (Node child in Level.BallsRoot.GetChildren())
@@ -156,9 +160,9 @@ public partial class Launcher : Node2D
                     _autoFireTimer = 0.0;
                     _isAutoCharging = true;
 
-                    Debug.Assert(GameConfig.Instance != null && GameConfig.Instance.Rng != null, "GameConfig.Instance and Rng must not be null");
+                    Debug.Assert(GameConfig.Instance != null, "GameConfig.Instance must not be null");
                     _autoFireTargetRatio = GetNextAutoFireTargetRatio();
-                    float jitter = ((float)(GameConfig.Instance?.Rng ?? new Random()).NextDouble() - 0.5f) * 0.08f;
+                    float jitter = ((float)GameConfig.Instance!.Rng.NextDouble() - 0.5f) * 0.08f;
                     _autoFireCurrentRatio = Mathf.Clamp(_autoFireTargetRatio + jitter, 0.0f, 1.0f);
 
                     ChargeStart();
@@ -168,7 +172,7 @@ public partial class Launcher : Node2D
 
         if (_chargedBall == null && IsLaunchPointClear())
         {
-            _ = TryLoadBallFromHopper();
+            TryLoadBallFromHopper();
         }
 
         // TODO: make launcher feel better to use
@@ -228,7 +232,7 @@ public partial class Launcher : Node2D
     private void ChargeStart()
     {
         _rotationRate = (_endRotation - _startRotation) / ChargeTime;
-        _ = TryLoadBallFromHopper();
+        TryLoadBallFromHopper();
     }
 
     private void ChargeEnd()
@@ -238,11 +242,8 @@ public partial class Launcher : Node2D
     }
 
     // TODO: replace fade in / out effect with zoop animation
-    private async Task TryLoadBallFromHopper()
+    private void TryLoadBallFromHopper()
     {
-        Debug.Assert(Hopper != null);
-        Debug.Assert(Level != null);
-
         // see if we can pop a ball from the hopper
         if (_chargedBall != null) return;
         if (Hopper == null) return;
@@ -261,7 +262,6 @@ public partial class Launcher : Node2D
         {
             Level.BallsRoot.AddChild(_chargedBall);
             Level.BallsRoot.MoveChild(_chargedBall, 0);
-            _chargedBall.Reparent(Level.BallsRoot);
         }
         if (Level?.BallLaunchPoint != null)
         {
@@ -372,12 +372,8 @@ public partial class Launcher : Node2D
     /// approximates this by pointing the bird at the lever
     private void RotateBirdToTouchLever()
     {
-        Debug.Assert(Bird != null);
-        Debug.Assert(BeakPoint != null);
-        Debug.Assert(BeakTouchPoint != null);
-
-        Vector2 birdToBeak = BeakPoint.GlobalPosition - Bird.GlobalPosition;
-        Vector2 birdToTouch = BeakTouchPoint.GlobalPosition - Bird.GlobalPosition;
+        Vector2 birdToBeak = BeakPoint!.GlobalPosition - Bird!.GlobalPosition;
+        Vector2 birdToTouch = BeakTouchPoint!.GlobalPosition - Bird!.GlobalPosition;
 
         float rotDelta = birdToTouch.Angle() - birdToBeak.Angle();
         Bird.Rotate(rotDelta);
