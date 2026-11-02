@@ -69,8 +69,6 @@ public partial class Pocket : Node2D
         {
             GlobalEvents.Instance.CentralPocketPaidOut -= OnCentralPocketPaidOut;
         }
-
-        // CardDragController.Instance?.UnregisterTarget(this);
     }
 
     public override void _Ready()
@@ -133,7 +131,6 @@ public partial class Pocket : Node2D
         }
 
         AddToGroup(GroupPockets);
-        // CardDragController.Instance?.RegisterTarget(this, 40.0f);
     }
 
     /// <summary>
