@@ -73,8 +73,7 @@ public partial class Launcher : Node2D
     private double _autoFireTimer = 0.0;
     private bool _isAutoCharging = false;
     private float _autoFireTargetRatio = 0.5f;
-    private readonly System.Collections.Generic.List<float> _autoFireBag = new();
-    private int _autoFireBagIndex = 0;
+    private AutoFireSampler? _autoFireSampler;
     private float _autoFireCurrentRatio = 1.0f;
 
     public override void _Ready()
@@ -299,72 +298,10 @@ public partial class Launcher : Node2D
 
     private float GetNextAutoFireTargetRatio()
     {
-        if (_autoFireBag.Count == 0 || _autoFireBagIndex >= _autoFireBag.Count)
-        {
-            RebuildAndShuffleAutoFireBag();
-        }
-        if (_autoFireBag.Count == 0) return 0.5f;
-
-        return _autoFireBag[_autoFireBagIndex++];
-    }
-
-    private float SampleFromWeightCurve(Random rng)
-    {
-        if (AutoFireWeightCurve == null)
-        {
-            return (float)rng.NextDouble();
-        }
-
-        int segments = Mathf.Max(16, AutoFireBagResolution);
-        float[] cdf = new float[segments];
-        float totalArea = 0.0f;
-
-        float prevWeight = Mathf.Max(0.0f, AutoFireWeightCurve.Sample(0.0f));
-        for (int k = 0; k < segments; k++)
-        {
-            float tNext = (float)(k + 1) / segments;
-            float nextWeight = Mathf.Max(0.0f, AutoFireWeightCurve.Sample(tNext));
-            float area = 0.5f * (prevWeight + nextWeight);
-            totalArea += area;
-            cdf[k] = totalArea;
-            prevWeight = nextWeight;
-        }
-
-        if (totalArea <= 0.00001f)
-        {
-            return (float)rng.NextDouble();
-        }
-
-        float target = (float)rng.NextDouble() * totalArea;
-        int index = Array.BinarySearch(cdf, target);
-        if (index < 0)
-        {
-            index = ~index;
-        }
-        index = Mathf.Clamp(index, 0, segments - 1);
-
-        float prevCdf = (index > 0) ? cdf[index - 1] : 0.0f;
-        float nextCdf = cdf[index];
-        float fraction = (nextCdf > prevCdf) ? (target - prevCdf) / (nextCdf - prevCdf) : 0.0f;
-
-        float t0 = (float)index / segments;
-        float t1 = (float)(index + 1) / segments;
-        return Mathf.Clamp(Mathf.Lerp(t0, t1, fraction), 0.0f, 1.0f);
-    }
-
-    private void RebuildAndShuffleAutoFireBag()
-    {
-        _autoFireBag.Clear();
-        Debug.Assert(GameConfig.Instance != null && GameConfig.Instance.Rng != null, "GameConfig.Instance and Rng must not be null");
-        var rng = GameConfig.Instance.Rng;
-
-        int bagSize = Mathf.Max(1, AutoFireBagSize);
-        for (int i = 0; i < bagSize; i++)
-        {
-            _autoFireBag.Add(SampleFromWeightCurve(rng));
-        }
-
-        _autoFireBagIndex = 0;
+        Debug.Assert(GameConfig.Instance != null, "GameConfig.Instance must not be null");
+        _autoFireSampler ??= new AutoFireSampler(
+            AutoFireWeightCurve, AutoFireBagResolution, AutoFireBagSize, GameConfig.Instance!.Rng);
+        return _autoFireSampler.Next();
     }
 
     /// rotate bird to keep contact between beak and lever

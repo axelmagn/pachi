@@ -14,13 +14,13 @@ public partial class GlobalEvents : Node
     public delegate void CentralPocketPaidOutEventHandler();
 
     [Signal]
-    public delegate void BallEnteredPocketEventHandler(Node pocket, Node ball);
+    public delegate void BallEnteredPocketEventHandler(Pocket pocket, Ball ball);
 
     [Signal]
-    public delegate void YakumonoStateChangedEventHandler(Node yakumono, int faceIndex);
+    public delegate void YakumonoStateChangedEventHandler(Yakumono yakumono, int faceIndex);
 
     [Signal]
-    public delegate void YakumonoPaidOutEventHandler(Node yakumono);
+    public delegate void YakumonoPaidOutEventHandler(Yakumono yakumono);
 
     public override void _EnterTree()
     {
@@ -42,12 +42,12 @@ public partial class GlobalEvents : Node
     public void NotifyCentralPocketPaidOut() =>
         EmitSignal(SignalName.CentralPocketPaidOut);
 
-    public void NotifyBallEnteredPocket(Node pocket, Node ball) =>
+    public void NotifyBallEnteredPocket(Pocket pocket, Ball ball) =>
         EmitSignal(SignalName.BallEnteredPocket, pocket, ball);
 
-    public void NotifyYakumonoStateChanged(Node yakumono, int faceIndex) =>
+    public void NotifyYakumonoStateChanged(Yakumono yakumono, int faceIndex) =>
         EmitSignal(SignalName.YakumonoStateChanged, yakumono, faceIndex);
 
-    public void NotifyYakumonoPaidOut(Node yakumono) =>
+    public void NotifyYakumonoPaidOut(Yakumono yakumono) =>
         EmitSignal(SignalName.YakumonoPaidOut, yakumono);
 }
