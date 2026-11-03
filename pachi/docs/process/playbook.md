@@ -5,7 +5,8 @@ written for the human developer. It decides where the LLM fits; it is not the
 LLM's instruction file (that's `CLAUDE.md`, drafted in [Appendix A](#appendix-a--draft-claudemd)).
 
 - **Last reviewed:** 2026-11-02
-- **Applies to:** Godot 4.7.2 Mono, .NET 8 target (SDK 10 installed), Rapier2D, Claude Code
+- **Applies to:** Godot 4.7.2 Mono, .NET 8 target (SDK 10 installed), Rapier2D, Claude Code,
+  Trello ("Pachi Agent" board, through the Trello MCP server)
 - **Evidence tags:** `[n]` points to [Sources](#appendix-f--sources). Each source
   has a grade: **Official** (vendor docs), **Research** (studies with data),
   **Practitioner** (named experts writing from experience), **Community**
@@ -57,7 +58,7 @@ What I found exploring the repo on 2026-11-02:
 | Dead code | `src/cards.old/` (about 1,400 LOC) still compiles, and `main_game.tscn` still loads nine of its archetype scripts. `.agents/archive/` holds 25 archived skills. `AGENTS.old.md` and a `skills-lock.json` point at the archived skills. There's commented-out code in `Hopper.cs`, `Pocket.cs`, and `Ball.cs`. TODO.md says "create legacy tag", but no tags exist locally. | Agents copy whatever patterns they see [37]. Dead code teaches dead patterns. |
 | LLM cruft signals | 33 of 57 `.cs` files are `[Tool]` scripts. `Pocket._Ready` tries three ways to wire one child: `[Export]`, then `GetNodeOrNull(nameof(...))`, then `GetNodeOrNull("…")`. It also has defensive null checks on every path. There are four `static Instance` singletons. | Defensive cruft and over-tooling are both typical of unreviewed LLM output [19][20]. They also go against Godot's own guidance on global state [2]. |
 | Instructions | `AGENTS.old.md` tells the agent *not* to write code and points to `CODE_STYLE.md` (about 9 KB). Much of that file restates what `.editorconfig` and the analyzers already enforce. | Long instruction files dilute attention. Rules that a tool enforces don't need to be written down [15]. |
-| Process assets | `docs/plan/_package-template.md` is a strong pitch template (Shape Up mixed with game-design practice). `docs/plan/202610-beetles.md` uses it. `docs/notes/` holds playtest notes. | Keep this. It's the foundation for Part B. |
+| Process assets | `docs/plan/_package-template.md` is a strong pitch template (Shape Up mixed with game-design practice). `docs/plan/202610-beetles.md` uses it. `docs/notes/` holds playtest notes. | Keep the template; it's the foundation for Part B. It and the active pitch move to Trello (A6.8). |
 | Tooling | The `godot-ai` MCP server (v4.3.0) is configured and its editor plugin is enabled. It adds an autoload, `_mcp_game_helper`, to `project.godot`. `ref/godot-docs/_sources/` has the 4.7 docs as greppable `.rst.txt`. | Good grounding assets. Check that the MCP autoload is inert or stripped in release exports (A2). |
 | Determinism | `Ball.cs` draws launch spread from the global, unseeded `GD.RandRange`. `GameConfig.Rng` is an injectable `System.Random`, and `AutoFireSamplerTests` already seeds one. | Two runs of the same scene differ, so captures and engine tests can't be compared before and after a change. |
 
@@ -71,7 +72,7 @@ countermeasure built into this playbook.
 
 | Cause | Evidence | Countermeasure |
 |---|---|---|
-| **No written definition of done.** The agent builds the most plausible thing, not your thing. | "Claude built something different from what you had in mind... It's missing information it can't get from reading the repo." [15] | Pitch, then ticket with acceptance criteria, then a fresh session builds from the ticket (B2–B4). |
+| **No written definition of done.** The agent builds the most plausible thing, not your thing. | "Claude built something different from what you had in mind... It's missing information it can't get from reading the repo." [15] | Pitch card, then ticket card with acceptance criteria, then a fresh session builds from the card (B2–B4). |
 | **No check it could run.** It stops when the work *looks* done. | "If it has nothing to run that tells it whether the work actually *is* done, 'looks done' is all it has to go on." [15] | Fast, always-green verification ladder, enforced by a Stop hook (A3, A6). |
 | **Over-generation.** Agents add unrequested features, fallbacks, and "robustness." | Beck: genies drift "into complexity that collapses under its own weight" [20]. Willison: tests reduce over-generation [21]. GitClear: duplicated code is up, refactoring is down, in AI-era codebases [19]. | No-gos in every ticket. Review diffs for *additions you didn't ask for*. A cool-down deletion pass (B5, B12). |
 | **Reviewers always find something.** Fixing every review nit adds layers. | "A reviewer that's asked to find problems will always find *something*. If you fix every finding, you end up with extra abstraction layers." [15] | Review against the spec and skip style (B5). |
@@ -86,6 +87,9 @@ countermeasure built into this playbook.
 2. **Every change has a check that comes back pass or fail.** If you can't name the check, the ticket isn't ready [15].
 3. **Logic lives where it's cheap to test.** Game rules go in plain C# with millisecond-scale tests. Nodes stay thin and wire the rules to the engine [9][10][11]. Agents edit typed logic outside scenes confidently, and stumble on deep scene trees and implicit node paths [36].
 4. **You own the *what*, the LLM drafts the *how*, and you review the diff.** Beck's framing: augmented coding de-emphasises language expertise and amplifies "vision, strategy, task breakdown, and feedback loops" [20]. Those last four are your job.
+   Trello is the shared channel: Claude may create, edit, comment on, and move
+   cards, but a card's acceptance criteria, appetite, and no-gos change only
+   when you ask, and every such change gets a comment.
 5. **Two modes, never mixed.** *Exploration* (prototypes, toys, spikes) can be vibe-coded and is thrown away. *Production* (merged code) goes through spec, tests, and review [21]. Prototype code never gets merged.
 6. **Small batches.** One ticket per session and one reviewable diff, about 400 changed lines or fewer [29][18].
    Multi-agent role pipelines (PM, architect, QA agents) are deliberately not
@@ -95,6 +99,32 @@ countermeasure built into this playbook.
 8. **Write down only what the repo can't tell the agent.** Delete instructions that the code or a tool already enforces [15].
 9. **Scenes are self-contained. Dependencies flow down, events flow up.** Parents call children. Children emit signals. Siblings never reach for each other. Use autoloads only for broad systems that manage their own data [1][2].
 10. **Finish things.** Use fixed appetites with a circuit breaker [23]. Shipping rough beats polishing forever [28].
+
+### The state seam: repo vs. Trello
+
+Project-management state lives in Trello. Project state lives in the repo.
+The test for any piece of state: **does it still need to be true after the
+card is archived?** If yes, it goes in the repo.
+
+| Kind of state | Where it lives | Examples |
+|---|---|---|
+| The product and its permanent rules | Repo | Code, tests, input scripts, `CLAUDE.md`, rule files, ADRs, this playbook |
+| Design facts that outlive a cycle | Repo, `docs/design/` | The core loop, economy targets ("first prestige at 12–20 min"), glossary. Promoted from a pitch once settled. |
+| The plan and the work | Card description | Pitch, ticket, acceptance criteria, no-gos, Check line, files and pattern to follow |
+| The conversation | Card comments | Your context, Claude's plan, questions, why the spec changed, evidence (command and output tail), test-change justifications |
+| Progress | List, labels, checklists | Status, layer, hill position, size, the B14 checklist |
+| Evidence and source material | Card attachments | Capture frames, clips, logs, playtest notes and recordings, reference images, long spike write-ups |
+| Scratch | `out/` (gitignored) | Capture output before it's attached, sim runs |
+
+Two rules hold the seam:
+
+1. **The description is the current spec; comments are its history.** Trello
+   doesn't version descriptions, so whoever edits one (you or Claude) posts a
+   comment saying what changed and why.
+2. **Nothing in the repo depends on Trello to make sense.** Code, comments, and
+   ADRs never say "see card X". Commit messages may carry a card link, as a
+   pointer into history. A decision made in a card's comments that a future
+   agent will need becomes an ADR before the card closes.
 
 ---
 
@@ -298,7 +328,8 @@ Keep the deterministic set small and the instruction files short [15].
    - A **PreToolUse hook** blocks writes to `*.uid`, `.godot/`, and `addons/`.
      Godot generates UIDs [5], and addons are third-party [3].
    - **Permissions:** allow the ladder scripts and `dotnet build/test/format`.
-     Ask for `git push`.
+     Ask for `git push`. Allow Trello reads and card, comment, and checklist
+     writes; ask for list and board writes (Appendix B).
 4. **Consolidate config.** The repo has `pachi/.claude/settings.local.json` at
    the git root and `.mcp.json` in `pachi/pachi/`. Start sessions from
    `pachi/pachi/` and keep all Claude config there. Confirm with `/context` and `/mcp`.
@@ -307,15 +338,46 @@ Keep the deterministic set small and the instruction files short [15].
    context even when idle [15], so disable it in sessions that only touch `core/`.
    Prefer scripts over MCP for anything you want repeatable or in CI. The
    exception is `project.godot` settings, which go through the editor or MCP (B6).
-6. **Skills: start with two, add more only when a procedure repeats.**
-   - `/shape`: interview you, then write a pitch using `docs/plan/_package-template.md` (B2).
-   - `/slice`: break a pitch's scopes into tickets in the Appendix D format (B3).
+6. **Skills: start with three, add more only when a procedure repeats.**
+   - `/shape`: interview you, then create a pitch card from the board's pitch template card (B2).
+   - `/slice`: break a pitch card's scopes into ticket cards in the Appendix D format, each with the B14 checklist (B3).
+   - `/ticket <card>`: load a card's description, its latest comments in full
+     (older ones summarised), its attachments list, and its linked pitch, then
+     run `./scripts/check.sh` (B4 orient).
    Don't reinstall the archived skill pack wholesale. Write down only what
    Claude can't infer [15].
 7. **Worktrees for parallel sessions.** Add a `.worktreeinclude` if anything
    gitignored is needed. Every new worktree must run `--import` (A3) [15].
+8. **Set up the Trello board** ("Pachi Agent") and connect the Trello MCP server.
+   - **Lists, left to right:**
+     - Inbox (untriaged playtest findings)
+     - Ideas (not commitments)
+     - Pitches (shaped, awaiting a bet)
+     - Setup (Part A cards; archive once A8 is done)
+     - Cycle: `<slug>` (the one active bet's tickets; rename each cycle)
+     - Spikes
+     - In progress (WIP limit 1)
+     - Review / Play
+     - Done (this cycle)
+     - Cool-down (recurring B12 cards)
+   - **Labels:**
+     - Layer: `core`, `engine`, `visual`, `you`
+     - Hill: `⬆ uphill`, `⬇ downhill`
+     - Size: `S`, `M`
+     - Type: `bug`, `spike`, `setup`, `juice`, `proto`
+   - **Template cards:** a pitch template (the content of `docs/plan/_package-template.md`)
+     and a ticket template (Appendix D, with the B14 checklist).
+   - **Migrate:**
+     - `docs/plan/202610-beetles.md` becomes a pitch card with linked ticket cards.
+     - `docs/notes/` playtest notes become attachments on Inbox or pitch cards.
+     - Settled design facts from either move to `docs/design/`.
+     - `TODO.md` items become cards.
+     - Then delete `docs/plan/`, `docs/notes/`, and `TODO.md`. Git history is the archive.
 
-**Exit:** in a fresh session, ask Claude to "introduce a formatting error and stop". The Stop hook bounces it. `/context` shows `CLAUDE.md` loaded, and the rule file loads only when Claude opens a `src/` file.
+**Exit:**
+- In a fresh session, ask Claude to "introduce a formatting error and stop". The Stop hook bounces it.
+- `/context` shows `CLAUDE.md` loaded, and the rule file loads only when Claude opens a `src/` file.
+- `/ticket <card>` prints the card's spec, and Claude can post a comment on it.
 
 ### A7. Continuous integration
 
@@ -338,6 +400,7 @@ GitHub Actions on `axelmagn/pachi`:
 - [ ] A3 three-rung ladder with scene lint, fixed seed, and input scripts; scene lint, log scan, and all-scenes test proven by breaking something
 - [ ] A4 `core/` and `core.tests/` exist with at least one real rule
 - [ ] A6 `CLAUDE.md`, rule file, `settings.json` hooks working; `CODE_STYLE.md` trimmed
+- [ ] A6.8 Trello board set up with lists, labels, and template cards; `docs/plan/`, `docs/notes/`, and `TODO.md` migrated and removed
 - [ ] A7 CI red/green proven
 - [ ] Old `README.md` "Getting Started" updated to point at `scripts/check.sh`
 
@@ -347,7 +410,9 @@ GitHub Actions on `axelmagn/pachi`:
 
 ### B1. The cycle
 
-This is Shape Up [23] scaled down for one person. Your pitch template already uses its vocabulary.
+This is Shape Up [23] scaled down for one person. Your pitch template already
+uses its vocabulary. Every stage below happens on the Trello board; the lists
+in A6.8 follow this cycle left to right.
 
 ```
  ┌── Shape (cool-down) ──┐  ┌──────── Build cycle (appetite: 1–3 wks) ────────┐  ┌─ Cool-down (3–5 days) ─┐
@@ -359,38 +424,45 @@ This is Shape Up [23] scaled down for one person. Your pitch template already us
 ```
 
 - **One bet at a time.** The appetite is fixed and the scope is variable.
-- **Circuit breaker:** if the appetite runs out, stop. In cool-down, decide
-  whether to re-shape or drop. Never extend by default [23].
-- **Hill chart:** in the pitch's Scopes section, mark each scope `⬆ uphill`
-  (unknowns remain) or `⬇ downhill` (execution only). Ask an LLM for help on
-  uphill scopes as a *spike* (B8), not as production code.
+- **Circuit breaker:** the pitch card's due date is the end of the appetite.
+  When it arrives, stop. In cool-down, decide whether to re-shape or drop.
+  Never extend by default [23].
+- **Hill chart:** label each ticket card `⬆ uphill` (unknowns remain) or
+  `⬇ downhill` (execution only), and move the label as it changes. Ask an LLM
+  for help on uphill scopes as a *spike* (B8), not as production code.
 
 ### B2. Shaping a pitch
 
 1. Start from evidence: a playtest note, a clip, a feeling you had while playing.
+   Usually that's a card in Inbox, or a Pitches card you've been adding to.
 2. Run `/shape` (or ask Claude to "interview me until you could write the pitch").
-   Answer its questions. It writes `docs/plan/YYYYMM-<slug>.md` from the template [15].
+   Answer its questions. It creates a pitch card in Pitches from the template
+   card, attaching or linking the evidence it started from [15].
 3. You edit the result. The **experience goal**, **appetite**, and **no-gos**
    must be in your words. They're how you'll judge the LLM's work later.
-4. Fill in **Rabbit holes**. Each technical risk becomes a spike ticket that
+4. Fill in **Rabbit holes**. Each technical risk becomes a spike card that
    runs *before* production tickets.
 5. Record any architectural decision as a short ADR in `docs/decisions/NNNN-title.md`
    (context, decision, consequences) [30]. These are exactly the decisions
-   that aren't in the code, which agents can't see [15].
+   that aren't in the code, which agents can't see [15]. This matters more
+   with Trello: a decision left in a card's comments is invisible to the code.
+6. **Bet:** move the pitch card to the cycle list (renamed `Cycle: <slug>`) and set its due date.
 
 ### B3. Slicing into tickets
 
-A ticket is the unit of one Claude session. Run `/slice` on the pitch, then edit.
+A ticket is a Trello card and the unit of one Claude session. Run `/slice` on
+the pitch card, then edit the cards it creates.
 
 - **Vertical:** each ticket yields something you can see or test in the game.
   Avoid tickets like "add models" followed by "add UI".
 - **Small:** one session, at most about 400 changed lines [29]. If Claude's plan
   for a ticket touches more than about 6 files, split it.
-- **Format:** [Appendix D](#appendix-d--ticket-template). It has acceptance
-  criteria, explicit no-gos, a named check, and the layer each criterion is
-  tested at (core, engine, visual, or you).
-- Tickets live in the pitch's Scopes section as a checklist, so `CLAUDE.md` can
-  point to one place: "the active pitch".
+- **Format:** [Appendix D](#appendix-d--ticket-template) is the card description.
+  It has acceptance criteria, explicit no-gos, a named check, and the layer
+  each criterion is tested at (core, engine, visual, or you). Labels mirror
+  layer, hill, and size. The B14 checklist is attached to every card.
+- **Linking:** each ticket card links to its pitch card, and the pitch card
+  holds a checklist of its ticket cards. `CLAUDE.md` points to one place: the board.
 
 ### B4. Building a ticket with Claude (the core loop)
 
@@ -400,15 +472,18 @@ fresh session → orient → plan → (approve) → red → green → verify →
 
 1. **Fresh session per ticket.** Use `/clear` or a new session, so a clean
    context starts from the written ticket [15].
-2. **Orient.** The prompt names the ticket and the files to look at. For example:
-   > Implement ticket `beetles#3` in `docs/plan/202610-beetles.md`. Follow the
-   > pattern in `src/pockets/Pocket.cs`. Start by running `./scripts/check.sh`
-   > and reading the ticket. Stay inside its no-gos.
+2. **Orient.** Run `/ticket <card>`, or write a prompt that names the card and
+   the files to look at. For example:
+   > Implement card `beetles#3` on the Pachi Agent board. Read its description
+   > and comments. Follow the pattern in `src/pockets/Pocket.cs`. Start by
+   > running `./scripts/check.sh`. Stay inside its no-gos.
 
    Starting by running the tests is a cheap way to orient the agent [21].
+   Claude moves the card to In progress.
 3. **Plan.** For anything beyond a trivial change, have Claude propose a plan
    first (plan mode). Reject plans that add abstractions, singletons, or
-   fallbacks the ticket didn't ask for.
+   fallbacks the ticket didn't ask for. Claude posts the approved plan as a
+   card comment, so the review in B5 has something to compare against.
 4. **Red.** Core-layer criteria get a failing xUnit test first. Engine-layer
    criteria get a failing GoDotTest. Confirm it fails for the right reason [20][21].
 5. **Green.** Implement the minimum. Claude iterates against `check.sh`, and the
@@ -418,10 +493,13 @@ fresh session → orient → plan → (approve) → red → green → verify →
    interaction, and looks at the frames. For physics bugs, add
    `--debug-collisions` and show it the frames instead of describing the bug [34].
    Ask for **evidence**: the command and the tail of its output, not "all tests pass" [15].
+   Claude posts the evidence as a card comment and attaches the frames that matter.
 7. **Self-review in a fresh context.** Run `/code-review`, or use the
    spec-review prompt in B5. Fix only correctness gaps.
+   Claude then moves the card to Review / Play.
 8. **You review and play** (B5). Feel changes require you to run the game. Use `/verify` or F5.
-9. **Commit** (B13). Tick the ticket in the pitch.
+   Put feedback in card comments, so the next session sees it too.
+9. **Commit** (B13). Move the card to Done and tick it on the pitch card's checklist.
 
 **Steering:** watch the first minute and press `Esc` the moment it drifts.
 After two failed corrections, `/clear` and rewrite the prompt instead of
@@ -434,13 +512,16 @@ or changes that ripple across many callers [15].
 Review against the ticket, not against perfection.
 
 **Spec-review prompt** (run in a fresh subagent) [15]:
-> Use a subagent to review the current diff against ticket `<id>` in
-> `<pitch file>`. Check every acceptance criterion is implemented and tested at
-> the stated layer and every no-go is respected. Report gaps that affect
-> correctness. Skip style.
+> Use a subagent to review the current diff against Trello card `<id>`: its
+> description and the plan comment I approved. Check every acceptance
+> criterion is implemented and tested at the stated layer and every no-go is
+> respected. Report gaps that affect correctness. Skip style.
 
 **Your review checklist, in this order:**
 
+0. **Spec drift.** Did the card's acceptance criteria or no-gos change since you
+   approved the plan, without a comment saying you asked for it? An agent
+   quietly rewording its own spec is the main way this setup fails.
 1. **Test diffs first.** Was any test deleted, loosened, or skipped? Was an assert changed to match new behaviour? [20]
 2. **Unrequested additions.** Look for new options, fallbacks, `[Tool]`
    attributes, singletons, "just in case" null paths, config knobs, and
@@ -481,7 +562,9 @@ UID, a missing sub-resource.
 
 ### B7. Bugs
 
-1. Reproduce. Write the observed and expected behaviour in a ticket.
+1. Reproduce. Create a `bug` card with the observed and expected behaviour.
+   If input can reproduce it, the input script goes in the repo
+   (`tests/input/`), because it becomes a regression check; the card links to it.
 2. **Failing test first,** at the lowest layer that can show the bug (core, then engine) [15].
 3. Fix and verify. Keep the test as a regression test.
 4. If the bug was caused by a misleading pattern, add a line to `CLAUDE.md` or the rule file. This is how "corrected twice" gets institutionalised [15].
@@ -493,7 +576,8 @@ Use these for uphill scopes and "is this fun?" questions.
 - Branch `proto/<slug>` or a folder `prototypes/<slug>/` with `.gdignore` removed
   only on that branch. **Vibe coding is fine here** [21]: fast, ugly, greybox,
   temp audio.
-- The output is *knowledge*: a clip, a note in the pitch, a decision. The
+- The output is *knowledge*: a clip or write-up attached to the spike card, a
+  comment on the pitch card, a decision (an ADR if it's durable). The
   output is **never a merge**. Production code is rewritten from the ticket in
   build mode, and the prototype is the reference.
 - Timebox it in hours, not days. If the toy isn't producing the feeling, that's the answer.
@@ -509,12 +593,14 @@ Use these for uphill scopes and "is this fun?" questions.
 - **Facilitation:** give them the build and a single sentence of context. Then
   stay silent. Ask them to think aloud. Answer "what do I do?" with "what do
   you think you should do?" [27]. Write down what they *do*, then what they say.
-- **Afterwards:** raw notes go to `docs/notes/YYYYMMDD_<name>_playtest.md`
-  (as you already do). Within a day, triage them into one of three buckets:
-  - a bug, which becomes a ticket now. If input can reproduce it, the ticket
-    starts with an input script that shows it (A3), and the script stays as a regression check [39]
-  - a legibility or friction issue, which becomes a candidate for the next pitch
-  - an idea, which goes into a brainstorm list and doesn't count as a commitment
+- **Afterwards:** raw notes and recordings go on a card in Inbox, named
+  `Playtest YYYYMMDD <name>`, as an attachment or the description. Within a
+  day, triage each finding into its own card:
+  - a bug becomes a `bug` card in the cycle list now. If input can reproduce
+    it, the card starts with an input script that shows it (A3), and the
+    script stays in the repo as a regression check [39]
+  - a legibility or friction issue becomes a card in Pitches, as a candidate for the next pitch
+  - an idea becomes a card in Ideas and doesn't count as a commitment
 - Your 2026-08-27 notes are a good model. "Cards confusing", "icons hard to
   read", and "too many downgrades" are exactly the legibility signals to pitch against.
 
@@ -564,21 +650,26 @@ Run these in order, in a fresh session where needed:
    `~/.claude/projects/<project>/memory/`). It persists across sessions and can
    lock in stale choices: Leak's memory file pushed every game toward the same
    visual style until he cleared it [33]. Delete entries that are wrong or that
-   `CLAUDE.md` now covers.
-4. **Measure.** Write three lines in the pitch's retro: tickets shipped vs
-   planned, tickets that needed more than two correction rounds, and whether
-   LLM sessions felt faster *and* were faster. METR shows those two can
-   disagree [17].
-5. **Bump pinned versions** (`AnalysisLevel`, NuGet, Godot patch) on purpose, then re-run the full gate.
-6. Shape and bet the next pitch (B2).
-7. Tag: `cycle/YYYYMM-<slug>-end`.
+   `CLAUDE.md` now covers. Also scan the cycle's card comments for corrections
+   you made more than once, and promote them to `CLAUDE.md` or a rule.
+4. **Promote durable state.** Read the pitch card and its tickets' comments.
+   Settled design facts go to `docs/design/`, and decisions go to ADRs. After
+   this, archiving the cards loses nothing the repo needs.
+5. **Measure.** Write three lines in a comment on the pitch card: tickets
+   shipped vs planned (cards in Done vs. still in the cycle list), tickets
+   that needed more than two correction rounds (count correction comments),
+   and whether LLM sessions felt faster *and* were faster. METR shows those
+   two can disagree [17].
+6. **Bump pinned versions** (`AnalysisLevel`, NuGet, Godot patch) on purpose, then re-run the full gate.
+7. Shape and bet the next pitch (B2).
+8. Tag `cycle/YYYYMM-<slug>-end`. Archive the cycle's Done cards and the pitch card.
 
 ### B13. Git conventions
 
 - `main` is always green. Each feature gets a branch (`f-<slug>`), and a ticket
   is one or a few commits.
-- Commit messages: `<area>: <imperative summary>`, with the ticket id in the
-  body. Claude adds its co-author trailer.
+- Commit messages: `<area>: <imperative summary>`, with the card id and
+  short link in the body. Claude adds its co-author trailer.
 - Commit `.uid` files along with their sources. `.godot/` stays ignored [4][5].
 - Squash-merge feature branches, so each `main` commit corresponds to a reviewed ticket.
 - Claude may commit on a feature branch when asked. **`git push` and merges to `main` are yours.**
@@ -589,8 +680,38 @@ Run these in order, in a fresh session where needed:
 - [ ] No-gos respected; no unrequested additions (B5 #2)
 - [ ] `./scripts/verify.sh` green, and you saw its output (not just a claim)
 - [ ] Visual or feel tickets: frames captured or the game played by you
-- [ ] Test changes justified (A5 integrity rule)
-- [ ] Ticket ticked in the pitch; new decisions recorded as ADRs; `CLAUDE.md` updated if you corrected something twice
+- [ ] Test changes justified in a card comment (A5 integrity rule)
+- [ ] Card has an evidence comment and is in Review / Play; no unexplained spec edits (B5 #0)
+- [ ] Durable decisions recorded as ADRs or in `docs/design/`, not only in comments; `CLAUDE.md` updated if you corrected something twice
+
+### B15. Writing docs with Claude
+
+Claude's docs run long by default. Adding text costs it nothing, leaving
+something out feels like failure, and its research ends up in the deliverable.
+Asking it to "be concise" mostly rewords the same text. To get real cuts,
+give it a budget and tell it to delete.
+
+- **Reader line first.** Every doc opens with `For: <reader>. Lets them: <decision/task>.`
+  Anything that doesn't serve that line gets cut.
+- **Budget in lines, hard-wrapped at ~80 columns.** Lines are the unit Claude
+  sees (Read output numbers them) and the one a hook can check exactly. Defaults:
+
+  | Doc type | Budget |
+  |---|---|
+  | Ticket, ADR, card comment | ≤ 40 |
+  | How-to, SOP, `CLAUDE.md` | ≤ 80 |
+  | Design doc, pitch | ≤ 150 |
+
+  To go over, the doc states why in one line, or you say so in the request.
+- **Keep research out of the doc.** Notes, sources and alternatives considered
+  go in `docs/research/<slug>.md`, and the doc links to them.
+- **Cutting pass for anything over 80 lines.** A fresh subagent reads the doc
+  as the named reader and lists what to delete, what's repeated, and what
+  could be a link. Apply the deletions only; don't reword.
+- **Hook enforces it.** A `PostToolUse` hook on `Write|Edit` runs
+  `scripts/doc-budget.sh`. That script runs `wc -l` on `docs/**/*.md`, flags
+  lines over 120 columns, and exits 2 with a warning so Claude sees it and
+  trims. The rule above also goes into `CLAUDE.md` (Appendix A).
 
 ---
 
@@ -602,8 +723,14 @@ This is a starting point. Keep it under about 60 lines and prune it every cool-d
 # Pachi
 
 Incremental pachinko deckbuilder. Godot 4.7.2 Mono, C# (.NET 8), Rapier2D physics.
-Process: docs/process/playbook.md (B4 is the per-ticket loop).
-Current work: the active pitch in docs/plan/ (latest YYYYMM-*.md). Read its ticket before starting.
+Process: docs/process/playbook.md (B4 is the per-ticket loop; §3 "state seam" says what goes where).
+
+## Work tracking (Trello board "Pachi Agent", via the Trello MCP)
+- Every ticket is a card. Read its description, comments, and linked pitch card before starting (/ticket <card>).
+- The description is the spec. Never change acceptance criteria, appetite, or no-gos unless asked; when you edit a description, comment what changed and why.
+- Post your approved plan, then your evidence (command + output tail, key frames attached), as comments. Move the card: In progress → Review / Play.
+- Don't archive or delete cards, or change lists or labels, unless asked.
+- Anything that must outlive the card (decisions, design facts) goes in docs/decisions/ or docs/design/, never only in a comment. Repo files never reference cards.
 
 ## Commands
 - Fast check (format, build, core tests): ./scripts/check.sh   (--fix to auto-format)
@@ -616,7 +743,7 @@ Current work: the active pitch in docs/plan/ (latest YYYYMM-*.md). Read its tick
 ## Where things go
 - Game rules with no engine dependency → core/ (Pachi.Core, no Godot types). New logic starts here, test-first.
 - Nodes and scenes → src/<domain>/. Nodes stay thin: they map core state/events to the engine.
-- Decisions → docs/decisions/. Playtest notes → docs/notes/.
+- Decisions → docs/decisions/. Settled design → docs/design/. Plans, tickets, playtest notes → Trello.
 
 ## Conventions the code won't tell you
 - Required node refs: [Export] assigned in the scene + Debug.Assert in _Ready. No GetNode fallbacks or auto-resolution.
@@ -626,7 +753,8 @@ Current work: the active pitch in docs/plan/ (latest YYYYMM-*.md). Read its tick
 - Input actions, physics layers, autoloads: change them via the editor or godot-ai tools, never by editing project.godot text.
 - No commented-out code; git history is the archive.
 - Don't add options, fallbacks, or abstractions the ticket didn't ask for. If you think one is needed, say so instead.
-- Changing a test and the code it tests in one diff needs a one-line reason in your summary.
+- Changing a test and the code it tests in one diff needs a one-line reason in a card comment.
+- Docs: open with "For: <reader>. Lets them: <task>." Hard-wrap at 80. Budget ≤40 lines (ticket/ADR), ≤80 (how-to), ≤150 (design); exceed only with a stated reason. Research goes in docs/research/, linked.
 
 ## Gotchas
 - Godot API knowledge: check ../ref/godot-docs/_sources/ (4.7 docs; classes/class_*.rst.txt). Training data skews Godot 3.
@@ -647,9 +775,17 @@ Current work: the active pitch in docs/plan/ (latest YYYYMM-*.md). Read its tick
       "Bash(dotnet build*)",
       "Bash(dotnet test*)",
       "Bash(dotnet format*)",
-      "Bash(godot-mono --headless*)"
+      "Bash(godot-mono --headless*)",
+      "mcp__trello__trelloRead*",
+      "mcp__trello__trelloSearch",
+      "mcp__trello__trelloWriteCard",
+      "mcp__trello__trelloWriteChecklist"
     ],
-    "ask": ["Bash(git push*)"],
+    "ask": [
+      "Bash(git push*)",
+      "mcp__trello__trelloWriteList",
+      "mcp__trello__trelloWriteBoard"
+    ],
     "deny": ["Read(./.env)", "Read(./.env.*)"]
   },
   "hooks": {
@@ -683,6 +819,13 @@ Notes:
 - The Stop hook enforces only the *fast* rung. The full gate is a B14 checklist
   item and a CI check. Putting a 3-minute gate on every turn would make
   interactive work painful.
+- Trello permissions are per tool, not per action. `trelloWriteCard` covers
+  creating, editing, commenting, moving, *and* archiving cards, so "don't
+  archive or delete unless asked" is a `CLAUDE.md` instruction, not a rule
+  the harness enforces. If Claude archives a card without being asked twice,
+  move `trelloWriteCard` to `ask`. Check the exact tool names with `/mcp`;
+  check whether your Claude Code version matches the `*` wildcard on MCP
+  names, and list the read tools individually if it doesn't.
 - After eight consecutive blocks, Claude Code lets the turn end anyway [15]. If
   that happens, it's a signal the ticket is too big or the prompt is wrong.
 
@@ -716,10 +859,14 @@ for human reference, or delete it. Agents learn those rules from the build error
 
 ## Appendix D — Ticket template
 
-Lives inside the pitch's Scopes section.
+This is the ticket template card's description. The card title is
+`<pitch-slug>#<n> — <verb phrase, player-visible>`. Layer, hill, and size are
+also labels. The B14 checklist is attached as a card checklist.
+Conversation, the plan, evidence, and test-change justifications go in
+comments, not in the description.
 
 ```markdown
-### <pitch-slug>#<n> — <verb phrase, player-visible>
+**Pitch:** <link to pitch card>
 **Scope:** <scope name> (⬆ uphill | ⬇ downhill)  **Size:** S | M  (L → split it)
 
 **Acceptance criteria** (layer in brackets: core | engine | visual | you)
@@ -731,7 +878,7 @@ Lives inside the pitch's Scopes section.
 **No-gos:** no dynamic placement; no new autoloads; don't touch launcher/
 **Pattern to follow:** src/pockets/PocketArmsController.cs (tween usage)
 **Check:** ./scripts/verify.sh + capture.sh res://src/pockets/beetle_blue.tscn 120
-**Notes / test-change justifications:**
+**Repo links:** <input scripts, ADRs, design docs this ticket relies on>
 ```
 
 ## Appendix E — Fresh-project setup checklist

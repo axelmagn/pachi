@@ -40,7 +40,7 @@ project toward it.
   core/          .gdignore      # <Game>.Core.csproj — plain C#, no Godot reference
   core.tests/    .gdignore      # <Game>.Core.Tests.csproj — xUnit
   scripts/       .gdignore      # check.sh, verify.sh, capture.sh, log-allowlist.txt
-  docs/          .gdignore      # process/, plan/, notes/, decisions/
+  docs/          .gdignore      # process/, design/, decisions/ (plans, tickets, notes live in Trello)
   out/                          # gitignored: logs, captures, coverage
 ```
 
@@ -60,8 +60,9 @@ non-Godot products.
 - [ ] `csharp-ls`: `dotnet tool install --global csharp-ls` [16].
 - [ ] Claude Code, with the `csharp-lsp` plugin: `/plugin install csharp-lsp@claude-plugins-official` [16].
 - [ ] Optional: `uvx`, if you'll use the `godot-ai` MCP server.
+- [ ] A Trello account and the Trello MCP server connected to Claude Code.
 
-**Exit:** `godot-mono --version`, `dotnet --list-sdks`, `git lfs version`, `jq --version`, and `which csharp-ls` all succeed.
+**Exit:** `godot-mono --version`, `dotnet --list-sdks`, `git lfs version`, `jq --version`, and `which csharp-ls` all succeed. `/mcp` in Claude Code shows the Trello server connected.
 
 ### E1. Repository and Godot skeleton
 
@@ -234,16 +235,21 @@ mid-project means re-tuning every feel parameter, so decide during a prototype, 
 - [ ] `.claude/rules/godot-csharp.md` from [Appendix C](playbook.md#appendix-c--draft-clauderulesgodot-csharpmd),
       scoped to `src/**` and `tests/**` [15].
 - [ ] `.claude/settings.json` from [Appendix B](playbook.md#appendix-b--draft-claudesettingsjson):
-      allow the ladder scripts, ask for `git push`, a PreToolUse block on
-      `.uid`, `.godot/`, and `addons/`, and a Stop hook running `check.sh --quiet` [15].
+      allow the ladder scripts and Trello card writes, ask for `git push` and
+      Trello list and board writes, a PreToolUse block on `.uid`, `.godot/`,
+      and `addons/`, and a Stop hook running `check.sh --quiet` [15].
 - [ ] Godot docs for grounding. Clone or download the docs for your *exact*
       engine version **outside the repo**. Use the `.rst` sources, since they
       grep better than HTML. Point to them from `CLAUDE.md`.
 - [ ] Optional: `.mcp.json` with `godot-ai` pinned to an exact version, plus its
       editor plugin in `addons/`. Leave it off when working only in `core/` [15].
-- [ ] Skills: `.claude/skills/shape/SKILL.md` (interview, then a pitch from the
-      template) and `.claude/skills/slice/SKILL.md` (pitch, then [Appendix D](playbook.md#appendix-d--ticket-template)
-      tickets). Two only. Add more when a procedure has repeated three times [15].
+- [ ] Skills:
+  - `.claude/skills/shape/SKILL.md`: interview, then a pitch card from the board's template card.
+  - `.claude/skills/slice/SKILL.md`: pitch card, then [Appendix D](playbook.md#appendix-d--ticket-template) ticket cards with the B14 checklist.
+  - `.claude/skills/ticket/SKILL.md`: load a card's spec, comments, and linked pitch, then run `check.sh`.
+
+  Three only. Add more when a procedure has repeated three times [15].
+  The skills need the board from E8, so write them after it exists.
 - [ ] `.worktreeinclude`: list any gitignored files a worktree needs. It's probably empty.
 
 **Exit:**
@@ -255,16 +261,25 @@ mid-project means re-tuning every feel parameter, so decide during a prototype, 
 
 ### E8. Process scaffolding
 
-- [ ] `docs/process/playbook.md`: this document.
-- [ ] `docs/plan/_package-template.md`: the pitch template, copied from Pachi.
-- [ ] `docs/plan/ideas.md`: an unranked idea pile. It's explicitly **not** a
+The repo holds only state that outlives a card; work state lives on the
+Trello board (the playbook's §3 "state seam").
+
+- [ ] `docs/process/playbook.md`: the playbook.
+- [ ] `docs/decisions/0000-template.md`: Context / Decision / Consequences [30].
+- [ ] `docs/design/`: settled design facts promoted from pitches (core loop,
+      economy targets, glossary). It starts empty.
+- [ ] A Trello board with the lists, labels, and template cards from
+      [A6.8](playbook.md#a6-configure-claude-code):
+  - A pitch template card, with the content of Pachi's `_package-template.md`.
+  - A ticket template card: [Appendix D](playbook.md#appendix-d--ticket-template), plus the B14 checklist.
+- [ ] The Ideas list is an unranked idea pile. It's explicitly **not** a
       backlog or a commitment; Shape Up bets come from fresh shaping, not from
       grooming a list [23].
-- [ ] `docs/decisions/0000-template.md`: Context / Decision / Consequences [30].
-- [ ] `docs/notes/`: playtest and session notes, `YYYYMMDD_<topic>.md`.
-- [ ] No separate `TODO.md`. Active work lives in the active pitch's tickets.
+- [ ] Playtest and session notes go on Inbox cards as attachments, not in the repo.
+- [ ] No `TODO.md` and no `docs/plan/`. Active work lives in the cycle list's cards.
 
-**Exit:** `/shape` produces a pitch file from the template in `docs/plan/`.
+**Exit:** `/shape` produces a pitch card from the template card, and a repo
+grep for card links outside commit messages finds nothing.
 
 ### E9. CI and dependency hygiene
 
@@ -290,7 +305,8 @@ Skip it only if you'll reliably run `verify.sh` before every merge.
 Build the thinnest slice that touches every layer [32], **as a real ticket
 using the [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop) loop**. This tests the process as much as the code:
 
-- [ ] Shape a one-paragraph pitch: "a ball drops into a pocket and the wallet increases."
+- [ ] Shape a one-paragraph pitch card: "a ball drops into a pocket and the wallet
+      increases." `/slice` it into one ticket card.
 - [ ] **core:** `Payout.For(pocket, ball)` plus `Wallet`, test-first.
 - [ ] **engine:** a `Pocket` node calls core and emits a past-tense signal
       (`PaidOut`), with a GoDotTest that drops a ball and asserts the signal fired [1].
@@ -299,6 +315,8 @@ using the [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop) loop*
       fixed seed. Claude reads the frames and confirms the label changes.
 - [ ] **ship:** export the build (E6) and play it.
 - [ ] Run [B5](playbook.md#b5-reviewing-llm-output)'s review checklist and [B14](playbook.md#b14-definition-of-done-per-ticket)'s definition of done, then merge through CI.
+- [ ] The card's plan and evidence comments are there, and the card moved
+      across the board without you moving it by hand.
 
 **Exit:** you merged a ticket whose every step followed [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop), and nothing about
 the loop needed a workaround. If something did, fix the setup now. That's
