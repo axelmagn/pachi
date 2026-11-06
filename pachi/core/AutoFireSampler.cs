@@ -1,9 +1,11 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 
+namespace Pachi.Core;
+
 /// <summary>
-/// Draws auto-fire charge ratios in [0, 1], distributed according to a weight curve.
+/// Draws auto-fire charge ratios in [0, 1], distributed according to a weight function
+/// (for example a Godot <c>Curve.Sample</c> passed in by the launcher).
 /// Samples are drawn in bags of a fixed size; the curve's CDF is computed once up front.
 /// </summary>
 public sealed class AutoFireSampler
@@ -17,13 +19,13 @@ public sealed class AutoFireSampler
     private readonly List<float> _bag = [];
     private int _bagIndex;
 
-    public AutoFireSampler(Curve? weightCurve, int resolution, int bagSize, Random rng)
+    public AutoFireSampler(Func<float, float>? weight, int resolution, int bagSize, Random rng)
     {
         _rng = rng;
         _bagSize = Math.Max(1, bagSize);
-        if (weightCurve != null)
+        if (weight != null)
         {
-            (_cdf, _totalArea) = BuildCdf(weightCurve, Math.Max(MinResolution, resolution));
+            (_cdf, _totalArea) = BuildCdf(weight, Math.Max(MinResolution, resolution));
         }
     }
 
@@ -69,18 +71,18 @@ public sealed class AutoFireSampler
 
         float t0 = (float)index / segments;
         float t1 = (float)(index + 1) / segments;
-        return Math.Clamp(Mathf.Lerp(t0, t1, fraction), 0.0f, 1.0f);
+        return Math.Clamp(t0 + ((t1 - t0) * fraction), 0.0f, 1.0f);
     }
 
-    /// Trapezoidal cumulative area under the (non-negative) curve over [0, 1].
-    private static (float[] Cdf, float TotalArea) BuildCdf(Curve curve, int segments)
+    /// Trapezoidal cumulative area under the (non-negative) weight over [0, 1].
+    private static (float[] Cdf, float TotalArea) BuildCdf(Func<float, float> weight, int segments)
     {
         float[] cdf = new float[segments];
         float total = 0.0f;
-        float prevWeight = Math.Max(0.0f, curve.Sample(0.0f));
+        float prevWeight = Math.Max(0.0f, weight(0.0f));
         for (int k = 0; k < segments; k++)
         {
-            float nextWeight = Math.Max(0.0f, curve.Sample((float)(k + 1) / segments));
+            float nextWeight = Math.Max(0.0f, weight((float)(k + 1) / segments));
             total += 0.5f * (prevWeight + nextWeight);
             cdf[k] = total;
             prevWeight = nextWeight;

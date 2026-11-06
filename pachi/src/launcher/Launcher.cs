@@ -1,4 +1,5 @@
 using Godot;
+using Pachi.Core;
 using System;
 using System.Diagnostics;
 
@@ -299,8 +300,9 @@ public partial class Launcher : Node2D
     private float GetNextAutoFireTargetRatio()
     {
         Debug.Assert(GameConfig.Instance != null, "GameConfig.Instance must not be null");
+        Curve? curve = AutoFireWeightCurve;
         _autoFireSampler ??= new AutoFireSampler(
-            AutoFireWeightCurve, AutoFireBagResolution, AutoFireBagSize, GameConfig.Instance!.Rng);
+            curve == null ? null : curve.Sample, AutoFireBagResolution, AutoFireBagSize, GameConfig.Instance!.Rng);
         return _autoFireSampler.Next();
     }
 

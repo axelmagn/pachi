@@ -154,23 +154,28 @@ prototypes. **Decided:** leave it.
 
 ## P5. Core library and fast tests  *(Fresh: E3; playbook A4)*
 
-- [ ] `dotnet new classlib -f net8.0 -n Pachi.Core -o core` and
+- [x] `dotnet new classlib -f net8.0 -n Pachi.Core -o core` and
       `dotnet new xunit -f net8.0 -n Pachi.Core.Tests -o core.tests`. Add
       Shouldly and a ProjectReference to core, then `dotnet sln add` both.
-      Add `.gdignore` to each.
-- [ ] `Pachi.csproj`: `<Compile Remove="core/**;core.tests/**" />` plus
+      Add `.gdignore` to each. (Done 2026-11-06. SDK 10's templates only offer
+      `net10.0`, so both were retargeted to `net8.0` by hand. `core.tests` sets
+      `RollForward=Major` so it runs on a machine with only the .NET 10 runtime.)
+- [x] `Pachi.csproj`: `<Compile Remove="core/**;core.tests/**" />` plus
       `<ProjectReference Include="core/Pachi.Core.csproj" />`.
-- [ ] **First tenant: `AutoFireSampler`.** It's already near-pure logic,
+- [x] **First tenant: `AutoFireSampler`.** It's already near-pure logic,
       seeded with `System.Random`, and has tests. Replace its `using Godot`
       dependencies with primitives, move it to `core/`, and port
       `src/launcher/tests/AutoFireSamplerTests.cs` to xUnit.
-      `Launcher.cs` keeps calling it.
-- [ ] Don't move anything else now. Pocket input matching moves when the
+      `Launcher.cs` keeps calling it. (Done: the Godot `Curve` became a
+      `Func<float, float>` weight; `Launcher` passes `curve.Sample`.)
+- [x] Don't move anything else now. Pocket input matching moves when the
       beetle work next touches it (playbook A4: no big-bang migration).
 
 **Exit:** `dotnet test core.tests` passes in seconds with Godot off `PATH` (e.g. in a
 `mcr.microsoft.com/dotnet/sdk` container), and
 `verify.sh` is still green.
+(Checked 2026-11-06 with a `PATH` holding only `dotnet`, since no container
+runtime is installed: 4 tests pass in about a second.)
 
 ## P6. Engine harness and verification ladder  *(Fresh: E4 + E5; playbook A3)*
 

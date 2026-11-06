@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Engine-free game logic. No GodotSharp reference, ever: that is what lets
+       core.tests run without the engine. -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Pachi.Core</RootNamespace>
+  </PropertyGroup>
+</Project>
