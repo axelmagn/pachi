@@ -1,5 +1,11 @@
 {
   "enabledPlugins": {
     "csharp-lsp@claude-plugins-official": true
+  },
+  "permissions": {
+    "deny": [
+      "Read(../pachi.0*/**)",
+      "Edit(../pachi.0*/**)"
+    ]
   }
 }

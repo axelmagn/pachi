@@ -15,8 +15,8 @@ concrete steps.
 - **⚖** marks a judgement call, with a recommendation.
 - `Fresh: E<n>` says which fresh-project step a section corresponds to, so you
   can check the target there.
-- Paths are relative to the Godot project (`pachi/pachi/` today, which becomes
-  the repo root after step P2).
+- Paths are relative to the Godot project (`pachi/pachi/`). The git root is
+  one level up and stays there (see P2).
 - All setup work happens on the `f-claude-refactor` branch, which is the
   working branch for this checklist. It merges to `main` once the setup is
   done (P12), not step by step.
@@ -32,7 +32,7 @@ This updates the snapshot in [playbook §1](playbook.md#1-where-the-project-is-t
 | Area | State | Gap vs. target |
 |---|---|---|
 | Gate | `scripts/verify.sh` is **red at stage 1**: `dotnet format` flags `src/pockets/Pocket.cs` (248 whitespace errors) and `src/levels/Level.cs` (10). Stages 2–3 don't run. Stage 3 skips silently if Godot is missing. No log scan. | P1, P6 |
-| Repo root | The git root is `pachi/`, one level above the Godot project. Git also tracks `pachi.01`–`pachi.04` (~2.6k files), `ref/` (5,095 files), `vendor/` (916 files), and `art/` (2 files). `.git` is 352 MB. Claude config is split: `pachi/.claude/settings.local.json` vs. `pachi/pachi/.mcp.json`. | P2 |
+| Repo root | The git root is `pachi/`, one level above the Godot project. Git also tracks `pachi.01`–`pachi.04` (~2.6k files), `ref/` (5,095 files), `vendor/` (916 files), and `art/` (2 files). `.git` is 352 MB. This nesting is intentional and stays. Claude config is split: `pachi/.claude/settings.local.json` vs. `pachi/pachi/.mcp.json`. | P2 |
 | Tags | None, locally or on origin. | P1 |
 | Dead code | `src/cards.old/` is **already gone**, and `main_game.tscn` no longer references it. Still present: `.agents/archive/` (25 skills), `AGENTS.old.md`, `skills-lock.json`, `scripts/verify.ps1`, and `scripts/kill.sh` (whose shebang is broken: `!/bin/bash`). | P3 |
 | Toolchain | Godot `4.7.2.stable.mono`, SDK 10.0.114, `Godot.NET.Sdk/4.7.2`. Build props are inline in `Pachi.csproj`, with `AnalysisLevel=latest-recommended` (unpinned). No `global.json`, `Directory.Build.props`, or `.godot-version`. `csharp-ls` and `git-lfs` aren't installed. | P0, P4 |
@@ -52,7 +52,7 @@ This updates the snapshot in [playbook §1](playbook.md#1-where-the-project-is-t
 - [x] Install `csharp-ls`: `dotnet tool install --global csharp-ls`.
 - [x] In Claude Code: `/plugin install csharp-lsp@claude-plugins-official`.
 - [x] Install Godot 4.7.2 export templates (needed in P7).
-- [x] `git-lfs`: only if you choose LFS in P2.
+- [x] `git-lfs`: not needed (no LFS).
 - [x] Trello MCP connected (`/mcp` shows `trello`).
 
 **Exit:** `which csharp-ls` succeeds, and `/mcp` lists `trello` and `godot-ai`.
@@ -76,49 +76,39 @@ step is verified against a red baseline.
 **Exit:** `./scripts/verify.sh` exits 0 on a clean checkout of
 `f-claude-refactor`. From here on, red on that branch stops everything.
 
-## P2. Repo boundary: make the Godot project the git root  *(Fresh: E1 layout; playbook A0)*
+## P2. Keep the nested layout, and make it explicit  *(Fresh: E1 layout; playbook A0)*
 
-⚖ **Single root vs. keep nesting.** The fresh target puts git, Godot, dotnet,
-Claude, and CI all in one directory, and the nested layout is the source of
-the split Claude config and the `../ref` paths. **Recommendation:** move to a
-single root by `git mv`. You keep full history, and `res://` paths don't
-change, since they're relative to `project.godot`. The cost is one big rename
-commit and a one-off `--import`.
+The fresh target puts git and Godot in one directory. Pachi deliberately
+doesn't: the git root (`pachi/`) holds the old prototypes `pachi.01`–`pachi.04`,
+`ref/`, `vendor/`, and `art/` next to the live project (`pachi/pachi/`), so past
+projects stay one `cd` away. No LFS either; binaries stay in plain git.
+This step only pins down the consequences of nesting so later steps don't
+trip on them.
 
-Steps, run from the current git root (`pachi/`):
+- [x] **Claude runs from `pachi/pachi/`.** Move the root
+      `pachi/.claude/settings.local.json` (it only enables `godot-ai` and
+      `trello`) into `pachi/pachi/.claude/`, and delete the root `.claude/`.
+      All Claude config lives next to `.mcp.json` from now on.
+      (Done 2026-11-06; `settings.local.json` is now gitignored.)
+- [x] **Keep agents out of the prototypes.** Add `Read(../pachi.0*/**)` and
+      `Edit(../pachi.0*/**)` to `permissions.deny` (done early in
+      `.claude/settings.json`). `../ref/` stays readable; it's the
+      docs source the playbook points at.
+- [x] **Root `.gitignore`.** Leave it as the outer ignore (`.vscode/`,
+      `build/`); project ignores stay in `pachi/pachi/.gitignore` (P3).
+- [ ] **Worktrees.** A `git worktree add` checks out the *whole* repo, so the
+      project sits at `<worktree>/pachi/`. Check where `claude -w` puts its
+      session and note the `cd pachi` (plus the one-off `--import`) in
+      `CLAUDE.md` (P9) if needed. *Deferred to P9's `claude -w smoke` check.*
+- [ ] **CI** (P10): set `defaults.run.working-directory: pachi` and scope
+      path filters to `pachi/**`, so prototype or `ref/` changes don't run
+      the gate. *Deferred to P10.*
 
-- [ ] `git tag archive/prototypes-2026-11` and push it.
-- [ ] `git rm -r pachi.01 pachi.02 pachi.03 pachi.04` (the tag is the archive).
-- [ ] `ref/`: `git rm -r --cached ref`. Move the docs **outside** the repo
-      (e.g. `~/dev/ref/godot-docs-4.7`) and add
-      `scripts/fetch-godot-docs.sh`, which clones the 4.7 docs `.rst` sources
-      to that path.
-- [ ] `vendor/`: keep only packs that are actually imported (their files
-      should already be copied under `assets/`). `git rm -r --cached` the
-      rest and keep the zips outside git.
-- [ ] `art/`: `git mv art pachi/art`, then add `pachi/art/.gdignore`.
-- [ ] Hoist the project: `git mv pachi/* pachi/.[!.]* .`, adjusting for
-      conflicts. Merge the root `.gitignore` (`.vscode/`, `build/`) into the
-      project one, and move the root `.claude/settings.local.json` into
-      the new root's `.claude/`.
-- [ ] Reopen the project in Godot (or run `godot-mono --headless --import`),
-      then `./scripts/verify.sh`.
-- [ ] Update the paths in `playbook.md` and `fresh-project-setup.md`:
-      `../ref/godot-docs/...` becomes your new docs path, and mentions of
-      `pachi/pachi/` become the repo root.
+⚖ **Shrink `.git`?** It's 352 MB, mostly `ref/`, `vendor/`, and the
+prototypes. **Decided:** leave it.
 
-⚖ **Shrink `.git`?** Deleting files doesn't shrink history (352 MB). Rewriting
-history with `git filter-repo` invalidates every clone and breaks old links.
-**Recommendation:** don't, unless clone time actually hurts. Revisit at
-cool-down.
-
-⚖ **LFS?** History already holds the binaries, so turning LFS on now only
-helps future assets. **Recommendation:** skip it for now. Turn it on when
-`.aseprite` or audio stems start growing (`art/` has one `.aseprite` today).
-
-**Exit:** `git ls-files | cut -d/ -f1 | sort -u` shows only the target
-layout's top-level entries, `project.godot` sits at the git root, and
-`verify.sh` is green.
+**Exit:** a session started in `pachi/pachi/` shows both MCP servers in
+`/mcp` with no root `.claude/`, and a read of `../pachi.01/` is denied.
 
 ## P3. Delete dead weight  *(playbook A1)*
 
@@ -273,7 +263,7 @@ Do this before P9, because the skills need the board.
 ## P9. Claude Code configuration  *(Fresh: E7; playbook A6)*
 
 - [ ] `CLAUDE.md` from [Appendix A](playbook.md#appendix-a--draft-claudemd):
-      - Point the docs path at the P2 location.
+      - Docs path stays `../ref/godot-docs/`; add the worktree note from P2 if needed.
       - Main scene and globals per P7.
       - Drop the `Pocket.cs` gotcha if its multi-path wiring is already gone
         (it no longer has `GetNodeOrNull`).
@@ -354,7 +344,8 @@ nothing needed a workaround (or every workaround is now fixed).
 |---|---|---|
 | `src/main/main.tscn` | `src/main_game/main_game.tscn` | A rename buys nothing. |
 | No autoloads or globals | `GameConfig` and `GlobalEvents` statics | Already load-bearing; ADR 0002 decides their fate. |
-| LFS before the first asset | No LFS (for now) | Binaries are already in history; revisit when source art grows. |
+| Godot project is the git root | Project nested in `pachi/pachi/` | Keeps past prototypes and `ref/` next to the live project. |
+| LFS before the first asset | No LFS | Plain git is simpler; binaries are already in history. |
 | Choose the physics engine in a prototype | Rapier2D already chosen | Recorded in ADR 0001, not re-decided. |
 | Full engine-free core | Only `AutoFireSampler` + new rules | No big-bang migration (A4). |
 | Walking skeleton | First real ticket (P11) | The layers already exist; it's the process that needs proving. |

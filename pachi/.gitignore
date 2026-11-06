@@ -10,3 +10,6 @@
 .env.*
 
 .mcp.json
+
+# Claude Code (per-user)
+.claude/settings.local.json
