@@ -17,6 +17,9 @@ concrete steps.
   can check the target there.
 - Paths are relative to the Godot project (`pachi/pachi/` today, which becomes
   the repo root after step P2).
+- All setup work happens on the `f-claude-refactor` branch, which is the
+  working branch for this checklist. It merges to `main` once the setup is
+  done (P12), not step by step.
 - Once P8 (Trello) is done, put each remaining step on the board as a card in
   the Setup list.
 
@@ -45,12 +48,12 @@ This updates the snapshot in [playbook §1](playbook.md#1-where-the-project-is-t
 
 ## P0. Machine prerequisites  *(Fresh: E0)*
 
-- [ ] Already present: `godot-mono` 4.7.2 mono, .NET SDK 10.0.114, `jq`, `gh`, `uvx`.
-- [ ] Install `csharp-ls`: `dotnet tool install --global csharp-ls`.
-- [ ] In Claude Code: `/plugin install csharp-lsp@claude-plugins-official`.
-- [ ] Install Godot 4.7.2 export templates (needed in P7).
-- [ ] `git-lfs`: only if you choose LFS in P2.
-- [ ] Trello MCP connected (`/mcp` shows `trello`).
+- [x] Already present: `godot-mono` 4.7.2 mono, .NET SDK 10.0.114, `jq`, `gh`, `uvx`.
+- [x] Install `csharp-ls`: `dotnet tool install --global csharp-ls`.
+- [x] In Claude Code: `/plugin install csharp-lsp@claude-plugins-official`.
+- [x] Install Godot 4.7.2 export templates (needed in P7).
+- [x] `git-lfs`: only if you choose LFS in P2.
+- [x] Trello MCP connected (`/mcp` shows `trello`).
 
 **Exit:** `which csharp-ls` succeeds, and `/mcp` lists `trello` and `godot-ai`.
 
@@ -59,19 +62,19 @@ This updates the snapshot in [playbook §1](playbook.md#1-where-the-project-is-t
 The gate has to be green before anything else changes. Otherwise every later
 step is verified against a red baseline.
 
-- [ ] Branch from `main`. Tag the current state before touching anything:
-      `git tag legacy/pre-setup-2026-11 && git push origin --tags`.
-      (TODO.md's "create legacy tag" was never actually pushed.)
-- [ ] `./scripts/verify.sh --fix`, then review the diff. It should be
+- [x] Tag the pre-setup state of `main` before touching anything:
+      `git tag legacy/pre-setup-2026-11 main && git push origin legacy/pre-setup-2026-11`.
+      (Done 2026-11-06, at `d637e6e`.)
+- [x] `./scripts/verify.sh --fix`, then review the diff. It should be
       whitespace-only in `Pocket.cs` and `Level.cs`. Commit it on its own
       ("format: fix whitespace"), so later blame isn't polluted.
-- [ ] `./scripts/verify.sh`. If stage 2 or 3 fails, fix only what's needed
+- [x] `./scripts/verify.sh`. If stage 2 or 3 fails, fix only what's needed
       to get green; don't refactor here. Record anything non-trivial you had
       to fix in the commit message.
-- [ ] Merge to `main`.
+- [x] Work stays on `f-claude-refactor` (see "How to read it").
 
-**Exit:** `./scripts/verify.sh` exits 0 on a clean checkout of `main`. From
-here on, red on `main` stops everything.
+**Exit:** `./scripts/verify.sh` exits 0 on a clean checkout of
+`f-claude-refactor`. From here on, red on that branch stops everything.
 
 ## P2. Repo boundary: make the Godot project the git root  *(Fresh: E1 layout; playbook A0)*
 
