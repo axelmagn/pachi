@@ -129,21 +129,23 @@ prototypes. **Decided:** leave it.
 
 ## P4. Pin the toolchain  *(Fresh: E2; playbook A2)*
 
-- [ ] `global.json`:
+- [x] `global.json`:
       `{ "sdk": { "version": "10.0.100", "rollForward": "latestFeature" } }`.
       If you add `msbuild-sdks`, it must say `Godot.NET.Sdk: 4.7.2`, the same
       as the `.csproj`.
-- [ ] `.godot-version`: `4.7.2.stable.mono`. The scripts compare it against
+- [x] `.godot-version`: `4.7.2.stable.mono`. The scripts compare it against
       the prefix of `godot-mono --version` (the full string has an
       `.arch_linux.<hash>` suffix).
-- [ ] `Directory.Build.props`: move `Nullable`, `TreatWarningsAsErrors`,
+- [x] `Directory.Build.props`: move `Nullable`, `TreatWarningsAsErrors`,
       `AnalysisLevel`, and `EnforceCodeStyleInBuild` out of `Pachi.csproj`.
       Pin `AnalysisLevel` to `8.0-recommended`. This may surface or hide some
-      warnings; fix what appears in this commit.
-- [ ] `Pachi.csproj`: keep the Android `net9.0` line. Pin the GoDotTest and
+      warnings; fix what appears in this commit. (Nothing appeared.)
+- [x] `Pachi.csproj`: keep the Android `net9.0` line. Pin the GoDotTest and
       Shouldly versions (already exact). Add the `ExportRelease` conditions
       from E2 so `tests/**` and the test packages stay out of release builds.
-- [ ] `.editorconfig` already exists and is enforced. Leave it, apart from
+      (Done 2026-11-06: the exclusion is `tests/**;**/tests/**`, because
+      per-feature tests live in `src/<feature>/tests/`.)
+- [x] `.editorconfig` already exists and is enforced. Leave it, apart from
       anything `CODE_STYLE.md` says that it doesn't yet enforce (see P9).
 
 **Exit:** `dotnet build Pachi.sln` has 0 warnings. An unused local in any
