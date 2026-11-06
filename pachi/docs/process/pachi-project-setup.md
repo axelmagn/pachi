@@ -112,15 +112,17 @@ prototypes. **Decided:** leave it.
 
 ## P3. Delete dead weight  *(playbook A1)*
 
-- [ ] Delete `.agents/`, `AGENTS.old.md`, and `skills-lock.json`.
-- [ ] `scripts/verify.ps1`: delete it unless you develop on Windows, because
+- [x] Delete `.agents/`, `AGENTS.old.md`, and `skills-lock.json`.
+- [x] `scripts/verify.ps1`: delete it unless you develop on Windows, because
       the ladder is bash-only. Fix `kill.sh`'s shebang, or delete it if unused.
-- [ ] Remove the commented-out code blocks in `src/` (grep for `^\s*//` blocks
-      in `Hopper.cs`, `Pocket.cs`, `Ball.cs`).
-- [ ] Extend `.gitignore`: `out/`, `coverage/`, `CLAUDE.local.md`,
+      (Done 2026-11-06: both deleted; `kill.sh` was unreferenced.)
+- [x] Remove the commented-out code blocks in `src/` (grep for `^\s*//` blocks
+      in `Hopper.cs`, `Pocket.cs`, `Ball.cs`). (Checked 2026-11-06: none
+      left, only explanatory comments.)
+- [x] Extend `.gitignore`: `out/`, `coverage/`, `CLAUDE.local.md`,
       `.claude/settings.local.json`, `.flowbot/`. **Remove** `.mcp.json` from
       it (it gets committed in P9).
-- [ ] Add `.gdignore` to `docs/` and `scripts/` (and `out/` once it exists).
+- [x] Add `.gdignore` to `docs/` and `scripts/` (and `out/` once it exists).
 
 **Exit:** verify is green. A grep for `cards.old`, `AGENTS.old`, and
 `.agents/` finds nothing outside the playbook.
