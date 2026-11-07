@@ -2,27 +2,28 @@ using Chickensoft.GoDotTest;
 using Godot;
 using Shouldly;
 
-public partial class SceneSmokeTests : IntegrationTestClass
+/// <summary>
+/// Checks that scenes wire their exported node references. Loading every scene
+/// is covered by <see cref="AllScenesTests"/>.
+/// </summary>
+public partial class SceneExportTests : IntegrationTestClass
 {
-    public SceneSmokeTests(Node testScene) : base(testScene)
+    public SceneExportTests(Node testScene) : base(testScene)
     {
     }
 
     [Test]
-    public void BallScene_InstantiatesAndFindsSpriteNode()
+    public void BallScene_WiresSprite()
     {
         var ball = InstantiateAndTrack<Ball>("res://src/balls/ball.tscn");
-        ball.ShouldNotBeNull();
         ball.Sprite.ShouldNotBeNull();
-        ball.GetParent().ShouldNotBeNull();
     }
 
     [Test]
-    public void PocketScene_InstantiatesAndFindsComponents()
+    public void PocketScene_WiresComponents()
     {
         // Verifies that native packed scenes resolve child controller exports on instantiation.
         var pocket = InstantiateAndTrack<Pocket>("res://src/pockets/pocket.tscn");
-        pocket.ShouldNotBeNull();
         pocket.Config.ShouldNotBeNull();
         pocket.CatchHole.ShouldNotBeNull();
         pocket.RejectHole.ShouldNotBeNull();
@@ -33,11 +34,10 @@ public partial class SceneSmokeTests : IntegrationTestClass
     }
 
     [Test]
-    public void YakumonoScene_InstantiatesAndFindsComponents()
+    public void YakumonoScene_WiresComponents()
     {
         // Verifies that specialized pocket subclasses resolve audio and visual layers cleanly.
         var yakumono = InstantiateAndTrack<Yakumono>("res://src/yakumono/yakumono.tscn");
-        yakumono.ShouldNotBeNull();
         yakumono.Config.ShouldNotBeNull();
         yakumono.CatchHole.ShouldNotBeNull();
         yakumono.RejectHole.ShouldNotBeNull();

@@ -14,7 +14,11 @@ public partial class GameConfig : Node
     [Export]
     public Array<BallVariant>? BallTiers { get; set; }
 
-    public Random Rng { get; set; } = new Random();
+    /// Set by debug harnesses (tests/) before the game scene loads, so gameplay
+    /// randomness is reproducible. Null means a time-based seed.
+    public static int? SeedOverride { get; set; }
+
+    public Random Rng { get; set; } = SeedOverride is int seed ? new Random(seed) : new Random();
 
     public override void _EnterTree()
     {

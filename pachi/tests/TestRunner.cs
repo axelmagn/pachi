@@ -35,12 +35,13 @@ public partial class TestRunner : SceneTree
     {
         try
         {
-            var args = OS.GetCmdlineArgs();
-            var userArgs = OS.GetCmdlineUserArgs();
+            HarnessArgs.ApplySeed();
 
-            var combinedArgs = new System.Collections.Generic.List<string>(args);
-            combinedArgs.AddRange(userArgs);
-            if (!combinedArgs.Contains("--run-tests") && !combinedArgs.Contains("-r"))
+            var combinedArgs = HarnessArgs.All();
+            // GoDotTest's own flag selects a suite: --run-tests=<Suite> or -r <Suite>.
+            bool hasRunTests = combinedArgs.Exists(a =>
+                a == "-r" || a == "--run-tests" || a.StartsWith("--run-tests=", StringComparison.Ordinal));
+            if (!hasRunTests)
             {
                 combinedArgs.Add("--run-tests");
             }
