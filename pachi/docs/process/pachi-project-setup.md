@@ -335,6 +335,8 @@ steps. Also: `/ticket <a Setup card>` prints its spec and can comment.
 - [x] Branch protection on `main` requires both jobs. ⚖ The fresh doc
       explains the solo-dev trade-off. **Recommendation:** turn it on. Claude
       is now a contributor.
+- [x] No dependency-update bot; upgrades are by hand
+      ([ADR 0004](../decisions/0004-no-dependency-bot.md)).
 
 **Exit:** a PR with a failing core test is blocked. Fixing it unblocks the PR.
 (Done 2026-11-06 on PR #1: a failing test made it BLOCKED; the revert made
