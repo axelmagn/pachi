@@ -24,7 +24,8 @@ changed by accident, and says which ones are open.
   oversampling off.
 
 **Physics: Rapier2D** (`addons/godot-rapier2d`, `2d/physics_engine="Rapier2D"`).
-It was chosen for more stable ball-on-pin stacking and contact than Godot
+It was chosen for performance: a scene can hold a large number of balls at
+once, and Rapier2D handles many simultaneous rigid bodies better than Godot
 Physics 2D. Every feel parameter (bounce, friction, launch force, nudge
 spread) is tuned against it, so switching would mean re-tuning all of them.
 Not re-opened. Its non-bit-exact replay is accepted in ADR 0002.
