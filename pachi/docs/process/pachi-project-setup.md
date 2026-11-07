@@ -335,9 +335,6 @@ steps. Also: `/ticket <a Setup card>` prints its spec and can comment.
 - [x] Branch protection on `main` requires both jobs. ⚖ The fresh doc
       explains the solo-dev trade-off. **Recommendation:** turn it on. Claude
       is now a contributor.
-- [x] Renovate or Dependabot for NuGet, grouping `Godot.NET.Sdk` with
-      `.godot-version` and `global.json`. (Renovate, root `renovate.json`:
-      Dependabot can't bump `.godot-version`. Needs the Renovate app.)
 
 **Exit:** a PR with a failing core test is blocked. Fixing it unblocks the PR.
 (Done 2026-11-06 on PR #1: a failing test made it BLOCKED; the revert made

@@ -410,7 +410,6 @@ GitHub Actions on `axelmagn/pachi`:
 - **On PRs to `main`:** the full `verify.sh` using a Godot Mono setup action
   (for example, Chickensoft's `setup-godot`) on Ubuntu with software rendering.
   This is the setup Chickensoft's template uses [9].
-- Add Renovate or Dependabot for NuGet, grouped, so Godot SDK bumps land in one PR [9].
 
 **Exit:** a PR with a format error or a failing core test shows red in GitHub.
 

@@ -138,7 +138,7 @@ audio stems accumulate. The cost of choosing later is a history rewrite.
   </Project>
   ```
   The release-only exclusion follows Chickensoft's template [9]. Pin exact
-  package versions, and let Renovate bump them (E9).
+  package versions.
 
 **Exit:** `dotnet build <Game>.sln` succeeds with 0 warnings. Adding an unused
 local variable to a script fails the build.
@@ -304,8 +304,6 @@ grep for card links outside commit messages finds nothing.
     headless. Uploads `out/logs/` as an artifact on failure [9].
 - [ ] Branch protection on `main`: require both jobs. Allow no direct pushes,
       even for you; that makes "main is always green" real.
-- [ ] Renovate or Dependabot for NuGet, grouped so Godot SDK packages and
-      `.godot-version` move together [9].
 
 ⚖ **Branch protection for a solo dev.** It adds a PR step to every change.
 The pay-off is that Claude-authored work can never reach `main` without both
