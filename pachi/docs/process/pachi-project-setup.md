@@ -329,9 +329,10 @@ steps. Also: `/ticket <a Setup card>` prints its spec and can comment.
       (setup-godot at `.godot-version`, `verify.sh` headless, upload
       `out/logs/` on failure) on PRs to `main`. (Godot is fetched from the
       official release zip named by `.godot-version`, not a setup action.)
-- [ ] The Rapier2D addon ships Linux `.so` binaries in-repo, so the full job
+- [x] The Rapier2D addon ships Linux `.so` binaries in-repo, so the full job
       should work on `ubuntu-latest`. Confirm it on the first run.
-- [ ] Branch protection on `main` requires both jobs. ⚖ The fresh doc
+      (Confirmed 2026-11-06: 18 engine tests pass on PR #1.)
+- [x] Branch protection on `main` requires both jobs. ⚖ The fresh doc
       explains the solo-dev trade-off. **Recommendation:** turn it on. Claude
       is now a contributor.
 - [x] Renovate or Dependabot for NuGet, grouping `Godot.NET.Sdk` with
@@ -339,6 +340,8 @@ steps. Also: `/ticket <a Setup card>` prints its spec and can comment.
       Dependabot can't bump `.godot-version`. Needs the Renovate app.)
 
 **Exit:** a PR with a failing core test is blocked. Fixing it unblocks the PR.
+(Done 2026-11-06 on PR #1: a failing test made it BLOCKED; the revert made
+it CLEAN. `full` is its own workflow, because a skipped required check passes.)
 
 ## P11. First real ticket through the B4 loop  *(Fresh: E10)*
 
