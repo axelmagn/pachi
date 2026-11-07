@@ -9,6 +9,9 @@ playbook. It is not adapted to Pachi's current repo; [Part A](playbook.md#part-a
 Use it as the reference point when deciding how far to move the existing
 project toward it.
 
+Over budget: a step-by-step checklist (E0–E11) worked through once, with
+each step's exit check inline.
+
 **How to read it.**
 
 - Steps are in dependency order. Each step is roughly ticket-sized and ends with
@@ -21,7 +24,8 @@ project toward it.
 
 - The gate exists before any game code, so no code is ever written without a check (principle 2).
 - Claude is configured only after the scripts exist, because `CLAUDE.md` is mostly those commands.
-- A walking skeleton comes last. It proves every layer and the whole [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop) loop
+- A walking skeleton comes last. It proves every layer and the whole
+  [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop) loop
   end to end before real features start [32].
 
 ### Target layout
@@ -62,7 +66,9 @@ non-Godot products.
 - [ ] Optional: `uvx`, if you'll use the `godot-ai` MCP server.
 - [ ] A Trello account and the Trello MCP server connected to Claude Code.
 
-**Exit:** `godot-mono --version`, `dotnet --list-sdks`, `git lfs version`, `jq --version`, and `which csharp-ls` all succeed. `/mcp` in Claude Code shows the Trello server connected.
+**Exit:** `godot-mono --version`, `dotnet --list-sdks`, `git lfs version`,
+`jq --version`, and `which csharp-ls` all succeed. `/mcp` in Claude Code shows
+the Trello server connected.
 
 ### E1. Repository and Godot skeleton
 
@@ -140,7 +146,8 @@ local variable to a script fails the build.
 ### E3. Core library and fast tests
 
 - [ ] `dotnet new classlib -f net8.0 -n <Game>.Core -o core`
-- [ ] `dotnet new xunit -f net8.0 -n <Game>.Core.Tests -o core.tests`, then add Shouldly and a `ProjectReference` to core.
+- [ ] `dotnet new xunit -f net8.0 -n <Game>.Core.Tests -o core.tests`, then add
+      Shouldly and a `ProjectReference` to core.
 - [ ] `dotnet sln add core/<Game>.Core.csproj core.tests/<Game>.Core.Tests.csproj`
 - [ ] Rule: `core` has **no** `GodotSharp` reference. If you need a vector,
       define a tiny value type or pass primitives. That's what lets these tests
@@ -189,7 +196,9 @@ Write these as specs first, then implement. Each script's contract:
 | `scripts/capture.sh <scene> <frames> [--input <file>] [--seed <n>] [--debug-collisions]` | Runs the scene with `--write-movie out/capture/<name>/frame.png --fixed-fps 60 --quit-after <frames>` [7] at a fixed seed (default when `--seed` is absent), replays `--input` through the E4 helper, passes `--debug-collisions` through, and prints the frame directory. Not headless: movie capture needs a real renderer. |
 
 - [ ] Every script `cd`s to the repo root itself and uses `set -euo pipefail`. Exit codes are the interface.
-- [ ] If Godot's default data, config, or cache directories aren't writable (sandbox, CI), the scripts point the `XDG_*` variables at `out/` ([A3](playbook.md#a3-build-the-verification-ladder)) [34].
+- [ ] If Godot's default data, config, or cache directories aren't writable
+      (sandbox, CI), the scripts point the `XDG_*` variables at `out/`
+      ([A3](playbook.md#a3-build-the-verification-ladder)) [34].
 - [ ] `log-allowlist.txt` starts empty. Each entry gets a comment explaining why it's benign.
 
 **Exit:** prove each failure mode by breaking it on purpose, then revert:
@@ -247,7 +256,9 @@ mid-project means re-tuning every feel parameter, so decide during a prototype, 
       editor plugin in `addons/`. Leave it off when working only in `core/` [15].
 - [ ] Skills:
   - `.claude/skills/shape/SKILL.md`: interview, then a pitch card from the board's template card.
-  - `.claude/skills/slice/SKILL.md`: pitch card, then [Appendix D](playbook.md#appendix-d--ticket-template) ticket cards with the B14 checklist.
+  - `.claude/skills/slice/SKILL.md`: pitch card, then [Appendix
+    D](playbook.md#appendix-d--ticket-template) ticket cards with the B14
+    checklist.
   - `.claude/skills/ticket/SKILL.md`: load a card's spec, comments, and linked pitch, then run `check.sh`.
 
   Three only. Add more when a procedure has repeated three times [15].
@@ -306,7 +317,8 @@ Skip it only if you'll reliably run `verify.sh` before every merge.
 ### E10. Walking skeleton (first ticket, through the B4 loop)
 
 Build the thinnest slice that touches every layer [32], **as a real ticket
-using the [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop) loop**. This tests the process as much as the code:
+using the [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop)
+loop**. This tests the process as much as the code:
 
 - [ ] Shape a one-paragraph pitch card: "a ball drops into a pocket and the wallet
       increases." `/slice` it into one ticket card.
@@ -317,11 +329,15 @@ using the [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop) loop*
 - [ ] **visual:** `capture.sh` with an input script that launches one ball, at a
       fixed seed. Claude reads the frames and confirms the label changes.
 - [ ] **ship:** export the build (E6) and play it.
-- [ ] Run [B5](playbook.md#b5-reviewing-llm-output)'s review checklist and [B14](playbook.md#b14-definition-of-done-per-ticket)'s definition of done, then merge through CI.
+- [ ] Run [B5](playbook.md#b5-reviewing-llm-output)'s review checklist and
+      [B14](playbook.md#b14-definition-of-done-per-ticket)'s definition of done,
+      then merge through CI.
 - [ ] The card's plan and evidence comments are there, and the card moved
       across the board without you moving it by hand.
 
-**Exit:** you merged a ticket whose every step followed [B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop), and nothing about
+**Exit:** you merged a ticket whose every step followed
+[B4](playbook.md#b4-building-a-ticket-with-claude-the-core-loop), and nothing
+about
 the loop needed a workaround. If something did, fix the setup now. That's
 the cheapest point at which it will ever be fixed.
 

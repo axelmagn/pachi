@@ -6,26 +6,13 @@
 ## Context
 
 `scripts/capture.sh` records a scene at a fixed 60 fps with a fixed seed
-(`GameConfig.SeedOverride` and `GD.Seed`) and a scripted input file. The
-setup's determinism check asks whether two captures with the same seed and
-input produce the same frames.
-
-Measured on `main_game.tscn`, 300 frames, `launch_one.json`, seed 5:
-
-- Different seeds, or input versus no input, diverge on 100+ frames, so the
-  seed and the input both take effect.
-- Wall-clock time was one source of drift: `MotionTrail2D` aged trail points
-  with `Time.GetTicksMsec()`. It now uses accumulated physics delta.
-- After that fix, repeated identical runs produce one of **two** outcomes
-  (4 runs: 3 and 1). Frames match exactly until about frame 187. After that,
-  about 10–25 pixels differ, all around the launched ball: a sub-pixel
-  divergence in its path.
-- Setting `physics/rapier/parallel/num_threads=1` doesn't change this
-  (4 runs: 2 and 2).
-
-The divergence is inside the Rapier2D extension. A likely cause is
-per-process randomized hash ordering in the Rust code. Our code can't
-control it, and switching physics engines is out of scope (see ADR 0001).
+(`GameConfig.SeedOverride` and `GD.Seed`) and a scripted input file. Two
+captures with the same seed and input match exactly until about frame 187,
+then differ by 10–25 pixels around the launched ball. Seed and input do take
+effect. One wall-clock source of drift (`MotionTrail2D`) was fixed; the rest
+is inside the Rapier2D extension, persists with one physics thread, and our
+code can't control it. Switching physics engines is out of scope (ADR 0001).
+Measurements: [docs/research/capture-determinism.md](../research/capture-determinism.md).
 
 ## Decision
 

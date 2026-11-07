@@ -4,6 +4,9 @@ How Pachi is set up, and how each feature goes from idea to shipped. It is
 written for the human developer. It decides where the LLM fits; it is not the
 LLM's instruction file (that's `CLAUDE.md`, drafted in [Appendix A](#appendix-a--draft-claudemd)).
 
+Over budget: the reference for the whole process (setup, SOPs, appendices,
+sources); each section is read on its own via links.
+
 - **Last reviewed:** 2026-11-02
 - **Applies to:** Godot 4.7.2 Mono, .NET 8 target (SDK 10 installed), Rapier2D, Claude Code,
   Trello ("Pachi Agent" board, through the Trello MCP server)
@@ -83,21 +86,36 @@ countermeasure built into this playbook.
 
 ## 3. Operating principles
 
-1. **Foundations first, then speed.** AI amplifies what's already there, good or bad [18]. Part A is the work that makes it amplify the good.
+1. **Foundations first, then speed.** AI amplifies what's already there, good or
+   bad [18]. Part A is the work that makes it amplify the good.
 2. **Every change has a check that comes back pass or fail.** If you can't name the check, the ticket isn't ready [15].
-3. **Logic lives where it's cheap to test.** Game rules go in plain C# with millisecond-scale tests. Nodes stay thin and wire the rules to the engine [9][10][11]. Agents edit typed logic outside scenes confidently, and stumble on deep scene trees and implicit node paths [36].
-4. **You own the *what*, the LLM drafts the *how*, and you review the diff.** Beck's framing: augmented coding de-emphasises language expertise and amplifies "vision, strategy, task breakdown, and feedback loops" [20]. Those last four are your job.
+3. **Logic lives where it's cheap to test.** Game rules go in plain C# with
+   millisecond-scale tests. Nodes stay thin and wire the rules to the engine
+   [9][10][11]. Agents edit typed logic outside scenes confidently, and stumble
+   on deep scene trees and implicit node paths [36].
+4. **You own the *what*, the LLM drafts the *how*, and you review the diff.**
+   Beck's framing: augmented coding de-emphasises language expertise and
+   amplifies "vision, strategy, task breakdown, and feedback loops" [20]. Those
+   last four are your job.
    Trello is the shared channel: Claude may create, edit, comment on, and move
    cards, but a card's acceptance criteria, appetite, and no-gos change only
    when you ask, and every such change gets a comment.
-5. **Two modes, never mixed.** *Exploration* (prototypes, toys, spikes) can be vibe-coded and is thrown away. *Production* (merged code) goes through spec, tests, and review [21]. Prototype code never gets merged.
+5. **Two modes, never mixed.** *Exploration* (prototypes, toys, spikes) can be
+   vibe-coded and is thrown away. *Production* (merged code) goes through spec,
+   tests, and review [21]. Prototype code never gets merged.
 6. **Small batches.** One ticket per session and one reviewable diff, about 400 changed lines or fewer [29][18].
    Multi-agent role pipelines (PM, architect, QA agents) are deliberately not
    adopted. The one first-hand Godot report is a self-reported one-day
    prototype whose failures were interface drift and thin cross-system tests [38].
-7. **Deterministic for musts, instructions for shoulds.** If a rule has zero exceptions, make it a hook or deny rule. Everything else is a short line in `CLAUDE.md` [15].
-8. **Write down only what the repo can't tell the agent.** Delete instructions that the code or a tool already enforces [15].
-9. **Scenes are self-contained. Dependencies flow down, events flow up.** Parents call children. Children emit signals. Siblings never reach for each other. Use autoloads only for broad systems that manage their own data [1][2].
+7. **Deterministic for musts, instructions for shoulds.** If a rule has zero
+   exceptions, make it a hook or deny rule. Everything else is a short line in
+   `CLAUDE.md` [15].
+8. **Write down only what the repo can't tell the agent.** Delete instructions
+   that the code or a tool already enforces [15].
+9. **Scenes are self-contained. Dependencies flow down, events flow up.**
+   Parents call children. Children emit signals. Siblings never reach for each
+   other. Use autoloads only for broad systems that manage their own data
+   [1][2].
 10. **Finish things.** Use fixed appetites with a circuit breaker [23]. Shipping rough beats polishing forever [28].
 
 ### The state seam: repo vs. Trello
@@ -151,7 +169,8 @@ The git root holds much more than the game. Recommended layout:
 
 ### A1. Get to green, then delete the dead code
 
-1. Tag the legacy state: `git tag legacy/cards-v1` (TODO.md says this was done, but no tag exists locally. Check `git ls-remote --tags origin` first).
+1. Tag the legacy state: `git tag legacy/cards-v1` (TODO.md says this was done,
+   but no tag exists locally. Check `git ls-remote --tags origin` first).
 2. Delete `src/cards.old/`, `.agents/`, `AGENTS.old.md`, `skills-lock.json`, and commented-out code blocks.
 3. Run `./scripts/verify.sh --fix`, then `./scripts/verify.sh`.
 4. **`src/main_game/main_game.tscn` still has nine `ext_resource` entries
@@ -232,7 +251,8 @@ were the biggest lever in the three most detailed first-hand accounts [33][34][3
   check it here with two identical runs.
 - **Scripted input (play).** `--input tests/input/<name>.json` replays a list of
   timed actions (input actions, mouse moves, clicks at given frames) through a
-  debug-only helper ([E4](fresh-project-setup.md#e4-engine-test-harness)). Claude can then launch balls, buy a card, or hover a
+  debug-only helper ([E4](fresh-project-setup.md#e4-engine-test-harness)).
+  Claude can then launch balls, buy a card, or hover a
   beetle, read the frames, and decide what to try next. This was the largest
   single improvement in Leak's pipeline: Claude played through a game, found a
   health bar that didn't update, fixed it, and replayed to confirm [33].
@@ -289,7 +309,9 @@ tests/                    # GoDotTest engine tests (existing)
   reward config", deck, prestige) is the natural first tenant. Move existing
   pocket logic only when you next touch it.
 
-**Exit:** `dotnet test core.tests` runs without Godot installed and finishes in seconds. One real rule (for example, pocket input matching) lives there with tests.
+**Exit:** `dotnet test core.tests` runs without Godot installed and finishes in
+seconds. One real rule (for example, pocket input matching) lives there with
+tests.
 
 ### A5. Test strategy
 
@@ -397,10 +419,12 @@ GitHub Actions on `axelmagn/pachi`:
 - [ ] A0 repo boundary decided and applied
 - [ ] A1 `verify.sh` green; dead code deleted; legacy tag exists
 - [ ] A2 `global.json`, `Directory.Build.props`, `.godot-version`, `csharp-lsp`
-- [ ] A3 three-rung ladder with scene lint, fixed seed, and input scripts; scene lint, log scan, and all-scenes test proven by breaking something
+- [ ] A3 three-rung ladder with scene lint, fixed seed, and input scripts; scene
+      lint, log scan, and all-scenes test proven by breaking something
 - [ ] A4 `core/` and `core.tests/` exist with at least one real rule
 - [ ] A6 `CLAUDE.md`, rule file, `settings.json` hooks working; `CODE_STYLE.md` trimmed
-- [ ] A6.8 Trello board set up with lists, labels, and template cards; `docs/plan/`, `docs/notes/`, and `TODO.md` migrated and removed
+- [ ] A6.8 Trello board set up with lists, labels, and template cards;
+      `docs/plan/`, `docs/notes/`, and `TODO.md` migrated and removed
 - [ ] A7 CI red/green proven
 - [ ] Old `README.md` "Getting Started" updated to point at `scripts/check.sh`
 
@@ -556,7 +580,9 @@ UID, a missing sub-resource.
   `Pocket.cs` already does the latter for arrays. Make it the rule.
 - **Physics layers, input actions, and autoloads** change `project.godot`.
   Don't hand-edit them; agents get the input-map format wrong [33]. Make the
-  change in the editor (as [E6](fresh-project-setup.md#e6-godot-project-baseline-recorded-as-adr-0001) does), or have Claude use the `godot-ai` tools
+  change in the editor (as
+  [E6](fresh-project-setup.md#e6-godot-project-baseline-recorded-as-adr-0001)
+  does), or have Claude use the `godot-ai` tools
   (`input_map_manage`, `autoload_manage`, `project_manage`), which write
   through the editor. Keep such changes in their own commits.
 
@@ -567,7 +593,8 @@ UID, a missing sub-resource.
    (`tests/input/`), because it becomes a regression check; the card links to it.
 2. **Failing test first,** at the lowest layer that can show the bug (core, then engine) [15].
 3. Fix and verify. Keep the test as a regression test.
-4. If the bug was caused by a misleading pattern, add a line to `CLAUDE.md` or the rule file. This is how "corrected twice" gets institutionalised [15].
+4. If the bug was caused by a misleading pattern, add a line to `CLAUDE.md` or
+   the rule file. This is how "corrected twice" gets institutionalised [15].
 
 ### B8. Prototypes and spikes  *(exploration mode)*
 
@@ -682,7 +709,8 @@ Run these in order, in a fresh session where needed:
 - [ ] Visual or feel tickets: frames captured or the game played by you
 - [ ] Test changes justified in a card comment (A5 integrity rule)
 - [ ] Card has an evidence comment and is in Review / Play; no unexplained spec edits (B5 #0)
-- [ ] Durable decisions recorded as ADRs or in `docs/design/`, not only in comments; `CLAUDE.md` updated if you corrected something twice
+- [ ] Durable decisions recorded as ADRs or in `docs/design/`, not only in
+      comments; `CLAUDE.md` updated if you corrected something twice
 
 ### B15. Writing docs with Claude
 

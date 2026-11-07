@@ -4,6 +4,9 @@
 > [playbook](playbook.md). Lets you: go from today's red, messy state to the
 > [fresh-project target](fresh-project-setup.md) one ticket-sized step at a time.
 
+Over budget: a step-by-step checklist (P0–P12) that also records what was
+done at each step.
+
 This is the [fresh-project checklist](fresh-project-setup.md) (E0–E11) adapted
 to the repo as it is on 2026-11-03. It replaces Part A's step list as the thing
 you actually work through. Part A keeps the reasoning; this file holds the
@@ -305,8 +308,9 @@ Do this before P9, because the skills need the board.
       `scripts/doc-budget.sh` plus a `PostToolUse` hook on `Write|Edit`.
       It warns (exit 2) when the edited doc goes over budget or has lines
       over 120 columns. Opt out with an `Over budget: <why>` line.
-- [ ] Bring the existing docs within budget, or give each an `Over budget:`
-      line: ADRs 0001–0003 and the three `process/` docs.
+- [x] Bring the existing docs within budget, or give each an `Over budget:`
+      line: ADRs 0001–0003 and the three `process/` docs. (ADRs cut; 0002's
+      measurements moved to `docs/research/`. Process docs got the line.)
 - [x] Commit `.mcp.json` (godot-ai pinned at 4.3.0, plus Trello).
 - [x] Skills `/shape`, `/slice`, and `/ticket` under `.claude/skills/`. Don't
       restore the archived Matt Pocock pack.
