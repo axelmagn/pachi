@@ -1,0 +1,29 @@
+# Fast gate for the Godot project in pachi/: no Godot (format, scene lint,
+# build, core tests). The full gate is in full.yml.
+name: fast
+
+on:
+  push:
+    paths: ["pachi/**", ".github/workflows/ci.yml"]
+  # No path filter on PRs: required checks must always report.
+  pull_request:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: pachi
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: pachi/global.json
+      - run: ./scripts/check.sh

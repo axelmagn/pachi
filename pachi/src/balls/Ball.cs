@@ -249,7 +249,8 @@ public partial class Ball : RigidBody2D
     public void ApplyNudge()
     {
         float spreadRad = Mathf.DegToRad(NudgeAngleSpreadDeg);
-        float angle = (float)GD.RandRange(-spreadRad, spreadRad);
+        Random rng = GameConfig.Instance?.Rng ?? Random.Shared;
+        float angle = (float)((rng.NextDouble() * 2.0) - 1.0) * spreadRad;
         Vector2 impulse = Vector2.Up.Rotated(angle) * NudgeImpulseStrength;
         ApplyCentralImpulse(impulse);
         EmitSignal(SignalName.Nudged, impulse);

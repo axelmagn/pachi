@@ -1,0 +1,3 @@
+# verify.sh log-scan allowlist: one extended regex per line, matched against
+# flagged lines of out/logs/test.log. Every entry needs a comment saying why
+# the line is benign. Keep this short; fix the cause when you can.

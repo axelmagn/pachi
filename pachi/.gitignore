@@ -9,4 +9,15 @@
 .env
 .env.*
 
-.mcp.json
+# Claude Code (per-user)
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Build/test output
+bin/
+obj/
+out/
+coverage/
+
+# Local tooling
+.flowbot/

@@ -1,0 +1,25 @@
+---
+paths:
+  - "src/**"
+  - "tests/**"
+---
+- Godot 4.7 APIs only. Verify unfamiliar members in ../ref/godot-docs/_sources/classes/class_<name>.rst.txt.
+  (CharacterBody2D not KinematicBody2D; `await ToSignal(...)` not yield; signals are C# events.)
+- Custom signals: `[Signal] public delegate void BallCaughtEventHandler(...)` (past tense, Variant-compatible params); raise with `EmitSignal(SignalName.BallCaught, ...)`, never Invoke.
+- Signals connected to lambdas that capture, custom signals, and GlobalEvents subscriptions may NOT auto-disconnect when the receiver is freed: subscribe in _EnterTree, unsubscribe (`-=`) in _ExitTree. One-shot: `Connect(..., (uint)ConnectFlags.OneShot)`.
+- Physics work in _PhysicsProcess; visuals in _Process.
+- Rapier2D is not Godot Physics: check addons/godot-rapier2d docs/source before assuming body, joint, or contact behaviour.
+- Physics or collision bug: capture with ./scripts/capture.sh <scene> <frames> --debug-collisions and read the frames before guessing at offsets.
+- Gameplay randomness goes through GameConfig.Rng so runs can be seeded. GD.Randf/GD.RandRange only for cosmetic variation (audio pitch, particles).
+- Call down, signal up: parents call child methods, children emit past-tense signals. No sibling GetNode("../X").
+- Required refs: `= null!` field or [Export], then `Debug.Assert` in _Ready. Optional refs are `Type?`. Skip editor-time logic with `Engine.IsEditorHint()`.
+- Resources assigned in scenes are shared between instances: Duplicate() or ResourceLocalToScene before mutating.
+- Use generated PropertyName/SignalName/MethodName and cached StringName fields, not string literals, especially in per-frame code.
+- Value-type math structs: `Position = Position with { X = 10 }`, not `Position.X = 10`. `new Color()` is transparent black; use `Colors.*`.
+- Cache GodotObject properties in locals inside hot loops (each access crosses the interop boundary).
+- Collections: BCL (`List<T>`, `Dictionary<,>`) internally; `Godot.Collections.*` only for [Export] and engine API boundaries.
+- Async: `async Task`, never `async void`; never block with .Result/.Wait().
+- In [Tool] scripts: guard runtime logic with `Engine.IsEditorHint()`; set `Owner = GetTree().EditedSceneRoot` on spawned children; properties that affect _Draw call QueueRedraw() in the setter.
+- Naming the analyzers don't catch: C# keyword aliases (`int`, `string`), no `this.`; 2-letter acronyms uppercase (`UI`), 3+ capitalised (`Json`), `Id`; PascalCase.cs files match the class; scenes/resources are snake_case.tscn/.tres.
+- Engine tests: GoDotTest `TestClass` + `[Test]`, Shouldly asserts. Scene tests go in tests/integration/<domain>/, inherit IntegrationTestClass, and use InstantiateAndTrack<T>/TrackNode so cleanup is automatic. Pure logic belongs in core/ with xUnit instead.
+- Editing .tscn/.tres text: follow ../ref/godot-docs/_sources/engine_details/file_formats/tscn.rst.txt; keep ext_resource ids consistent; then run ./scripts/verify.sh (all-scenes test).

@@ -4,16 +4,16 @@ using System.Diagnostics;
 [GlobalClass]
 public partial class Level : Node2D
 {
-	[Export]
-	public Node2D? BallsRoot { get; set; }
+    [Export]
+    public Node2D? BallsRoot { get; set; }
 
-	// TODO: create launch point class
-	[Export]
-	public Node2D? BallLaunchPoint { get; set; }
+    // TODO: create launch point class
+    [Export]
+    public Node2D? BallLaunchPoint { get; set; }
 
-	public override void _Ready()
-	{
-		this.Require(BallsRoot, nameof(BallsRoot));
-		this.Require(BallLaunchPoint, nameof(BallLaunchPoint));
-	}
+    public override void _Ready()
+    {
+        this.Require(BallsRoot, nameof(BallsRoot));
+        this.Require(BallLaunchPoint, nameof(BallLaunchPoint));
+    }
 }

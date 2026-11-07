@@ -1,0 +1,4 @@
+[
+  { "frame": 30, "action": "launcher_charge", "pressed": true },
+  { "frame": 75, "action": "launcher_charge", "pressed": false }
+]
