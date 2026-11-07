@@ -301,6 +301,12 @@ Do this before P9, because the skills need the board.
       Fold the useful bits of your old root `settings.local.json` into the
       new `.claude/settings.local.json`. (Trello tools listed individually,
       no `*`. `settings.local.json` already held all of the old file.)
+- [x] Doc line budget ([B15](playbook.md#b15-writing-docs-with-claude)):
+      `scripts/doc-budget.sh` plus a `PostToolUse` hook on `Write|Edit`.
+      It warns (exit 2) when the edited doc goes over budget or has lines
+      over 120 columns. Opt out with an `Over budget: <why>` line.
+- [ ] Bring the existing docs within budget, or give each an `Over budget:`
+      line: ADRs 0001–0003 and the three `process/` docs.
 - [x] Commit `.mcp.json` (godot-ai pinned at 4.3.0, plus Trello).
 - [x] Skills `/shape`, `/slice`, and `/ticket` under `.claude/skills/`. Don't
       restore the archived Matt Pocock pack.

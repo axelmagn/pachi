@@ -238,6 +238,8 @@ mid-project means re-tuning every feel parameter, so decide during a prototype, 
       allow the ladder scripts and Trello card writes, ask for `git push` and
       Trello list and board writes, a PreToolUse block on `.uid`, `.godot/`,
       and `addons/`, and a Stop hook running `check.sh --quiet` [15].
+- [ ] `scripts/doc-budget.sh` and a `PostToolUse` hook on `Write|Edit` that
+      runs it ([B15](playbook.md#b15-writing-docs-with-claude)).
 - [ ] Godot docs for grounding. Clone or download the docs for your *exact*
       engine version **outside the repo**. Use the `.rst` sources, since they
       grep better than HTML. Point to them from `CLAUDE.md`.
@@ -257,6 +259,7 @@ mid-project means re-tuning every feel parameter, so decide during a prototype, 
 - In a fresh session, `/context` shows `CLAUDE.md`. The rule file loads only after a `src/` file is opened.
 - Asking Claude to "write a file `foo.cs.uid`" is blocked.
 - Asking it to "add a misformatted line, then stop" gets bounced by the Stop hook.
+- Asking it to append 50 lines to an ADR gets a doc-budget warning.
 - `claude -w smoke` makes a new worktree where `./scripts/verify.sh` passes with no manual steps.
 
 ### E8. Process scaffolding
