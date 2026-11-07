@@ -40,6 +40,9 @@ public partial class MotionTrail2D : Line2D
 
     private readonly Queue<(Vector2 Position, double Time)> _pointHistory = new();
     private Vector2 _lastAddedPosition = Vector2.Zero;
+    // Game time (sum of physics deltas), not wall-clock, so trails are
+    // reproducible under --fixed-fps capture and respect pause/time scale.
+    private double _elapsed;
     private Color _lastSyncedColor = Colors.Transparent;
 
     public override void _Ready()
@@ -89,7 +92,8 @@ public partial class MotionTrail2D : Line2D
 
         SyncWithBall();
 
-        double currentTime = Time.GetTicksMsec() / 1000.0;
+        _elapsed += delta;
+        double currentTime = _elapsed;
         Vector2 currentPos = TargetBall.GlobalPosition;
         float currentSpeed = TargetBall.LinearVelocity.Length();
 
