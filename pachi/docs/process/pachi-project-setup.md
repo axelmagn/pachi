@@ -103,9 +103,9 @@ trip on them.
       project sits at `<worktree>/pachi/`. Check where `claude -w` puts its
       session and note the `cd pachi` (plus the one-off `--import`) in
       `CLAUDE.md` (P9) if needed. (Done in P9: the note is in `CLAUDE.md`.)
-- [ ] **CI** (P10): set `defaults.run.working-directory: pachi` and scope
+- [x] **CI** (P10): set `defaults.run.working-directory: pachi` and scope
       path filters to `pachi/**`, so prototype or `ref/` changes don't run
-      the gate. *Deferred to P10.*
+      the gate. (Pushes only: PRs always run, so required checks report.)
 
 ⚖ **Shrink `.git`?** It's 352 MB, mostly `ref/`, `vendor/`, and the
 prototypes. **Decided:** leave it.
@@ -324,17 +324,19 @@ steps. Also: `/ticket <a Setup card>` prints its spec and can comment.
 
 ## P10. CI and dependency hygiene  *(Fresh: E9; playbook A7)*
 
-- [ ] `.github/workflows/ci.yml` on `axelmagn/pachi`: a **fast** job (no
+- [x] `.github/workflows/ci.yml` on `axelmagn/pachi`: a **fast** job (no
       Godot: format, build, core tests) on every push, and a **full** job
       (setup-godot at `.godot-version`, `verify.sh` headless, upload
-      `out/logs/` on failure) on PRs to `main`.
+      `out/logs/` on failure) on PRs to `main`. (Godot is fetched from the
+      official release zip named by `.godot-version`, not a setup action.)
 - [ ] The Rapier2D addon ships Linux `.so` binaries in-repo, so the full job
       should work on `ubuntu-latest`. Confirm it on the first run.
 - [ ] Branch protection on `main` requires both jobs. ⚖ The fresh doc
       explains the solo-dev trade-off. **Recommendation:** turn it on. Claude
       is now a contributor.
-- [ ] Renovate or Dependabot for NuGet, grouping `Godot.NET.Sdk` with
-      `.godot-version` and `global.json`.
+- [x] Renovate or Dependabot for NuGet, grouping `Godot.NET.Sdk` with
+      `.godot-version` and `global.json`. (Renovate, root `renovate.json`:
+      Dependabot can't bump `.godot-version`. Needs the Renovate app.)
 
 **Exit:** a PR with a failing core test is blocked. Fixing it unblocks the PR.
 

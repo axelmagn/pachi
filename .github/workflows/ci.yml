@@ -1,0 +1,54 @@
+# Gate for the Godot project in pachi/. Fast job: no Godot (format, scene
+# lint, build, core tests). Full job: headless engine tests via verify.sh.
+name: ci
+
+on:
+  push:
+    paths: ["pachi/**", ".github/workflows/ci.yml"]
+  # No path filter on PRs: required checks must always report.
+  pull_request:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: pachi
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: pachi/global.json
+      - run: ./scripts/check.sh
+
+  full:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: pachi/global.json
+      - name: Install Godot from .godot-version
+        run: |
+          v="$(tr -d '[:space:]' < .godot-version)"   # e.g. 4.7.2.stable.mono
+          num="${v%%.stable*}"
+          name="Godot_v${num}-stable_mono_linux_x86_64"
+          curl -fsSL -o "$RUNNER_TEMP/godot.zip" \
+            "https://github.com/godotengine/godot/releases/download/${num}-stable/${name}.zip"
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP"
+          echo "GODOT=$RUNNER_TEMP/${name}/Godot_v${num}-stable_mono_linux.x86_64" >> "$GITHUB_ENV"
+      - run: ./scripts/verify.sh
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: pachi/out/logs/

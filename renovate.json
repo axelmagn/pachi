@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "ignorePaths": ["pachi.0*/**", "ref/**", "vendor/**"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Godot editor version pinned for the scripts and CI",
+      "fileMatch": ["^pachi/\\.godot-version$"],
+      "matchStrings": ["^(?<currentValue>\\d+\\.\\d+(\\.\\d+)?)\\.stable\\.mono"],
+      "depNameTemplate": "godotengine/godot",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^(?<version>.+)-stable$"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Godot editor, Godot.NET.Sdk and the .NET SDK move together",
+      "matchPackageNames": ["godotengine/godot", "Godot.NET.Sdk", "dotnet-sdk"],
+      "groupName": "godot toolchain"
+    }
+  ]
+}
