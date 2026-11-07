@@ -96,10 +96,10 @@ trip on them.
       docs source the playbook points at.
 - [x] **Root `.gitignore`.** Leave it as the outer ignore (`.vscode/`,
       `build/`); project ignores stay in `pachi/pachi/.gitignore` (P3).
-- [ ] **Worktrees.** A `git worktree add` checks out the *whole* repo, so the
+- [x] **Worktrees.** A `git worktree add` checks out the *whole* repo, so the
       project sits at `<worktree>/pachi/`. Check where `claude -w` puts its
       session and note the `cd pachi` (plus the one-off `--import`) in
-      `CLAUDE.md` (P9) if needed. *Deferred to P9's `claude -w smoke` check.*
+      `CLAUDE.md` (P9) if needed. (Done in P9: the note is in `CLAUDE.md`.)
 - [ ] **CI** (P10): set `defaults.run.working-directory: pachi` and scope
       path filters to `pachi/**`, so prototype or `ref/` changes don't run
       the gate. *Deferred to P10.*
@@ -287,24 +287,25 @@ Do this before P9, because the skills need the board.
 
 ## P9. Claude Code configuration  *(Fresh: E7; playbook A6)*
 
-- [ ] `CLAUDE.md` from [Appendix A](playbook.md#appendix-a--draft-claudemd):
+- [x] `CLAUDE.md` from [Appendix A](playbook.md#appendix-a--draft-claudemd):
       - Docs path stays `../ref/godot-docs/`; add the worktree note from P2 if needed.
       - Main scene and globals per P7.
       - Drop the `Pocket.cs` gotcha if its multi-path wiring is already gone
-        (it no longer has `GetNodeOrNull`).
-- [ ] `AGENTS.md`: fold its one line into `CLAUDE.md` and delete it.
-- [ ] `CODE_STYLE.md`: for each rule, if `.editorconfig` or an analyzer
+        (it no longer has `GetNodeOrNull`). (Dropped: no `GetNode` left.)
+- [x] `AGENTS.md`: fold its one line into `CLAUDE.md` and delete it.
+- [x] `CODE_STYLE.md`: for each rule, if `.editorconfig` or an analyzer
       enforces it, delete it. Rules worth keeping go to
       `.claude/rules/godot-csharp.md` (Appendix C). Then delete the file.
-- [ ] `.claude/settings.json` from Appendix B. Check the exact MCP tool names
+- [x] `.claude/settings.json` from Appendix B. Check the exact MCP tool names
       with `/mcp`; the Trello ones are `mcp__trello__trelloReadBoard`, etc.
       Fold the useful bits of your old root `settings.local.json` into the
-      new `.claude/settings.local.json`.
-- [ ] Commit `.mcp.json` (godot-ai pinned at 4.3.0, plus Trello).
-- [ ] Skills `/shape`, `/slice`, and `/ticket` under `.claude/skills/`. Don't
+      new `.claude/settings.local.json`. (Trello tools listed individually,
+      no `*`. `settings.local.json` already held all of the old file.)
+- [x] Commit `.mcp.json` (godot-ai pinned at 4.3.0, plus Trello).
+- [x] Skills `/shape`, `/slice`, and `/ticket` under `.claude/skills/`. Don't
       restore the archived Matt Pocock pack.
-- [ ] `.worktreeinclude`: probably empty. Add it only if a worktree turns
-      out to need a gitignored file.
+- [x] `.worktreeinclude`: probably empty. Add it only if a worktree turns
+      out to need a gitignored file. (Not needed.)
 
 **Exit:** E7's four checks: `/context` shows `CLAUDE.md` and the rule file
 loads lazily; a `.uid` write is blocked; the Stop hook bounces a formatting
