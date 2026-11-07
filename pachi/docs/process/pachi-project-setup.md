@@ -185,39 +185,50 @@ Pachi-specific deltas are listed here.
 
 Engine harness (`tests/`):
 
-- [ ] Replace the hand-written list in `SceneSmokeTests` with an
+- [x] Replace the hand-written list in `SceneSmokeTests` with an
       **all-scenes test** that enumerates `res://src/**/*.tscn`. Keep the
       existing per-scene assertions only where they check something the
       load test doesn't (exports wired).
-- [ ] Seed: `TestRunner` and the input-playback helper read `--seed` and set
+      (Done 2026-11-06: `AllScenesTests`; the rest became `SceneExportTests`.
+      `hopper.tscn` and `launcher.tscn` are skipped as context-only, since they
+      need wiring from `main_game.tscn`, which is tested.)
+- [x] Seed: `TestRunner` and the input-playback helper read `--seed` and set
       `GameConfig.Rng`. Change `Ball.cs:252` launch spread to use
       `GameConfig.Rng`; the audio pitch at `Ball.cs:446` stays cosmetic.
-- [ ] Input-playback helper (debug-only, under `tests/`) reading
+      (Done: `Ball.cs:252` was actually the *nudge* spread. Harnesses set
+      `GameConfig.SeedOverride` and `GD.Seed`; default seed 1.)
+- [x] Input-playback helper (debug-only, under `tests/`) reading
       `tests/input/*.json`. One first script, `tests/input/launch_one.json`,
       presses `launcher_charge`.
-- [ ] Note the GoDotTest single-suite arguments for `CLAUDE.md`.
+- [x] Note the GoDotTest single-suite arguments for `CLAUDE.md`:
+      `./scripts/verify.sh -- --run-tests=<Suite>` or
+      `--run-tests=<Suite>.<Method>` (same after `--` on a raw
+      `godot-mono --headless -s tests/TestRunner.cs`).
 
 Scripts (`scripts/`):
 
-- [ ] Split today's `verify.sh` into `check.sh` (format → scene lint →
+- [x] Split today's `verify.sh` into `check.sh` (format → scene lint →
       build → `dotnet test core.tests`; `--fix`, `--quiet`) and `verify.sh`
       (check → `--import` if `.godot/` is missing → engine tests with
       `--log-file out/logs/test.log` → log scan).
-- [ ] `verify.sh` **fails** when Godot is missing (today it warns and skips).
-- [ ] Both scripts fail on a `.godot-version` mismatch.
-- [ ] Scene lint: a small script, which can be bash with `grep`/`awk` or a
+- [x] `verify.sh` **fails** when Godot is missing (today it warns and skips).
+- [x] Both scripts fail on a `.godot-version` mismatch.
+- [x] Scene lint: a small script, which can be bash with `grep`/`awk` or a
       C# console project under `scripts/`, run on changed `.tscn`/`.tres` files.
-- [ ] `scripts/log-allowlist.txt`, starting empty. Run the gate once and
+- [x] `scripts/log-allowlist.txt`, starting empty. Run the gate once and
       triage anything that's noise. Expect Rapier2D or `godot_ai` lines; each
-      allowlisted line gets a reason comment.
-- [ ] `capture.sh` per E5. Check whether Rapier2D draws collision shapes
-      under `--debug-collisions`.
-- [ ] `XDG_*` redirection to `out/` when the default dirs aren't writable.
+      allowlisted line gets a reason comment. (No noise appeared, so it's
+      still empty.)
+- [x] `capture.sh` per E5. Check whether Rapier2D draws collision shapes
+      under `--debug-collisions`. (It does.)
+- [x] `XDG_*` redirection to `out/` when the default dirs aren't writable.
 
 **Exit:** run E5's seven break-it-on-purpose checks and revert each one.
 For check 7 (determinism) under Rapier2D, two `capture.sh` runs of
 `main_game.tscn` with `launch_one.json` at the same seed must match, or
 ADR 0002 records that they don't and that comparisons use ranges.
+(Done 2026-11-06: all seven checks fail as intended. Check 7 isn't bit-exact
+under Rapier2D; see `docs/decisions/0002-capture-determinism.md`.)
 
 ## P7. Record the engine baseline as ADR 0001  *(Fresh: E6)*
 
@@ -233,7 +244,7 @@ Fresh E6 *decides* these settings. Here they're already decided, so the ADR
   - Named input actions: `launcher_charge`.
   - Main scene: `src/main_game/main_game.tscn` (fresh layout says
     `src/main/main.tscn`; **don't rename**, it isn't worth the churn).
-- [ ] `docs/decisions/0002-globals.md`: justify or schedule removal of the two
+- [ ] `docs/decisions/0003-globals.md` (0002 went to capture determinism in P6): justify or schedule removal of the two
       `static Instance` globals (`GameConfig`, `GlobalEvents`). Fresh E6 says no
       autoloads without an ADR. These aren't autoloads, but they're the
       same kind of global state.
@@ -244,7 +255,7 @@ Fresh E6 *decides* these settings. Here they're already decided, so the ADR
       add `tests/*` to every preset's exclude filter. Then run
       `godot-mono --headless --export-release "Linux" build/pachi`.
 
-**Exit:** the exported Linux build launches and plays. ADRs 0001 and 0002 exist.
+**Exit:** the exported Linux build launches and plays. ADRs 0001 and 0003 exist.
 
 ## P8. Trello board and migrating work state  *(Fresh: E8; playbook A6.8)*
 
@@ -352,7 +363,7 @@ nothing needed a workaround (or every workaround is now fixed).
 | Fresh target | Pachi | Why |
 |---|---|---|
 | `src/main/main.tscn` | `src/main_game/main_game.tscn` | A rename buys nothing. |
-| No autoloads or globals | `GameConfig` and `GlobalEvents` statics | Already load-bearing; ADR 0002 decides their fate. |
+| No autoloads or globals | `GameConfig` and `GlobalEvents` statics | Already load-bearing; ADR 0003 decides their fate. |
 | Godot project is the git root | Project nested in `pachi/pachi/` | Keeps past prototypes and `ref/` next to the live project. |
 | LFS before the first asset | No LFS | Plain git is simpler; binaries are already in history. |
 | Choose the physics engine in a prototype | Rapier2D already chosen | Recorded in ADR 0001, not re-decided. |

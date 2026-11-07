@@ -1,67 +1,64 @@
 #!/usr/bin/env bash
+# Full gate: check.sh, then the engine tests headless, then a log scan.
+# Fails if Godot is missing; it never skips the engine stage.
+#
+# Usage: verify.sh [--fix] [-- <GoDotTest args, e.g. --run-tests=AllScenesTests>]
 set -euo pipefail
+source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 
-# Navigate to project root (parent directory of scripts/)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-cd "${PROJECT_ROOT}"
-
-FIX_MODE=false
-for arg in "$@"; do
-    case "$arg" in
-        --fix|-f)
-            FIX_MODE=true
-            shift
-            ;;
-        *)
-            ;;
+CHECK_ARGS=()
+TEST_ARGS=()
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --fix|-f) CHECK_ARGS+=(--fix) ;;
+        --) shift; TEST_ARGS=("$@"); break ;;
+        *) die "unknown option: $1 (usage: verify.sh [--fix] [-- <test args>])" ;;
     esac
+    shift
 done
 
-echo "=================================================="
-echo " Starting Pachi Verification Pipeline"
-echo "=================================================="
+GODOT_BIN="$(find_godot)" || die "Godot not found (set GODOT, or put godot-mono on PATH)"
+check_godot_version "$GODOT_BIN"
 
-# Determine godot executable (godot-mono or godot)
-if command -v godot-mono &> /dev/null; then
-    GODOT_BIN="godot-mono"
-elif command -v godot &> /dev/null; then
-    GODOT_BIN="godot"
-else
-    GODOT_BIN=""
+./scripts/check.sh "${CHECK_ARGS[@]}"
+
+redirect_xdg_if_needed
+mkdir -p out/logs
+LOG_FILE="out/logs/test.log"
+ALLOWLIST="scripts/log-allowlist.txt"
+
+if [ ! -d .godot ]; then
+    echo "▸ import (first run in this checkout)"
+    "$GODOT_BIN" --headless --import >out/logs/import.log 2>&1 \
+        || { tail -n 40 out/logs/import.log >&2; die "import failed, see out/logs/import.log"; }
 fi
 
-# Stage 1: Format Check
-echo ""
-echo "[1/3] Checking C# code format and style..."
-if [ "$FIX_MODE" = true ]; then
-    echo "  Running: dotnet format Pachi.sln (Auto-fixing formatting)"
-    dotnet format Pachi.sln
-else
-    echo "  Running: dotnet format Pachi.sln --verify-no-changes"
-    dotnet format Pachi.sln --verify-no-changes
-fi
-echo "✓ Formatting clean!"
+echo "▸ engine tests"
+set +e
+"$GODOT_BIN" --headless --log-file "$LOG_FILE" -s tests/TestRunner.cs -- "${TEST_ARGS[@]}" >/dev/null 2>&1
+TEST_STATUS=$?
+set -e
 
-# Stage 2: Build & Roslyn Analyzers
-echo ""
-echo "[2/3] Building solution with strict Roslyn analyzer checks..."
-echo "  Running: dotnet build Pachi.sln"
-dotnet build Pachi.sln
-echo "✓ Build succeeded with 0 warnings and 0 errors!"
+echo "▸ log scan"
+PATTERN='SCRIPT ERROR|ERROR:|Unhandled exception|Fatal error'
+mapfile -t ALLOWED < <(grep -vE '^[[:space:]]*(#|$)' "$ALLOWLIST" 2>/dev/null || true)
+FLAGGED="$(grep -nE "$PATTERN" "$LOG_FILE" || true)"
+for allowed in "${ALLOWED[@]}"; do
+    FLAGGED="$(printf '%s\n' "$FLAGGED" | grep -vE -- "$allowed" || true)"
+done
+FLAGGED="$(printf '%s\n' "$FLAGGED" | sed '/^$/d')"
 
-# Stage 3: Headless Godot Runtime & Tests
-echo ""
-echo "[3/3] Running Headless Godot Test Suites..."
-if [ -n "$GODOT_BIN" ]; then
-    echo "  Running: ${GODOT_BIN} --headless -s tests/TestRunner.cs"
-    "${GODOT_BIN}" --headless -s tests/TestRunner.cs
-    echo "✓ Headless tests completed successfully!"
-else
-    echo "⚠ Warning: godot-mono/godot executable not found in PATH; skipping headless Godot checks."
-fi
-
+RESULTS="$(grep -E 'Test results:' "$LOG_FILE" | tail -n1 | sed 's/.*Test results: //' || true)"
 echo ""
 echo "=================================================="
-echo " All verification checks passed successfully! 🎉"
+echo " engine tests: ${RESULTS:-no results} (exit $TEST_STATUS)"
+echo " log:          $LOG_FILE"
+if [ -n "$FLAGGED" ]; then
+    echo " log scan:     $(printf '%s\n' "$FLAGGED" | wc -l) flagged line(s):"
+    printf '%s\n' "$FLAGGED" | head -n 15 | sed 's/^/   /'
+fi
 echo "=================================================="
+
+[ "$TEST_STATUS" -eq 0 ] || die "verify.sh: engine tests failed"
+[ -z "$FLAGGED" ] || die "verify.sh: log scan found errors (allowlist: $ALLOWLIST)"
+echo "✓ verify.sh passed"
