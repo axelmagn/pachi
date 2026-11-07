@@ -263,11 +263,14 @@ Fresh E6 *decides* these settings. Here they're already decided, so the ADR
 
 Do this before P9, because the skills need the board.
 
-- [ ] Set up the "Pachi Agent" board with the lists, labels, and two template
+- [x] Set up the "Pachi Agent" board with the lists, labels, and two template
       cards from [A6.8](playbook.md#a6-configure-claude-code).
+      (Done 2026-11-06. Labels are made by hand in Trello, because the MCP can't
+      create labels. The playtest notes went into the card description
+      instead of an attachment, because the MCP can't upload files.)
       Pitch template = `docs/plan/_package-template.md`; ticket template =
       Appendix D plus the B14 checklist.
-- [ ] Migrate:
+- [x] Migrate:
   - `docs/plan/202610-beetles.md` → pitch card in **Pitches**. Don't slice
         it yet; that's P11.
   - `docs/notes/20260827_jacob_playtest.md` → attachment on an Inbox card.
@@ -277,7 +280,7 @@ Do this before P9, because the skills need the board.
   - Remaining steps of this document → cards in **Setup**.
   - Anything settled about the game design (the README's "Vision" section,
         settled beetle rules) → `docs/design/`.
-- [ ] Delete `docs/plan/`, `docs/notes/`, and `TODO.md` in one commit.
+- [x] Delete `docs/plan/`, `docs/notes/`, and `TODO.md` in one commit.
 
 **Exit:** the board has every open item. `git ls-files docs` shows only
 `process/`, `decisions/`, and `design/`.
