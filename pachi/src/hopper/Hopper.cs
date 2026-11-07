@@ -75,6 +75,20 @@ public partial class Hopper : Node2D
         }
     }
 
+    public override void _Notification(int what)
+    {
+        // Queued balls live outside the scene tree until dispensed, so nothing
+        // else frees them. Not done in _ExitTree: a reparent must keep the queue.
+        if (what == NotificationPredelete)
+        {
+            foreach (Ball ball in _queuedBalls)
+            {
+                ball.Free();
+            }
+            _queuedBalls.Clear();
+        }
+    }
+
     public Ball? PopFirstContainedBall()
     {
         if (_containedBalls.Count == 0)
