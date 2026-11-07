@@ -27,7 +27,8 @@ mkdir -p out/logs
 LOG_FILE="out/logs/test.log"
 ALLOWLIST="scripts/log-allowlist.txt"
 
-if [ ! -d .godot ]; then
+# Not just .godot/: check.sh's dotnet build creates .godot/mono/ first.
+if [ ! -d .godot/imported ]; then
     echo "▸ import (first run in this checkout)"
     "$GODOT_BIN" --headless --import >out/logs/import.log 2>&1 \
         || { tail -n 40 out/logs/import.log >&2; die "import failed, see out/logs/import.log"; }
