@@ -235,8 +235,8 @@ under Rapier2D; see `docs/decisions/0002-capture-determinism.md`.)
 Fresh E6 *decides* these settings. Here they're already decided, so the ADR
 **records** them, and the decisions are only re-opened where flagged.
 
-- [ ] `docs/decisions/0000-template.md` (Context / Decision / Consequences).
-- [ ] `docs/decisions/0001-engine-baseline.md` records:
+- [x] `docs/decisions/0000-template.md` (Context / Decision / Consequences).
+- [x] `docs/decisions/0001-engine-baseline.md` records:
   - Mobile renderer; 960×540, `viewport` stretch; pixel snap; nearest-mipmap texture filter.
   - **Rapier2D** physics, and why. Switching now would mean re-tuning every feel parameter.
   - Named physics layers. Only `Ball` (layer 2) is named; name every layer
@@ -244,14 +244,16 @@ Fresh E6 *decides* these settings. Here they're already decided, so the ADR
   - Named input actions: `launcher_charge`.
   - Main scene: `src/main_game/main_game.tscn` (fresh layout says
     `src/main/main.tscn`; **don't rename**, it isn't worth the churn).
-- [ ] `docs/decisions/0003-globals.md` (0002 went to capture determinism in P6): justify or schedule removal of the two
+- [x] `docs/decisions/0003-globals.md` (0002 went to capture determinism in P6): justify or schedule removal of the two
       `static Instance` globals (`GameConfig`, `GlobalEvents`). Fresh E6 says no
       autoloads without an ADR. These aren't autoloads, but they're the
       same kind of global state.
-- [ ] `_mcp_game_helper`: check whether `godot_ai`'s export plugin strips it.
+- [x] `_mcp_game_helper`: check whether `godot_ai`'s export plugin strips it.
       If not, exclude it from release (feature tag or exclude filter). Note the
       outcome in ADR 0001.
-- [ ] Export presets: add a **Linux/X11** preset (you develop on Linux), and
+      (Done 2026-11-06: its `EditorExportPlugin` strips the autoload; the
+      Linux `.pck` has no `_mcp_game_helper`. Layer 1 is now named `Board`.)
+- [x] Export presets: add a **Linux/X11** preset (you develop on Linux), and
       add `tests/*` to every preset's exclude filter. Then run
       `godot-mono --headless --export-release "Linux" build/pachi`.
 
