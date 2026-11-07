@@ -324,7 +324,7 @@ steps. Also: `/ticket <a Setup card>` prints its spec and can comment.
 
 ## P10. CI and dependency hygiene  *(Fresh: E9; playbook A7)*
 
-- [x] `.github/workflows/ci.yml` on `axelmagn/pachi`: a **fast** job (no
+- [x] `.github/workflows/ci.yml` (fast) and `full.yml` on `axelmagn/pachi`: a **fast** job (no
       Godot: format, build, core tests) on every push, and a **full** job
       (setup-godot at `.godot-version`, `verify.sh` headless, upload
       `out/logs/` on failure) on PRs to `main`. (Godot is fetched from the
